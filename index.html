@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AT HUB</title>
 
   <style>
@@ -14,18 +14,20 @@
     }
 
     body {
-      background: #f4f4f4;
+      background: #f3f4f6;
       color: #111;
     }
 
     header {
       background: #050505;
       color: white;
-      padding: 24px;
+      padding: 26px;
       border-bottom: 5px solid #c40000;
     }
 
     .header-row {
+      max-width: 1200px;
+      margin: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -34,7 +36,7 @@
     }
 
     .logo {
-      font-size: 34px;
+      font-size: 36px;
       font-weight: 900;
       letter-spacing: 1px;
     }
@@ -42,36 +44,60 @@
     .motto {
       font-size: 16px;
       color: #ddd;
+      margin-top: 4px;
+    }
+
+    .top-clock {
+      font-size: 24px;
+      font-weight: bold;
     }
 
     main {
       max-width: 1200px;
-      margin: 24px auto;
+      margin: 26px auto;
       padding: 0 16px;
     }
 
-    .info-bar {
+    .welcome {
       background: white;
-      border-radius: 14px;
-      padding: 18px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-radius: 18px;
+      padding: 26px;
       margin-bottom: 22px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+      border-left: 7px solid #c40000;
+    }
+
+    .welcome h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #555;
+      font-size: 17px;
+    }
+
+    .info-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
     .info-box {
-      border-left: 5px solid #c40000;
-      padding: 12px;
-      background: #fafafa;
-      border-radius: 10px;
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+      border-top: 5px solid #c40000;
     }
 
     .info-label {
       font-size: 13px;
       color: #666;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .info-value {
@@ -79,19 +105,36 @@
       font-weight: bold;
     }
 
+    .weather-note {
+      font-size: 13px;
+      color: #777;
+      margin-top: 8px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin: 28px 0 14px;
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 18px;
     }
 
     .card {
       background: white;
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 22px;
-      min-height: 140px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      min-height: 150px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
       border-top: 5px solid #c40000;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.12);
     }
 
     .card h2 {
@@ -101,13 +144,13 @@
 
     .card p {
       color: #555;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .status {
       display: inline-block;
-      margin-top: 14px;
-      padding: 6px 10px;
+      margin-top: 16px;
+      padding: 6px 11px;
       border-radius: 20px;
       background: #e7f7ec;
       color: #087a2f;
@@ -115,10 +158,15 @@
       font-size: 13px;
     }
 
+    .status-red {
+      background: #fde8e8;
+      color: #a30000;
+    }
+
     footer {
       text-align: center;
       color: #777;
-      margin: 30px 0;
+      margin: 34px 0;
       font-size: 13px;
     }
   </style>
@@ -132,11 +180,16 @@
         <div class="logo">AT HUB</div>
         <div class="motto">Übersicht schafft Klarheit.</div>
       </div>
-      <div id="clock">--:--:-- Uhr</div>
+      <div class="top-clock" id="topClock">--:-- Uhr</div>
     </div>
   </header>
 
   <main>
+
+    <section class="welcome">
+      <h1 id="greeting">Willkommen, Alex</h1>
+      <p>Dein persönlicher Überblick für Arbeit, Projekte, Kalender und Dokumente.</p>
+    </section>
 
     <section class="info-bar">
       <div class="info-box">
@@ -146,14 +199,17 @@
 
       <div class="info-box">
         <div class="info-label">Uhrzeit</div>
-        <div class="info-value" id="time">--:-- Uhr</div>
+        <div class="info-value" id="time">--:--:-- Uhr</div>
       </div>
 
       <div class="info-box">
         <div class="info-label">Wetter</div>
-        <div class="info-value">Rostock · folgt</div>
+        <div class="info-value">Rostock · vorbereitet</div>
+        <div class="weather-note">Live-Wetter folgt in Version 1.2.</div>
       </div>
     </section>
+
+    <h2 class="section-title">Module</h2>
 
     <section class="grid">
 
@@ -165,13 +221,13 @@
 
       <div class="card">
         <h2>Projekte</h2>
-        <p>Tourenplanung, Meisterschule, AT HUB und weitere Projekte.</p>
+        <p>AT HUB, Meisterschule, Tourenplanung und Reklamations-Handbuch.</p>
         <span class="status">Vorbereitet</span>
       </div>
 
       <div class="card">
         <h2>Dokumente</h2>
-        <p>Handbücher, Analysen, PDFs und wichtige Arbeitsunterlagen.</p>
+        <p>Analysen, PDF-Dateien, Handbücher und wichtige Arbeitsunterlagen.</p>
         <span class="status">Vorbereitet</span>
       </div>
 
@@ -182,15 +238,15 @@
       </div>
 
       <div class="card">
-        <h2>KI</h2>
-        <p>Siggi-Unterstützung für Auswertungen, Texte und Planung.</p>
-        <span class="status">Geplant</span>
+        <h2>KI / Siggi</h2>
+        <p>Unterstützung für Texte, Auswertungen, Planung und Dokumente.</p>
+        <span class="status-red">Geplant</span>
       </div>
 
       <div class="card">
         <h2>Einstellungen</h2>
-        <p>Design, Module und persönliche Anpassungen.</p>
-        <span class="status">Geplant</span>
+        <p>Design, Module, persönliche Anpassungen und spätere Systemoptionen.</p>
+        <span class="status-red">Geplant</span>
       </div>
 
     </section>
@@ -198,31 +254,40 @@
   </main>
 
   <footer>
-    AT HUB · Version 1.0 · Übersicht schafft Klarheit.
+    AT HUB · Version 1.1 · Übersicht schafft Klarheit.
   </footer>
 
   <script>
     function updateDateTime() {
       const now = new Date();
 
-      const dateOptions = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      };
+      const hour = now.getHours();
+      let greeting = "Willkommen, Alex";
+
+      if (hour >= 5 && hour < 11) {
+        greeting = "Guten Morgen, Alex";
+      } else if (hour >= 11 && hour < 17) {
+        greeting = "Guten Tag, Alex";
+      } else if (hour >= 17 && hour < 22) {
+        greeting = "Guten Abend, Alex";
+      } else {
+        greeting = "Gute Nacht, Alex";
+      }
+
+      document.getElementById("greeting").textContent = greeting;
 
       document.getElementById("date").textContent =
-        now.toLocaleDateString("de-DE", dateOptions);
+        now.toLocaleDateString("de-DE", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
 
       document.getElementById("time").textContent =
-        now.toLocaleTimeString("de-DE", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        }) + " Uhr";
+        now.toLocaleTimeString("de-DE") + " Uhr";
 
-      document.getElementById("clock").textContent =
+      document.getElementById("topClock").textContent =
         now.toLocaleTimeString("de-DE", {
           hour: "2-digit",
           minute: "2-digit"
