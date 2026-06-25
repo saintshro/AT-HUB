@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AT HUB · Arbeitszeit</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">AT HUB</div>
+      <div class="motto">Übersicht schafft Klarheit.</div>
+
+      <div class="nav-title">Navigation</div>
+      <a class="nav-link" href="index.html">🏠 Dashboard</a>
+      <a class="nav-link" href="kalender.html">📅 Kalender</a>
+      <a class="nav-link active" href="arbeitszeit.html">⏱ Arbeitszeit</a>
+      <a class="nav-link" href="projekte.html">📁 Projekte</a>
+      <a class="nav-link" href="dokumente.html">📄 Dokumente</a>
+      <a class="nav-link" href="ki.html">🤖 Siggi</a>
+      <a class="nav-link" href="einstellungen.html">⚙️ Einstellungen</a>
+    </aside>
+
+    <main class="content">
+
+      <section class="topbar">
+        <div>
+          <h1>Arbeitszeitkalender</h1>
+          <p>Arbeitszeit, Meisterschule, Urlaub und Monatsübersicht.</p>
+        </div>
+
+        <div class="top-status">
+          <div>⏱ Modul aktiv</div>
+          <div id="topClock">--:-- Uhr</div>
+        </div>
+      </section>
+
+      <section class="dashboard">
+
+        <div class="panel">
+          <h2>Juni 2026</h2>
+          <p>Erste integrierte AT-HUB-Version des Arbeitszeitkalenders.</p>
+
+          <div class="module-grid">
+            <div class="module-card">
+              <strong>Sollstunden</strong>
+              folgt
+            </div>
+            <div class="module-card">
+              <strong>Iststunden</strong>
+              folgt
+            </div>
+            <div class="module-card">
+              <strong>Meisterschule</strong>
+              folgt
+            </div>
+            <div class="module-card">
+              <strong>Überstunden</strong>
+              folgt
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Status</h2>
+          <ul>
+            <li>Eigenes AT-HUB-Modul erstellt</li>
+            <li>Keine externe Tabelle eingebettet</li>
+            <li>Bereit für Summen und Regeln</li>
+          </ul>
+          <span class="status">Version 1.0</span>
+        </div>
+
+      </section>
+
+      <section class="panel" style="margin-top:22px; overflow-x:auto;">
+        <h2>Monatsübersicht</h2>
+
+        <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+          <thead>
+            <tr style="background:#050505; color:white;">
+              <th style="padding:10px; text-align:left;">Datum</th>
+              <th style="padding:10px; text-align:left;">Tag</th>
+              <th style="padding:10px; text-align:left;">Kommt</th>
+              <th style="padding:10px; text-align:left;">Geht</th>
+              <th style="padding:10px; text-align:left;">Pause</th>
+              <th style="padding:10px; text-align:left;">Arbeitszeit</th>
+              <th style="padding:10px; text-align:left;">Kategorie</th>
+              <th style="padding:10px; text-align:left;">Notiz</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">25.06.2026</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">Donnerstag</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">Arbeit / Meisterschule</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">Vorbereitet</td>
+            </tr>
+
+            <tr>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">26.06.2026</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">Freitag</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">Arbeit</td>
+              <td style="padding:10px; border-bottom:1px solid #ddd;">Vorbereitet</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer>
+        AT HUB · Arbeitszeitkalender · Version 1.0
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
