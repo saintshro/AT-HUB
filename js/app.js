@@ -16,7 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
             second: "2-digit"
         });
 
-        document.getElementById("datum").innerText = datum + " · " + uhrzeit;
+        document.getElementById("datum").innerText = datum;
+        document.getElementById("uhrzeit").innerText = uhrzeit;
+        document.getElementById("wetter").innerText = "Rostock · Wetter wird später verbunden";
     }
 
     aktualisiereZeit();
