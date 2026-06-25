@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+header {
+    background: #000;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0;
+    color: #d60000;
+}
+
+header p {
+    margin-top: 5px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.kachel {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.kachel:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.kachel h2 {
+    color: #d60000;
+    margin: 0;
+}
