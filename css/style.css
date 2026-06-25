@@ -45,3 +45,19 @@ main {
     color: #d60000;
     margin: 0;
 }
+.infofeld {
+    margin-top: 20px;
+    background: #ffffff;
+    color: #111;
+    border-left: 5px solid #d60000;
+    border-radius: 10px;
+    padding: 15px;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.infofeld div {
+    margin: 6px 0;
+    font-size: 16px;
+}
