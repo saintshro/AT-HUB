@@ -5,6 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AT HUB · Arbeitszeit</title>
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    .work-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .work-table th {
+      background: #050505;
+      color: white;
+      padding: 10px;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .work-table td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    .work-table input,
+    .work-table select {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .summary-card {
+      background: #f8f8f8;
+      border-left: 5px solid #c40000;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 22px;
+      margin-top: 6px;
+    }
+
+    .save-note {
+      margin-top: 12px;
+      color: #087a2f;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
@@ -29,103 +88,226 @@
       <section class="topbar">
         <div>
           <h1>Arbeitszeitkalender</h1>
-          <p>Arbeitszeit, Meisterschule, Urlaub und Monatsübersicht.</p>
+          <p>Persönlicher Nachweis für Arbeitszeit, Übernachtungen und Steuerunterlagen.</p>
         </div>
 
         <div class="top-status">
-          <div>⏱ Modul aktiv</div>
+          <div>⏱ Steuer-Nachweis</div>
           <div id="topClock">--:-- Uhr</div>
         </div>
       </section>
 
-      <section class="dashboard">
+      <section class="panel">
+        <h2>Jahresübersicht 2026</h2>
 
-        <div class="panel">
-          <h2>Juni 2026</h2>
-          <p>Erste integrierte AT-HUB-Version des Arbeitszeitkalenders.</p>
-
-          <div class="module-grid">
-            <div class="module-card">
-              <strong>Sollstunden</strong>
-              folgt
-            </div>
-            <div class="module-card">
-              <strong>Iststunden</strong>
-              folgt
-            </div>
-            <div class="module-card">
-              <strong>Meisterschule</strong>
-              folgt
-            </div>
-            <div class="module-card">
-              <strong>Überstunden</strong>
-              folgt
-            </div>
-          </div>
+        <div class="summary-grid">
+          <div class="summary-card">Arbeitszeit gesamt<strong id="sumHours">0:00</strong></div>
+          <div class="summary-card">Arbeitstage<strong id="sumWorkdays">0</strong></div>
+          <div class="summary-card">Meisterschule<strong id="sumSchool">0</strong></div>
+          <div class="summary-card">Urlaub<strong id="sumVacation">0</strong></div>
+          <div class="summary-card">Krankheit<strong id="sumSick">0</strong></div>
+          <div class="summary-card">Übernachtungen<strong id="sumNights">0</strong></div>
+          <div class="summary-card">Sonntage<strong id="sumSundays">0</strong></div>
+          <div class="summary-card">Feiertag gearbeitet<strong id="sumHolidayWork">0</strong></div>
+          <div class="summary-card">Auswärts übernachtet<strong id="sumAwayNights">0</strong></div>
         </div>
 
-        <div class="panel">
-          <h2>Status</h2>
-          <ul>
-            <li>Eigenes AT-HUB-Modul erstellt</li>
-            <li>Keine externe Tabelle eingebettet</li>
-            <li>Bereit für Summen und Regeln</li>
-          </ul>
-          <span class="status">Version 1.0</span>
-        </div>
-
+        <p class="save-note">Speicherung erfolgt automatisch im Browser.</p>
       </section>
 
       <section class="panel" style="margin-top:22px; overflow-x:auto;">
-        <h2>Monatsübersicht</h2>
+        <h2>Monatsübersicht Juni 2026</h2>
 
-        <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+        <table class="work-table">
           <thead>
-            <tr style="background:#050505; color:white;">
-              <th style="padding:10px; text-align:left;">Datum</th>
-              <th style="padding:10px; text-align:left;">Tag</th>
-              <th style="padding:10px; text-align:left;">Kommt</th>
-              <th style="padding:10px; text-align:left;">Geht</th>
-              <th style="padding:10px; text-align:left;">Pause</th>
-              <th style="padding:10px; text-align:left;">Arbeitszeit</th>
-              <th style="padding:10px; text-align:left;">Kategorie</th>
-              <th style="padding:10px; text-align:left;">Notiz</th>
+            <tr>
+              <th>Datum</th>
+              <th>Tag</th>
+              <th>Kategorie</th>
+              <th>Kommt</th>
+              <th>Geht</th>
+              <th>Pause Min.</th>
+              <th>Arbeitszeit</th>
+              <th>Übernachtung</th>
+              <th>Ort</th>
+              <th>Auswärts</th>
+              <th>Feiertag gearbeitet</th>
+              <th>Notiz</th>
             </tr>
           </thead>
-
-          <tbody>
-            <tr>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">25.06.2026</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">Donnerstag</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">Arbeit / Meisterschule</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">Vorbereitet</td>
-            </tr>
-
-            <tr>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">26.06.2026</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">Freitag</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--:--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">--</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">Arbeit</td>
-              <td style="padding:10px; border-bottom:1px solid #ddd;">Vorbereitet</td>
-            </tr>
-          </tbody>
+          <tbody id="workRows"></tbody>
         </table>
       </section>
 
       <footer>
-        AT HUB · Arbeitszeitkalender · Version 1.0
+        AT HUB · Arbeitszeitkalender · Steuer-Version 1.0
       </footer>
 
     </main>
   </div>
 
   <script src="js/script.js"></script>
+
+  <script>
+    const year = 2026;
+    const month = 5; // Juni = 5
+    const storageKey = "atHubArbeitszeit2026Juni";
+
+    const dayNames = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+
+    let savedData = JSON.parse(localStorage.getItem(storageKey)) || {};
+
+    function pad(num) {
+      return String(num).padStart(2, "0");
+    }
+
+    function calculateMinutes(start, end, pause) {
+      if (!start || !end) return 0;
+
+      const [sh, sm] = start.split(":").map(Number);
+      const [eh, em] = end.split(":").map(Number);
+
+      let startMinutes = sh * 60 + sm;
+      let endMinutes = eh * 60 + em;
+
+      if (endMinutes < startMinutes) {
+        endMinutes += 24 * 60;
+      }
+
+      const pauseMinutes = Number(pause) || 0;
+      return Math.max(0, endMinutes - startMinutes - pauseMinutes);
+    }
+
+    function formatMinutes(minutes) {
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      return h + ":" + pad(m);
+    }
+
+    function saveData() {
+      const rows = document.querySelectorAll("[data-date]");
+      const data = {};
+
+      rows.forEach(row => {
+        const date = row.dataset.date;
+
+        data[date] = {
+          category: row.querySelector(".category").value,
+          start: row.querySelector(".start").value,
+          end: row.querySelector(".end").value,
+          pause: row.querySelector(".pause").value,
+          night: row.querySelector(".night").value,
+          location: row.querySelector(".location").value,
+          awayNight: row.querySelector(".awayNight").checked,
+          holidayWork: row.querySelector(".holidayWork").checked,
+          note: row.querySelector(".note").value
+        };
+      });
+
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      savedData = data;
+      updateSummary();
+    }
+
+    function updateSummary() {
+      let totalMinutes = 0;
+      let workdays = 0;
+      let school = 0;
+      let vacation = 0;
+      let sick = 0;
+      let nights = 0;
+      let sundays = 0;
+      let holidayWork = 0;
+      let awayNights = 0;
+
+      document.querySelectorAll("[data-date]").forEach(row => {
+        const date = new Date(row.dataset.date);
+        const category = row.querySelector(".category").value;
+        const start = row.querySelector(".start").value;
+        const end = row.querySelector(".end").value;
+        const pause = row.querySelector(".pause").value;
+
+        const minutes = calculateMinutes(start, end, pause);
+        row.querySelector(".calculated").textContent = formatMinutes(minutes);
+        totalMinutes += minutes;
+
+        if (category === "Arbeit") workdays++;
+        if (category === "Meisterschule") school++;
+        if (category === "Urlaub") vacation++;
+        if (category === "Krankheit") sick++;
+        if (row.querySelector(".night").value === "Ja") nights++;
+        if (date.getDay() === 0) sundays++;
+        if (row.querySelector(".holidayWork").checked) holidayWork++;
+        if (row.querySelector(".awayNight").checked) awayNights++;
+      });
+
+      document.getElementById("sumHours").textContent = formatMinutes(totalMinutes);
+      document.getElementById("sumWorkdays").textContent = workdays;
+      document.getElementById("sumSchool").textContent = school;
+      document.getElementById("sumVacation").textContent = vacation;
+      document.getElementById("sumSick").textContent = sick;
+      document.getElementById("sumNights").textContent = nights;
+      document.getElementById("sumSundays").textContent = sundays;
+      document.getElementById("sumHolidayWork").textContent = holidayWork;
+      document.getElementById("sumAwayNights").textContent = awayNights;
+    }
+
+    function createRows() {
+      const tbody = document.getElementById("workRows");
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        const isoDate = `${year}-${pad(month + 1)}-${pad(day)}`;
+        const saved = savedData[isoDate] || {};
+
+        const tr = document.createElement("tr");
+        tr.dataset.date = isoDate;
+
+        tr.innerHTML = `
+          <td>${pad(day)}.06.2026</td>
+          <td>${dayNames[date.getDay()]}</td>
+
+          <td>
+            <select class="category">
+              <option ${saved.category === "Arbeit" ? "selected" : ""}>Arbeit</option>
+              <option ${saved.category === "Meisterschule" ? "selected" : ""}>Meisterschule</option>
+              <option ${saved.category === "Urlaub" ? "selected" : ""}>Urlaub</option>
+              <option ${saved.category === "Krankheit" ? "selected" : ""}>Krankheit</option>
+              <option ${saved.category === "Frei" ? "selected" : ""}>Frei</option>
+            </select>
+          </td>
+
+          <td><input class="start" type="time" value="${saved.start || ""}"></td>
+          <td><input class="end" type="time" value="${saved.end || ""}"></td>
+          <td><input class="pause" type="number" min="0" value="${saved.pause || ""}"></td>
+          <td class="calculated">0:00</td>
+
+          <td>
+            <select class="night">
+              <option ${saved.night === "Nein" ? "selected" : ""}>Nein</option>
+              <option ${saved.night === "Ja" ? "selected" : ""}>Ja</option>
+            </select>
+          </td>
+
+          <td><input class="location" type="text" placeholder="Ort" value="${saved.location || ""}"></td>
+          <td><input class="awayNight" type="checkbox" ${saved.awayNight ? "checked" : ""}></td>
+          <td><input class="holidayWork" type="checkbox" ${saved.holidayWork ? "checked" : ""}></td>
+          <td><input class="note" type="text" placeholder="Notiz" value="${saved.note || ""}"></td>
+        `;
+
+        tbody.appendChild(tr);
+      }
+
+      document.querySelectorAll("input, select").forEach(element => {
+        element.addEventListener("change", saveData);
+        element.addEventListener("input", saveData);
+      });
+
+      updateSummary();
+    }
+
+    createRows();
+  </script>
 </body>
 </html>
