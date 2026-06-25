@@ -1,13 +1,14 @@
-console.log("AT HUB Version 1.0 gestartet");
-
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Willkommen im AT HUB");
 
-    const kacheln = document.querySelectorAll(".kachel");
+    const heute = new Date();
 
-    kacheln.forEach(kachel => {
-        kachel.addEventListener("click", () => {
-            alert("Dieser Bereich wird in einer späteren Version erweitert.");
-        });
+    const datum = heute.toLocaleDateString("de-DE", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
     });
+
+    document.getElementById("datum").innerText = datum;
+
 });
