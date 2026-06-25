@@ -4,172 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AT HUB</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f3f4f6;
-      color: #111;
-    }
-
-    header {
-      background: #050505;
-      color: white;
-      padding: 26px;
-      border-bottom: 5px solid #c40000;
-    }
-
-    .header-row {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      font-size: 36px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .motto {
-      font-size: 16px;
-      color: #ddd;
-      margin-top: 4px;
-    }
-
-    .top-clock {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    main {
-      max-width: 1200px;
-      margin: 26px auto;
-      padding: 0 16px;
-    }
-
-    .welcome {
-      background: white;
-      border-radius: 18px;
-      padding: 26px;
-      margin-bottom: 22px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-      border-left: 7px solid #c40000;
-    }
-
-    .welcome h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    .welcome p {
-      color: #555;
-      font-size: 17px;
-    }
-
-    .info-bar {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .info-box {
-      background: white;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.07);
-      border-top: 5px solid #c40000;
-    }
-
-    .info-label {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .info-value {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .weather-note {
-      font-size: 13px;
-      color: #777;
-      margin-top: 8px;
-    }
-
-    .section-title {
-      font-size: 22px;
-      margin: 28px 0 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 22px;
-      min-height: 150px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-      border-top: 5px solid #c40000;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 22px rgba(0,0,0,0.12);
-    }
-
-    .card h2 {
-      margin-bottom: 10px;
-      font-size: 22px;
-    }
-
-    .card p {
-      color: #555;
-      line-height: 1.45;
-    }
-
-    .status {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 6px 11px;
-      border-radius: 20px;
-      background: #e7f7ec;
-      color: #087a2f;
-      font-weight: bold;
-      font-size: 13px;
-    }
-
-    .status-red {
-      background: #fde8e8;
-      color: #a30000;
-    }
-
-    footer {
-      text-align: center;
-      color: #777;
-      margin: 34px 0;
-      font-size: 13px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
@@ -205,7 +40,7 @@
       <div class="info-box">
         <div class="info-label">Wetter</div>
         <div class="info-value">Rostock · vorbereitet</div>
-        <div class="weather-note">Live-Wetter folgt in Version 1.2.</div>
+        <div class="weather-note">Live-Wetter folgt in Version 1.3.</div>
       </div>
     </section>
 
@@ -213,90 +48,51 @@
 
     <section class="grid">
 
-      <div class="card">
+      <a class="card" href="index.html">
         <h2>Dashboard</h2>
         <p>Tagesübersicht, offene Aufgaben und Schnellzugriffe.</p>
         <span class="status">Aktiv</span>
-      </div>
+      </a>
 
-      <div class="card">
+      <a class="card" href="projekte.html">
         <h2>Projekte</h2>
         <p>AT HUB, Meisterschule, Tourenplanung und Reklamations-Handbuch.</p>
         <span class="status">Vorbereitet</span>
-      </div>
+      </a>
 
-      <div class="card">
+      <a class="card" href="dokumente.html">
         <h2>Dokumente</h2>
         <p>Analysen, PDF-Dateien, Handbücher und wichtige Arbeitsunterlagen.</p>
         <span class="status">Vorbereitet</span>
-      </div>
+      </a>
 
-      <div class="card">
+      <a class="card" href="kalender.html">
         <h2>Kalender</h2>
         <p>Google Kalender, Arbeitszeitkalender und wichtige Termine.</p>
         <span class="status">Separates Modul</span>
-      </div>
+      </a>
 
-      <div class="card">
+      <a class="card" href="ki.html">
         <h2>KI / Siggi</h2>
         <p>Unterstützung für Texte, Auswertungen, Planung und Dokumente.</p>
         <span class="status-red">Geplant</span>
-      </div>
+      </a>
 
-      <div class="card">
+      <a class="card" href="einstellungen.html">
         <h2>Einstellungen</h2>
         <p>Design, Module, persönliche Anpassungen und spätere Systemoptionen.</p>
         <span class="status-red">Geplant</span>
-      </div>
+      </a>
 
     </section>
 
   </main>
 
   <footer>
-    AT HUB · Version 1.1 · Übersicht schafft Klarheit.
+    AT HUB · Version 1.2 · Übersicht schafft Klarheit.
   </footer>
 
-  <script>
-    function updateDateTime() {
-      const now = new Date();
-
-      const hour = now.getHours();
-      let greeting = "Willkommen, Alex";
-
-      if (hour >= 5 && hour < 11) {
-        greeting = "Guten Morgen, Alex";
-      } else if (hour >= 11 && hour < 17) {
-        greeting = "Guten Tag, Alex";
-      } else if (hour >= 17 && hour < 22) {
-        greeting = "Guten Abend, Alex";
-      } else {
-        greeting = "Gute Nacht, Alex";
-      }
-
-      document.getElementById("greeting").textContent = greeting;
-
-      document.getElementById("date").textContent =
-        now.toLocaleDateString("de-DE", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric"
-        });
-
-      document.getElementById("time").textContent =
-        now.toLocaleTimeString("de-DE") + " Uhr";
-
-      document.getElementById("topClock").textContent =
-        now.toLocaleTimeString("de-DE", {
-          hour: "2-digit",
-          minute: "2-digit"
-        }) + " Uhr";
-    }
-
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-  </script>
+  <script src="js/script.js"></script>
 
 </body>
 </html>
