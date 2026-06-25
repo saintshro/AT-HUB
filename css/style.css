@@ -1,63 +1,160 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
+  background: #f3f4f6;
+  color: #111;
 }
 
 header {
-    background: #000;
-    color: white;
-    text-align: center;
-    padding: 20px;
+  background: #050505;
+  color: white;
+  padding: 26px;
+  border-bottom: 5px solid #c40000;
 }
 
-header h1 {
-    margin: 0;
-    color: #d60000;
+.header-row {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-header p {
-    margin-top: 5px;
+.logo {
+  font-size: 36px;
+  font-weight: 900;
+}
+
+.motto {
+  font-size: 16px;
+  color: #ddd;
+  margin-top: 4px;
+}
+
+.top-clock {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 main {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 20px;
+  max-width: 1200px;
+  margin: 26px auto;
+  padding: 0 16px;
 }
 
-.kachel {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    text-align: center;
-    transition: 0.3s;
+.welcome {
+  background: white;
+  border-radius: 18px;
+  padding: 26px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+  border-left: 7px solid #c40000;
 }
 
-.kachel:hover {
-    transform: translateY(-5px);
-    cursor: pointer;
+.welcome h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
 }
 
-.kachel h2 {
-    color: #d60000;
-    margin: 0;
-}
-.infofeld {
-    margin-top: 20px;
-    background: #ffffff;
-    color: #111;
-    border-left: 5px solid #d60000;
-    border-radius: 10px;
-    padding: 15px;
-    display: inline-block;
-    text-align: left;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+.welcome p {
+  color: #555;
+  font-size: 17px;
 }
 
-.infofeld div {
-    margin: 6px 0;
-    font-size: 16px;
+.info-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.info-box,
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+  border-top: 5px solid #c40000;
+}
+
+.info-label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.weather-note {
+  font-size: 13px;
+  color: #777;
+  margin-top: 8px;
+}
+
+.section-title {
+  font-size: 22px;
+  margin: 28px 0 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  min-height: 150px;
+  text-decoration: none;
+  color: #111;
+  display: block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.card p {
+  color: #555;
+  line-height: 1.45;
+}
+
+.status {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 6px 11px;
+  border-radius: 20px;
+  background: #e7f7ec;
+  color: #087a2f;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.status-red {
+  background: #fde8e8;
+  color: #a30000;
+}
+
+footer {
+  text-align: center;
+  color: #777;
+  margin: 34px 0;
+  font-size: 13px;
 }
