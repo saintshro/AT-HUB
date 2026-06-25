@@ -1,81 +1,237 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AT HUB</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AT HUB</title>
 
-    <link rel="stylesheet" href="css/style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f4f4;
+      color: #111;
+    }
+
+    header {
+      background: #050505;
+      color: white;
+      padding: 24px;
+      border-bottom: 5px solid #c40000;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .motto {
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .info-bar {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 22px;
+    }
+
+    .info-box {
+      border-left: 5px solid #c40000;
+      padding: 12px;
+      background: #fafafa;
+      border-radius: 10px;
+    }
+
+    .info-label {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      min-height: 140px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-top: 5px solid #c40000;
+    }
+
+    .card h2 {
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .card p {
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: #e7f7ec;
+      color: #087a2f;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      margin: 30px 0;
+      font-size: 13px;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-    <h1>AT HUB</h1>
-    <p>Übersicht schafft Klarheit.</p>
-</header>
+  <header>
+    <div class="header-row">
+      <div>
+        <div class="logo">AT HUB</div>
+        <div class="motto">Übersicht schafft Klarheit.</div>
+      </div>
+      <div id="clock">--:--:-- Uhr</div>
+    </div>
+  </header>
 
-<main>
+  <main>
 
-    <section class="intro">
-        <h2>Willkommen, Alex</h2>
+    <section class="info-bar">
+      <div class="info-box">
+        <div class="info-label">Heute</div>
+        <div class="info-value" id="date">Datum wird geladen</div>
+      </div>
 
-        <p>
-            Dein persönlicher Arbeitsbereich für Projekte,
-            Kalender, Dokumente und KI-Unterstützung.
-        </p>
+      <div class="info-box">
+        <div class="info-label">Uhrzeit</div>
+        <div class="info-value" id="time">--:-- Uhr</div>
+      </div>
 
-        <div class="infofeld">
-            <div>📅 <span id="datum">Datum wird geladen...</span></div>
-            <div>🕒 <span id="uhrzeit">Uhrzeit wird geladen...</span></div>
-            <div>🌤️ <span id="wetter">Wetter wird geladen...</span></div>
-        </div>
-
+      <div class="info-box">
+        <div class="info-label">Wetter</div>
+        <div class="info-value">Rostock · folgt</div>
+      </div>
     </section>
 
-    <section class="bereich">
+    <section class="grid">
 
+      <div class="card">
         <h2>Dashboard</h2>
+        <p>Tagesübersicht, offene Aufgaben und Schnellzugriffe.</p>
+        <span class="status">Aktiv</span>
+      </div>
 
-        <div class="kachel-container">
+      <div class="card">
+        <h2>Projekte</h2>
+        <p>Tourenplanung, Meisterschule, AT HUB und weitere Projekte.</p>
+        <span class="status">Vorbereitet</span>
+      </div>
 
-            <div class="kachel">
-                <h3>Arbeitszeitkalender</h3>
-                <p>Arbeitszeiten, Meisterschule und Auswertungen.</p>
-            </div>
+      <div class="card">
+        <h2>Dokumente</h2>
+        <p>Handbücher, Analysen, PDFs und wichtige Arbeitsunterlagen.</p>
+        <span class="status">Vorbereitet</span>
+      </div>
 
-            <div class="kachel">
-                <h3>Meisterschule</h3>
-                <p>Lernstoff, Prüfungsvorbereitung und Meister-Handbuch.</p>
-            </div>
+      <div class="card">
+        <h2>Kalender</h2>
+        <p>Google Kalender, Arbeitszeitkalender und wichtige Termine.</p>
+        <span class="status">Separates Modul</span>
+      </div>
 
-            <div class="kachel">
-                <h3>Tourenplanung</h3>
-                <p>Analysen, Kennzahlen und Optimierungen.</p>
-            </div>
+      <div class="card">
+        <h2>KI</h2>
+        <p>Siggi-Unterstützung für Auswertungen, Texte und Planung.</p>
+        <span class="status">Geplant</span>
+      </div>
 
-            <div class="kachel">
-                <h3>Dokumente</h3>
-                <p>Verträge, PDFs und Vorlagen.</p>
-            </div>
-
-            <div class="kachel">
-                <h3>KI – Siggi</h3>
-                <p>Dein persönlicher KI-Assistent.</p>
-            </div>
-
-            <div class="kachel">
-                <h3>Einstellungen</h3>
-                <p>AT HUB konfigurieren.</p>
-            </div>
-
-        </div>
+      <div class="card">
+        <h2>Einstellungen</h2>
+        <p>Design, Module und persönliche Anpassungen.</p>
+        <span class="status">Geplant</span>
+      </div>
 
     </section>
 
-</main>
+  </main>
 
-<script src="js/app.js"></script>
+  <footer>
+    AT HUB · Version 1.0 · Übersicht schafft Klarheit.
+  </footer>
+
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+
+      const dateOptions = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+
+      document.getElementById("date").textContent =
+        now.toLocaleDateString("de-DE", dateOptions);
+
+      document.getElementById("time").textContent =
+        now.toLocaleTimeString("de-DE", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }) + " Uhr";
+
+      document.getElementById("clock").textContent =
+        now.toLocaleTimeString("de-DE", {
+          hour: "2-digit",
+          minute: "2-digit"
+        }) + " Uhr";
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
 
 </body>
 </html>
