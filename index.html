@@ -7,12 +7,14 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:#f1f3f6;
   color:#1f2937;
 }
+
 header{
   background:#0b0b0b;
   color:white;
@@ -24,9 +26,24 @@ header{
   gap:20px;
   flex-wrap:wrap;
 }
-.logo h1{margin:0;font-size:34px}
-.logo p{margin:4px 0 0;color:#ccc}
-.status{text-align:right;font-size:14px;color:#ddd}
+
+.logo h1{
+  margin:0;
+  font-size:34px;
+}
+
+.logo p{
+  margin:4px 0 0;
+  color:#ccc;
+}
+
+.status{
+  text-align:right;
+  font-size:14px;
+  color:#ddd;
+  line-height:1.6;
+}
+
 nav{
   background:white;
   padding:12px;
@@ -35,7 +52,10 @@ nav{
   flex-wrap:wrap;
   box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
-nav button,.tile button,.tab button{
+
+nav button,
+.tile button,
+.tabs button{
   border:0;
   border-radius:12px;
   padding:10px 14px;
@@ -43,17 +63,30 @@ nav button,.tile button,.tab button{
   cursor:pointer;
   background:#e5e7eb;
 }
-nav button:hover,nav button.active,.tile button:hover,.tab button:hover{
+
+nav button:hover,
+nav button.active,
+.tile button:hover,
+.tabs button:hover,
+.tabs button.active{
   background:#b00020;
   color:white;
 }
+
 main{
   padding:22px;
   max-width:1400px;
   margin:auto;
 }
-.view{display:none}
-.view.active{display:block}
+
+.view{
+  display:none;
+}
+
+.view.active{
+  display:block;
+}
+
 .card{
   background:white;
   padding:22px;
@@ -61,11 +94,13 @@ main{
   margin-bottom:18px;
   box-shadow:0 4px 18px rgba(0,0,0,.08);
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:16px;
 }
+
 .tile{
   background:white;
   padding:18px;
@@ -74,9 +109,19 @@ main{
   box-shadow:0 4px 18px rgba(0,0,0,.08);
   min-height:150px;
 }
-.tile.green{border-left-color:#15803d}
-.tile h3{margin-top:0}
-.muted{color:#6b7280}
+
+.tile.green{
+  border-left-color:#15803d;
+}
+
+.tile h3{
+  margin-top:0;
+}
+
+.muted{
+  color:#6b7280;
+}
+
 .workspace{
   margin-top:22px;
   background:white;
@@ -84,6 +129,7 @@ main{
   box-shadow:0 4px 18px rgba(0,0,0,.08);
   overflow:hidden;
 }
+
 .tabs{
   display:flex;
   gap:8px;
@@ -91,13 +137,21 @@ main{
   background:#111;
   flex-wrap:wrap;
 }
-.tab-content{display:none}
-.tab-content.active{display:block}
+
+.tab-content{
+  display:none;
+}
+
+.tab-content.active{
+  display:block;
+}
+
 iframe{
   width:100%;
   height:720px;
   border:0;
 }
+
 .openlink{
   display:inline-block;
   margin-top:10px;
@@ -108,19 +162,60 @@ iframe{
   text-decoration:none;
   font-weight:bold;
 }
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+th{
+  background:#111;
+  color:white;
+  padding:10px;
+  text-align:left;
+}
+
+td{
+  padding:10px;
+  border-bottom:1px solid #ddd;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
 footer{
   text-align:center;
   color:#6b7280;
   padding:20px;
   font-size:13px;
 }
+
 @media(max-width:700px){
-  header{align-items:flex-start}
-  .status{text-align:left}
-  nav{flex-direction:column}
-  nav button{width:100%}
-  main{padding:14px}
-  iframe{height:620px}
+  header{
+    align-items:flex-start;
+  }
+
+  .status{
+    text-align:left;
+  }
+
+  nav{
+    flex-direction:column;
+  }
+
+  nav button{
+    width:100%;
+  }
+
+  main{
+    padding:14px;
+  }
+
+  iframe{
+    height:620px;
+  }
 }
 </style>
 </head>
@@ -132,10 +227,11 @@ footer{
     <h1>AT HUB</h1>
     <p>Übersicht schafft Klarheit.</p>
   </div>
+
   <div class="status">
-    <div id="datum"></div>
-    <div id="uhrzeit"></div>
-   <div id="wetter">Wetter wird geladen...</div>
+    <div id="datum">Datum lädt...</div>
+    <div id="uhrzeit">Uhrzeit lädt...</div>
+    <div id="wetter">Wetter wird geladen...</div>
   </div>
 </header>
 
@@ -160,13 +256,13 @@ footer{
     <div class="tile green">
       <h3>⏰ Arbeitszeitkalender</h3>
       <p>Arbeitszeit, Übernachtungen, Meisterschule und Steuerdokumentation.</p>
-      <button onclick="openTab('arbeitszeit')">Öffnen</button>
+      <button onclick="openTab('arbeitszeit',this)">Öffnen</button>
     </div>
 
     <div class="tile">
       <h3>📆 Google Kalender</h3>
-      <p>Dein persönlicher Kalender direkt im HUB.</p>
-      <button onclick="openTab('googlekalender')">Öffnen</button>
+      <p>Privater Kalender und Familienkalender gemeinsam.</p>
+      <button onclick="openTab('googlekalender',this)">Öffnen</button>
     </div>
 
     <div class="tile">
@@ -183,8 +279,8 @@ footer{
 
   <div class="workspace">
     <div class="tabs">
-      <button onclick="openTab('arbeitszeit')">Arbeitszeit</button>
-      <button onclick="openTab('googlekalender')">Google Kalender</button>
+      <button class="active" onclick="openTab('arbeitszeit',this)">Arbeitszeit</button>
+      <button onclick="openTab('googlekalender',this)">Google Kalender</button>
     </div>
 
     <div id="arbeitszeit" class="tab-content active">
@@ -192,7 +288,7 @@ footer{
     </div>
 
     <div id="googlekalender" class="tab-content">
- <iframe src="https://calendar.google.com/calendar/embed?src=herrthiel.hro%40gmail.com&src=cdb8c99375b360422bc8a344f9bdb71446cf6476c334ffee094ffdbfc3828a7a%40group.calendar.google.com&ctz=Europe%2FBerlin"></iframe>
+      <iframe src="https://calendar.google.com/calendar/embed?src=herrthiel.hro%40gmail.com&src=cdb8c99375b360422bc8a344f9bdb71446cf6476c334ffee094ffdbfc3828a7a%40group.calendar.google.com&ctz=Europe%2FBerlin"></iframe>
     </div>
   </div>
 </section>
@@ -204,24 +300,36 @@ footer{
   </div>
 
   <div class="grid">
-    <div class="tile green"><h3>Arbeitszeitkalender</h3><button onclick="showView('dashboard')">Öffnen</button></div>
-   <div class="tile">
-  <h3>👥 Mitarbeiter</h3>
-  <p>Stammdaten, Gruppen, Personalnummern und BKF-Grunddaten.</p>
-  <button onclick="showView('mitarbeiter')">Öffnen</button>
-</div>
-    <div class="tile"><h3>WEBFLEET</h3><a class="openlink" target="_blank" href="https://live-wf.webfleet.com/web/map">Öffnen</a></div>
-    <div class="tile"><h3>BKF-Manager</h3><p>Module, Fahrerkarte, Führerschein, Code 95.</p></div>
-    <div class="tile"><h3>Teams</h3><p>Boxen, Monteure und feste Teams.</p></div>
-    <div class="tile"><h3>Fahrzeuge</h3><p>Fuhrpark, Kennzeichen, Fristen.</p></div>
-    <div class="tile"><h3>Anhänger</h3><p>Zuordnung, Prüfungen, Einsatzfähigkeit.</p></div>
-    <div class="tile"><h3>Tourenplanung</h3><p>Planzeiten, Fahrzeiten, Montagezeiten.</p></div>
-    <div class="tile"><h3>Reklamationen</h3><p>Bearbeitung, Ursachen, Kundenstatus.</p></div>
-    <div class="tile"><h3>Dokumente</h3><p>Listen, Verträge, Nachweise.</p></div>
-    <div class="tile"><h3>Auswertungen</h3><p>Monatswerte, Jahreswerte, Kennzahlen.</p></div>
-    <div class="tile"><h3>Archiv</h3><p>Abgeschlossene Fälle und alte Daten.</p></div>
+    <div class="tile green">
+      <h3>⏰ Arbeitszeitkalender</h3>
+      <p>Arbeitszeit- und Steuerdokumentation.</p>
+      <button onclick="showViewById('dashboard'); openTab('arbeitszeit')">Öffnen</button>
+    </div>
+
+    <div class="tile">
+      <h3>👥 Mitarbeiter</h3>
+      <p>Stammdaten, Gruppen, Personalnummern und BKF-Grunddaten.</p>
+      <button onclick="showViewById('mitarbeiter')">Öffnen</button>
+    </div>
+
+    <div class="tile">
+      <h3>🚛 WEBFLEET</h3>
+      <p>Karte, Fahrzeuge und Tourdaten.</p>
+      <a class="openlink" target="_blank" href="https://live-wf.webfleet.com/web/map">Öffnen</a>
+    </div>
+
+    <div class="tile"><h3>🎓 BKF-Manager</h3><p>Module, Fahrerkarte, Führerschein, Code 95.</p></div>
+    <div class="tile"><h3>👨‍🔧 Teams</h3><p>Boxen, Monteure und feste Teams.</p></div>
+    <div class="tile"><h3>🚚 Fahrzeuge</h3><p>Fuhrpark, Kennzeichen, Fristen.</p></div>
+    <div class="tile"><h3>🚛 Anhänger</h3><p>Zuordnung, Prüfungen, Einsatzfähigkeit.</p></div>
+    <div class="tile"><h3>🗺️ Tourenplanung</h3><p>Planzeiten, Fahrzeiten, Montagezeiten.</p></div>
+    <div class="tile"><h3>📋 Reklamationen</h3><p>Bearbeitung, Ursachen, Kundenstatus.</p></div>
+    <div class="tile"><h3>📄 Dokumente</h3><p>Listen, Verträge, Nachweise.</p></div>
+    <div class="tile"><h3>📊 Auswertungen</h3><p>Monatswerte, Jahreswerte, Kennzahlen.</p></div>
+    <div class="tile"><h3>🗄️ Archiv</h3><p>Abgeschlossene Fälle und alte Daten.</p></div>
   </div>
 </section>
+
 <section id="mitarbeiter" class="view">
   <div class="card">
     <h2>👥 Mitarbeiter</h2>
@@ -231,157 +339,221 @@ footer{
   <div class="card">
     <h3>Mitarbeiterübersicht</h3>
 
-    <table style="width:100%; border-collapse:collapse;">
-      <thead>
-        <tr style="background:#111; color:white;">
-          <th style="padding:10px; text-align:left;">Name</th>
-          <th style="padding:10px; text-align:left;">Kurzname</th>
-          <th style="padding:10px; text-align:left;">Personalnummer</th>
-          <th style="padding:10px; text-align:left;">Gruppe</th>
-          <th style="padding:10px; text-align:left;">Box/Team</th>
-          <th style="padding:10px; text-align:left;">Führerschein</th>
-          <th style="padding:10px; text-align:left;">Fahrerkarte</th>
-          <th style="padding:10px; text-align:left;">Code 95</th>
-          <th style="padding:10px; text-align:left;">BKF-Module</th>
-          <th style="padding:10px; text-align:left;">Notizen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">Platzhalter</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">506 / 604</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">1–5</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">Noch keine echten Daten gespeichert.</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Kurzname</th>
+            <th>Personalnummer</th>
+            <th>Gruppe</th>
+            <th>Box/Team</th>
+            <th>Führerschein</th>
+            <th>Fahrerkarte</th>
+            <th>Code 95</th>
+            <th>BKF-Module</th>
+            <th>Notizen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Platzhalter</td>
+            <td>---</td>
+            <td>---</td>
+            <td>506 / 604</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>1–5</td>
+            <td>Noch keine echten Daten gespeichert.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
+
 <section id="privat" class="view">
-  <div class="card"><h2>Privat</h2></div>
+  <div class="card">
+    <h2>Privat</h2>
+    <p>Familie, Termine, Reisen, Finanzen und persönliche Organisation.</p>
+  </div>
+
   <div class="grid">
-    <div class="tile green"><h3>Google Kalender</h3><button onclick="showView('dashboard'); openTab('googlekalender')">Öffnen</button></div>
-    <div class="tile"><h3>Familie</h3></div>
-    <div class="tile"><h3>Reisen</h3></div>
-    <div class="tile"><h3>Finanzen</h3></div>
-    <div class="tile"><h3>Haus & Verträge</h3></div>
-    <div class="tile"><h3>Gesundheit</h3></div>
-    <div class="tile"><h3>Dokumente</h3></div>
-    <div class="tile"><h3>Fotos</h3></div>
-    <div class="tile"><h3>Geburtstage</h3></div>
-    <div class="tile"><h3>Notizen</h3></div>
+    <div class="tile green">
+      <h3>📆 Google Kalender</h3>
+      <p>Privat- und Familienkalender gemeinsam.</p>
+      <button onclick="showViewById('dashboard'); openTab('googlekalender')">Öffnen</button>
+    </div>
+    <div class="tile"><h3>👨‍👩‍👧 Familie</h3></div>
+    <div class="tile"><h3>✈️ Reisen</h3></div>
+    <div class="tile"><h3>💰 Finanzen</h3></div>
+    <div class="tile"><h3>🏠 Haus & Verträge</h3></div>
+    <div class="tile"><h3>❤️ Gesundheit</h3></div>
+    <div class="tile"><h3>📂 Dokumente</h3></div>
+    <div class="tile"><h3>📷 Fotos</h3></div>
+    <div class="tile"><h3>🎂 Geburtstage</h3></div>
+    <div class="tile"><h3>📝 Notizen</h3></div>
   </div>
 </section>
 
 <section id="projekte" class="view">
-  <div class="card"><h2>Projekte & Wissen</h2></div>
+  <div class="card">
+    <h2>Projekte & Wissen</h2>
+    <p>Meisterschule, Handbücher, Tourenplanung, Reklamationen und Wissenssammlung.</p>
+  </div>
+
   <div class="grid">
-    <div class="tile"><h3>Meisterschule</h3></div>
-    <div class="tile"><h3>Meister-Handbuch</h3></div>
-    <div class="tile"><h3>Tourenplanung</h3></div>
-    <div class="tile"><h3>Reklamationshandbuch</h3></div>
-    <div class="tile"><h3>Ideen</h3></div>
-    <div class="tile"><h3>Wissensdatenbank</h3></div>
+    <div class="tile"><h3>🎓 Meisterschule</h3></div>
+    <div class="tile"><h3>📚 Meister-Handbuch</h3></div>
+    <div class="tile"><h3>🚛 Tourenplanung</h3></div>
+    <div class="tile"><h3>📖 Reklamationshandbuch</h3></div>
+    <div class="tile"><h3>💡 Ideen</h3></div>
+    <div class="tile"><h3>🧠 Wissensdatenbank</h3></div>
   </div>
 </section>
 
 <section id="siggi" class="view">
-  <div class="card"><h2>Siggi KI</h2></div>
+  <div class="card">
+    <h2>Siggi KI</h2>
+    <p>Dein persönlicher KI-Bereich im AT HUB.</p>
+  </div>
+
   <div class="grid">
-    <div class="tile"><h3>Chat</h3></div>
-    <div class="tile"><h3>Dokumentenanalyse</h3></div>
-    <div class="tile"><h3>Auswertungen</h3></div>
-    <div class="tile"><h3>Wissensspeicher</h3></div>
-    <div class="tile"><h3>Automatisierungen</h3></div>
+    <div class="tile"><h3>💬 Chat</h3></div>
+    <div class="tile"><h3>📄 Dokumentenanalyse</h3></div>
+    <div class="tile"><h3>📊 Auswertungen</h3></div>
+    <div class="tile"><h3>🧠 Wissensspeicher</h3></div>
+    <div class="tile"><h3>⚡ Automatisierungen</h3></div>
   </div>
 </section>
 
 <section id="einstellungen" class="view">
-  <div class="card"><h2>Einstellungen</h2></div>
+  <div class="card">
+    <h2>Einstellungen</h2>
+    <p>Design, Farben, Hintergrund, Datensicherung und Erweiterungen.</p>
+  </div>
+
   <div class="grid">
-    <div class="tile"><h3>Design</h3></div>
-    <div class="tile"><h3>Hintergrund</h3></div>
-    <div class="tile"><h3>Farben</h3></div>
-    <div class="tile"><h3>Benutzer</h3></div>
-    <div class="tile"><h3>Datensicherung</h3></div>
-    <div class="tile"><h3>Erweiterungen</h3></div>
+    <div class="tile"><h3>🎨 Design</h3></div>
+    <div class="tile"><h3>🖼️ Hintergrund</h3></div>
+    <div class="tile"><h3>🔴 Farben</h3></div>
+    <div class="tile"><h3>👤 Benutzer</h3></div>
+    <div class="tile"><h3>💾 Datensicherung</h3></div>
+    <div class="tile"><h3>🔗 Erweiterungen</h3></div>
   </div>
 </section>
 
 </main>
 
-<footer>AT HUB · Version 3.0 · Browser-App</footer>
+<footer>AT HUB · Version 3.1 · Browser-App</footer>
 
 <script>
 function showView(id, btn){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(function(view){
+    view.classList.remove('active');
+  });
+
   document.getElementById(id).classList.add('active');
 
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
+  document.querySelectorAll('nav button').forEach(function(button){
+    button.classList.remove('active');
+  });
+
+  if(btn){
+    btn.classList.add('active');
+  }
 }
 
-function openTab(id){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+function showViewById(id){
+  document.querySelectorAll('.view').forEach(function(view){
+    view.classList.remove('active');
+  });
+
   document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('nav button').forEach(function(button){
+    button.classList.remove('active');
+  });
+}
+
+function openTab(id, btn){
+  document.querySelectorAll('.tab-content').forEach(function(tab){
+    tab.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.tabs button').forEach(function(button){
+    button.classList.remove('active');
+  });
+
+  if(btn){
+    btn.classList.add('active');
+  }
 }
 
 function updateTime(){
-  const now=new Date();
-  document.getElementById('datum').textContent=now.toLocaleDateString('de-DE',{
-    weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'
-  });
-  document.getElementById('uhrzeit').textContent=now.toLocaleTimeString('de-DE');
+  const now = new Date();
+
+  document.getElementById('datum').textContent =
+    now.toLocaleDateString('de-DE',{
+      weekday:'long',
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric'
+    });
+
+  document.getElementById('uhrzeit').textContent =
+    now.toLocaleTimeString('de-DE');
 }
+
+async function ladeWetter(lat, lon, ort){
+  try{
+    const url =
+      'https://api.open-meteo.com/v1/forecast?latitude=' +
+      lat +
+      '&longitude=' +
+      lon +
+      '&current=temperature_2m,wind_speed_10m&timezone=Europe%2FBerlin';
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const temp = Math.round(data.current.temperature_2m);
+    const wind = Math.round(data.current.wind_speed_10m);
+
+    document.getElementById('wetter').textContent =
+      'Wetter ' + ort + ': ' + temp + '°C · Wind ' + wind + ' km/h';
+  }catch(error){
+    document.getElementById('wetter').textContent =
+      'Wetter nicht verfügbar';
+  }
+}
+
+function starteWetter(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(position){
+        ladeWetter(
+          position.coords.latitude,
+          position.coords.longitude,
+          'aktueller Standort'
+        );
+      },
+      function(){
+        ladeWetter(54.0924, 12.0991, 'Rostock');
+      }
+    );
+  }else{
+    ladeWetter(54.0924, 12.0991, 'Rostock');
+  }
+}
+
 updateTime();
 setInterval(updateTime,1000);
-  <section id="mitarbeiter" class="view">
-  <div class="card">
-    <h2>👥 Mitarbeiter</h2>
-    <p>Vorbereitetes Mitarbeiter-Modul. Echte Personaldaten werden später sicher über Tabelle oder Datenquelle angebunden.</p>
-  </div>
-
-  <div class="card">
-    <h3>Mitarbeiterübersicht</h3>
-
-    <table style="width:100%; border-collapse:collapse;">
-      <thead>
-        <tr style="background:#111; color:white;">
-          <th style="padding:10px; text-align:left;">Name</th>
-          <th style="padding:10px; text-align:left;">Kurzname</th>
-          <th style="padding:10px; text-align:left;">Personalnummer</th>
-          <th style="padding:10px; text-align:left;">Gruppe</th>
-          <th style="padding:10px; text-align:left;">Box/Team</th>
-          <th style="padding:10px; text-align:left;">Führerschein</th>
-          <th style="padding:10px; text-align:left;">Fahrerkarte</th>
-          <th style="padding:10px; text-align:left;">Code 95</th>
-          <th style="padding:10px; text-align:left;">BKF-Module</th>
-          <th style="padding:10px; text-align:left;">Notizen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">Platzhalter</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">506 / 604</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">1–5</td>
-          <td style="padding:10px; border-bottom:1px solid #ddd;">Noch keine echten Daten gespeichert.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+starteWetter();
 </script>
 
 </body>
