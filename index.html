@@ -1,187 +1,118 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>AT HUB</title>
-<link rel="stylesheet" href="CSS/style.css">
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <h1>AT HUB</h1>
-      <p>Übersicht schafft Klarheit.</p>
-    </div>
 
-    <div class="top-info">
-      <span id="todayDate">Datum</span>
-      <span id="currentTime">Uhrzeit</span>
-    </div>
-  </header>
+  <h1>AT HUB</h1>
+  <p>Übersicht schafft Klarheit.</p>
 
-  <nav class="main-tabs">
-    <button class="tab active" onclick="openMain('dashboard')">Dashboard</button>
-    <button class="tab" onclick="openMain('translogistik')">Translogistik</button>
-    <button class="tab" onclick="openMain('privat')">Privat</button>
-    <button class="tab" onclick="openMain('wissen')">Projekte & Wissen</button>
-    <button class="tab" onclick="openMain('siggi')">Siggi KI</button>
-    <button class="tab" onclick="openMain('einstellungen')">Einstellungen</button>
-  </nav>
+  <button onclick="zeigeBereich('dashboard')">Dashboard</button>
+  <button onclick="zeigeBereich('translogistik')">Translogistik</button>
+  <button onclick="zeigeBereich('privat')">Privat</button>
+  <button onclick="zeigeBereich('projekte')">Projekte & Wissen</button>
+  <button onclick="zeigeBereich('siggi')">Siggi KI</button>
+  <button onclick="zeigeBereich('einstellungen')">Einstellungen</button>
 
-  <nav id="subTabs" class="sub-tabs hidden"></nav>
+  <hr>
 
-  <main class="workspace">
+  <section id="dashboard">
+    <h2>Dashboard</h2>
+    <p>Willkommen zurück, Alex. Hier ist deine zentrale Übersicht.</p>
+    <h3>Heute</h3>
+    <p id="datum"></p>
+    <p id="uhrzeit"></p>
+    <h3>Wetter</h3>
+    <p>Wetter wird später eingebunden.</p>
+    <h3>Offene Aufgaben</h3>
+    <p>Noch keine Aufgaben eingetragen.</p>
+  </section>
 
-    <section id="dashboard" class="page active">
-      <h2>Dashboard</h2>
-      <p class="intro">Willkommen zurück, Alex. Hier ist deine zentrale Übersicht.</p>
+  <section id="translogistik" style="display:none;">
+    <h2>Translogistik</h2>
+    <p>Arbeitszeit, Mitarbeiter, WEBFLEET, BKF, Teams, Fuhrpark und Auswertungen.</p>
 
-      <div class="cards">
-        <div class="card important">
-          <h3>Heute</h3>
-          <p id="dashboardDate">Datum wird geladen...</p>
-          <p id="dashboardTime">Uhrzeit wird geladen...</p>
-        </div>
+    <button>Arbeitszeitkalender</button>
+    <button>Mitarbeiter</button>
+    <button>WEBFLEET</button>
+    <button>BKF-Manager</button>
+    <button>Teams</button>
+    <button>Fahrzeuge</button>
+    <button>Anhänger</button>
+    <button>Tourenplanung</button>
+    <button>Reklamationsmanager</button>
+    <button>Dokumente</button>
+    <button>Auswertungen</button>
+    <button>Archiv</button>
 
-        <div class="card">
-          <h3>Wetter</h3>
-          <p>Wetter wird später eingebunden.</p>
-        </div>
+    <h3>Arbeitszeitkalender</h3>
+    <p>Persönliche Arbeitszeit- und Steuerdokumentation.</p>
 
-        <div class="card" onclick="openMain('translogistik'); openModule('arbeitszeitkalender')">
-          <h3>Arbeitszeitkalender</h3>
-          <p>Schnellzugriff auf Arbeitszeit, Übernachtungen und Meisterschule.</p>
-        </div>
+    <h3>Mitarbeiter</h3>
+    <p>Stammdaten, Gruppen, Personalnummern und Einsatzdaten.</p>
 
-        <div class="card">
-          <h3>Offene Aufgaben</h3>
-          <p>Noch keine Aufgaben eingetragen.</p>
-        </div>
-      </div>
-    </section>
+    <h3>WEBFLEET</h3>
+    <p>Fahrzeiten, Standzeiten, Tourdaten und reale Auswertungen.</p>
+  </section>
 
-    <section id="translogistik" class="page">
-      <h2>Translogistik</h2>
-      <p class="intro">Arbeitszeit, Mitarbeiter, WEBFLEET, BKF, Teams, Fuhrpark und Auswertungen.</p>
+  <section id="privat" style="display:none;">
+    <h2>Privat</h2>
+    <p>Familie, Termine, Dokumente, Reisen und persönliche Organisation.</p>
+  </section>
 
-      <div class="cards">
-        <div class="card important" onclick="openModule('arbeitszeitkalender')">
-          <h3>Arbeitszeitkalender</h3>
-          <p>Persönliche Arbeitszeit- und Steuerdokumentation.</p>
-        </div>
+  <section id="projekte" style="display:none;">
+    <h2>Projekte & Wissen</h2>
+    <p>Meisterschule, Handbücher, Tourenplanung, Reklamationen und Wissen.</p>
+  </section>
 
-        <div class="card" onclick="openModule('mitarbeiter')">
-          <h3>Mitarbeiter</h3>
-          <p>Stammdaten, Gruppen, Personalnummern und Einsatzdaten.</p>
-        </div>
+  <section id="siggi" style="display:none;">
+    <h2>Siggi KI</h2>
+    <p>Dein persönlicher KI-Bereich im AT HUB.</p>
+  </section>
 
-        <div class="card" onclick="openModule('webfleet')">
-          <h3>WEBFLEET</h3>
-          <p>Fahrzeiten, Standzeiten, Tourdaten und reale Auswertungen.</p>
-        </div>
+  <section id="einstellungen" style="display:none;">
+    <h2>Einstellungen</h2>
+    <p>Design, Farben, Hintergrund, Module und persönliche Anpassungen.</p>
+  </section>
 
-        <div class="card" onclick="openModule('bkf')">
-          <h3>BKF-Manager</h3>
-          <p>Module, Fahrerkarte, Führerschein und Code 95.</p>
-        </div>
+  <script>
+    function zeigeBereich(bereich) {
+      const bereiche = [
+        'dashboard',
+        'translogistik',
+        'privat',
+        'projekte',
+        'siggi',
+        'einstellungen'
+      ];
 
-        <div class="card" onclick="openModule('teams')">
-          <h3>Teams</h3>
-          <p>Boxen, feste Teams, Fahrzeuge und Anhänger.</p>
-        </div>
+      bereiche.forEach(function(id) {
+        document.getElementById(id).style.display = 'none';
+      });
 
-        <div class="card" onclick="openModule('fahrzeuge')">
-          <h3>Fahrzeuge</h3>
-          <p>Sprinter, LKW, Kennzeichen, Status und Zuordnung.</p>
-        </div>
+      document.getElementById(bereich).style.display = 'block';
+    }
 
-        <div class="card" onclick="openModule('anhaenger')">
-          <h3>Anhänger</h3>
-          <p>Kennzeichen, TÜV, Status und Einsatz.</p>
-        </div>
+    function aktualisiereZeit() {
+      const jetzt = new Date();
 
-        <div class="card" onclick="openModule('tourenplanung')">
-          <h3>Tourenplanung</h3>
-          <p>Planzeiten, Fahrzeiten, Montagezeiten und Belastung.</p>
-        </div>
+      document.getElementById('datum').textContent =
+        jetzt.toLocaleDateString('de-DE', {
+          weekday: 'long',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        });
 
-        <div class="card" onclick="openModule('reklamation')">
-          <h3>Reklamationsmanager</h3>
-          <p>Vorgänge, Ursachen, Kommunikation und Lösungsstatus.</p>
-        </div>
+      document.getElementById('uhrzeit').textContent =
+        jetzt.toLocaleTimeString('de-DE');
+    }
 
-        <div class="card" onclick="openModule('dokumente')">
-          <h3>Dokumente</h3>
-          <p>Verträge, Nachweise, Auswertungen und Ablage.</p>
-        </div>
+    aktualisiereZeit();
+    setInterval(aktualisiereZeit, 1000);
+  </script>
 
-        <div class="card" onclick="openModule('auswertungen')">
-          <h3>Auswertungen</h3>
-          <p>Monats-, Jahres- und Themenauswertungen.</p>
-        </div>
-
-        <div class="card" onclick="openModule('archiv')">
-          <h3>Archiv</h3>
-          <p>Ehemalige Daten, abgeschlossene Vorgänge und Historie.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="privat" class="page">
-      <h2>Privat</h2>
-      <p class="intro">Privater Bereich mit Kalender, Reisen, Finanzen und Dokumenten.</p>
-
-      <div class="cards">
-        <div class="card">
-          <h3>Google Kalender</h3>
-          <p>Termine, Geburtstage, Urlaub und Erinnerungen.</p>
-        </div>
-
-        <div class="card">
-          <h3>Reisen</h3>
-          <p>Reiseplanung, Unterlagen, Packlisten und Tickets.</p>
-        </div>
-
-        <div class="card">
-          <h3>Finanzen</h3>
-          <p>Steuer, Verträge, Kosten und private Übersichten.</p>
-        </div>
-
-        <div class="card">
-          <h3>Dokumente</h3>
-          <p>Private Unterlagen, Rechnungen und Nachweise.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="wissen" class="page">
-      <h2>Projekte & Wissen</h2>
-      <p class="intro">Meisterschule, Handbücher, Konzepte, Ideen und langfristige Projekte.</p>
-    </section>
-
-    <section id="siggi" class="page">
-      <h2>Siggi KI</h2>
-      <p class="intro">Deine persönliche Assistenz im AT HUB.</p>
-    </section>
-
-    <section id="einstellungen" class="page">
-      <h2>Einstellungen</h2>
-      <p class="intro">Design, Module, Daten, Hintergrund und spätere Erweiterungen.</p>
-    </section>
-
-    <section id="modulePage" class="page">
-      <h2 id="moduleTitle">Modul</h2>
-      <p id="moduleDescription" class="intro">Modulinhalt wird geladen.</p>
-
-      <div class="card important">
-        <h3>Modulstatus</h3>
-        <p>Dieses Modul ist vorbereitet und wird im nächsten Schritt ausgebaut.</p>
-      </div>
-    </section>
-
-  </main>
-
-<script src="js/app.js"></script>
 </body>
 </html>
