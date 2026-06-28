@@ -4,123 +4,146 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AT HUB</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <header class="topbar">
+    <div>
+      <h1>AT HUB</h1>
+      <p>Übersicht schafft Klarheit.</p>
+    </div>
+  </header>
 
-  <div class="app">
+  <nav class="main-nav">
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('translogistik')">Translogistik</button>
+    <button onclick="showSection('privat')">Privat</button>
+    <button onclick="showSection('wissen')">Projekte & Wissen</button>
+    <button onclick="showSection('siggi')">Siggi KI</button>
+    <button onclick="showSection('einstellungen')">Einstellungen</button>
+  </nav>
 
-    <aside class="sidebar">
-      <div class="logo">AT HUB</div>
-      <div class="motto">Übersicht schafft Klarheit.</div>
-
-      <div class="nav-title">Navigation</div>
-      <a class="nav-link active" href="index.html">🏠 Dashboard</a>
-      <a class="nav-link" href="projekte.html">📁 Projekte</a>
-      <a class="nav-link" href="dokumente.html">📄 Dokumente</a>
-      <a class="nav-link" href="kalender.html">📅 Kalender</a>
-     <a class="nav-link" href="arbeitszeit.html">⏱ Arbeitszeit</a>
-      <a class="nav-link" href="ki.html">🤖 Siggi</a>
-      <a class="nav-link" href="einstellungen.html">⚙️ Einstellungen</a>
-
-      <div class="nav-title">Schnellzugriff</div>
-      <a class="nav-link" href="#">🎓 Meisterschule</a>
-      <a class="nav-link" href="#">🛠 Reklamation</a>
-      <a class="nav-link" href="#">🚚 Tourenplanung</a>
-    </aside>
-
-    <main class="content">
-
-      <section class="topbar">
-        <div>
-          <h1 id="greeting">Willkommen, Alex</h1>
-          <p id="date">Datum wird geladen</p>
+  <main>
+    <section id="dashboard" class="page active">
+      <h2>Dashboard</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Heute</h3>
+          <p id="todayDate">Datum wird geladen...</p>
+          <p id="currentTime">Uhrzeit wird geladen...</p>
         </div>
 
-        <div class="top-status">
-          <div>🌤 Rostock · Wetter folgt</div>
-          <div id="topClock">--:-- Uhr</div>
-        </div>
-      </section>
-
-      <section class="dashboard">
-
-        <div class="panel">
-          <h2>Heute</h2>
-          <p>Dein Tagesbereich für Termine, Aufgaben und wichtige Hinweise.</p>
-
-          <div class="module-grid">
-            <div class="module-card">
-              <strong>Termine</strong>
-              Google Kalender folgt.
-            </div>
-
-            <div class="module-card">
-              <strong>Aufgaben</strong>
-              Aufgabenverwaltung folgt.
-            </div>
-
-            <div class="module-card">
-              <strong>Wetter</strong>
-              Live-Wetter folgt.
-            </div>
-          </div>
+        <div class="card important" onclick="showSection('arbeitszeitkalender')">
+          <h3>Arbeitszeitkalender</h3>
+          <p>Arbeitszeit, Übernachtungen, Meisterschule und Steuerübersicht.</p>
         </div>
 
-        <div class="panel">
-          <h2>Status</h2>
-          <ul>
-            <li>Dashboard aktiv</li>
-            <li>Navigation vorbereitet</li>
-            <li>Kalender-Modul geplant</li>
-            <li>Dokumentenbereich geplant</li>
-          </ul>
-          <span class="status">Version 2.0</span>
+        <div class="card" onclick="showSection('translogistik')">
+          <h3>Translogistik</h3>
+          <p>Personal, BKF, Teams, Fuhrpark, WEBFLEET und Tourenplanung.</p>
         </div>
 
-        <div class="panel">
-          <h2>Projekte</h2>
-          <div class="module-grid">
-            <div class="module-card">
-              <strong>AT HUB</strong>
-              Persönliches Cockpit.
-            </div>
+        <div class="card" onclick="showSection('wissen')">
+          <h3>Projekte & Wissen</h3>
+          <p>Meisterschule, Reklamationshandbuch, Tourenplanung und Ideen.</p>
+        </div>
+      </div>
+    </section>
 
-            <div class="module-card">
-              <strong>Meisterschule</strong>
-              Vorbereitung FMKU.
-            </div>
+    <section id="translogistik" class="page">
+      <h2>Translogistik</h2>
+      <p class="section-intro">Zentrale Arbeitsbereiche für Logistik, Personal, BKF und Auswertungen.</p>
 
-            <div class="module-card">
-              <strong>Tourenplanung</strong>
-              Analysen und Steuerung.
-            </div>
-
-            <div class="module-card">
-              <strong>Reklamation</strong>
-              Handbuch-Idee gesammelt.
-            </div>
-          </div>
+      <div class="cards">
+        <div class="card important" onclick="showSection('arbeitszeitkalender')">
+          <h3>Arbeitszeitkalender</h3>
+          <p>Persönliche Arbeitszeit- und Übernachtungsdokumentation.</p>
         </div>
 
-        <div class="panel">
-          <h2>Siggi</h2>
-          <p>Bereich für KI-Unterstützung, Texte, Auswertungen und Planung.</p>
-          <span class="status-red">Geplant</span>
+        <div class="card">
+          <h3>Mitarbeiter</h3>
+          <p>Stammdaten, Personalnummern, Gruppen und Einsatzdaten.</p>
         </div>
 
-      </section>
+        <div class="card">
+          <h3>BKF-Manager</h3>
+          <p>Module, Führerschein, Fahrerkarte und Code 95.</p>
+        </div>
 
-      <footer>
-        AT HUB · Version 2.0 · Übersicht schafft Klarheit.
-      </footer>
+        <div class="card">
+          <h3>Teams</h3>
+          <p>Boxen, feste Teams, Fahrzeuge und Anhänger-Zuordnung.</p>
+        </div>
 
-    </main>
+        <div class="card">
+          <h3>Fahrzeuge</h3>
+          <p>Sprinter, LKW, Kennzeichen, Status und Zuordnung.</p>
+        </div>
 
-  </div>
+        <div class="card">
+          <h3>Anhänger</h3>
+          <p>Anhänger, Kennzeichen, TÜV, Status und Einsatz.</p>
+        </div>
 
-  <script src="js/script.js"></script>
+        <div class="card">
+          <h3>WEBFLEET</h3>
+          <p>Fahrzeiten, Standzeiten, reale Tourdaten und Auswertungen.</p>
+        </div>
 
+        <div class="card">
+          <h3>Tourenplanung</h3>
+          <p>Planzeiten, Fahrzeiten, Montagezeiten und Belastung.</p>
+        </div>
+
+        <div class="card">
+          <h3>Reklamationsmanager</h3>
+          <p>Vorgänge, Ursachen, Kommunikation und Lösungsstatus.</p>
+        </div>
+
+        <div class="card">
+          <h3>Dokumente</h3>
+          <p>Verträge, Nachweise, Auswertungen und PDF-Ablage.</p>
+        </div>
+
+        <div class="card">
+          <h3>Auswertungen</h3>
+          <p>Monats-, Jahres- und Themenauswertungen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="arbeitszeitkalender" class="page">
+      <h2>Arbeitszeitkalender</h2>
+      <p class="section-intro">Hier wird später dein bestehender Arbeitszeitkalender eingebunden.</p>
+
+      <div class="card important">
+        <h3>Modulstatus</h3>
+        <p>Arbeitszeit, Übernachtungen, Meisterschule, Urlaub, Krankheit und Sonntage werden hier zusammengeführt.</p>
+      </div>
+    </section>
+
+    <section id="privat" class="page">
+      <h2>Privat</h2>
+      <p>Privater Bereich für Familie, Termine, Reisen, Gesundheit und persönliche Dokumente.</p>
+    </section>
+
+    <section id="wissen" class="page">
+      <h2>Projekte & Wissen</h2>
+      <p>Lebende Projekte, Meisterschule, Handbücher, Konzepte und gesammelte Ideen.</p>
+    </section>
+
+    <section id="siggi" class="page">
+      <h2>Siggi KI</h2>
+      <p>Deine persönliche Assistenz im AT HUB.</p>
+    </section>
+
+    <section id="einstellungen" class="page">
+      <h2>Einstellungen</h2>
+      <p>Design, Hintergrund, Module, Daten und spätere Erweiterungen.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
