@@ -9,139 +9,177 @@
 
 <body>
   <header class="topbar">
-    <div>
+    <div class="brand">
       <h1>AT HUB</h1>
       <p>Übersicht schafft Klarheit.</p>
     </div>
+
+    <div class="top-info">
+      <span id="todayDate">Datum</span>
+      <span id="currentTime">Uhrzeit</span>
+    </div>
   </header>
 
-  <nav class="main-nav">
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="showSection('translogistik')">Translogistik</button>
-    <button onclick="showSection('privat')">Privat</button>
-    <button onclick="showSection('wissen')">Projekte & Wissen</button>
-    <button onclick="showSection('siggi')">Siggi KI</button>
-    <button onclick="showSection('einstellungen')">Einstellungen</button>
+  <nav class="main-tabs">
+    <button class="tab active" onclick="openMain('dashboard')">Dashboard</button>
+    <button class="tab" onclick="openMain('translogistik')">Translogistik</button>
+    <button class="tab" onclick="openMain('privat')">Privat</button>
+    <button class="tab" onclick="openMain('wissen')">Projekte & Wissen</button>
+    <button class="tab" onclick="openMain('siggi')">Siggi KI</button>
+    <button class="tab" onclick="openMain('einstellungen')">Einstellungen</button>
   </nav>
 
-  <main>
+  <nav id="subTabs" class="sub-tabs hidden"></nav>
+
+  <main class="workspace">
+
     <section id="dashboard" class="page active">
       <h2>Dashboard</h2>
+      <p class="intro">Willkommen zurück, Alex. Hier ist deine zentrale Übersicht.</p>
+
       <div class="cards">
-        <div class="card">
+        <div class="card important">
           <h3>Heute</h3>
-          <p id="todayDate">Datum wird geladen...</p>
-          <p id="currentTime">Uhrzeit wird geladen...</p>
+          <p id="dashboardDate">Datum wird geladen...</p>
+          <p id="dashboardTime">Uhrzeit wird geladen...</p>
         </div>
 
-        <div class="card important" onclick="showSection('arbeitszeitkalender')">
+        <div class="card">
+          <h3>Wetter</h3>
+          <p>Wetter wird später eingebunden.</p>
+        </div>
+
+        <div class="card" onclick="openMain('translogistik'); openModule('arbeitszeitkalender')">
           <h3>Arbeitszeitkalender</h3>
-          <p>Arbeitszeit, Übernachtungen, Meisterschule und Steuerübersicht.</p>
+          <p>Schnellzugriff auf Arbeitszeit, Übernachtungen und Meisterschule.</p>
         </div>
 
-        <div class="card" onclick="showSection('translogistik')">
-          <h3>Translogistik</h3>
-          <p>Personal, BKF, Teams, Fuhrpark, WEBFLEET und Tourenplanung.</p>
-        </div>
-
-        <div class="card" onclick="showSection('wissen')">
-          <h3>Projekte & Wissen</h3>
-          <p>Meisterschule, Reklamationshandbuch, Tourenplanung und Ideen.</p>
+        <div class="card">
+          <h3>Offene Aufgaben</h3>
+          <p>Noch keine Aufgaben eingetragen.</p>
         </div>
       </div>
     </section>
 
     <section id="translogistik" class="page">
       <h2>Translogistik</h2>
-      <p class="section-intro">Zentrale Arbeitsbereiche für Logistik, Personal, BKF und Auswertungen.</p>
+      <p class="intro">Arbeitszeit, Mitarbeiter, WEBFLEET, BKF, Teams, Fuhrpark und Auswertungen.</p>
 
       <div class="cards">
-        <div class="card important" onclick="showSection('arbeitszeitkalender')">
+        <div class="card important" onclick="openModule('arbeitszeitkalender')">
           <h3>Arbeitszeitkalender</h3>
-          <p>Persönliche Arbeitszeit- und Übernachtungsdokumentation.</p>
+          <p>Persönliche Arbeitszeit- und Steuerdokumentation.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('mitarbeiter')">
           <h3>Mitarbeiter</h3>
-          <p>Stammdaten, Personalnummern, Gruppen und Einsatzdaten.</p>
+          <p>Stammdaten, Gruppen, Personalnummern und Einsatzdaten.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('webfleet')">
+          <h3>WEBFLEET</h3>
+          <p>Fahrzeiten, Standzeiten, Tourdaten und reale Auswertungen.</p>
+        </div>
+
+        <div class="card" onclick="openModule('bkf')">
           <h3>BKF-Manager</h3>
-          <p>Module, Führerschein, Fahrerkarte und Code 95.</p>
+          <p>Module, Fahrerkarte, Führerschein und Code 95.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('teams')">
           <h3>Teams</h3>
-          <p>Boxen, feste Teams, Fahrzeuge und Anhänger-Zuordnung.</p>
+          <p>Boxen, feste Teams, Fahrzeuge und Anhänger.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('fahrzeuge')">
           <h3>Fahrzeuge</h3>
           <p>Sprinter, LKW, Kennzeichen, Status und Zuordnung.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('anhaenger')">
           <h3>Anhänger</h3>
-          <p>Anhänger, Kennzeichen, TÜV, Status und Einsatz.</p>
+          <p>Kennzeichen, TÜV, Status und Einsatz.</p>
         </div>
 
-        <div class="card">
-          <h3>WEBFLEET</h3>
-          <p>Fahrzeiten, Standzeiten, reale Tourdaten und Auswertungen.</p>
-        </div>
-
-        <div class="card">
+        <div class="card" onclick="openModule('tourenplanung')">
           <h3>Tourenplanung</h3>
           <p>Planzeiten, Fahrzeiten, Montagezeiten und Belastung.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('reklamation')">
           <h3>Reklamationsmanager</h3>
           <p>Vorgänge, Ursachen, Kommunikation und Lösungsstatus.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('dokumente')">
           <h3>Dokumente</h3>
-          <p>Verträge, Nachweise, Auswertungen und PDF-Ablage.</p>
+          <p>Verträge, Nachweise, Auswertungen und Ablage.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="openModule('auswertungen')">
           <h3>Auswertungen</h3>
           <p>Monats-, Jahres- und Themenauswertungen.</p>
         </div>
-      </div>
-    </section>
 
-    <section id="arbeitszeitkalender" class="page">
-      <h2>Arbeitszeitkalender</h2>
-      <p class="section-intro">Hier wird später dein bestehender Arbeitszeitkalender eingebunden.</p>
-
-      <div class="card important">
-        <h3>Modulstatus</h3>
-        <p>Arbeitszeit, Übernachtungen, Meisterschule, Urlaub, Krankheit und Sonntage werden hier zusammengeführt.</p>
+        <div class="card" onclick="openModule('archiv')">
+          <h3>Archiv</h3>
+          <p>Ehemalige Daten, abgeschlossene Vorgänge und Historie.</p>
+        </div>
       </div>
     </section>
 
     <section id="privat" class="page">
       <h2>Privat</h2>
-      <p>Privater Bereich für Familie, Termine, Reisen, Gesundheit und persönliche Dokumente.</p>
+      <p class="intro">Privater Bereich mit Kalender, Reisen, Finanzen und Dokumenten.</p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Google Kalender</h3>
+          <p>Termine, Geburtstage, Urlaub und Erinnerungen.</p>
+        </div>
+
+        <div class="card">
+          <h3>Reisen</h3>
+          <p>Reiseplanung, Unterlagen, Packlisten und Tickets.</p>
+        </div>
+
+        <div class="card">
+          <h3>Finanzen</h3>
+          <p>Steuer, Verträge, Kosten und private Übersichten.</p>
+        </div>
+
+        <div class="card">
+          <h3>Dokumente</h3>
+          <p>Private Unterlagen, Rechnungen und Nachweise.</p>
+        </div>
+      </div>
     </section>
 
     <section id="wissen" class="page">
       <h2>Projekte & Wissen</h2>
-      <p>Lebende Projekte, Meisterschule, Handbücher, Konzepte und gesammelte Ideen.</p>
+      <p class="intro">Meisterschule, Handbücher, Konzepte, Ideen und langfristige Projekte.</p>
     </section>
 
     <section id="siggi" class="page">
       <h2>Siggi KI</h2>
-      <p>Deine persönliche Assistenz im AT HUB.</p>
+      <p class="intro">Deine persönliche Assistenz im AT HUB.</p>
     </section>
 
     <section id="einstellungen" class="page">
       <h2>Einstellungen</h2>
-      <p>Design, Hintergrund, Module, Daten und spätere Erweiterungen.</p>
+      <p class="intro">Design, Module, Daten, Hintergrund und spätere Erweiterungen.</p>
     </section>
+
+    <section id="modulePage" class="page">
+      <h2 id="moduleTitle">Modul</h2>
+      <p id="moduleDescription" class="intro">Modulinhalt wird geladen.</p>
+
+      <div class="card important">
+        <h3>Modulstatus</h3>
+        <p>Dieses Modul ist vorbereitet und wird im nächsten Schritt ausgebaut.</p>
+      </div>
+    </section>
+
   </main>
 
   <script src="app.js"></script>
