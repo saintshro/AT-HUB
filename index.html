@@ -135,7 +135,7 @@ footer{
   <div class="status">
     <div id="datum"></div>
     <div id="uhrzeit"></div>
-    <div>Wetter: später aktiv</div>
+   <div id="wetter">Wetter wird geladen...</div>
   </div>
 </header>
 
@@ -205,7 +205,11 @@ footer{
 
   <div class="grid">
     <div class="tile green"><h3>Arbeitszeitkalender</h3><button onclick="showView('dashboard')">Öffnen</button></div>
-    <div class="tile"><h3>Mitarbeiter</h3><p>Stammdaten, Gruppen und Personalnummern.</p></div>
+   <div class="tile">
+  <h3>👥 Mitarbeiter</h3>
+  <p>Stammdaten, Gruppen, Personalnummern und BKF-Grunddaten.</p>
+  <button onclick="showView('mitarbeiter')">Öffnen</button>
+</div>
     <div class="tile"><h3>WEBFLEET</h3><a class="openlink" target="_blank" href="https://live-wf.webfleet.com/web/map">Öffnen</a></div>
     <div class="tile"><h3>BKF-Manager</h3><p>Module, Fahrerkarte, Führerschein, Code 95.</p></div>
     <div class="tile"><h3>Teams</h3><p>Boxen, Monteure und feste Teams.</p></div>
@@ -218,7 +222,47 @@ footer{
     <div class="tile"><h3>Archiv</h3><p>Abgeschlossene Fälle und alte Daten.</p></div>
   </div>
 </section>
+<section id="mitarbeiter" class="view">
+  <div class="card">
+    <h2>👥 Mitarbeiter</h2>
+    <p>Vorbereitetes Mitarbeiter-Modul. Echte Personaldaten werden später sicher über Tabelle oder Datenquelle angebunden.</p>
+  </div>
 
+  <div class="card">
+    <h3>Mitarbeiterübersicht</h3>
+
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#111; color:white;">
+          <th style="padding:10px; text-align:left;">Name</th>
+          <th style="padding:10px; text-align:left;">Kurzname</th>
+          <th style="padding:10px; text-align:left;">Personalnummer</th>
+          <th style="padding:10px; text-align:left;">Gruppe</th>
+          <th style="padding:10px; text-align:left;">Box/Team</th>
+          <th style="padding:10px; text-align:left;">Führerschein</th>
+          <th style="padding:10px; text-align:left;">Fahrerkarte</th>
+          <th style="padding:10px; text-align:left;">Code 95</th>
+          <th style="padding:10px; text-align:left;">BKF-Module</th>
+          <th style="padding:10px; text-align:left;">Notizen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">Platzhalter</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">506 / 604</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">1–5</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">Noch keine echten Daten gespeichert.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 <section id="privat" class="view">
   <div class="card"><h2>Privat</h2></div>
   <div class="grid">
@@ -297,6 +341,47 @@ function updateTime(){
 }
 updateTime();
 setInterval(updateTime,1000);
+  <section id="mitarbeiter" class="view">
+  <div class="card">
+    <h2>👥 Mitarbeiter</h2>
+    <p>Vorbereitetes Mitarbeiter-Modul. Echte Personaldaten werden später sicher über Tabelle oder Datenquelle angebunden.</p>
+  </div>
+
+  <div class="card">
+    <h3>Mitarbeiterübersicht</h3>
+
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#111; color:white;">
+          <th style="padding:10px; text-align:left;">Name</th>
+          <th style="padding:10px; text-align:left;">Kurzname</th>
+          <th style="padding:10px; text-align:left;">Personalnummer</th>
+          <th style="padding:10px; text-align:left;">Gruppe</th>
+          <th style="padding:10px; text-align:left;">Box/Team</th>
+          <th style="padding:10px; text-align:left;">Führerschein</th>
+          <th style="padding:10px; text-align:left;">Fahrerkarte</th>
+          <th style="padding:10px; text-align:left;">Code 95</th>
+          <th style="padding:10px; text-align:left;">BKF-Module</th>
+          <th style="padding:10px; text-align:left;">Notizen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">Platzhalter</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">506 / 604</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">---</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">1–5</td>
+          <td style="padding:10px; border-bottom:1px solid #ddd;">Noch keine echten Daten gespeichert.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 </script>
 
 </body>
