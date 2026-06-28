@@ -1,118 +1,303 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>AT HUB</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AT HUB</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f1f3f6;
+  color:#1f2937;
+}
+header{
+  background:#0b0b0b;
+  color:white;
+  padding:18px 24px;
+  border-bottom:5px solid #b00020;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.logo h1{margin:0;font-size:34px}
+.logo p{margin:4px 0 0;color:#ccc}
+.status{text-align:right;font-size:14px;color:#ddd}
+nav{
+  background:white;
+  padding:12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+nav button,.tile button,.tab button{
+  border:0;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#e5e7eb;
+}
+nav button:hover,nav button.active,.tile button:hover,.tab button:hover{
+  background:#b00020;
+  color:white;
+}
+main{
+  padding:22px;
+  max-width:1400px;
+  margin:auto;
+}
+.view{display:none}
+.view.active{display:block}
+.card{
+  background:white;
+  padding:22px;
+  border-radius:20px;
+  margin-bottom:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.tile{
+  background:white;
+  padding:18px;
+  border-radius:20px;
+  border-left:6px solid #b00020;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+  min-height:150px;
+}
+.tile.green{border-left-color:#15803d}
+.tile h3{margin-top:0}
+.muted{color:#6b7280}
+.workspace{
+  margin-top:22px;
+  background:white;
+  border-radius:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+.tabs{
+  display:flex;
+  gap:8px;
+  padding:12px;
+  background:#111;
+  flex-wrap:wrap;
+}
+.tab-content{display:none}
+.tab-content.active{display:block}
+iframe{
+  width:100%;
+  height:720px;
+  border:0;
+}
+.openlink{
+  display:inline-block;
+  margin-top:10px;
+  background:#b00020;
+  color:white;
+  padding:10px 14px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:bold;
+}
+footer{
+  text-align:center;
+  color:#6b7280;
+  padding:20px;
+  font-size:13px;
+}
+@media(max-width:700px){
+  header{align-items:flex-start}
+  .status{text-align:left}
+  nav{flex-direction:column}
+  nav button{width:100%}
+  main{padding:14px}
+  iframe{height:620px}
+}
+</style>
 </head>
+
 <body>
 
-  <h1>AT HUB</h1>
-  <p>Übersicht schafft Klarheit.</p>
+<header>
+  <div class="logo">
+    <h1>AT HUB</h1>
+    <p>Übersicht schafft Klarheit.</p>
+  </div>
+  <div class="status">
+    <div id="datum"></div>
+    <div id="uhrzeit"></div>
+    <div>Wetter: später aktiv</div>
+  </div>
+</header>
 
-  <button onclick="zeigeBereich('dashboard')">Dashboard</button>
-  <button onclick="zeigeBereich('translogistik')">Translogistik</button>
-  <button onclick="zeigeBereich('privat')">Privat</button>
-  <button onclick="zeigeBereich('projekte')">Projekte & Wissen</button>
-  <button onclick="zeigeBereich('siggi')">Siggi KI</button>
-  <button onclick="zeigeBereich('einstellungen')">Einstellungen</button>
+<nav>
+  <button class="active" onclick="showView('dashboard',this)">Dashboard</button>
+  <button onclick="showView('translogistik',this)">Translogistik</button>
+  <button onclick="showView('privat',this)">Privat</button>
+  <button onclick="showView('projekte',this)">Projekte & Wissen</button>
+  <button onclick="showView('siggi',this)">Siggi KI</button>
+  <button onclick="showView('einstellungen',this)">Einstellungen</button>
+</nav>
 
-  <hr>
+<main>
 
-  <section id="dashboard">
+<section id="dashboard" class="view active">
+  <div class="card">
     <h2>Dashboard</h2>
-    <p>Willkommen zurück, Alex. Hier ist deine zentrale Übersicht.</p>
-    <h3>Heute</h3>
-    <p id="datum"></p>
-    <p id="uhrzeit"></p>
-    <h3>Wetter</h3>
-    <p>Wetter wird später eingebunden.</p>
-    <h3>Offene Aufgaben</h3>
-    <p>Noch keine Aufgaben eingetragen.</p>
-  </section>
+    <p>Willkommen zurück, Alex. Dein zentraler Arbeitsbereich.</p>
+  </div>
 
-  <section id="translogistik" style="display:none;">
+  <div class="grid">
+    <div class="tile green">
+      <h3>⏰ Arbeitszeitkalender</h3>
+      <p>Arbeitszeit, Übernachtungen, Meisterschule und Steuerdokumentation.</p>
+      <button onclick="openTab('arbeitszeit')">Öffnen</button>
+    </div>
+
+    <div class="tile">
+      <h3>📆 Google Kalender</h3>
+      <p>Dein persönlicher Kalender direkt im HUB.</p>
+      <button onclick="openTab('googlekalender')">Öffnen</button>
+    </div>
+
+    <div class="tile">
+      <h3>🚛 WEBFLEET</h3>
+      <p>Fahrzeuge, Karte und Tourdaten.</p>
+      <a class="openlink" target="_blank" href="https://live-wf.webfleet.com/web/map">WEBFLEET öffnen</a>
+    </div>
+
+    <div class="tile">
+      <h3>📌 Aufgaben</h3>
+      <p class="muted">Noch keine Aufgaben eingetragen.</p>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <div class="tabs">
+      <button onclick="openTab('arbeitszeit')">Arbeitszeit</button>
+      <button onclick="openTab('googlekalender')">Google Kalender</button>
+    </div>
+
+    <div id="arbeitszeit" class="tab-content active">
+      <iframe src="https://docs.google.com/spreadsheets/d/180HaNfZ7Gu9j4Df-ltRO4s3aOEUnmHdk/preview"></iframe>
+    </div>
+
+    <div id="googlekalender" class="tab-content">
+      <iframe src="https://calendar.google.com/calendar/embed?src=herrthiel.hro%40gmail.com&ctz=Europe%2FBerlin"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="translogistik" class="view">
+  <div class="card">
     <h2>Translogistik</h2>
     <p>Arbeitszeit, Mitarbeiter, WEBFLEET, BKF, Teams, Fuhrpark und Auswertungen.</p>
+  </div>
 
-    <button>Arbeitszeitkalender</button>
-    <button>Mitarbeiter</button>
-    <button>WEBFLEET</button>
-    <button>BKF-Manager</button>
-    <button>Teams</button>
-    <button>Fahrzeuge</button>
-    <button>Anhänger</button>
-    <button>Tourenplanung</button>
-    <button>Reklamationsmanager</button>
-    <button>Dokumente</button>
-    <button>Auswertungen</button>
-    <button>Archiv</button>
+  <div class="grid">
+    <div class="tile green"><h3>Arbeitszeitkalender</h3><button onclick="showView('dashboard')">Öffnen</button></div>
+    <div class="tile"><h3>Mitarbeiter</h3><p>Stammdaten, Gruppen und Personalnummern.</p></div>
+    <div class="tile"><h3>WEBFLEET</h3><a class="openlink" target="_blank" href="https://live-wf.webfleet.com/web/map">Öffnen</a></div>
+    <div class="tile"><h3>BKF-Manager</h3><p>Module, Fahrerkarte, Führerschein, Code 95.</p></div>
+    <div class="tile"><h3>Teams</h3><p>Boxen, Monteure und feste Teams.</p></div>
+    <div class="tile"><h3>Fahrzeuge</h3><p>Fuhrpark, Kennzeichen, Fristen.</p></div>
+    <div class="tile"><h3>Anhänger</h3><p>Zuordnung, Prüfungen, Einsatzfähigkeit.</p></div>
+    <div class="tile"><h3>Tourenplanung</h3><p>Planzeiten, Fahrzeiten, Montagezeiten.</p></div>
+    <div class="tile"><h3>Reklamationen</h3><p>Bearbeitung, Ursachen, Kundenstatus.</p></div>
+    <div class="tile"><h3>Dokumente</h3><p>Listen, Verträge, Nachweise.</p></div>
+    <div class="tile"><h3>Auswertungen</h3><p>Monatswerte, Jahreswerte, Kennzahlen.</p></div>
+    <div class="tile"><h3>Archiv</h3><p>Abgeschlossene Fälle und alte Daten.</p></div>
+  </div>
+</section>
 
-    <h3>Arbeitszeitkalender</h3>
-    <p>Persönliche Arbeitszeit- und Steuerdokumentation.</p>
+<section id="privat" class="view">
+  <div class="card"><h2>Privat</h2></div>
+  <div class="grid">
+    <div class="tile green"><h3>Google Kalender</h3><button onclick="showView('dashboard'); openTab('googlekalender')">Öffnen</button></div>
+    <div class="tile"><h3>Familie</h3></div>
+    <div class="tile"><h3>Reisen</h3></div>
+    <div class="tile"><h3>Finanzen</h3></div>
+    <div class="tile"><h3>Haus & Verträge</h3></div>
+    <div class="tile"><h3>Gesundheit</h3></div>
+    <div class="tile"><h3>Dokumente</h3></div>
+    <div class="tile"><h3>Fotos</h3></div>
+    <div class="tile"><h3>Geburtstage</h3></div>
+    <div class="tile"><h3>Notizen</h3></div>
+  </div>
+</section>
 
-    <h3>Mitarbeiter</h3>
-    <p>Stammdaten, Gruppen, Personalnummern und Einsatzdaten.</p>
+<section id="projekte" class="view">
+  <div class="card"><h2>Projekte & Wissen</h2></div>
+  <div class="grid">
+    <div class="tile"><h3>Meisterschule</h3></div>
+    <div class="tile"><h3>Meister-Handbuch</h3></div>
+    <div class="tile"><h3>Tourenplanung</h3></div>
+    <div class="tile"><h3>Reklamationshandbuch</h3></div>
+    <div class="tile"><h3>Ideen</h3></div>
+    <div class="tile"><h3>Wissensdatenbank</h3></div>
+  </div>
+</section>
 
-    <h3>WEBFLEET</h3>
-    <p>Fahrzeiten, Standzeiten, Tourdaten und reale Auswertungen.</p>
-  </section>
+<section id="siggi" class="view">
+  <div class="card"><h2>Siggi KI</h2></div>
+  <div class="grid">
+    <div class="tile"><h3>Chat</h3></div>
+    <div class="tile"><h3>Dokumentenanalyse</h3></div>
+    <div class="tile"><h3>Auswertungen</h3></div>
+    <div class="tile"><h3>Wissensspeicher</h3></div>
+    <div class="tile"><h3>Automatisierungen</h3></div>
+  </div>
+</section>
 
-  <section id="privat" style="display:none;">
-    <h2>Privat</h2>
-    <p>Familie, Termine, Dokumente, Reisen und persönliche Organisation.</p>
-  </section>
+<section id="einstellungen" class="view">
+  <div class="card"><h2>Einstellungen</h2></div>
+  <div class="grid">
+    <div class="tile"><h3>Design</h3></div>
+    <div class="tile"><h3>Hintergrund</h3></div>
+    <div class="tile"><h3>Farben</h3></div>
+    <div class="tile"><h3>Benutzer</h3></div>
+    <div class="tile"><h3>Datensicherung</h3></div>
+    <div class="tile"><h3>Erweiterungen</h3></div>
+  </div>
+</section>
 
-  <section id="projekte" style="display:none;">
-    <h2>Projekte & Wissen</h2>
-    <p>Meisterschule, Handbücher, Tourenplanung, Reklamationen und Wissen.</p>
-  </section>
+</main>
 
-  <section id="siggi" style="display:none;">
-    <h2>Siggi KI</h2>
-    <p>Dein persönlicher KI-Bereich im AT HUB.</p>
-  </section>
+<footer>AT HUB · Version 3.0 · Browser-App</footer>
 
-  <section id="einstellungen" style="display:none;">
-    <h2>Einstellungen</h2>
-    <p>Design, Farben, Hintergrund, Module und persönliche Anpassungen.</p>
-  </section>
+<script>
+function showView(id, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 
-  <script>
-    function zeigeBereich(bereich) {
-      const bereiche = [
-        'dashboard',
-        'translogistik',
-        'privat',
-        'projekte',
-        'siggi',
-        'einstellungen'
-      ];
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
 
-      bereiche.forEach(function(id) {
-        document.getElementById(id).style.display = 'none';
-      });
+function openTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-      document.getElementById(bereich).style.display = 'block';
-    }
-
-    function aktualisiereZeit() {
-      const jetzt = new Date();
-
-      document.getElementById('datum').textContent =
-        jetzt.toLocaleDateString('de-DE', {
-          weekday: 'long',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        });
-
-      document.getElementById('uhrzeit').textContent =
-        jetzt.toLocaleTimeString('de-DE');
-    }
-
-    aktualisiereZeit();
-    setInterval(aktualisiereZeit, 1000);
-  </script>
+function updateTime(){
+  const now=new Date();
+  document.getElementById('datum').textContent=now.toLocaleDateString('de-DE',{
+    weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'
+  });
+  document.getElementById('uhrzeit').textContent=now.toLocaleTimeString('de-DE');
+}
+updateTime();
+setInterval(updateTime,1000);
+</script>
 
 </body>
 </html>
