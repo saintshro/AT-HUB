@@ -45,3 +45,92 @@ function updateDateTime() {
 
 updateDateTime();
 setInterval(updateDateTime, 1000);
+function openGoogleTerminForm() {
+  document.getElementById("googleTerminForm").classList.remove("hidden");
+}
+
+function closeGoogleTerminForm() {
+  document.getElementById("googleTerminForm").classList.add("hidden");
+}
+
+function openArbeitszeitForm() {
+  document.getElementById("arbeitszeitForm").classList.remove("hidden");
+}
+
+function closeArbeitszeitForm() {
+  document.getElementById("arbeitszeitForm").classList.add("hidden");
+}
+
+function createGoogleCalendarLink() {
+  const titel = document.getElementById("gTitel").value;
+  const datum = document.getElementById("gDatum").value;
+  const start = document.getElementById("gStart").value;
+  const ende = document.getElementById("gEnde").value;
+  const ort = document.getElementById("gOrt").value;
+  const notiz = document.getElementById("gNotiz").value;
+
+  if (!titel || !datum || !start || !ende) {
+    alert("Bitte Titel, Datum, Start und Ende eintragen.");
+    return;
+  }
+
+  const startDate = datum.replaceAll("-", "") + "T" + start.replace(":", "") + "00";
+  const endDate = datum.replaceAll("-", "") + "T" + ende.replace(":", "") + "00";
+
+  const url =
+    "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+    "&text=" + encodeURIComponent(titel) +
+    "&dates=" + startDate + "/" + endDate +
+    "&location=" + encodeURIComponent(ort) +
+    "&details=" + encodeURIComponent(notiz) +
+    "&ctz=Europe/Berlin";
+
+  window.open(url, "_blank");
+}
+
+let arbeitszeiten = JSON.parse(localStorage.getItem("atHubArbeitszeiten")) || [];
+
+function saveArbeitszeit() {
+  const eintrag = {
+    datum: document.getElementById("azDatum").value,
+    kommt: document.getElementById("azKommt").value,
+    geht: document.getElementById("azGeht").value,
+    pause: document.getElementById("azPause").value,
+    kategorie: document.getElementById("azKategorie").value,
+    uebernachtung: document.getElementById("azUebernachtung").value,
+    ort: document.getElementById("azOrt").value,
+    notiz: document.getElementById("azNotiz").value
+  };
+
+  if (!eintrag.datum) {
+    alert("Bitte Datum eintragen.");
+    return;
+  }
+
+  arbeitszeiten.push(eintrag);
+  localStorage.setItem("atHubArbeitszeiten", JSON.stringify(arbeitszeiten));
+
+  closeArbeitszeitForm();
+  renderArbeitszeiten();
+}
+
+function renderArbeitszeiten() {
+  const liste = document.getElementById("arbeitszeitListe");
+  if (!liste) return;
+
+  liste.innerHTML = "";
+
+  arbeitszeiten.forEach((a) => {
+    liste.innerHTML += `
+      <div class="az-entry">
+        <strong>${a.datum}</strong><br>
+        ${a.kategorie}<br>
+        Kommt: ${a.kommt || "-"} | Geht: ${a.geht || "-"} | Pause: ${a.pause || "0"} Min.<br>
+        ${a.uebernachtung} ${a.ort ? "– " + a.ort : ""}<br>
+        ${a.notiz || ""}
+      </div>
+    `;
+  });
+}
+
+renderArbeitszeiten();
