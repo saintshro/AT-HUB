@@ -284,3 +284,51 @@ h2 {
     min-height: auto;
   }
 }
+.calendar-actions {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.calendar-actions button,
+.hub-form button {
+  background: #b00020;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hub-form {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+  max-width: 600px;
+}
+
+.hub-form input,
+.hub-form select,
+.hub-form textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.az-entry {
+  background: #f6f6f6;
+  border-left: 5px solid #b00020;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
