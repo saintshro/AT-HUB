@@ -284,6 +284,55 @@ footer{
     </div>
 
     <div id="arbeitszeit" class="tab-content active">
+      <div class="calendar-actions">
+  <button onclick="openArbeitszeitForm()">➕ Arbeitszeit eintragen</button>
+  <button onclick="openGoogleTerminForm()">📅 Google-Termin</button>
+</div>
+
+<div id="arbeitszeitForm" class="hub-form hidden">
+  <h3>Arbeitszeit eintragen</h3>
+
+  <input id="azDatum" type="date">
+  <input id="azKommt" type="time">
+  <input id="azGeht" type="time">
+  <input id="azPause" type="number" placeholder="Pause in Minuten">
+
+  <select id="azKategorie">
+    <option>Arbeit</option>
+    <option>Urlaub</option>
+    <option>Krank</option>
+    <option>Meisterschule</option>
+    <option>Frei</option>
+    <option>Sonstiges</option>
+  </select>
+
+  <select id="azUebernachtung">
+    <option>Keine Übernachtung</option>
+    <option>Übernachtung</option>
+  </select>
+
+  <input id="azOrt" placeholder="Ort / Übernachtungsort">
+  <textarea id="azNotiz" placeholder="Notiz"></textarea>
+
+  <button onclick="saveArbeitszeit()">Speichern</button>
+  <button onclick="closeArbeitszeitForm()">Abbrechen</button>
+</div>
+
+<div id="googleTerminForm" class="hub-form hidden">
+  <h3>Google-Termin erstellen</h3>
+
+  <input id="gTitel" placeholder="Titel">
+  <input id="gDatum" type="date">
+  <input id="gStart" type="time">
+  <input id="gEnde" type="time">
+  <input id="gOrt" placeholder="Ort">
+  <textarea id="gNotiz" placeholder="Notiz"></textarea>
+
+  <button onclick="createGoogleCalendarLink()">In Google Kalender öffnen</button>
+  <button onclick="closeGoogleTerminForm()">Abbrechen</button>
+</div>
+
+<div id="arbeitszeitListe"></div>
       <iframe src="https://docs.google.com/spreadsheets/d/180HaNfZ7Gu9j4Df-ltRO4s3aOEUnmHdk/preview"></iframe>
     </div>
 
