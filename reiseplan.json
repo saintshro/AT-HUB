@@ -1,0 +1,59 @@
+{
+  "checklisten": [
+    {
+      "id": "c-anreise",
+      "titel": "Anreise",
+      "punkte": ["Ausweise", "Tickets", "Zahlungsmittel", "Powerbank", "Ladekabel", "Reiseapotheke", "Offline-Karten"]
+    },
+    {
+      "id": "c-tagesrucksack",
+      "titel": "Tagesrucksack",
+      "punkte": ["Wasser", "Snacks", "Tickets", "Powerbank", "Regenschutz", "Sonnencreme", "Notizen"]
+    },
+    {
+      "id": "c-tickettag",
+      "titel": "Tickettag",
+      "punkte": ["Ticket geoeffnet", "Zeitfenster geprueft", "Anfahrt aktualisiert", "Rueckfahrt geplant", "Ausweise falls noetig"]
+    },
+    {
+      "id": "c-event",
+      "titel": "Event",
+      "punkte": ["Tickets", "Einlasszeit", "Venue-Adresse", "Rueckfahrt", "Powerbank", "Ohrschutz optional"]
+    },
+    {
+      "id": "c-wissenstag",
+      "titel": "Wissenstag",
+      "punkte": ["Hintergrundtexte", "Fotos", "eigene Notizen", "Oeffnungszeiten", "Tickets falls erforderlich"]
+    },
+    {
+      "id": "c-packen",
+      "titel": "Packen / Wechsel",
+      "punkte": ["Waesche pruefen", "Dokumente", "Tickets", "Ladegeraete", "Unterkunft pruefen", "Muellsack / Ordnung"]
+    },
+    {
+      "id": "c-wechsel",
+      "titel": "Wechsel London - Bordeaux",
+      "punkte": ["Check-out", "Transferzeit", "Tickets", "Gepaeck", "Reiseverpflegung", "Check-in Bordeaux"]
+    },
+    {
+      "id": "c-freier-tag",
+      "titel": "Freier Tag",
+      "punkte": ["Wetter pruefen", "Optionen waehlen", "Budget", "Fotos sichern"]
+    },
+    {
+      "id": "c-ausflug",
+      "titel": "Ausflug",
+      "punkte": ["Ziel", "Fahrzeiten", "Rueckfahrt", "Tickets", "Wasser", "Snacks"]
+    },
+    {
+      "id": "c-ruhetag",
+      "titel": "Ruhetag",
+      "punkte": ["Waesche", "Fotos sichern", "Plan aktualisieren", "Einkauf", "Run optional"]
+    },
+    {
+      "id": "c-rueckreise",
+      "titel": "Rueckreise",
+      "punkte": ["Check-out", "Tickets", "Ausweise", "Gepaeck", "Transfer", "Ankunft planen"]
+    }
+  ]
+}

@@ -1,30 +1,31 @@
-# AT HUB Reisen - Public Online-Version 0.4.0
-
-Diese Version ist fuer GitHub Pages vorbereitet.
-
-## Inhalt
-
-- Startseite `index.html`
-- Reise-App unter `Reisen/London_Bordeaux_2026/app-v4/`
-- Reisedaten unter `Reisen/London_Bordeaux_2026/daten/`
-- Live-pruefen-Links fuer Flugstatus, London, Bordeaux und Wetter
-- Morning-Run-Strecken mit Google-Maps-Routen
-- Wissensebene mit Hintergrundinfos zu Sehenswuerdigkeiten, Kirchen, Bunkern und Militaergeschichte
-
-## Datenschutz
-
-Diese Public-Version enthaelt keine Mitarbeiterdaten, keine Personalakten, keine dienstlichen Telefonnummern und keine privaten AT-HUB-Daten.
-
-Echte Tickets, Ausweise, Buchungsdokumente, Unterkunftscodes, Kontakte und private Dateien bleiben im Drive bzw. lokal.
-
-## GitHub Pages
-
-Den Inhalt dieses Ordners in das GitHub-Repository kopieren und GitHub Pages fuer den Branch aktivieren.
-
-Startlink:
-
-`https://saintshro.github.io/AT-HUB/`
-
-Direktlink zur Reise-App:
-
-`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app-v4/`
+{
+  "remoteVersionUrl": "",
+  "remoteDataBaseUrl": "",
+  "letztePruefung": null,
+  "hinweise": [
+    {
+      "typ": "fahrzeiten",
+      "titel": "Fahrzeiten aktualisieren",
+      "status": "offen",
+      "notiz": "London TfL, Bahn, Flug und Bordeaux TBM vor Ort pruefen."
+    },
+    {
+      "typ": "tarife",
+      "titel": "Tarife aktualisieren",
+      "status": "offen",
+      "notiz": "OePNV, Eintritte und Transfers vor Reisebeginn pruefen."
+    },
+    {
+      "typ": "oeffnungszeiten",
+      "titel": "Oeffnungszeiten aktualisieren",
+      "status": "offen",
+      "notiz": "Tickets, Museen, Kirchen und Sehenswuerdigkeiten pruefen."
+    },
+    {
+      "typ": "wetter",
+      "titel": "Wetter aktualisieren",
+      "status": "offen",
+      "notiz": "Wetterdaten spaeter per Onlinequelle einbinden."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+﻿{
+    "appId":  "at-hub-reisemodul",
+    "reiseId":  "London_Bordeaux_2026",
+    "appVersion":  "0.5.0-public",
+    "datenVersion":  "2026-07-05-006-public",
+    "updatedAt":  "2026-07-05",
+    "masterQuelle":  "Reisemappe Sommerurlaub 2026",
+    "offline":  true,
+    "hinweis":  "Public-Version mit Planzeiten je Reisetag und Google-Maps-OePNV-Routen. Private Unterkunftsdaten, Tickets und persoenliche Dokumente sind nicht enthalten."
+}

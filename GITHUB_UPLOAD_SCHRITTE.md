@@ -1,59 +1,11 @@
-# GitHub Pages - Reise-App hochladen
+﻿# GitHub Upload - AT HUB Reise-App 0.5.0
 
-## Ziel
+1. Oeffne dein GitHub-Repository `saintshro/AT-HUB`.
+2. Lade den kompletten Inhalt dieses Ordners hoch, nicht den Ordner selbst.
+3. Wichtig: Der neue App-Ordner ist `Reisen/London_Bordeaux_2026/app-v5/`.
+4. Bestehende Dateien im Repository beim Upload ersetzen.
+5. Nach dem Upload diese Adresse oeffnen:
 
-Die Reise-App soll ohne laufenden PC erreichbar sein:
+`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app-v5/`
 
-`https://saintshro.github.io/AT-HUB/`
-
-## Schritt fuer Schritt
-
-1. GitHub im Browser oeffnen.
-2. Repository `saintshro/AT-HUB` oeffnen.
-3. In den Dateibereich gehen.
-4. Den Inhalt dieses Ordners hochladen:
-
-   `outputs/AT_HUB_Reiseapp_Public_0_4_CACHEFIX_2026-07-05`
-
-5. Wichtig: Nicht den Ordner selbst hochladen, sondern dessen Inhalt:
-
-   - `index.html`
-   - `.nojekyll`
-   - `README.md`
-   - `Reisen/`
-
-6. Commit-Nachricht:
-
-   `AT HUB Reise-App Public 0.4.0`
-
-7. GitHub Pages pruefen:
-
-   Repository -> Settings -> Pages
-
-8. Source:
-
-   `Deploy from a branch`
-
-9. Branch:
-
-   `main`
-
-10. Ordner:
-
-   `/ root`
-
-11. Speichern.
-
-## Danach testen
-
-Start:
-
-`https://saintshro.github.io/AT-HUB/`
-
-Direkt zur Reise-App:
-
-`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app-v4/`
-
-## Datenschutz
-
-Diese Version ist absichtlich datensparsam. Echte Tickets, Unterkunftscodes, Ausweise, Buchungen und private Dokumente gehoeren nicht in GitHub Pages.
+Hinweis: `app-v5` ist absichtlich neu, damit Browser und Handy nicht die alte App-Version aus dem Cache anzeigen.
