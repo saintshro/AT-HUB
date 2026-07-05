@@ -99,7 +99,7 @@
                                     "Nachmittag - Uber Boat, Greenwich, Greenwich Park",
                                     "Abend - Rückfahrt / Unterkunft"
                                 ],
-                     "verbindungen":  "v-london-zentrum",
+                     "verbindungen":  "v-2026-07-14-docklands",
                      "orte":  [
                                   "westminster",
                                   "themse"
@@ -133,7 +133,7 @@
                                     "14:00 - Einlass Harry Potter Studios",
                                     "Abends - Rückfahrt / Unterkunft"
                                 ],
-                     "verbindungen":  "v-harry-potter",
+                     "verbindungen":  "v-2026-07-15-harry-potter",
                      "orte":  "harry-potter-studios",
                      "verpflegung":  [
                                          "Mittag - Meal Prep vor den Studios",
@@ -164,7 +164,7 @@
                                     "Mittag - Brighton Pier / Meal Prep am Strand",
                                     "Nachmittag - The Lanes, Royal Pavilion, Marina oder i360"
                                 ],
-                     "verbindungen":  "v-london-zentrum",
+                     "verbindungen":  "v-2026-07-16-brighton",
                      "orte":  [
                                   "st-pauls",
                                   "churchill-war-rooms"
@@ -199,7 +199,7 @@
                                     "Nachmittag - Tower außen, Tower Bridge, Tate Modern",
                                     "Abend - Chinatown, Arcade"
                                 ],
-                     "verbindungen":  "v-windsor",
+                     "verbindungen":  "v-2026-07-17-city",
                      "orte":  "windsor-castle",
                      "verpflegung":  [
                                          "Mittag - Meal Prep",
@@ -230,7 +230,10 @@
                                     "12:30 - Einlass Windsor Castle",
                                     "Abend - Bruno Mars im Wembley Stadium"
                                 ],
-                     "verbindungen":  "v-bruno-mars",
+                     "verbindungen":  [
+                                          "v-2026-07-18-windsor",
+                                          "v-2026-07-18-bruno-mars"
+                                      ],
                      "orte":  "bruno-mars-venue",
                      "verpflegung":  [
                                          "Mittag - Meal Prep nach Windsor Castle",
@@ -262,7 +265,7 @@
                                     "14:00 - Barbican Conservatory",
                                     "Abend - Letzter ruhiger Abend in London"
                                 ],
-                     "verbindungen":  "v-london-zentrum",
+                     "verbindungen":  "v-2026-07-19-barbican",
                      "orte":  "hyde-park",
                      "verpflegung":  [
                                          "Mittag - Meal Prep",
@@ -326,7 +329,7 @@
                                     "Nachmittag - Place de la Bourse, Rue Sainte-Catherine",
                                     "17:00 - Wocheneinkauf"
                                 ],
-                     "verbindungen":  "v-bordeaux-zentrum",
+                     "verbindungen":  "v-2026-07-21-altstadt",
                      "orte":  [
                                   "place-de-la-bourse",
                                   "stammbaeckerei"
@@ -360,7 +363,7 @@
                                     "Mittag - Dune du Pilat / Meal Prep",
                                     "Nachmittag - Strand und Atlantikwall"
                                 ],
-                     "verbindungen":  "v-bordeaux-zentrum",
+                     "verbindungen":  "v-2026-07-22-dune",
                      "orte":  [
                                   "cathedrale-bordeaux",
                                   "grosse-cloche"
@@ -395,7 +398,7 @@
                                     "Vormittag - Hafen und Basilique Notre-Dame d\u0027Arcachon",
                                     "Nachmittag - Strand, Shopping, Eis"
                                 ],
-                     "verbindungen":  "v-bordeaux-zentrum",
+                     "verbindungen":  "v-2026-07-23-arcachon",
                      "orte":  "marche-capucins",
                      "verpflegung":  [
                                          "Mittag - Meal Prep an der Promenade",
@@ -427,7 +430,7 @@
                                     "11:30 - Plage Pereire",
                                     "Ganztag - Baden, Erholung, Strandspaziergang, Eis"
                                 ],
-                     "verbindungen":  "v-bordeaux-ausflug",
+                     "verbindungen":  "v-2026-07-24-pereire",
                      "orte":  "bordeaux-ausflug",
                      "verpflegung":  [
                                          "Mittag - Meal Prep am Strand",
@@ -459,7 +462,7 @@
                                     "Vormittag - Base sous-marine",
                                     "Nachmittag - Bacalan, Shopping"
                                 ],
-                     "verbindungen":  "v-bordeaux-zentrum",
+                     "verbindungen":  "v-2026-07-25-base",
                      "orte":  "base-sous-marine",
                      "verpflegung":  [
                                          "Mittag - Meal Prep am Hafen",
@@ -490,9 +493,7 @@
                                     "Vormittag - Monolithische Kirche / Altstadt",
                                     "Nachmittag - Aussicht, Shopping, Eis"
                                 ],
-                     "verbindungen":  {
-
-                                      },
+                     "verbindungen":  "v-2026-07-26-saint-emilion",
                      "orte":  [
                                   "unterkunft-bordeaux",
                                   "stammbaeckerei"
@@ -526,7 +527,7 @@
                                     "Vormittag - Base sous-marine Außenbereich",
                                     "Nachmittag - Bacalan, Hafenviertel, optional Bassins des Lumières"
                                 ],
-                     "verbindungen":  "v-bordeaux-zentrum",
+                     "verbindungen":  "v-2026-07-27-militaer",
                      "orte":  "place-de-la-bourse",
                      "verpflegung":  [
                                          "Mittag - Meal Prep im Parc de la Base Sous-Marine",
@@ -558,7 +559,7 @@
                                     "12:00 - Abfahrt",
                                     "Nachmittag - Letzte Kirche, Stadtbummel, Souvenirs, Eis"
                                 ],
-                     "verbindungen":  "v-rueckreise-vorbereitung",
+                     "verbindungen":  "v-2026-07-28-abschluss",
                      "orte":  "unterkunft-bordeaux",
                      "verpflegung":  [
                                          "Mittag - Meal Prep",
