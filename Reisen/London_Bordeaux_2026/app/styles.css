@@ -116,6 +116,13 @@ button:hover,button.active,.button-link:hover{
   color:#fff;
 }
 
+.button-link.compact{
+  min-height:34px;
+  padding:7px 9px;
+  font-size:13px;
+  margin:2px;
+}
+
 main{
   width:min(1180px,100%);
   margin:0 auto;

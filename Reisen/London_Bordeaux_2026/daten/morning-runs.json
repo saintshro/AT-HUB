@@ -4,20 +4,72 @@
       "unterkunft": "unterkunft-london",
       "stadt": "London",
       "strecken": [
-        { "distanzKm": 3, "titel": "London 3 km locker", "route": "Unterkunft - naher Park / Blockrunde - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=running+route+London" },
-        { "distanzKm": 5, "titel": "London 5 km Standard", "route": "Unterkunft - Park / Fluss - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=5k+running+route+London" },
-        { "distanzKm": 7, "titel": "London 7 km erweitert", "route": "Unterkunft - groessere Parkrunde - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=7k+running+route+London" },
-        { "distanzKm": 10, "titel": "London 10 km lang", "route": "Unterkunft - Park / Themse - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=10k+running+route+London" }
+        {
+          "distanzKm": 3,
+          "titel": "London 3 km locker",
+          "route": "East Ham - Plashet Park - East Ham",
+          "hinweis": "Kurze Runde fuer den ersten Morgen. Exakte Unterkunftsdaten bleiben privat.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=East+Ham+London&destination=Plashet+Park+London&travelmode=walking"
+        },
+        {
+          "distanzKm": 5,
+          "titel": "London 5 km Standard",
+          "route": "East Ham - Plashet Park - Central Park - East Ham",
+          "hinweis": "Ruhige Parkrunde in Unterkunftsnaehe.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=East+Ham+London&destination=Central+Park+East+Ham+London&waypoints=Plashet+Park+London&travelmode=walking"
+        },
+        {
+          "distanzKm": 7,
+          "titel": "London 7 km erweitert",
+          "route": "East Ham - Central Park - Wanstead Flats - East Ham",
+          "hinweis": "Mehr Gruenflaeche, vor Ort auf Tageslicht und Wege achten.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=East+Ham+London&destination=Wanstead+Flats+London&waypoints=Central+Park+East+Ham+London&travelmode=walking"
+        },
+        {
+          "distanzKm": 10,
+          "titel": "London 10 km lang",
+          "route": "East Ham - Wanstead Flats - Queen Elizabeth Olympic Park",
+          "hinweis": "Laengere Orientierung. Rueckweg nach Tagesform mit TfL/Maps pruefen.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=East+Ham+London&destination=Queen+Elizabeth+Olympic+Park+London&waypoints=Wanstead+Flats+London&travelmode=walking"
+        }
       ]
     },
     {
       "unterkunft": "unterkunft-bordeaux",
       "stadt": "Bordeaux",
       "strecken": [
-        { "distanzKm": 3, "titel": "Bordeaux 3 km locker", "route": "Unterkunft - kurze Stadt-/Flussrunde - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=running+route+Bordeaux" },
-        { "distanzKm": 5, "titel": "Bordeaux 5 km Standard", "route": "Unterkunft - Garonne / Zentrum - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=5k+running+route+Bordeaux" },
-        { "distanzKm": 7, "titel": "Bordeaux 7 km erweitert", "route": "Unterkunft - Garonne - Bruecke / Stadt - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=7k+running+route+Bordeaux" },
-        { "distanzKm": 10, "titel": "Bordeaux 10 km lang", "route": "Unterkunft - Garonne lange Runde - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=10k+running+route+Bordeaux" }
+        {
+          "distanzKm": 3,
+          "titel": "Bordeaux 3 km locker",
+          "route": "Le Bouscat - Parc Bordelais - Le Bouscat",
+          "ueberStammbaeckerei": true,
+          "hinweis": "Kurze Runde in Unterkunftsnaehe, Baeckerei optional einbauen.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=Le+Bouscat+Bordeaux&destination=Parc+Bordelais+Bordeaux&travelmode=walking"
+        },
+        {
+          "distanzKm": 5,
+          "titel": "Bordeaux 5 km Standard",
+          "route": "Le Bouscat - Parc Bordelais - Jardin Public",
+          "ueberStammbaeckerei": true,
+          "hinweis": "Gute Standardrunde mit Parkanteil.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=Le+Bouscat+Bordeaux&destination=Jardin+Public+Bordeaux&waypoints=Parc+Bordelais+Bordeaux&travelmode=walking"
+        },
+        {
+          "distanzKm": 7,
+          "titel": "Bordeaux 7 km erweitert",
+          "route": "Le Bouscat - Parc Bordelais - Jardin Public - Garonne",
+          "ueberStammbaeckerei": true,
+          "hinweis": "Erweiterte Runde Richtung Innenstadt und Fluss.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=Le+Bouscat+Bordeaux&destination=Quais+de+Bordeaux&waypoints=Parc+Bordelais+Bordeaux%7CJardin+Public+Bordeaux&travelmode=walking"
+        },
+        {
+          "distanzKm": 10,
+          "titel": "Bordeaux 10 km lang",
+          "route": "Le Bouscat - Parc Bordelais - Jardin Public - Quais - Rue Notre Dame",
+          "ueberStammbaeckerei": true,
+          "hinweis": "Lange Runde mit Flussabschnitt; Stammbäckerei optional auf Rue Notre Dame prüfen.",
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=Le+Bouscat+Bordeaux&destination=Rue+Notre+Dame+Bordeaux&waypoints=Parc+Bordelais+Bordeaux%7CJardin+Public+Bordeaux%7CQuais+de+Bordeaux&travelmode=walking"
+        }
       ]
     }
   ]

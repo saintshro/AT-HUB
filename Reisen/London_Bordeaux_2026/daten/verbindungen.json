@@ -5,12 +5,19 @@
       "von": "Start / Flughafen",
       "nach": "Unterkunft London",
       "verkehrsmittel": "Flug / Bahn / Underground",
-      "linie": "aus Reisemappe ergaenzen",
-      "richtung": "London",
-      "umstieg": "nach Ticketdaten pruefen",
-      "ausstieg": "naechste Station Unterkunft",
-      "fussweg": "aus Google Maps pruefen",
-      "updateHinweis": "Fahrzeiten 24 Stunden vorher aktualisieren."
+      "linie": "FR6134 Luebeck - London Stansted, danach Stansted Express / TfL",
+      "richtung": "London / East Ham",
+      "umstieg": "Stansted Airport nach London, danach Underground/Bus Richtung East Ham pruefen",
+      "ausstieg": "East Ham / Unterkunftsnaehe",
+      "fussweg": "letzten Fussweg in Google Maps pruefen",
+      "zeit": "13.07.2026, Abflug 16:20, Ankunft ca. 17:10 Ortszeit",
+      "quelle": "Sommerurlaub_2026_Druckversion_V1.pdf",
+      "updateHinweis": "Flugstatus, Stansted Transfer und TfL Live Status am Reisetag pruefen.",
+      "live": [
+        { "titel": "Ryanair FR6134", "url": "https://www.ryanair.com/gb/en/trip/flights/status" },
+        { "titel": "TfL Journey Planner", "url": "https://tfl.gov.uk/plan-a-journey/" },
+        { "titel": "Google Maps Route", "url": "https://www.google.com/maps/dir/?api=1&origin=London+Stansted+Airport&destination=East+Ham+London&travelmode=transit" }
+      ]
     },
     {
       "id": "v-london-zentrum",
@@ -65,12 +72,19 @@
       "von": "London",
       "nach": "Bordeaux",
       "verkehrsmittel": "Flug / Bahn",
-      "linie": "aus Reisemappe ergaenzen",
+      "linie": "BA2572 London Gatwick - Bordeaux",
       "richtung": "Bordeaux",
-      "umstieg": "nach Ticketdaten pruefen",
-      "ausstieg": "Unterkunft Bordeaux",
-      "fussweg": "Transfer zur Unterkunft pruefen",
-      "updateHinweis": "Flug-/Bahnzeiten, Gepaeck und Transfer aktualisieren."
+      "umstieg": "Transfer zur Unterkunft nach Landung pruefen",
+      "ausstieg": "Bordeaux, danach Unterkunftsnaehe Le Bouscat",
+      "fussweg": "letzten Fussweg in Google Maps pruefen",
+      "zeit": "20.07.2026, Abflug 16:55, Ankunft 19:35",
+      "quelle": "Sommerurlaub_2026_Druckversion_V1.pdf",
+      "updateHinweis": "BA2572, Gatwick-Anfahrt, Gepaeck und Bordeaux-Transfer aktualisieren.",
+      "live": [
+        { "titel": "British Airways BA2572", "url": "https://www.britishairways.com/travel/flightstatus/public/en_gb/search/" },
+        { "titel": "Gatwick Airport", "url": "https://www.gatwickairport.com/" },
+        { "titel": "Google Maps Route", "url": "https://www.google.com/maps/dir/?api=1&origin=Bordeaux+Airport&destination=Le+Bouscat+Bordeaux&travelmode=transit" }
+      ]
     },
     {
       "id": "v-bordeaux-zentrum",
@@ -113,12 +127,19 @@
       "von": "Bordeaux",
       "nach": "Zuhause",
       "verkehrsmittel": "Flug / Bahn",
-      "linie": "aus Reisemappe ergaenzen",
+      "linie": "EJU5142 Bordeaux - Berlin",
       "richtung": "Rueckreise",
-      "umstieg": "nach Ticketdaten pruefen",
-      "ausstieg": "Ziel",
+      "umstieg": "Weiterreise Berlin - Zuhause separat pruefen",
+      "ausstieg": "Berlin, danach Heimreise",
       "fussweg": "nach Bedarf",
-      "updateHinweis": "Check-in, Gate, Gleis und Verspaetungen pruefen."
+      "zeit": "29.07.2026, Abflug 15:30, Ankunft ca. 18:20",
+      "quelle": "Sommerurlaub_2026_Druckversion_V1.pdf",
+      "updateHinweis": "easyJet Flugstatus, Transfer zum Flughafen und Weiterreise pruefen.",
+      "live": [
+        { "titel": "easyJet EJU5142", "url": "https://www.easyjet.com/en/flight-tracker" },
+        { "titel": "TBM Bordeaux Flughafen", "url": "https://www.infotbm.com/" },
+        { "titel": "Google Maps Route", "url": "https://www.google.com/maps/dir/?api=1&origin=Le+Bouscat+Bordeaux&destination=Bordeaux+Airport&travelmode=transit" }
+      ]
     }
   ]
 }

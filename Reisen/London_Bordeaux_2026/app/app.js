@@ -6,6 +6,7 @@
   costs: '../daten/kosten.json',
   checklists: '../daten/checklisten.json',
   runs: '../daten/morning-runs.json',
+  live: '../daten/live-pruefen.json',
   updates: '../daten/updates.json'
 };
 
@@ -118,6 +119,7 @@ function renderAll(){
   renderHome();
   renderDays();
   renderConnections();
+  renderLive();
   renderTickets();
   renderRuns();
   renderPlaces();
@@ -149,6 +151,7 @@ function renderHome(){
     <section class="quick-grid">
       <button data-screen="days">Tagesplan</button>
       <button data-screen="connections">Verbindungen</button>
+      <button data-screen="live">Live prüfen</button>
       <button data-screen="tickets">Tickets</button>
       <button data-screen="runs">Morning Run</button>
       <button data-screen="places">Orte</button>
@@ -229,11 +232,13 @@ function renderConnections(){
       <td>${escapeHtml(item.nach)}</td>
       <td>${escapeHtml(item.verkehrsmittel)}</td>
       <td>${escapeHtml(item.linie)}</td>
+      <td>${escapeHtml(item.zeit || '-')}</td>
       <td>${escapeHtml(item.richtung)}</td>
       <td>${escapeHtml(item.umstieg)}</td>
       <td>${escapeHtml(item.ausstieg)}</td>
       <td>${escapeHtml(item.fussweg)}</td>
       <td>${escapeHtml(item.updateHinweis)}</td>
+      <td>${renderLiveLinks(item.live)}</td>
     </tr>
   `).join('');
 
@@ -244,11 +249,56 @@ function renderConnections(){
     </section>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Von</th><th>Nach</th><th>Verkehr</th><th>Linie</th><th>Richtung</th><th>Umstieg</th><th>Ausstieg</th><th>Fussweg</th><th>Update</th></tr></thead>
+        <thead><tr><th>Von</th><th>Nach</th><th>Verkehr</th><th>Linie</th><th>Zeit</th><th>Richtung</th><th>Umstieg</th><th>Ausstieg</th><th>Fussweg</th><th>Update</th><th>Live</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
   `;
+}
+
+function renderLive(){
+  const connectionCards = state.data.connections.verbindungen
+    .filter(item => toArray(item.live).length)
+    .map(item => `
+      <article class="card">
+        <h3>${escapeHtml(item.von)} -> ${escapeHtml(item.nach)}</h3>
+        <p>${escapeHtml(item.linie)}${item.zeit ? ' · ' + escapeHtml(item.zeit) : ''}</p>
+        <div class="actions">${renderLiveLinks(item.live)}</div>
+      </article>
+    `).join('');
+
+  const groups = state.data.live.gruppen.map(group => `
+    <section class="panel">
+      <h2>${escapeHtml(group.titel)}</h2>
+      <div class="grid">
+        ${group.links.map(link => `
+          <article class="card">
+            <h3>${escapeHtml(link.titel)}</h3>
+            <p>${escapeHtml(link.beschreibung)}</p>
+            <a class="button-link" target="_blank" rel="noopener" href="${escapeHtml(link.url)}">Live öffnen</a>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+
+  qs('#live').innerHTML = `
+    <section class="panel">
+      <h2>Live prüfen</h2>
+      <p>Die App bleibt offline nutzbar. Diese Links sind die schnelle Online-Prüfung fuer Flugstatus, OePNV, Wetter und Karten.</p>
+    </section>
+    <section class="panel">
+      <h2>Direkt zu Verbindungen</h2>
+      <div class="grid">${connectionCards || '<p>Noch keine direkten Live-Links in den Verbindungen.</p>'}</div>
+    </section>
+    ${groups}
+  `;
+}
+
+function renderLiveLinks(links){
+  const items = toArray(links);
+  if(!items.length) return '-';
+  return items.map(link => `<a class="button-link compact" target="_blank" rel="noopener" href="${escapeHtml(link.url)}">${escapeHtml(link.titel)}</a>`).join(' ');
 }
 
 function renderTickets(){
@@ -288,6 +338,7 @@ function renderRuns(){
               ${route.ueberStammbaeckerei ? '<span class="badge">ueber Stammbäckerei moeglich</span>' : ''}
             </div>
             <p>${escapeHtml(route.route)}</p>
+            ${route.hinweis ? `<p>${escapeHtml(route.hinweis)}</p>` : ''}
             <a class="button-link" target="_blank" rel="noopener" href="${escapeHtml(route.maps)}">Maps oeffnen</a>
           </article>
         `).join('')}

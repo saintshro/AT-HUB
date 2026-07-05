@@ -1,0 +1,82 @@
+{
+  "gruppen": [
+    {
+      "id": "london",
+      "titel": "London live prüfen",
+      "links": [
+        {
+          "titel": "TfL Status",
+          "beschreibung": "Tube, DLR, Elizabeth line, Overground und Bus-Störungen.",
+          "url": "https://tfl.gov.uk/tube-dlr-overground/status/"
+        },
+        {
+          "titel": "TfL Journey Planner",
+          "beschreibung": "Live-Verbindung innerhalb Londons suchen.",
+          "url": "https://tfl.gov.uk/plan-a-journey/"
+        },
+        {
+          "titel": "National Rail",
+          "beschreibung": "Zugverbindungen, Störungen und Gleisinformationen.",
+          "url": "https://www.nationalrail.co.uk/"
+        },
+        {
+          "titel": "Google Maps London",
+          "beschreibung": "Route, Fußweg, ÖPNV und aktuelle Lage prüfen.",
+          "url": "https://www.google.com/maps/search/?api=1&query=London"
+        }
+      ]
+    },
+    {
+      "id": "bordeaux",
+      "titel": "Bordeaux live prüfen",
+      "links": [
+        {
+          "titel": "TBM Bordeaux",
+          "beschreibung": "Tram, Bus, Fahrzeiten und Störungen in Bordeaux.",
+          "url": "https://www.infotbm.com/"
+        },
+        {
+          "titel": "SNCF Connect",
+          "beschreibung": "Bahnverbindungen für Ausflüge und Rückreise prüfen.",
+          "url": "https://www.sncf-connect.com/"
+        },
+        {
+          "titel": "Google Maps Bordeaux",
+          "beschreibung": "Route, Fußweg, ÖPNV und aktuelle Lage prüfen.",
+          "url": "https://www.google.com/maps/search/?api=1&query=Bordeaux"
+        }
+      ]
+    },
+    {
+      "id": "reise",
+      "titel": "Reise allgemein",
+      "links": [
+        {
+          "titel": "Flugstatus Ryanair",
+          "beschreibung": "Hinflug FR6134 prüfen.",
+          "url": "https://www.ryanair.com/gb/en/trip/flights/status"
+        },
+        {
+          "titel": "Flugstatus British Airways",
+          "beschreibung": "Flug BA2572 London Gatwick nach Bordeaux prüfen.",
+          "url": "https://www.britishairways.com/travel/flightstatus/public/en_gb/search/"
+        },
+        {
+          "titel": "Flugstatus easyJet",
+          "beschreibung": "Rückflug EJU5142 prüfen.",
+          "url": "https://www.easyjet.com/en/flight-tracker"
+        },
+        {
+          "titel": "Wetter London",
+          "beschreibung": "Wetter vor Tagesstart prüfen.",
+          "url": "https://www.google.com/search?q=Wetter+London"
+        },
+        {
+          "titel": "Wetter Bordeaux",
+          "beschreibung": "Wetter vor Tagesstart prüfen.",
+          "url": "https://www.google.com/search?q=Wetter+Bordeaux"
+        }
+      ]
+    }
+  ]
+}
