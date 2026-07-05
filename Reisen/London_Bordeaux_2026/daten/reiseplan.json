@@ -1,0 +1,612 @@
+﻿{
+    "reise":  {
+                  "id":  "London_Bordeaux_2026",
+                  "titel":  "Sommerurlaub 2026",
+                  "zeitraum":  "13.07.2026 bis 29.07.2026",
+                  "startDatum":  "2026-07-13",
+                  "endeDatum":  "2026-07-29",
+                  "stationen":  [
+                                    "London",
+                                    "Bordeaux"
+                                ],
+                  "masterQuelle":  "Reisemappe Sommerurlaub 2026"
+              },
+    "tickets":  [
+                    {
+                        "id":  "flug-hin",
+                        "titel":  "Flug Hinreise",
+                        "kategorie":  "Flug",
+                        "status":  "spaeter ergaenzen",
+                        "datei":  "",
+                        "notiz":  "Ticketdaten aus Reisemappe uebernehmen."
+                    },
+                    {
+                        "id":  "harry-potter-studios",
+                        "titel":  "Harry Potter Studios",
+                        "kategorie":  "Eintritt",
+                        "status":  "geplant",
+                        "datei":  "",
+                        "notiz":  "Ticket und Uhrzeit aus Reisemappe pruefen."
+                    },
+                    {
+                        "id":  "windsor-castle",
+                        "titel":  "Windsor Castle",
+                        "kategorie":  "Eintritt",
+                        "status":  "geplant",
+                        "datei":  "",
+                        "notiz":  "Ticket und Zeitfenster aus Reisemappe pruefen."
+                    },
+                    {
+                        "id":  "bruno-mars",
+                        "titel":  "Bruno Mars",
+                        "kategorie":  "Event",
+                        "status":  "geplant",
+                        "datei":  "",
+                        "notiz":  "Ticket, Einlass, Sitzplaetze und Rueckfahrt ergaenzen."
+                    },
+                    {
+                        "id":  "flug-rueck",
+                        "titel":  "Flug Rueckreise",
+                        "kategorie":  "Flug",
+                        "status":  "spaeter ergaenzen",
+                        "datei":  "",
+                        "notiz":  "Ticketdaten aus Reisemappe uebernehmen."
+                    }
+                ],
+    "tage":  [
+                 {
+                     "id":  "2026-07-13",
+                     "datum":  "2026-07-13",
+                     "tag":  "Montag",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "Anreise",
+                     "titel":  "Anreise nach London",
+                     "start":  "Anreise",
+                     "thema":  "Lübeck – Stansted – East Ham",
+                     "ablauf":  [
+                                    "16:20 - Flug FR6134 Lübeck → London Stansted",
+                                    "Abends - Unterkunft beziehen und Einkauf"
+                                ],
+                     "verbindungen":  "v-anreise-london",
+                     "orte":  "unterkunft-london",
+                     "verpflegung":  [
+                                         "Abend - Kleiner Einkauf / Unterkunft"
+                                     ],
+                     "kosten":  "k-anreise",
+                     "checkliste":  "c-anreise",
+                     "tagesCheckliste":  [
+                                             "Reisepässe",
+                                             "Flugtickets",
+                                             "Powerbank",
+                                             "Unterkunftsdaten"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-14",
+                     "datum":  "2026-07-14",
+                     "tag":  "Dienstag",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "London",
+                     "titel":  "Docklands · Canary Wharf · Greenwich",
+                     "start":  "10:00",
+                     "thema":  "Modernes London trifft Geschichte",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf ab Unterkunft",
+                                    "10:00 - Abfahrt Unterkunft",
+                                    "Vormittag - Cable Car, Royal Docks, Canary Wharf",
+                                    "Nachmittag - Uber Boat, Greenwich, Greenwich Park",
+                                    "Abend - Rückfahrt / Unterkunft"
+                                ],
+                     "verbindungen":  "v-london-zentrum",
+                     "orte":  [
+                                  "westminster",
+                                  "themse"
+                              ],
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep im Greenwich Park / Jubilee Park",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-london-tag",
+                     "checkliste":  "c-tagesrucksack",
+                     "tagesCheckliste":  [
+                                             "Meal Prep",
+                                             "Wasser",
+                                             "Powerbank",
+                                             "Kamera"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-15",
+                     "datum":  "2026-07-15",
+                     "tag":  "Mittwoch",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "London",
+                     "titel":  "Harry Potter Studios",
+                     "start":  "10:00",
+                     "thema":  "Warner Bros. Studio Tour",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "10:00 - Abfahrt Unterkunft",
+                                    "14:00 - Einlass Harry Potter Studios",
+                                    "Abends - Rückfahrt / Unterkunft"
+                                ],
+                     "verbindungen":  "v-harry-potter",
+                     "orte":  "harry-potter-studios",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep vor den Studios",
+                                         "Abend - Spontan / Unterkunft"
+                                     ],
+                     "kosten":  "k-ticket-harry-potter",
+                     "checkliste":  "c-tickettag",
+                     "tagesCheckliste":  [
+                                             "Gedruckte Tickets",
+                                             "Wasser",
+                                             "Powerbank",
+                                             "Kamera"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-16",
+                     "datum":  "2026-07-16",
+                     "tag":  "Donnerstag",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "London",
+                     "titel":  "Brighton",
+                     "start":  "10:00",
+                     "thema":  "Küste, Pier, The Lanes",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "10:00 - Abfahrt Unterkunft",
+                                    "Mittag - Brighton Pier / Meal Prep am Strand",
+                                    "Nachmittag - The Lanes, Royal Pavilion, Marina oder i360"
+                                ],
+                     "verbindungen":  "v-london-zentrum",
+                     "orte":  [
+                                  "st-pauls",
+                                  "churchill-war-rooms"
+                              ],
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep am Strand",
+                                         "Nachmittag - Eis / Kaffee"
+                                     ],
+                     "kosten":  "k-london-tag",
+                     "checkliste":  "c-wissenstag",
+                     "tagesCheckliste":  [
+                                             "Badesachen optional",
+                                             "Sonnencreme",
+                                             "Wasser",
+                                             "Meal Prep"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-17",
+                     "datum":  "2026-07-17",
+                     "tag":  "Freitag",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "London",
+                     "titel":  "City \u0026 Skyline",
+                     "start":  "10:00",
+                     "thema":  "St. Dunstan, Horizon 22, Tate, Chinatown",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "10:00 - Abfahrt Unterkunft",
+                                    "Vormittag - St. Dunstan, Leadenhall, Horizon 22",
+                                    "Nachmittag - Tower außen, Tower Bridge, Tate Modern",
+                                    "Abend - Chinatown, Arcade"
+                                ],
+                     "verbindungen":  "v-windsor",
+                     "orte":  "windsor-castle",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep",
+                                         "Abend - Chinatown / spontan"
+                                     ],
+                     "kosten":  "k-ticket-windsor",
+                     "checkliste":  "c-tickettag",
+                     "tagesCheckliste":  [
+                                             "Reservierungen prüfen",
+                                             "Powerbank",
+                                             "Kamera",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-18",
+                     "datum":  "2026-07-18",
+                     "tag":  "Samstag",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "London",
+                     "titel":  "Windsor \u0026 Bruno Mars",
+                     "start":  "10:00",
+                     "thema":  "Eton, Windsor Castle, Wembley",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "10:00 - Abfahrt Unterkunft",
+                                    "12:30 - Einlass Windsor Castle",
+                                    "Abend - Bruno Mars im Wembley Stadium"
+                                ],
+                     "verbindungen":  "v-bruno-mars",
+                     "orte":  "bruno-mars-venue",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep nach Windsor Castle",
+                                         "Abend - Snack / Konzert"
+                                     ],
+                     "kosten":  "k-ticket-bruno",
+                     "checkliste":  "c-event",
+                     "tagesCheckliste":  [
+                                             "Windsor Tickets",
+                                             "Konzerttickets",
+                                             "Powerbank",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-19",
+                     "datum":  "2026-07-19",
+                     "tag":  "Sonntag",
+                     "stadt":  "London",
+                     "station":  "London",
+                     "phase":  "London",
+                     "titel":  "Barbican \u0026 letzter London-Tag",
+                     "start":  "12:00",
+                     "thema":  "Entspannter Abschluss",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "Vormittag - Wohnung aufräumen, Koffer vorbereiten",
+                                    "12:00 - Abfahrt Unterkunft",
+                                    "14:00 - Barbican Conservatory",
+                                    "Abend - Letzter ruhiger Abend in London"
+                                ],
+                     "verbindungen":  "v-london-zentrum",
+                     "orte":  "hyde-park",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep",
+                                         "Abend - Spontan / Unterkunft"
+                                     ],
+                     "kosten":  "k-london-tag",
+                     "checkliste":  "c-packen",
+                     "tagesCheckliste":  [
+                                             "Koffer vorbereiten",
+                                             "Tickets Bordeaux prüfen",
+                                             "Ladegeräte"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-20",
+                     "datum":  "2026-07-20",
+                     "tag":  "Montag",
+                     "stadt":  "Bordeaux",
+                     "station":  "London/Bordeaux",
+                     "phase":  "Wechsel",
+                     "titel":  "London → Bordeaux",
+                     "start":  "10:00",
+                     "thema":  "Flug BA2572",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "10:00 - Check-out / Abfahrt",
+                                    "16:55 - Flug BA2572 Gatwick → Bordeaux",
+                                    "19:35 - Ankunft Bordeaux",
+                                    "Abends - Unterkunft Le Bouscat"
+                                ],
+                     "verbindungen":  "v-london-bordeaux",
+                     "orte":  "unterkunft-bordeaux",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep am Flughafen",
+                                         "Abend - Snack / Unterkunft"
+                                     ],
+                     "kosten":  "k-wechsel",
+                     "checkliste":  "c-wechsel",
+                     "tagesCheckliste":  [
+                                             "Pässe",
+                                             "Flugtickets",
+                                             "Unterkunft Bordeaux",
+                                             "Powerbank"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-21",
+                     "datum":  "2026-07-21",
+                     "tag":  "Dienstag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Altstadt · Kirchen · Wocheneinkauf",
+                     "start":  "10:00",
+                     "thema":  "Bordeaux kennenlernen",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "Vormittag - Cathédrale Saint-André, Basilique Saint-Michel",
+                                    "Nachmittag - Place de la Bourse, Rue Sainte-Catherine",
+                                    "17:00 - Wocheneinkauf"
+                                ],
+                     "verbindungen":  "v-bordeaux-zentrum",
+                     "orte":  [
+                                  "place-de-la-bourse",
+                                  "stammbaeckerei"
+                              ],
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep an der Garonne",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-bordeaux-tag",
+                     "checkliste":  "c-tagesrucksack",
+                     "tagesCheckliste":  [
+                                             "Einkaufsliste",
+                                             "Meal Prep",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-22",
+                     "datum":  "2026-07-22",
+                     "tag":  "Mittwoch",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Dune du Pilat · Atlantikwall",
+                     "start":  "10:00",
+                     "thema":  "Düne, Strand, Bunkeranlagen",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "Mittag - Dune du Pilat / Meal Prep",
+                                    "Nachmittag - Strand und Atlantikwall"
+                                ],
+                     "verbindungen":  "v-bordeaux-zentrum",
+                     "orte":  [
+                                  "cathedrale-bordeaux",
+                                  "grosse-cloche"
+                              ],
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep auf der Düne / Strand",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-bordeaux-tag",
+                     "checkliste":  "c-wissenstag",
+                     "tagesCheckliste":  [
+                                             "Sonnencreme",
+                                             "Badesachen",
+                                             "Wasser",
+                                             "Kamera"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-23",
+                     "datum":  "2026-07-23",
+                     "tag":  "Donnerstag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Arcachon",
+                     "start":  "10:00",
+                     "thema":  "Hafen, Kirche, Strand",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "Vormittag - Hafen und Basilique Notre-Dame d\u0027Arcachon",
+                                    "Nachmittag - Strand, Shopping, Eis"
+                                ],
+                     "verbindungen":  "v-bordeaux-zentrum",
+                     "orte":  "marche-capucins",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep an der Promenade",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-bordeaux-tag",
+                     "checkliste":  "c-freier-tag",
+                     "tagesCheckliste":  [
+                                             "Badesachen",
+                                             "Sonnencreme",
+                                             "Meal Prep",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-24",
+                     "datum":  "2026-07-24",
+                     "tag":  "Freitag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Strandtag Plage Pereire",
+                     "start":  "10:00",
+                     "thema":  "Erholung am Atlantik",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "11:30 - Plage Pereire",
+                                    "Ganztag - Baden, Erholung, Strandspaziergang, Eis"
+                                ],
+                     "verbindungen":  "v-bordeaux-ausflug",
+                     "orte":  "bordeaux-ausflug",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep am Strand",
+                                         "Nachmittag - Eis / Getränke vor Ort"
+                                     ],
+                     "kosten":  "k-ausflug",
+                     "checkliste":  "c-ausflug",
+                     "tagesCheckliste":  [
+                                             "Badesachen",
+                                             "Handtücher",
+                                             "Sonnencreme",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-25",
+                     "datum":  "2026-07-25",
+                     "tag":  "Samstag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Base sous-marine · Bacalan · Shopping",
+                     "start":  "10:00",
+                     "thema":  "Geschichte trifft modernes Bordeaux",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "Vormittag - Base sous-marine",
+                                    "Nachmittag - Bacalan, Shopping"
+                                ],
+                     "verbindungen":  "v-bordeaux-zentrum",
+                     "orte":  "base-sous-marine",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep am Hafen",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-bordeaux-tag",
+                     "checkliste":  "c-wissenstag",
+                     "tagesCheckliste":  [
+                                             "Kamera",
+                                             "Powerbank",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-26",
+                     "datum":  "2026-07-26",
+                     "tag":  "Sonntag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Saint-Émilion",
+                     "start":  "10:00",
+                     "thema":  "Mittelalter, Kirchen, Gassen",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "Vormittag - Monolithische Kirche / Altstadt",
+                                    "Nachmittag - Aussicht, Shopping, Eis"
+                                ],
+                     "verbindungen":  {
+
+                                      },
+                     "orte":  [
+                                  "unterkunft-bordeaux",
+                                  "stammbaeckerei"
+                              ],
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-bordeaux-tag",
+                     "checkliste":  "c-ruhetag",
+                     "tagesCheckliste":  [
+                                             "Bequeme Schuhe",
+                                             "Kamera",
+                                             "Wasser"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-27",
+                     "datum":  "2026-07-27",
+                     "tag":  "Montag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Bordeaux",
+                     "titel":  "Militärgeschichte",
+                     "start":  "10:00",
+                     "thema":  "Base sous-marine \u0026 Bacalan",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:40 - Stammbäckerei",
+                                    "10:00 - Abfahrt",
+                                    "Vormittag - Base sous-marine Außenbereich",
+                                    "Nachmittag - Bacalan, Hafenviertel, optional Bassins des Lumières"
+                                ],
+                     "verbindungen":  "v-bordeaux-zentrum",
+                     "orte":  "place-de-la-bourse",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep im Parc de la Base Sous-Marine",
+                                         "Abend - Unterkunft"
+                                     ],
+                     "kosten":  "k-bordeaux-tag",
+                     "checkliste":  "c-packen",
+                     "tagesCheckliste":  [
+                                             "Kamera",
+                                             "Powerbank",
+                                             "Wasser",
+                                             "Bequeme Schuhe"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-28",
+                     "datum":  "2026-07-28",
+                     "tag":  "Dienstag",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux",
+                     "phase":  "Rueckreise",
+                     "titel":  "Entspannter Abschlusstag",
+                     "start":  "12:00",
+                     "thema":  "Ausschlafen, packen, letzter Stadtbummel",
+                     "ablauf":  [
+                                    "07:00 - Morgenlauf",
+                                    "07:45 - Stammbäckerei",
+                                    "Vormittag - Frühstück, Koffer packen, Wohnung aufräumen",
+                                    "12:00 - Abfahrt",
+                                    "Nachmittag - Letzte Kirche, Stadtbummel, Souvenirs, Eis"
+                                ],
+                     "verbindungen":  "v-rueckreise-vorbereitung",
+                     "orte":  "unterkunft-bordeaux",
+                     "verpflegung":  [
+                                         "Mittag - Meal Prep",
+                                         "Abend - Unterkunft / Reste aufbrauchen"
+                                     ],
+                     "kosten":  "k-rueckreise",
+                     "checkliste":  "c-rueckreise",
+                     "tagesCheckliste":  [
+                                             "Koffer packen",
+                                             "Pässe",
+                                             "Tickets",
+                                             "Ladegeräte"
+                                         ]
+                 },
+                 {
+                     "id":  "2026-07-29",
+                     "datum":  "2026-07-29",
+                     "tag":  "Mittwoch",
+                     "stadt":  "Bordeaux",
+                     "station":  "Bordeaux/Berlin",
+                     "phase":  "Rueckreise",
+                     "titel":  "Heimreise",
+                     "start":  "11:00",
+                     "thema":  "Flug EJU5142",
+                     "ablauf":  [
+                                    "08:00 - Frühstück",
+                                    "09:30 - Wohnung kontrollieren",
+                                    "11:00 - Abfahrt Flughafen",
+                                    "15:30 - Flug EJU5142 Bordeaux → Berlin",
+                                    "Abends - Heimreise nach Rostock"
+                                ],
+                     "verbindungen":  "v-rueckreise",
+                     "orte":  {
+
+                              },
+                     "verpflegung":  [
+                                         "Mittag - Snack am Flughafen",
+                                         "Abend - Unterwegs / Zuhause"
+                                     ],
+                     "kosten":  "k-rueckreise",
+                     "checkliste":  "c-rueckreise",
+                     "tagesCheckliste":  [
+                                             "Pässe",
+                                             "Flugtickets",
+                                             "Zugtickets",
+                                             "Schlüssel",
+                                             "Ladegeräte"
+                                         ]
+                 }
+             ]
+}

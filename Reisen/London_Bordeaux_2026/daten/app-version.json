@@ -1,0 +1,10 @@
+﻿{
+    "appId":  "at-hub-reisemodul",
+    "reiseId":  "London_Bordeaux_2026",
+    "appVersion":  "0.2.0-public",
+    "datenVersion":  "2026-07-05-003-public",
+    "updatedAt":  "2026-07-05",
+    "masterQuelle":  "Reisemappe Sommerurlaub 2026",
+    "offline":  true,
+    "hinweis":  "Public Online-Version fuer GitHub Pages. Keine echten Tickets, Unterkunftscodes, Ausweise oder privaten Dokumente enthalten. Reisemappe bleibt Master-Datenquelle."
+}

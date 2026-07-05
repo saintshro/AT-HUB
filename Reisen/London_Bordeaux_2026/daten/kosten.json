@@ -1,0 +1,14 @@
+{
+  "waehrung": "EUR",
+  "kosten": [
+    { "id": "k-anreise", "titel": "Anreise", "betrag": null, "status": "offen", "notiz": "Flug/Bahn/Transfer aus Reisemappe uebernehmen." },
+    { "id": "k-london-tag", "titel": "London Tagesbudget", "betrag": null, "status": "planen", "notiz": "Transport, Essen, spontane Eintritte." },
+    { "id": "k-ticket-harry-potter", "titel": "Harry Potter Studios", "betrag": null, "status": "Ticket pruefen", "notiz": "Ticketpreis und Zeitfenster ergaenzen." },
+    { "id": "k-ticket-windsor", "titel": "Windsor Castle", "betrag": null, "status": "Ticket pruefen", "notiz": "Ticketpreis ergaenzen." },
+    { "id": "k-ticket-bruno", "titel": "Bruno Mars", "betrag": null, "status": "Ticket pruefen", "notiz": "Ticketpreis und Zusatzkosten ergaenzen." },
+    { "id": "k-wechsel", "titel": "Wechsel London - Bordeaux", "betrag": null, "status": "offen", "notiz": "Transfer und Reiseverpflegung." },
+    { "id": "k-bordeaux-tag", "titel": "Bordeaux Tagesbudget", "betrag": null, "status": "planen", "notiz": "Transport, Essen, spontane Eintritte." },
+    { "id": "k-ausflug", "titel": "Ausflug Bordeaux", "betrag": null, "status": "offen", "notiz": "Ziel und Kosten spaeter." },
+    { "id": "k-rueckreise", "titel": "Rueckreise", "betrag": null, "status": "offen", "notiz": "Rueckflug/Bahn/Transfer aus Reisemappe." }
+  ]
+}

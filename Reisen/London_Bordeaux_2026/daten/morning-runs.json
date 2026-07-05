@@ -1,0 +1,24 @@
+{
+  "morningRuns": [
+    {
+      "unterkunft": "unterkunft-london",
+      "stadt": "London",
+      "strecken": [
+        { "distanzKm": 3, "titel": "London 3 km locker", "route": "Unterkunft - naher Park / Blockrunde - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=running+route+London" },
+        { "distanzKm": 5, "titel": "London 5 km Standard", "route": "Unterkunft - Park / Fluss - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=5k+running+route+London" },
+        { "distanzKm": 7, "titel": "London 7 km erweitert", "route": "Unterkunft - groessere Parkrunde - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=7k+running+route+London" },
+        { "distanzKm": 10, "titel": "London 10 km lang", "route": "Unterkunft - Park / Themse - Unterkunft", "maps": "https://www.google.com/maps/search/?api=1&query=10k+running+route+London" }
+      ]
+    },
+    {
+      "unterkunft": "unterkunft-bordeaux",
+      "stadt": "Bordeaux",
+      "strecken": [
+        { "distanzKm": 3, "titel": "Bordeaux 3 km locker", "route": "Unterkunft - kurze Stadt-/Flussrunde - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=running+route+Bordeaux" },
+        { "distanzKm": 5, "titel": "Bordeaux 5 km Standard", "route": "Unterkunft - Garonne / Zentrum - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=5k+running+route+Bordeaux" },
+        { "distanzKm": 7, "titel": "Bordeaux 7 km erweitert", "route": "Unterkunft - Garonne - Bruecke / Stadt - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=7k+running+route+Bordeaux" },
+        { "distanzKm": 10, "titel": "Bordeaux 10 km lang", "route": "Unterkunft - Garonne lange Runde - Unterkunft", "ueberStammbaeckerei": true, "maps": "https://www.google.com/maps/search/?api=1&query=10k+running+route+Bordeaux" }
+      ]
+    }
+  ]
+}

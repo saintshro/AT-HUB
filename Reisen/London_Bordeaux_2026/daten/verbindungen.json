@@ -1,0 +1,124 @@
+{
+  "verbindungen": [
+    {
+      "id": "v-anreise-london",
+      "von": "Start / Flughafen",
+      "nach": "Unterkunft London",
+      "verkehrsmittel": "Flug / Bahn / Underground",
+      "linie": "aus Reisemappe ergaenzen",
+      "richtung": "London",
+      "umstieg": "nach Ticketdaten pruefen",
+      "ausstieg": "naechste Station Unterkunft",
+      "fussweg": "aus Google Maps pruefen",
+      "updateHinweis": "Fahrzeiten 24 Stunden vorher aktualisieren."
+    },
+    {
+      "id": "v-london-zentrum",
+      "von": "Unterkunft London",
+      "nach": "London Zentrum",
+      "verkehrsmittel": "Underground / Bus",
+      "linie": "vor Ort pruefen",
+      "richtung": "Central London",
+      "umstieg": "optional",
+      "ausstieg": "Westminster / Zielstation",
+      "fussweg": "5-15 Minuten je Ziel",
+      "updateHinweis": "TfL Live Status am Reisetag pruefen."
+    },
+    {
+      "id": "v-harry-potter",
+      "von": "Unterkunft London",
+      "nach": "Harry Potter Studios",
+      "verkehrsmittel": "Bahn / Shuttle",
+      "linie": "London Euston - Watford Junction / Shuttle",
+      "richtung": "Watford Junction",
+      "umstieg": "Shuttle Bus Studios",
+      "ausstieg": "Warner Bros. Studio Tour",
+      "fussweg": "kurzer Fussweg nach Shuttle",
+      "updateHinweis": "Einlasszeit, Shuttle und Zugzeiten aktualisieren."
+    },
+    {
+      "id": "v-windsor",
+      "von": "London",
+      "nach": "Windsor Castle",
+      "verkehrsmittel": "Bahn",
+      "linie": "London Paddington / Waterloo nach Windsor",
+      "richtung": "Windsor",
+      "umstieg": "moeglich in Slough",
+      "ausstieg": "Windsor & Eton Central / Riverside",
+      "fussweg": "ca. 5-15 Minuten",
+      "updateHinweis": "Zugzeiten und Eintrittsfenster am Vorabend pruefen."
+    },
+    {
+      "id": "v-bruno-mars",
+      "von": "Unterkunft London",
+      "nach": "Bruno Mars Venue",
+      "verkehrsmittel": "Underground / Bahn",
+      "linie": "nach Venue ergaenzen",
+      "richtung": "Event Venue",
+      "umstieg": "nach Tageslage",
+      "ausstieg": "naechste Venue-Station",
+      "fussweg": "aus Google Maps pruefen",
+      "updateHinweis": "Rueckfahrt nach Konzert vorab sichern."
+    },
+    {
+      "id": "v-london-bordeaux",
+      "von": "London",
+      "nach": "Bordeaux",
+      "verkehrsmittel": "Flug / Bahn",
+      "linie": "aus Reisemappe ergaenzen",
+      "richtung": "Bordeaux",
+      "umstieg": "nach Ticketdaten pruefen",
+      "ausstieg": "Unterkunft Bordeaux",
+      "fussweg": "Transfer zur Unterkunft pruefen",
+      "updateHinweis": "Flug-/Bahnzeiten, Gepaeck und Transfer aktualisieren."
+    },
+    {
+      "id": "v-bordeaux-zentrum",
+      "von": "Unterkunft Bordeaux",
+      "nach": "Bordeaux Zentrum",
+      "verkehrsmittel": "Tram / Bus / Fussweg",
+      "linie": "TBM Linie ergaenzen",
+      "richtung": "Centre-ville",
+      "umstieg": "optional",
+      "ausstieg": "Place de la Bourse / Ziel",
+      "fussweg": "5-20 Minuten je Ziel",
+      "updateHinweis": "TBM Fahrzeiten und Tarife am Reisetag pruefen."
+    },
+    {
+      "id": "v-bordeaux-ausflug",
+      "von": "Bordeaux",
+      "nach": "Ausflugsziel",
+      "verkehrsmittel": "Bahn / Bus / Mietwagen",
+      "linie": "spaeter festlegen",
+      "richtung": "Ausflugsziel",
+      "umstieg": "offen",
+      "ausstieg": "offen",
+      "fussweg": "offen",
+      "updateHinweis": "Ziel, Fahrzeiten und Kosten nach Reisemappe ergaenzen."
+    },
+    {
+      "id": "v-rueckreise-vorbereitung",
+      "von": "Unterkunft Bordeaux",
+      "nach": "Rueckreise-Startpunkt",
+      "verkehrsmittel": "Tram / Bus / Taxi",
+      "linie": "spaeter ergaenzen",
+      "richtung": "Flughafen / Bahnhof",
+      "umstieg": "offen",
+      "ausstieg": "offen",
+      "fussweg": "offen",
+      "updateHinweis": "Rueckreise am Vorabend komplett pruefen."
+    },
+    {
+      "id": "v-rueckreise",
+      "von": "Bordeaux",
+      "nach": "Zuhause",
+      "verkehrsmittel": "Flug / Bahn",
+      "linie": "aus Reisemappe ergaenzen",
+      "richtung": "Rueckreise",
+      "umstieg": "nach Ticketdaten pruefen",
+      "ausstieg": "Ziel",
+      "fussweg": "nach Bedarf",
+      "updateHinweis": "Check-in, Gate, Gleis und Verspaetungen pruefen."
+    }
+  ]
+}
