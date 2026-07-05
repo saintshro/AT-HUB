@@ -7,6 +7,7 @@
   checklists: '../daten/checklisten.json',
   runs: '../daten/morning-runs.json',
   live: '../daten/live-pruefen.json',
+  knowledge: '../daten/wissen.json',
   updates: '../daten/updates.json'
 };
 
@@ -375,22 +376,30 @@ function renderPlaces(){
 }
 
 function renderKnowledge(){
-  const topics = [
-    ['Kircheninformationen', 'Historische Kirchen, Kathedralen, Baustile und Besuchsnotizen.'],
-    ['Bunkerinformationen', 'Bunker, Schutzraeume, War Rooms und Bordeaux Base Sous-Marine.'],
-    ['Militaergeschichte', 'Hintergrundtexte, Karten, Zeitleisten und eigene Notizen.'],
-    ['Bilder', 'Eigene Fotos und spaetere Bildgalerien.'],
-    ['Videos', 'Links und eigene Clips spaeter.'],
-    ['Notizen', 'Reisegedanken, Beobachtungen und Erinnerungen.']
-  ];
+  const entries = state.data.knowledge.wissen || [];
 
   qs('#knowledge').innerHTML = `
     <section class="panel">
       <h2>Wissensebene</h2>
-      <p>Diese Inhalte gehoeren nicht in die Druckmappe, aber in die App.</p>
+      <p>Hintergrundinformationen zu Sehenswuerdigkeiten, Kirchen, Bunkern und Geschichte. Diese Ebene ergaenzt die Reisemappe.</p>
     </section>
-    <section class="grid three">
-      ${topics.map(([title, text]) => `<article class="card"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(text)}</p><span class="badge warn">vorbereitet</span></article>`).join('')}
+    <section class="grid">
+      ${entries.map(item => `
+        <article class="card">
+          <h3>${escapeHtml(item.titel)}</h3>
+          <div class="meta-row">
+            <span class="badge">${escapeHtml(item.stadt)}</span>
+            <span class="badge muted">${escapeHtml(item.kategorie)}</span>
+          </div>
+          <p>${escapeHtml(item.kurz)}</p>
+          ${detailList('Hintergrund', item.hintergrund)}
+          ${detailList('Vor Ort beachten', item.vorOrt)}
+          <div class="actions">
+            <a class="button-link" target="_blank" rel="noopener" href="${escapeHtml(item.maps)}">Maps</a>
+            ${toArray(item.links).map(link => `<a class="button-link compact" target="_blank" rel="noopener" href="${escapeHtml(link.url)}">${escapeHtml(link.titel)}</a>`).join('')}
+          </div>
+        </article>
+      `).join('')}
     </section>
   `;
 }

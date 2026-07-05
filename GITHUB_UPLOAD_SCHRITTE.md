@@ -13,7 +13,7 @@ Die Reise-App soll ohne laufenden PC erreichbar sein:
 3. In den Dateibereich gehen.
 4. Den Inhalt dieses Ordners hochladen:
 
-   `outputs/AT_HUB_Reiseapp_Public_0_3_2026-07-05`
+   `outputs/AT_HUB_Reiseapp_Public_0_4_2026-07-05`
 
 5. Wichtig: Nicht den Ordner selbst hochladen, sondern dessen Inhalt:
 
@@ -24,7 +24,7 @@ Die Reise-App soll ohne laufenden PC erreichbar sein:
 
 6. Commit-Nachricht:
 
-   `AT HUB Reise-App Public 0.3.0`
+   `AT HUB Reise-App Public 0.4.0`
 
 7. GitHub Pages pruefen:
 

@@ -1,0 +1,258 @@
+{
+  "wissen": [
+    {
+      "id": "docklands-canary-wharf-greenwich",
+      "titel": "Docklands, Canary Wharf und Greenwich",
+      "stadt": "London",
+      "kategorie": "Stadtentwicklung",
+      "kurz": "Die Docklands zeigen den Wandel Londons vom Hafen- und Industriegebiet zum modernen Finanz- und Wohnviertel.",
+      "hintergrund": [
+        "Canary Wharf steht fuer den Umbau alter Hafenflaechen zu einem Hochhaus- und Bankenviertel.",
+        "Greenwich verbindet maritime Geschichte, Parklandschaft und den Nullmeridian.",
+        "Die Fahrt per Cable Car oder Boot macht die alte Hafenstruktur und die neue Skyline gut sichtbar."
+      ],
+      "vorOrt": [
+        "Auf Kontraste achten: Docks, moderne Tuerme, alte Speicher, Themse.",
+        "Greenwich Park eignet sich gut fuer Pause und Meal Prep."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Greenwich+Park+London",
+      "links": [
+        { "titel": "Greenwich Park", "url": "https://www.google.com/maps/search/?api=1&query=Greenwich+Park+London" },
+        { "titel": "Canary Wharf", "url": "https://www.google.com/maps/search/?api=1&query=Canary+Wharf+London" }
+      ]
+    },
+    {
+      "id": "harry-potter-studios",
+      "titel": "Warner Bros. Studio Tour London",
+      "stadt": "London",
+      "kategorie": "Film / Ticket",
+      "kurz": "Die Studio Tour zeigt Kulissen, Requisiten, Kostueme und Effekte aus der Harry-Potter-Filmreihe.",
+      "hintergrund": [
+        "Der Besuch ist weniger Freizeitpark und mehr Filmstudio-Ausstellung.",
+        "Interessant sind besonders Kulissenbau, Spezialeffekte, Modellbau und Kostuemdetails.",
+        "Die Anreise laeuft typischerweise ueber Watford Junction und Shuttle."
+      ],
+      "vorOrt": [
+        "Einlasszeit und Shuttle vorher live pruefen.",
+        "Powerbank und Ticket griffbereit halten."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London",
+      "links": [
+        { "titel": "Maps", "url": "https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London" },
+        { "titel": "National Rail", "url": "https://www.nationalrail.co.uk/" }
+      ]
+    },
+    {
+      "id": "brighton",
+      "titel": "Brighton Pier, The Lanes und Royal Pavilion",
+      "stadt": "Brighton",
+      "kategorie": "Kuestentag",
+      "kurz": "Brighton verbindet Seebad, Pier-Kultur, enge Altstadtgassen und den auffaelligen Royal Pavilion.",
+      "hintergrund": [
+        "Brighton wurde als Seebad und Ausflugsziel von London aus bekannt.",
+        "The Lanes sind ein dichter Bereich aus kleinen Gassen, Laeden und Cafes.",
+        "Der Royal Pavilion wirkt wegen seiner orientalisierenden Architektur bewusst anders als klassische britische Residenzen."
+      ],
+      "vorOrt": [
+        "Wind und Wetter am Meer einplanen.",
+        "Strand, Pier und Gassen lassen sich gut als flexible Runde verbinden."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Brighton+Palace+Pier",
+      "links": [
+        { "titel": "Brighton Palace Pier", "url": "https://www.google.com/maps/search/?api=1&query=Brighton+Palace+Pier" },
+        { "titel": "The Lanes", "url": "https://www.google.com/maps/search/?api=1&query=The+Lanes+Brighton" },
+        { "titel": "Royal Pavilion", "url": "https://www.google.com/maps/search/?api=1&query=Royal+Pavilion+Brighton" }
+      ]
+    },
+    {
+      "id": "st-dunstan-leadenhall-horizon",
+      "titel": "St. Dunstan, Leadenhall Market und Skyline",
+      "stadt": "London",
+      "kategorie": "Geschichte / Skyline",
+      "kurz": "Der City-Tag zeigt London als Mischung aus Kriegsruinen, viktorianischer Markthalle und moderner Skyline.",
+      "hintergrund": [
+        "St. Dunstan in the East ist eine Kirchenruine, die nach Kriegsschaeden als Garten erhalten blieb.",
+        "Leadenhall Market steht fuer historische Marktarchitektur mitten in der City.",
+        "Aussichtspunkte wie Horizon 22 zeigen die Dichte der modernen Londoner Hochhauslandschaft."
+      ],
+      "vorOrt": [
+        "Guter Fototag: Kamera und Powerbank mitnehmen.",
+        "City-Routen sind dicht, Pausen bewusst einplanen."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=St+Dunstan+in+the+East+London",
+      "links": [
+        { "titel": "St. Dunstan in the East", "url": "https://www.google.com/maps/search/?api=1&query=St+Dunstan+in+the+East+London" },
+        { "titel": "Leadenhall Market", "url": "https://www.google.com/maps/search/?api=1&query=Leadenhall+Market+London" },
+        { "titel": "Horizon 22", "url": "https://www.google.com/maps/search/?api=1&query=Horizon+22+London" }
+      ]
+    },
+    {
+      "id": "windsor-castle",
+      "titel": "Windsor Castle und Eton",
+      "stadt": "Windsor",
+      "kategorie": "Schloss / Geschichte",
+      "kurz": "Windsor Castle ist eine der bedeutenden koeniglichen Residenzen und laesst sich gut mit Eton verbinden.",
+      "hintergrund": [
+        "Die Burganlage steht fuer Monarchie, Verteidigung, Repraesentation und Stadtentwicklung.",
+        "Eton liegt direkt gegenueber und bildet einen ruhigen Kontrast zur Schlossanlage.",
+        "Der Tag ist ticket- und zeitfensterabhaengig."
+      ],
+      "vorOrt": [
+        "Ticket und Einlasszeit vorher pruefen.",
+        "Rueckfahrt und Konzertabend zusammen denken."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Windsor+Castle",
+      "links": [
+        { "titel": "Windsor Castle", "url": "https://www.google.com/maps/search/?api=1&query=Windsor+Castle" },
+        { "titel": "Eton", "url": "https://www.google.com/maps/search/?api=1&query=Eton+Windsor" }
+      ]
+    },
+    {
+      "id": "churchill-war-rooms",
+      "titel": "Churchill War Rooms",
+      "stadt": "London",
+      "kategorie": "Bunker / Militärgeschichte",
+      "kurz": "Die War Rooms zeigen den unterirdischen Arbeits- und Fuehrungsbereich der britischen Regierung im Zweiten Weltkrieg.",
+      "hintergrund": [
+        "Der Ort macht sichtbar, wie Krieg, Politik, Kommunikation und Schutzraeume zusammenhaengen.",
+        "Besonders interessant sind Lagekarten, Arbeitsraeume und die Enge der unterirdischen Infrastruktur.",
+        "Der Besuch passt gut zur Wissensebene Bunker und Militärgeschichte."
+      ],
+      "vorOrt": [
+        "Zeitfenster, Eintritt und Wartezeit pruefen.",
+        "Guter Vergleichspunkt zur Base sous-marine in Bordeaux."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Churchill+War+Rooms+London",
+      "links": [
+        { "titel": "Maps", "url": "https://www.google.com/maps/search/?api=1&query=Churchill+War+Rooms+London" }
+      ]
+    },
+    {
+      "id": "bordeaux-altstadt",
+      "titel": "Bordeaux Altstadt, Place de la Bourse und Grosse Cloche",
+      "stadt": "Bordeaux",
+      "kategorie": "Altstadt",
+      "kurz": "Die Altstadt von Bordeaux verbindet Flussraum, Handel, repraesentative Plaetze und mittelalterliche Stadtreste.",
+      "hintergrund": [
+        "Place de la Bourse ist einer der bekanntesten Stadtraeume an der Garonne.",
+        "Die Grosse Cloche erinnert an mittelalterliche Stadtbefestigung und Stadtrechte.",
+        "Rue Sainte-Catherine und die Uferbereiche sind gute Orientierungsachsen."
+      ],
+      "vorOrt": [
+        "Gut fuer ersten Bordeaux-Tag und Fotos.",
+        "Meal Prep an der Garonne einplanen."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Place+de+la+Bourse+Bordeaux",
+      "links": [
+        { "titel": "Place de la Bourse", "url": "https://www.google.com/maps/search/?api=1&query=Place+de+la+Bourse+Bordeaux" },
+        { "titel": "Grosse Cloche", "url": "https://www.google.com/maps/search/?api=1&query=Grosse+Cloche+Bordeaux" }
+      ]
+    },
+    {
+      "id": "cathedrale-saint-andre",
+      "titel": "Cathedrale Saint-Andre und Pey Berland",
+      "stadt": "Bordeaux",
+      "kategorie": "Kirche",
+      "kurz": "Die Kathedrale Saint-Andre ist ein zentraler Kirchenbau in Bordeaux und ein guter Einstieg in die Stadtgeschichte.",
+      "hintergrund": [
+        "Der Platz Pey Berland verbindet Kathedrale, Turm und Rathausumfeld.",
+        "Interessant sind Massstab, Portale, Turmstellung und die Rolle der Kirche im Stadtraum.",
+        "Der Ort passt zur Wissensebene Kircheninformationen."
+      ],
+      "vorOrt": [
+        "Oeffnungszeiten vor Ort pruefen.",
+        "Gut mit Altstadt und Place de la Bourse kombinierbar."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Cathedrale+Saint+Andre+Bordeaux",
+      "links": [
+        { "titel": "Cathedrale Saint-Andre", "url": "https://www.google.com/maps/search/?api=1&query=Cathedrale+Saint+Andre+Bordeaux" },
+        { "titel": "Tour Pey Berland", "url": "https://www.google.com/maps/search/?api=1&query=Tour+Pey+Berland+Bordeaux" }
+      ]
+    },
+    {
+      "id": "dune-du-pilat-atlantikwall",
+      "titel": "Dune du Pilat und Atlantikwall",
+      "stadt": "Arcachon / Atlantik",
+      "kategorie": "Natur / Bunker",
+      "kurz": "Die Dune du Pilat verbindet Landschaftserlebnis mit Spuren der Atlantikwall-Geschichte.",
+      "hintergrund": [
+        "Die Duene ist eine markante Sandlandschaft an der Atlantikkueste.",
+        "In der Region finden sich Relikte von Bunkeranlagen des Atlantikwalls.",
+        "Der Ort eignet sich, um Naturraum, Kueste und Militaergeschichte zusammen zu betrachten."
+      ],
+      "vorOrt": [
+        "Sonnencreme, Wasser und bequeme Schuhe einplanen.",
+        "Bunkerspuren nur sicher und zugaenglich betrachten."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Dune+du+Pilat",
+      "links": [
+        { "titel": "Dune du Pilat", "url": "https://www.google.com/maps/search/?api=1&query=Dune+du+Pilat" },
+        { "titel": "Atlantikwall Arcachon", "url": "https://www.google.com/maps/search/?api=1&query=Atlantikwall+Arcachon+Bunker" }
+      ]
+    },
+    {
+      "id": "arcachon",
+      "titel": "Arcachon, Hafen und Strand",
+      "stadt": "Arcachon",
+      "kategorie": "Ausflug / Strand",
+      "kurz": "Arcachon ist ein Kuestenort mit Hafen, Strandpromenade und guter Verbindung aus Bordeaux.",
+      "hintergrund": [
+        "Der Ort ist ein klassischer Ausflug an die Atlantikkueste.",
+        "Hafen, Strand und Kirche lassen sich flexibel verbinden.",
+        "Der Tag ist wetterabhaengig und gut fuer einen ruhigeren Rhythmus."
+      ],
+      "vorOrt": [
+        "Badesachen und Sonnencreme einpacken.",
+        "Rueckfahrt vorher live pruefen."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Arcachon",
+      "links": [
+        { "titel": "Arcachon", "url": "https://www.google.com/maps/search/?api=1&query=Arcachon" },
+        { "titel": "Plage Pereire", "url": "https://www.google.com/maps/search/?api=1&query=Plage+Pereire+Arcachon" }
+      ]
+    },
+    {
+      "id": "base-sous-marine",
+      "titel": "Base sous-marine Bordeaux",
+      "stadt": "Bordeaux",
+      "kategorie": "Bunker / Militärgeschichte",
+      "kurz": "Die Base sous-marine ist ein massiver ehemaliger U-Boot-Bunker und heute ein Ort fuer Geschichte und Kultur.",
+      "hintergrund": [
+        "Der Bau steht fuer die militaerische Nutzung des Hafengebiets im Zweiten Weltkrieg.",
+        "Die Architektur zeigt extreme Materialitaet: Beton, Schutz, Wasserbecken und industrielle Dimension.",
+        "Heute wird der Ort auch kulturell genutzt und ist ein starker Kontrast zur Altstadt."
+      ],
+      "vorOrt": [
+        "Aussenbereich und Umfeld Bacalan bewusst ansehen.",
+        "Guter Vergleich zu den Churchill War Rooms: unterirdische Fuehrung versus Hafenbunker."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Base+Sous+Marine+Bordeaux",
+      "links": [
+        { "titel": "Base sous-marine", "url": "https://www.google.com/maps/search/?api=1&query=Base+Sous+Marine+Bordeaux" },
+        { "titel": "Bassins des Lumieres", "url": "https://www.google.com/maps/search/?api=1&query=Bassins+des+Lumieres+Bordeaux" },
+        { "titel": "Bacalan", "url": "https://www.google.com/maps/search/?api=1&query=Bacalan+Bordeaux" }
+      ]
+    },
+    {
+      "id": "saint-emilion",
+      "titel": "Saint-Emilion",
+      "stadt": "Saint-Emilion",
+      "kategorie": "Mittelalter / Kirche",
+      "kurz": "Saint-Emilion ist ein historischer Ort mit engen Gassen, Kirchenbezug und Aussichtspunkten.",
+      "hintergrund": [
+        "Der Ort eignet sich fuer einen langsameren Tag mit Gassen, Steinen, Kirche und Aussicht.",
+        "Die monolithische Kirche ist besonders interessant, wenn sie besichtigt werden kann.",
+        "Bequeme Schuhe sind sinnvoll, weil viele Wege uneben oder steiler sind."
+      ],
+      "vorOrt": [
+        "Zug-/Rueckfahrt vorher pruefen.",
+        "Wasser, Kamera und Schuhe einplanen."
+      ],
+      "maps": "https://www.google.com/maps/search/?api=1&query=Saint-Emilion",
+      "links": [
+        { "titel": "Saint-Emilion", "url": "https://www.google.com/maps/search/?api=1&query=Saint-Emilion" },
+        { "titel": "Monolithic Church", "url": "https://www.google.com/maps/search/?api=1&query=Monolithic+Church+Saint-Emilion" }
+      ]
+    }
+  ]
+}

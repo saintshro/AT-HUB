@@ -1,4 +1,4 @@
-const CACHE_NAME = 'at-hub-reisemodul-v004';
+const CACHE_NAME = 'at-hub-reisemodul-v005';
 
 const STATIC_ASSETS = [
   './index.html',
@@ -15,6 +15,7 @@ const STATIC_ASSETS = [
   '../daten/checklisten.json',
   '../daten/morning-runs.json',
   '../daten/live-pruefen.json',
+  '../daten/wissen.json',
   '../daten/updates.json'
 ];
 

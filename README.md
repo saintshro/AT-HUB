@@ -1,4 +1,4 @@
-# AT HUB Reisen - Public Online-Version 0.3.0
+# AT HUB Reisen - Public Online-Version 0.4.0
 
 Diese Version ist fuer GitHub Pages vorbereitet.
 
@@ -9,6 +9,7 @@ Diese Version ist fuer GitHub Pages vorbereitet.
 - Reisedaten unter `Reisen/London_Bordeaux_2026/daten/`
 - Live-pruefen-Links fuer Flugstatus, London, Bordeaux und Wetter
 - Morning-Run-Strecken mit Google-Maps-Routen
+- Wissensebene mit Hintergrundinfos zu Sehenswuerdigkeiten, Kirchen, Bunkern und Militaergeschichte
 
 ## Datenschutz
 
