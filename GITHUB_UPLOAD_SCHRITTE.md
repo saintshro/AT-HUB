@@ -13,7 +13,7 @@ Die Reise-App soll ohne laufenden PC erreichbar sein:
 3. In den Dateibereich gehen.
 4. Den Inhalt dieses Ordners hochladen:
 
-   `outputs/AT_HUB_Reiseapp_Public_0_4_2026-07-05`
+   `outputs/AT_HUB_Reiseapp_Public_0_4_CACHEFIX_2026-07-05`
 
 5. Wichtig: Nicht den Ordner selbst hochladen, sondern dessen Inhalt:
 
@@ -52,7 +52,7 @@ Start:
 
 Direkt zur Reise-App:
 
-`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app/`
+`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app-v4/`
 
 ## Datenschutz
 

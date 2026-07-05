@@ -5,7 +5,7 @@ Diese Version ist fuer GitHub Pages vorbereitet.
 ## Inhalt
 
 - Startseite `index.html`
-- Reise-App unter `Reisen/London_Bordeaux_2026/app/`
+- Reise-App unter `Reisen/London_Bordeaux_2026/app-v4/`
 - Reisedaten unter `Reisen/London_Bordeaux_2026/daten/`
 - Live-pruefen-Links fuer Flugstatus, London, Bordeaux und Wetter
 - Morning-Run-Strecken mit Google-Maps-Routen
@@ -27,4 +27,4 @@ Startlink:
 
 Direktlink zur Reise-App:
 
-`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app/`
+`https://saintshro.github.io/AT-HUB/Reisen/London_Bordeaux_2026/app-v4/`
