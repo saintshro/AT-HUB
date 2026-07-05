@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AT HUB</title>
+<title>AT HUB | Public</title>
 <style>
 :root{
   --bg:#f4f6f8;
@@ -13,7 +13,6 @@
   --muted:#667085;
   --line:#d8dee8;
   --brand:#b00020;
-  --brand-dark:#860018;
   --work:#126a43;
   --blue:#245ea8;
   --amber:#a35d00;
@@ -25,20 +24,22 @@
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:linear-gradient(135deg,#ffffff 0,var(--bg) 46%,#eef1f5 100%);
+  background:linear-gradient(135deg,#fff 0,var(--bg) 48%,#eef1f5 100%);
   color:var(--ink);
 }
 
 header{
   background:linear-gradient(135deg,#070707,#18181b);
-  color:white;
-  padding:22px 28px;
+  color:#fff;
   border-bottom:5px solid var(--brand);
+  padding:22px 28px;
   display:grid;
   grid-template-columns:1fr auto;
   gap:18px;
   align-items:center;
 }
+
+h1,h2,h3,p{margin-top:0}
 
 .brand h1{
   margin:0;
@@ -56,7 +57,6 @@ header{
   flex-wrap:wrap;
   justify-content:flex-end;
   gap:8px;
-  text-align:right;
   color:#e7eaf0;
   font-size:14px;
 }
@@ -80,8 +80,7 @@ nav{
   overflow-x:auto;
 }
 
-button,
-.button-link{
+button,.button-link{
   border:1px solid transparent;
   border-radius:8px;
   min-height:40px;
@@ -98,11 +97,9 @@ button,
   white-space:nowrap;
 }
 
-button:hover,
-button.active,
-.button-link:hover{
+button:hover,button.active,.button-link:hover{
   background:var(--brand);
-  color:white;
+  color:#fff;
 }
 
 main{
@@ -112,15 +109,7 @@ main{
 }
 
 .view{display:none}
-.view.active{
-  display:block;
-  animation:fadeIn .2s ease-out;
-}
-
-#dashboard:not(.privacy-ready) > .grid,
-#dashboard:not(.privacy-ready) > .workspace{
-  display:none;
-}
+.view.active{display:block}
 
 .panel{
   background:var(--panel);
@@ -131,20 +120,14 @@ main{
   margin-bottom:16px;
 }
 
-.panel h2,
-.panel h3{
-  margin:0 0 8px;
-}
-
 .panel p{
-  margin:0;
   color:var(--muted);
   line-height:1.45;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(235px,1fr));
   gap:14px;
 }
 
@@ -154,326 +137,23 @@ main{
   border-left:6px solid var(--brand);
   border-radius:8px;
   padding:16px;
-  min-height:158px;
+  min-height:160px;
   box-shadow:var(--shadow);
   display:flex;
   flex-direction:column;
   justify-content:space-between;
   gap:12px;
-  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
-}
-
-.tile:hover{
-  transform:translateY(-2px);
-  border-color:rgba(176,0,32,.28);
-  box-shadow:0 14px 34px rgba(17,24,39,.12);
 }
 
 .tile.work{border-left-color:var(--work)}
 .tile.info{border-left-color:var(--blue)}
 .tile.warn{border-left-color:var(--amber)}
 
-.tile h3{
-  margin:0;
-  font-size:18px;
-}
-
-.tile p{
-  margin:6px 0 0;
-  color:var(--muted);
-  line-height:1.4;
-}
-
 .actions{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
   margin-top:12px;
-}
-
-.workspace{
-  margin-top:18px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:8px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-
-.tabs{
-  display:flex;
-  gap:8px;
-  padding:10px;
-  background:#101318;
-  overflow-x:auto;
-}
-
-.tabs button{
-  background:#2a303a;
-  color:white;
-}
-
-.tabs button.active{
-  background:var(--brand);
-}
-
-.tab-content{display:none}
-.tab-content.active{display:block}
-
-.section-tabs{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:10px;
-  margin-bottom:16px;
-  border:1px solid var(--line);
-  border-radius:8px;
-  background:var(--panel);
-}
-
-.section-tabs button.active{
-  background:var(--brand);
-  color:white;
-}
-
-.private-tab-content{display:none}
-.private-tab-content.active{display:block}
-
-iframe{
-  width:100%;
-  height:680px;
-  border:0;
-  display:block;
-  background:white;
-}
-
-.form{
-  display:none;
-  padding:16px;
-  border-bottom:1px solid var(--line);
-  background:var(--panel-soft);
-}
-
-.form.active{display:block}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:10px;
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:10px;
-  font:inherit;
-  background:white;
-}
-
-textarea{
-  min-height:82px;
-  resize:vertical;
-}
-
-.list{
-  padding:16px;
-}
-
-.entry{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:12px;
-  align-items:center;
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:12px;
-  margin-bottom:10px;
-  background:white;
-}
-
-.entry strong{display:block}
-.entry span{color:var(--muted);font-size:14px}
-
-.data-list{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:10px;
-  margin-top:12px;
-}
-
-.data-item{
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:12px;
-  background:white;
-}
-
-.data-item h4{
-  margin:0 0 6px;
-}
-
-.data-item p{
-  margin:0 0 10px;
-  color:var(--muted);
-  line-height:1.4;
-}
-
-.employee-summary{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:10px;
-  margin-top:12px;
-}
-
-.summary-box{
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:12px;
-  background:var(--panel-soft);
-}
-
-.summary-box strong{
-  display:block;
-  font-size:24px;
-}
-
-.employee-tools{
-  display:grid;
-  grid-template-columns:minmax(220px,1fr) auto auto;
-  gap:10px;
-  margin-top:14px;
-}
-
-.top-search{
-  position:sticky;
-  top:61px;
-  z-index:9;
-  background:#fff7f8;
-  border-bottom:1px solid #efc8d0;
-  padding:12px 14px;
-}
-
-.top-search-inner{
-  width:min(1400px,100%);
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:auto minmax(240px,1fr) auto;
-  gap:10px;
-  align-items:center;
-}
-
-.top-search strong{
-  color:var(--brand);
-}
-
-.top-search-results{
-  width:min(1400px,100%);
-  margin:10px auto 0;
-}
-
-.employee-list{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:10px;
-  margin-top:14px;
-}
-
-.employee-card{
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:12px;
-  background:white;
-}
-
-.employee-card h4{
-  margin:0 0 6px;
-}
-
-.employee-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin:8px 0;
-}
-
-.contact-details{
-  display:grid;
-  gap:6px;
-  margin:10px 0;
-}
-
-.personnel-details{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:8px;
-  margin:10px 0;
-}
-
-.detail-box{
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:8px 10px;
-  background:var(--panel-soft);
-  min-height:58px;
-}
-
-.detail-box span{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:4px;
-}
-
-.detail-box strong{
-  display:block;
-  font-size:14px;
-  line-height:1.25;
-  overflow-wrap:anywhere;
-}
-
-.contact-line{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:8px 10px;
-  background:var(--panel-soft);
-}
-
-.contact-line span{
-  color:var(--muted);
-}
-
-.source-note{
-  font-size:13px;
-  color:var(--muted);
-  line-height:1.35;
-}
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  min-width:980px;
-  border-collapse:collapse;
-}
-
-th{
-  background:#101318;
-  color:white;
-  text-align:left;
-  padding:10px;
-}
-
-td{
-  padding:10px;
-  border-bottom:1px solid var(--line);
 }
 
 .badge{
@@ -492,7 +172,32 @@ td{
 .badge.open{background:#fff3df;color:#8a4b00}
 .badge.lock{background:#f4e8ec;color:#860018}
 .badge.sync{background:#e8f0fb;color:#245ea8}
-.badge.error{background:#fdecec;color:#9b1c1c}
+
+.safe-box{
+  border:1px solid #efc8d0;
+  background:#fff7f8;
+  border-radius:8px;
+  padding:14px;
+  margin-top:12px;
+}
+
+.data-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+
+.data-item{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:12px;
+  background:white;
+}
+
+.data-item p{
+  margin-bottom:10px;
+}
 
 footer{
   text-align:center;
@@ -501,51 +206,11 @@ footer{
   font-size:13px;
 }
 
-@keyframes fadeIn{
-  from{
-    opacity:0;
-    transform:translateY(4px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
 @media(max-width:760px){
-  header{
-    grid-template-columns:1fr;
-  }
-
-  .status{
-    justify-content:flex-start;
-    text-align:left;
-  }
-
-  .employee-tools{
-    grid-template-columns:1fr;
-  }
-
-  .top-search{
-    position:static;
-  }
-
-  .top-search-inner{
-    grid-template-columns:1fr;
-  }
-
-  main{
-    padding:14px;
-  }
-
-  nav button{
-    min-width:150px;
-  }
-
-  iframe{
-    height:600px;
-  }
+  header{grid-template-columns:1fr}
+  .status{justify-content:flex-start}
+  main{padding:14px}
+  nav button{min-width:145px}
 }
 </style>
 </head>
@@ -553,20 +218,20 @@ footer{
 <header>
   <div class="brand">
     <h1>AT HUB</h1>
-    <p>Übersicht schafft Klarheit.</p>
+    <p>Uebersicht schafft Klarheit.</p>
   </div>
   <div class="status">
-    <div id="datum">Datum lädt...</div>
-    <div id="uhrzeit">Uhrzeit lädt...</div>
-    <div id="wetter">Wetter wird geladen...</div>
+    <div id="dateText">Datum laedt...</div>
+    <div id="timeText">Uhrzeit laedt...</div>
+    <div>Public Version</div>
   </div>
 </header>
 
 <nav aria-label="Hauptnavigation">
   <button class="active" data-view="dashboard">Dashboard</button>
-  <button data-view="translogistik">Arbeit</button>
+  <button data-view="arbeit">Arbeit</button>
   <button data-view="privat">Privat</button>
-  <button data-view="projekte">Projekte & Wissen</button>
+  <button data-view="wissen">Projekte & Wissen</button>
   <button data-view="siggi">Siggi KI</button>
   <button data-view="einstellungen">Einstellungen</button>
 </nav>
@@ -575,357 +240,121 @@ footer{
   <section id="dashboard" class="view active">
     <div class="panel">
       <h2 id="greeting">Willkommen, Alex</h2>
-      <p>Dein Startbereich bleibt ruhig. Arbeit, Mitarbeiter, WEBFLEET, Fahrzeuge und Touren erreichst du nur über den Reiter Arbeit.</p>
+      <p>Dein oeffentlicher AT HUB zeigt die Struktur. Private Arbeits-, Mitarbeiter- und Familiendaten bleiben ausschliesslich in der lokalen Version.</p>
+      <div class="safe-box">
+        <strong>GitHub-sicher:</strong> Diese HTML enthaelt keine Telefonnummern, keine Adressen, keine Personalakten und keine privaten lokalen Datendateien.
+      </div>
     </div>
 
     <div class="grid">
       <article class="tile work">
         <div>
-          <h3>Arbeitszeit</h3>
-          <p>Arbeitszeit, Übernachtungen, Meisterschule und Steuerdokumentation lokal erfassen.</p>
+          <h3>Arbeit</h3>
+          <p>Translogistik, Module, Arbeitszeit, Touren und Auswertungen als geschuetzte Struktur.</p>
         </div>
-        <button data-tab="arbeitszeit">Öffnen</button>
+        <button data-view="arbeit">Oeffnen</button>
       </article>
-
       <article class="tile info">
         <div>
-          <h3>Google Kalender</h3>
-          <p>Privater Kalender und Familienkalender gemeinsam ansehen.</p>
+          <h3>Privat</h3>
+          <p>Reisen, Finanzen, Dokumente und private Organisation ohne echte Inhalte.</p>
         </div>
-        <button data-tab="googlekalender">Öffnen</button>
+        <button data-view="privat">Oeffnen</button>
       </article>
-
       <article class="tile">
         <div>
-          <h3>WEBFLEET</h3>
-          <p>Fahrzeuge, Karte und Tourdaten direkt im Arbeitsalltag öffnen.</p>
+          <h3>Projekte & Wissen</h3>
+          <p>Meisterschule, Handbuecher, Prozesse und Wissenssammlung.</p>
         </div>
-        <a class="button-link" target="_blank" rel="noopener" href="https://live-wf.webfleet.com/web/map">WEBFLEET öffnen</a>
+        <button data-view="wissen">Oeffnen</button>
       </article>
-
       <article class="tile warn">
         <div>
-          <h3>AT-HUB Inventar</h3>
-          <p>Aktuelle Übersicht des Datenordners und Vorschlag für die Hub-Struktur.</p>
+          <h3>Siggi KI</h3>
+          <p>Planung, Sortierung und Analyse als spaeteres Modul.</p>
         </div>
-        <a class="button-link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1-mNiD79xpU_2Tbws_DSp3SDicwgQOFNk/view?usp=drivesdk">Inventar öffnen</a>
+        <button data-view="siggi">Oeffnen</button>
       </article>
-
-      <article class="tile info">
-        <div>
-          <h3>Drive-Daten</h3>
-          <p>Privat und Arbeit bleiben getrennt. Die App zeigt nur Links, Status und Uebersichten.</p>
-        </div>
-        <a class="button-link" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1SAWdAKw3loudjoA71GgA8jo3PLBJEKtr">Datenordner öffnen</a>
-      </article>
-    </div>
-
-    <div class="workspace">
-      <div class="tabs">
-        <button class="active" data-tab-button="arbeitszeit">Arbeitszeit</button>
-        <button data-tab-button="googlekalender">Google Kalender</button>
-      </div>
-
-      <div id="arbeitszeit" class="tab-content active">
-        <div class="actions" style="padding:16px 16px 0">
-          <button id="openArbeitszeitForm">Arbeitszeit eintragen</button>
-          <button id="openGoogleTerminForm">Google-Termin erstellen</button>
-          <button id="exportArbeitszeit">Arbeitszeiten exportieren</button>
-          <button id="clearArbeitszeit">Liste leeren</button>
-          <span id="syncStatus" class="badge open">Speicher: lokal</span>
-        </div>
-
-        <div id="arbeitszeitForm" class="form">
-          <div class="form-grid">
-            <input id="azDatum" type="date" aria-label="Datum">
-            <input id="azKommt" type="time" aria-label="Kommt">
-            <input id="azGeht" type="time" aria-label="Geht">
-            <input id="azPause" type="number" min="0" placeholder="Pause in Minuten">
-            <select id="azKategorie" aria-label="Kategorie">
-              <option>Arbeit</option>
-              <option>Urlaub</option>
-              <option>Krank</option>
-              <option>Meisterschule</option>
-              <option>Frei</option>
-              <option>Sonstiges</option>
-            </select>
-            <select id="azUebernachtung" aria-label="Übernachtung">
-              <option>Keine Übernachtung</option>
-              <option>Übernachtung</option>
-            </select>
-            <input id="azOrt" placeholder="Ort / Übernachtungsort">
-            <textarea id="azNotiz" placeholder="Notiz"></textarea>
-          </div>
-          <div class="actions">
-            <button id="saveArbeitszeit">Speichern</button>
-            <button id="closeArbeitszeitForm">Abbrechen</button>
-          </div>
-        </div>
-
-        <div id="googleTerminForm" class="form">
-          <div class="form-grid">
-            <input id="gTitel" placeholder="Titel">
-            <input id="gDatum" type="date" aria-label="Datum">
-            <input id="gStart" type="time" aria-label="Start">
-            <input id="gEnde" type="time" aria-label="Ende">
-            <input id="gOrt" placeholder="Ort">
-            <textarea id="gNotiz" placeholder="Notiz"></textarea>
-          </div>
-          <div class="actions">
-            <button id="createGoogleCalendarLink">In Google Kalender öffnen</button>
-            <button id="closeGoogleTerminForm">Abbrechen</button>
-          </div>
-        </div>
-
-        <div id="arbeitszeitListe" class="list"></div>
-        <iframe title="Arbeitszeitkalender" src="https://docs.google.com/spreadsheets/d/180HaNfZ7Gu9j4Df-ltRO4s3aOEUnmHdk/preview"></iframe>
-      </div>
-
-      <div id="googlekalender" class="tab-content">
-        <div class="panel" style="margin:16px">
-          <h3>Google Kalender</h3>
-          <p>Google Kalender ist die zentrale Datenquelle fuer Termine. Arbeitszeit bleibt ein eigenes Modul und wird nur als Uebersicht im Dashboard verknuepft.</p>
-          <div class="actions">
-            <button id="openGoogleTerminFormFromCalendar">Google-Termin erstellen</button>
-            <a class="button-link" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/u/0/r">Google Kalender öffnen</a>
-          </div>
-        </div>
-        <iframe title="Google Kalender" src="https://calendar.google.com/calendar/embed?src=herrthiel.hro%40gmail.com&ctz=Europe%2FBerlin"></iframe>
-      </div>
     </div>
   </section>
 
-  <section id="translogistik" class="view">
+  <section id="arbeit" class="view">
     <div class="panel">
       <h2>Arbeit</h2>
-      <p>Beruflicher Bereich mit Translogistik, Mitarbeitern, WEBFLEET, BKF, Teams, Fuhrpark, Touren und Auswertungen.</p>
-      <div class="actions">
-        <button data-view-jump="mitarbeiter">Mitarbeiter oeffnen</button>
-        <a class="button-link" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1Kj0GsmvzoaBBKq0Gm-GNd8ULkzsT5ah5">Aktenordner oeffnen</a>
-      </div>
+      <p>Beruflicher Bereich mit Modulen. Echte Mitarbeiterdaten und Arbeitsunterlagen werden nur lokal oder in Google Drive gepflegt.</p>
     </div>
 
-    <div id="workModules" class="grid"></div>
-
-    <div id="workModuleDetail" class="panel" style="margin-top:16px">
-      <h3>Arbeitsmodule</h3>
-      <p>Wähle ein Modul aus. Der AT HUB zeigt dir dann Zweck, Status und den passenden nächsten Schritt.</p>
-    </div>
-
-    <div id="workDriveData" class="panel" style="margin-top:16px"></div>
-
-    <div class="panel" style="margin-top:16px">
-      <h3>Arbeitszeitkalender</h3>
-      <p>Der Arbeitszeitkalender bildet eine zentrale Grundlage des AT HUB. Er verbindet Arbeitszeiten, externe Einsätze, Urlaub, Meisterschule, Übernachtungen und Steuerübersicht.</p>
-      <div class="actions">
-        <a class="button-link" target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/180HaNfZ7Gu9j4Df-ltRO4s3aOEUnmHdk/edit">Arbeitszeitkalender öffnen</a>
-      </div>
-    </div>
-
-    <div class="grid" style="margin-top:14px">
-      <article class="tile work">
-        <div>
-          <h3>Jahresübersicht 2026</h3>
-          <p>Arbeitszeiten, externe Einsätze, Urlaub, Meisterschule, Übernachtungen und Steuerübersicht.</p>
-        </div>
-        <span class="badge ok">Grundlage vorhanden</span>
-      </article>
-
-      <article class="tile info">
-        <div>
-          <h3>Urlaub</h3>
-          <p>Sommerurlaub: 13.07.2026 bis 31.07.2026. Oktoberurlaub folgt.</p>
-        </div>
-        <span class="badge sync">Terminbereich</span>
-      </article>
-
-      <article class="tile warn">
-        <div>
-          <h3>Steuer</h3>
-          <p>Übernachtungen, Frühstück, Auswärtstage und Jahresübersicht als spätere Auswertung.</p>
-        </div>
-        <span class="badge open">Ausbau</span>
-      </article>
-
-      <article class="tile">
-        <div>
-          <h3>Nächste Ausbaustufe</h3>
-          <p>Heute erfassen, Monatsübersicht, Diagramme, GPS-Einsatzorte, Belege fotografieren und Steuerexport.</p>
-        </div>
-        <span class="badge open">geplant</span>
-      </article>
+    <div class="grid">
+      <article class="tile work"><div><h3>Arbeitszeitkalender</h3><p>Arbeitszeit, Urlaub, Meisterschule, Uebernachtungen und Steueruebersicht.</p></div><span class="badge ok">Modul vorhanden</span></article>
+      <article class="tile info"><div><h3>Mitarbeiter</h3><p>Personalakten, Kontaktdaten und Bilddaten sind in der Public-Version gesperrt.</p></div><button data-view="mitarbeiter">Geschuetzten Bereich anzeigen</button></article>
+      <article class="tile"><div><h3>WEBFLEET</h3><p>Externer Dienst fuer Fahrzeuge, Karte und Tourdaten.</p></div><span class="badge sync">externer Dienst</span></article>
+      <article class="tile warn"><div><h3>BKF-Manager</h3><p>Module, Fahrerkarte, Fuehrerschein und Code 95.</p></div><span class="badge open">geplant</span></article>
+      <article class="tile"><div><h3>Fahrzeuge</h3><p>LKW, Sprinter, Kennzeichen, Status und Zuordnung.</p></div><span class="badge open">Drive bleibt Quelle</span></article>
+      <article class="tile"><div><h3>Tourenplanung</h3><p>Planzeiten, Fahrzeiten, Montagezeiten und Belastung.</p></div><span class="badge open">Quelle geschuetzt</span></article>
     </div>
   </section>
 
   <section id="mitarbeiter" class="view">
     <div class="panel">
       <h2>Mitarbeiter</h2>
-      <p>Sensibler Bereich. Der Hub zeigt Aktenlinks, Status und den Datenabgleich. Inhalte bleiben in Google Drive.</p>
-      <div id="employeeSummary" class="employee-summary"></div>
-      <div class="employee-tools">
-        <input id="employeeSearch" placeholder="Personalnummer, Name oder Gruppe suchen">
-        <a id="employeeFolderLink" class="button-link" target="_blank" rel="noopener" href="#">Aktenordner oeffnen</a>
-        <a id="employeeIndexLink" class="button-link" target="_blank" rel="noopener" href="#">Datenabgleich oeffnen</a>
+      <p>Dieser Bereich ist in der GitHub-Version bewusst gesperrt.</p>
+      <div class="safe-box">
+        <strong>Geschuetzt:</strong> Namenlisten, Telefonnummern, Adressen, Personalnummern, Fuehrerscheindaten und Aktenlinks werden nur in der lokalen AT-HUB-Version angezeigt.
       </div>
-    </div>
-
-    <div class="panel">
-      <h3>Statusübersicht</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Bereich</th>
-              <th>Quelle</th>
-              <th>Status</th>
-              <th>Hinweis</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Masterdaten</td><td>Mitarbeiter_Master, Mitarbeiterindex</td><td><span class="badge ok">vorhanden</span></td><td>Als geschützter Index nutzbar.</td></tr>
-            <tr><td>Personalakten</td><td>71 Aktenordner</td><td><span class="badge ok">verknuepft</span></td><td>Suche und Direktlink im Hub verfuegbar.</td></tr>
-            <tr><td>Telefon</td><td>Mitarbeiter_Master, 99_Eingang_Bilder</td><td><span class="badge sync">teilweise</span></td><td>Dienstliche Nummern sind eingebunden. Private Nummern werden aus Eingangsbildern zugeordnet.</td></tr>
-            <tr><td>Dokumente</td><td>Führerscheine, Fahrerkarten, Arbeitsverträge, Unterweisungen, BKF</td><td><span class="badge open">prüfen</span></td><td>Nur Fälligkeiten und Ampeln anzeigen.</td></tr>
-            <tr><td>Gruppen</td><td>506.xlsx, 604.xlsx</td><td><span class="badge ok">vorhanden</span></td><td>Für Teams und Boxen auswertbar.</td></tr>
-          </tbody>
-        </table>
+      <div class="actions">
+        <button data-view="arbeit">Zurueck zu Arbeit</button>
       </div>
-    </div>
-
-    <div class="panel">
-      <h3>Personalakten</h3>
-      <p>Personalnummer ist der feste Referenzpunkt. Jeder Eintrag oeffnet die passende Akte in Google Drive.</p>
-      <div id="employeeRecords" class="employee-list"></div>
     </div>
   </section>
 
   <section id="privat" class="view">
     <div class="panel">
       <h2>Privat</h2>
-      <p>Familie, Termine, Reisen, Finanzen und persönliche Organisation. Private Details bleiben im Drive.</p>
+      <p>Private Organisation bleibt getrennt. Diese Public-Version zeigt nur die geplante Struktur.</p>
     </div>
-
-    <div class="section-tabs" aria-label="Private Bereiche">
-      <button class="active" data-private-tab="privateOverview">Übersicht</button>
-      <button data-private-tab="privateTravel">Reise</button>
-    </div>
-
-    <div id="privateOverview" class="private-tab-content active">
-      <div class="grid">
-        <article class="tile info"><div><h3>Google Kalender</h3><p>Privat- und Familienkalender gemeinsam.</p></div><button data-tab="googlekalender">Öffnen</button></article>
-        <article class="tile work"><div><h3>Finanzen</h3><p>Haushaltsbuch ist im Drive vorhanden.</p></div><span class="badge ok">Quelle vorhanden</span></article>
-        <article class="tile"><div><h3>Gesundheit</h3><p>Ordner vorbereitet.</p></div><span class="badge open">leer</span></article>
-        <article class="tile"><div><h3>Fahrzeuge</h3><p>Ordner vorbereitet.</p></div><span class="badge open">leer</span></article>
-        <article class="tile"><div><h3>Immobilien</h3><p>Ordner vorbereitet.</p></div><span class="badge open">leer</span></article>
-        <article class="tile info"><div><h3>Reise</h3><p>Reisepläne, Buchungen, Unterlagen und Packlisten.</p></div><button data-private-tab="privateTravel">Öffnen</button></article>
-        <article class="tile"><div><h3>Versicherungen</h3><p>Ordner vorbereitet.</p></div><span class="badge open">leer</span></article>
-        <article class="tile"><div><h3>Verträge</h3><p>Ordner vorbereitet.</p></div><span class="badge open">leer</span></article>
-        <article class="tile"><div><h3>Auswertung</h3><p>Für private Übersichten und Checklisten.</p></div><span class="badge open">leer</span></article>
-      </div>
-
-      <div id="privateDriveData" class="panel" style="margin-top:16px"></div>
-    </div>
-
-    <div id="privateTravel" class="private-tab-content">
-      <div class="panel">
-        <h3>Reise</h3>
-        <p>Privater Reisebereich für Reisepläne, Buchungen, Tickets, Packlisten und spätere Reiseideen.</p>
-        <div class="actions">
-          <a class="button-link" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1lVAlpqjU1l7NIDhp7FN2whMDia06VdPI">Reiseordner öffnen</a>
-        </div>
-      </div>
-
-      <div class="grid">
-        <article class="tile info"><div><h3>Reisepläne</h3><p>Ablage für kommende Fahrten, Flüge, Hotels und Tagespläne.</p></div><span class="badge open">vorbereitet</span></article>
-        <article class="tile"><div><h3>Unterlagen</h3><p>Tickets, Buchungen, Ausweise, Versicherungen und Nachweise.</p></div><span class="badge open">vorbereitet</span></article>
-        <article class="tile"><div><h3>Packlisten</h3><p>Wiederverwendbare Listen für Kurztrip, Familie, Urlaub und Ausland.</p></div><span class="badge open">vorbereitet</span></article>
-        <article class="tile warn"><div><h3>Archiv</h3><p>Abgeschlossene Reisen und alte Unterlagen gesammelt ablegen.</p></div><span class="badge open">geplant</span></article>
-      </div>
+    <div class="data-list">
+      <div class="data-item"><h3>Reise</h3><p>Reiseplanung, Unterlagen, Routen, Buchungen und Packlisten.</p><span class="badge open">vorbereitet</span></div>
+      <div class="data-item"><h3>Finanzen</h3><p>Haushaltsbuch und private Auswertungen bleiben geschuetzt.</p><span class="badge lock">privat</span></div>
+      <div class="data-item"><h3>Dokumente</h3><p>Private Dokumente werden nicht in GitHub gespeichert.</p><span class="badge lock">privat</span></div>
+      <div class="data-item"><h3>Kalender</h3><p>Google Kalender bleibt die Datenquelle.</p><span class="badge sync">extern</span></div>
     </div>
   </section>
 
-  <section id="kalenderinfo" class="view">
-    <div class="panel">
-      <h2>Kalender</h2>
-      <p>Google Kalender und Arbeitszeitkalender sind getrennte Module. Das Dashboard zeigt nur die gemeinsame Tagesübersicht.</p>
-    </div>
-  </section>
-
-  <section id="projekte" class="view">
+  <section id="wissen" class="view">
     <div class="panel">
       <h2>Projekte & Wissen</h2>
-      <p>Meisterschule, Handbücher, Tourenplanung, Reklamationen und Wissenssammlung.</p>
+      <p>Bereich fuer Meisterschule, Handbuecher, Prozesse, Notizen und spaetere Wissenspakete.</p>
     </div>
-
     <div class="grid">
-      <article class="tile work"><div><h3>Meisterschule</h3><p>FMKU-Lerntrainer und Meisterbuch.</p></div><span class="badge ok">aktiv</span></article>
-      <article class="tile info"><div><h3>Montageleiterhandbuch</h3><p>Aus MTL Buch, Fotos und Prozessbibliothek aufbauen.</p></div><span class="badge ok">Quelle vorhanden</span></article>
-      <article class="tile"><div><h3>Tourenplanung</h3><p>Tourenmonitor und Boxenplanung.</p></div><span class="badge ok">Quelle vorhanden</span></article>
-      <article class="tile"><div><h3>Reklamationshandbuch</h3><p>Später als eigener Wissensbereich.</p></div><span class="badge open">vorbereitet</span></article>
-      <article class="tile"><div><h3>Ideen</h3><p>Sammelstelle für Verbesserungen.</p></div><span class="badge open">vorbereitet</span></article>
-      <article class="tile"><div><h3>Wissensdatenbank</h3><p>Suchbare Notizen, Checklisten und Abläufe.</p></div><span class="badge open">vorbereitet</span></article>
+      <article class="tile info"><div><h3>Meisterbuch</h3><p>Kapitel, Lernstoff, Pruefungsfragen und Musterantworten.</p></div><span class="badge ok">aktiv</span></article>
+      <article class="tile"><div><h3>Prozessbibliothek</h3><p>Arbeitsablaeufe, Checklisten und Handbuchquellen.</p></div><span class="badge open">Drive</span></article>
+      <article class="tile warn"><div><h3>Archiv</h3><p>Abgeschlossene Vorgaenge und Historie.</p></div><span class="badge open">geplant</span></article>
     </div>
   </section>
 
   <section id="siggi" class="view">
     <div class="panel">
       <h2>Siggi KI</h2>
-      <p>Persönlicher KI-Bereich im AT HUB. Aktuell als Startbereich vorbereitet.</p>
-    </div>
-
-    <div class="grid">
-      <article class="tile info"><div><h3>Chat</h3><p>Startpunkt für Fragen, Planung und Sortierung.</p></div><span class="badge open">vorbereitet</span></article>
-      <article class="tile"><div><h3>Dokumentenanalyse</h3><p>Quellen prüfen, zusammenfassen und zuordnen.</p></div><span class="badge open">vorbereitet</span></article>
-      <article class="tile"><div><h3>Auswertungen</h3><p>Tabellen, Touren und Statuslisten auswerten.</p></div><span class="badge open">vorbereitet</span></article>
-      <article class="tile"><div><h3>Wissensspeicher</h3><p>Regeln, Begriffe, Abläufe und Entscheidungen.</p></div><span class="badge open">vorbereitet</span></article>
+      <p>Siggi wird spaeter der Assistent fuer Planung, Sortierung, Auswertung und Dokumentenarbeit.</p>
+      <span class="badge open">Konzept</span>
     </div>
   </section>
 
   <section id="einstellungen" class="view">
     <div class="panel">
       <h2>Einstellungen</h2>
-      <p>Design, Datensicherung, Datenschutz und Erweiterungen.</p>
-    </div>
-
-    <div class="grid">
-      <article class="tile"><div><h3>Design</h3><p>Ruhiges Arbeitsdesign mit klaren Kacheln.</p></div><span class="badge ok">aktiv</span></article>
-      <article class="tile warn"><div><h3>Datenschutz</h3><p>Sensible Inhalte bleiben im Drive und werden nicht veröffentlicht.</p></div><span class="badge lock">wichtig</span></article>
-      <article class="tile"><div><h3>GitHub Pages</h3><p>Kann später als öffentlicher Startlink dienen.</p></div><span class="badge open">vorbereitet</span></article>
-      <article class="tile"><div><h3>Backup</h3><p>Versionen als ZIP oder GitHub-Stand sichern.</p></div><span class="badge open">vorbereitet</span></article>
+      <p>Public-Version fuer GitHub. Private Datenquellen sind entfernt.</p>
+      <div class="data-list">
+        <div class="data-item"><h3>Version</h3><p>AT HUB Public 4.8</p><span class="badge ok">GitHub</span></div>
+        <div class="data-item"><h3>Datenschutz</h3><p>Keine lokalen privaten Datendateien eingebunden.</p><span class="badge ok">sicher</span></div>
+      </div>
     </div>
   </section>
 </main>
 
-<footer>AT HUB · Version 4.5 · Browser-App</footer>
+<footer>AT HUB · Public Version 4.8 · GitHub-sicher</footer>
 
-<script src="data/drive-data.js"></script>
-<script src="data/contact-data.js"></script>
-<script src="data/personnel-private-data.js"></script>
 <script>
-const workModules = [
-  { id:'arbeitszeitkalender', title:'Arbeitszeitkalender', description:'Arbeitszeit, Übernachtungen, Meisterschule, Urlaub, Krankheit und Steuerübersicht.', status:'Grundlage vorhanden', type:'work', action:'arbeitszeit' },
-  { id:'mitarbeiter', title:'Mitarbeiter', description:'Stammdaten, Gruppen, Personalnummern und Einsatzdaten.', status:'sensibel', type:'info', action:'mitarbeiter' },
-  { id:'webfleet', title:'WEBFLEET', description:'Fahrzeiten, Standzeiten, Tourdaten und reale Auswertungen.', status:'externer Dienst', type:'', action:'webfleet' },
-  { id:'bkf', title:'BKF-Manager', description:'Module, Fahrerkarte, Führerschein und Code 95.', status:'vorbereitet', type:'warn' },
-  { id:'teams', title:'Teams', description:'Boxen, feste Teams, Fahrzeuge und Anhänger.', status:'Quellen geprüft', type:'' },
-  { id:'fahrzeuge', title:'Fahrzeuge', description:'Sprinter, LKW, Kennzeichen, Status und Zuordnung.', status:'Ordner leer', type:'' },
-  { id:'anhaenger', title:'Anhänger', description:'Kennzeichen, TÜV, Status und Einsatz.', status:'Ordner leer', type:'' },
-  { id:'tourenplanung', title:'Tourenplanung', description:'Planzeiten, Fahrzeiten, Montagezeiten und Belastung.', status:'Quelle vorhanden', type:'info' },
-  { id:'reklamation', title:'Reklamationsmanager', description:'Vorgänge, Ursachen, Kommunikation und Lösungsstatus.', status:'geplant', type:'warn' },
-  { id:'dokumente', title:'Dokumente', description:'Verträge, Nachweise, Auswertungen und Ablage.', status:'Drive bleibt Quelle', type:'' },
-  { id:'auswertungen', title:'Auswertungen', description:'Monats-, Jahres- und Themenauswertungen.', status:'vorbereitet', type:'' },
-  { id:'archiv', title:'Archiv', description:'Ehemalige Daten, abgeschlossene Vorgänge und Historie.', status:'vorbereitet', type:'' }
-];
-
-const config = {
-  arbeitszeitSyncUrl: '',
-  syncToken: ''
-};
-
-const state = {
-  arbeitszeiten: JSON.parse(localStorage.getItem('atHubArbeitszeiten') || '[]')
-};
-
 function qs(selector){
   return document.querySelector(selector);
 }
@@ -938,583 +367,38 @@ function showView(id){
   qsa('.view').forEach(view => view.classList.remove('active'));
   const view = document.getElementById(id);
   if(view) view.classList.add('active');
-
-  const activeNav = id === 'mitarbeiter' ? 'translogistik' : id;
   qsa('nav button').forEach(button => {
-    button.classList.toggle('active', button.dataset.view === activeNav);
+    button.classList.toggle('active', button.dataset.view === id);
   });
 }
 
-function openTab(id){
-  showView('translogistik');
-  qsa('.tab-content').forEach(tab => tab.classList.remove('active'));
-  const tab = document.getElementById(id);
-  if(tab) tab.classList.add('active');
-
-  qsa('[data-tab-button]').forEach(button => {
-    button.classList.toggle('active', button.dataset.tabButton === id);
-  });
-}
-
-function openPrivateTab(id){
-  qsa('.private-tab-content').forEach(tab => tab.classList.remove('active'));
-  const tab = document.getElementById(id);
-  if(tab) tab.classList.add('active');
-
-  qsa('[data-private-tab]').forEach(button => {
-    button.classList.toggle('active', button.dataset.privateTab === id);
-  });
-}
-
-function updateTime(){
+function updateClock(){
   const now = new Date();
   const hour = now.getHours();
   let greeting = 'Willkommen, Alex';
+  if(hour >= 5 && hour < 11) greeting = 'Guten Morgen, Alex';
+  else if(hour >= 11 && hour < 17) greeting = 'Guten Tag, Alex';
+  else if(hour >= 17 && hour < 22) greeting = 'Guten Abend, Alex';
+  else greeting = 'Gute Nacht, Alex';
 
-  if(hour >= 5 && hour < 11){
-    greeting = 'Guten Morgen, Alex';
-  }else if(hour >= 11 && hour < 17){
-    greeting = 'Guten Tag, Alex';
-  }else if(hour >= 17 && hour < 22){
-    greeting = 'Guten Abend, Alex';
-  }else{
-    greeting = 'Gute Nacht, Alex';
-  }
-
-  const greetingElement = qs('#greeting');
-  if(greetingElement) greetingElement.textContent = greeting;
-
-  qs('#datum').textContent = now.toLocaleDateString('de-DE',{
+  qs('#greeting').textContent = greeting;
+  qs('#dateText').textContent = now.toLocaleDateString('de-DE', {
     weekday:'long',
     day:'2-digit',
     month:'2-digit',
     year:'numeric'
   });
-  qs('#uhrzeit').textContent = now.toLocaleTimeString('de-DE');
-}
-
-function setSyncStatus(text, type){
-  const status = qs('#syncStatus');
-  if(!status) return;
-  status.textContent = text;
-  status.className = 'badge ' + (type || 'open');
-}
-
-function renderWorkModules(){
-  const container = qs('#workModules');
-  if(!container) return;
-
-  container.innerHTML = workModules.map(module => {
-    const tileClass = ['tile', module.type].filter(Boolean).join(' ');
-    const badgeClass = module.status === 'sensibel' ? 'lock' : module.status === 'Quelle vorhanden' || module.status === 'Grundlage vorhanden' ? 'ok' : 'open';
-    return '<article class="' + tileClass + '">' +
-      '<div><h3>' + escapeHtml(module.title) + '</h3><p>' + escapeHtml(module.description) + '</p></div>' +
-      '<div class="actions">' +
-      '<button data-work-module="' + escapeHtml(module.id) + '">Modul öffnen</button>' +
-      '<span class="badge ' + badgeClass + '">' + escapeHtml(module.status) + '</span>' +
-      '</div>' +
-    '</article>';
-  }).join('');
-}
-
-function openWorkModule(moduleId){
-  const module = workModules.find(item => item.id === moduleId);
-  if(!module) return;
-
-  if(module.action === 'arbeitszeit'){
-    openTab('arbeitszeit');
-    return;
-  }
-
-  if(module.action === 'mitarbeiter'){
-    showView('mitarbeiter');
-    return;
-  }
-
-  if(module.action === 'webfleet'){
-    window.open('https://live-wf.webfleet.com/web/map', '_blank', 'noopener');
-    return;
-  }
-
-  const detail = qs('#workModuleDetail');
-  if(!detail) return;
-
-  if(['fahrzeuge','anhaenger','teams','tourenplanung'].includes(module.id)){
-    detail.innerHTML =
-      '<h3>' + escapeHtml(module.title) + '</h3>' +
-      '<p>' + escapeHtml(module.description) + '</p>' +
-      renderVehicleSources(module.id);
-    return;
-  }
-
-  detail.innerHTML =
-    '<h3>' + escapeHtml(module.title) + '</h3>' +
-    '<p>' + escapeHtml(module.description) + '</p>' +
-    '<div class="actions"><span class="badge open">Modulstatus: ' + escapeHtml(module.status) + '</span></div>';
-}
-
-function renderDriveData(){
-  const data = window.ATHubDriveData;
-  if(!data) return;
-
-  renderDriveSection('#workDriveData', data.arbeit);
-  renderDriveSection('#privateDriveData', data.privat);
-  renderEmployeeRecords();
-}
-
-function renderDriveSection(selector, section){
-  const target = qs(selector);
-  if(!target || !section) return;
-
-  target.innerHTML =
-    '<h3>Drive-Daten: ' + escapeHtml(section.title) + '</h3>' +
-    '<p>Stand: ' + escapeHtml(window.ATHubDriveData.updatedAt) + '. Die App zeigt Links und Status. Die Daten selbst bleiben in Google Drive.</p>' +
-    '<div class="actions"><a class="button-link" target="_blank" rel="noopener" href="' + escapeHtml(section.url) + '">Ordner öffnen</a></div>' +
-    '<div class="data-list">' +
-      section.items.map(item => renderDriveItem(item)).join('') +
-    '</div>';
-}
-
-function renderDriveItem(item){
-  const badgeClass = item.status.includes('vorhanden') || item.status.includes('aktiv') || item.status.includes('aktuelle') ? 'ok' : 'open';
-  return '<div class="data-item">' +
-    '<h4>' + escapeHtml(item.title) + '</h4>' +
-    '<p>' + escapeHtml(item.note || '') + '</p>' +
-    '<div class="actions">' +
-      '<span class="badge ' + badgeClass + '">' + escapeHtml(item.status) + '</span>' +
-      '<a class="button-link" target="_blank" rel="noopener" href="' + escapeHtml(item.url) + '">Öffnen</a>' +
-    '</div>' +
-  '</div>';
-}
-
-function prepareDashboardPrivacy(){
-  const dashboard = qs('#dashboard');
-  const workArea = qs('#translogistik');
-  const workspace = dashboard && dashboard.querySelector('.workspace');
-
-  if(workspace && workArea && !workArea.querySelector('.workspace')){
-    const workIntro = workArea.querySelector('.panel');
-    workIntro.insertAdjacentElement('afterend', workspace);
-  }
-
-  if(!dashboard) return;
-
-  dashboard.classList.add('privacy-ready');
-  dashboard.innerHTML =
-    '<div class="panel">' +
-      '<h2 id="greeting">Willkommen, Alex</h2>' +
-      '<p>Dein Startbereich bleibt ruhig. Arbeit, Mitarbeiter, WEBFLEET, Fahrzeuge und Touren erreichst du nur ueber den Reiter Arbeit.</p>' +
-    '</div>' +
-    '<div class="grid">' +
-      '<article class="tile info">' +
-        '<div><h3>Privat</h3><p>Familie, private Dokumente, Reisen, Finanzen und persoenliche Organisation.</p></div>' +
-        '<button data-view="privat">Oeffnen</button>' +
-      '</article>' +
-      '<article class="tile">' +
-        '<div><h3>Projekte & Wissen</h3><p>Meisterschule, Handbuecher, Ideen und Wissenssammlung.</p></div>' +
-        '<button data-view="projekte">Oeffnen</button>' +
-      '</article>' +
-      '<article class="tile info">' +
-        '<div><h3>Siggi KI</h3><p>Fragen, Planung, Sortierung und Dokumentenanalyse als eigener Bereich.</p></div>' +
-        '<button data-view="siggi">Oeffnen</button>' +
-      '</article>' +
-      '<article class="tile warn">' +
-        '<div><h3>Einstellungen</h3><p>Datenschutz, Design, Speicherorte und Backup.</p></div>' +
-        '<button data-view="einstellungen">Oeffnen</button>' +
-      '</article>' +
-    '</div>' +
-    '<div class="panel" style="margin-top:16px">' +
-      '<h3>Arbeit bleibt getrennt</h3>' +
-      '<p>Der Arbeitsbereich wird erst geoeffnet, wenn du bewusst auf Arbeit klickst.</p>' +
-      '<div class="actions"><button data-view="translogistik">Arbeit oeffnen</button></div>' +
-    '</div>';
-}
-
-function renderEmployeeRecords(filterText){
-  const data = window.ATHubDriveData && window.ATHubDriveData.personal;
-  const contactData = window.ATHubContactData || {};
-  const contacts = contactData.employees || {};
-  const privateData = window.ATHubPersonnelPrivateData || {};
-  const privateRecords = privateData.employees || {};
-  const lists = ['#employeeRecords']
-    .map(selector => qs(selector))
-    .filter(Boolean);
-  if(!data || !lists.length) return;
-
-  const query = normalizeSearch(filterText || '');
-  const records = data.items.filter(item => {
-    const contact = contacts[item.nr] || {};
-    const privateRecord = privateRecords[item.nr] || {};
-    const haystack = normalizeSearch([
-      item.nr,
-      item.name,
-      item.gruppe,
-      item.folder,
-      item.note || '',
-      contact.workPhone || '',
-      contact.privatePhone || '',
-      privateRecord.address || '',
-      privateRecord.privatePhone || '',
-      privateRecord.workPhone || '',
-      privateRecord.entryDate || '',
-      privateRecord.assignmentGroup || '',
-      privateRecord.mechanicType || '',
-      privateRecord.profession || ''
-    ].join(' '));
-    return !query || haystack.includes(query);
-  });
-
-  const summary = qs('#employeeSummary');
-  if(summary){
-    const group506 = data.items.filter(item => item.gruppe === '506').length;
-    const group604 = data.items.filter(item => item.gruppe === '604').length;
-    const workPhoneCount = data.items.filter(item => contacts[item.nr] && contacts[item.nr].workPhone).length;
-    const privateRecordCount = Object.keys(privateRecords).length;
-    summary.innerHTML =
-      '<div class="summary-box"><span>Akten gesamt</span><strong>' + data.items.length + '</strong></div>' +
-      '<div class="summary-box"><span>Gruppe 506</span><strong>' + group506 + '</strong></div>' +
-      '<div class="summary-box"><span>Gruppe 604</span><strong>' + group604 + '</strong></div>' +
-      '<div class="summary-box"><span>Dienstnummern</span><strong>' + workPhoneCount + '</strong></div>' +
-      '<div class="summary-box"><span>Bilddaten</span><strong>' + privateRecordCount + '</strong></div>' +
-      '<div class="summary-box"><span>Treffer aktuell</span><strong>' + records.length + '</strong></div>';
-  }
-
-  const folderLink = qs('#employeeFolderLink');
-  if(folderLink) folderLink.href = data.url;
-
-  const indexLink = qs('#employeeIndexLink');
-  if(indexLink) indexLink.href = data.indexUrl;
-
-  const targetLists = lists;
-
-  if(!records.length){
-    targetLists.forEach(list => {
-      list.innerHTML = '<p class="badge open">Keine Akte gefunden.</p>';
-    });
-    return;
-  }
-
-  const html = records.map(item => {
-    const contact = contacts[item.nr] || {};
-    const privateRecord = privateRecords[item.nr] || {};
-    const workPhone = privateRecord.workPhone || contact.workPhone || 'nicht hinterlegt';
-    const privatePhone = privateRecord.privatePhone || contact.privatePhone || 'noch nicht hinterlegt';
-    const source = contactData.sources && contactData.sources.phoneImages;
-    const sourceText = privateRecord.image
-      ? 'Bilddaten: ' + privateRecord.image
-      : 'Noch keine Bilddaten in der lokalen privaten Datei.';
-    const note = item.note ? '<p>' + escapeHtml(item.note) + '</p>' : '';
-    const reviewBadge = privateRecord.review ? '<span class="badge open">Pruefen</span>' : '';
-    const detailBox = (label, value) => '<div class="detail-box"><span>' + escapeHtml(label) + '</span><strong>' + escapeHtml(value || '-') + '</strong></div>';
-    return '<article class="employee-card">' +
-      '<h4>' + escapeHtml(item.name) + '</h4>' +
-      '<div class="employee-meta">' +
-        '<span class="badge sync">PN ' + escapeHtml(item.nr) + '</span>' +
-        '<span class="badge ok">Gruppe ' + escapeHtml(item.gruppe) + '</span>' +
-        (privateRecord.image ? '<span class="badge sync">Bilddaten</span>' : '<span class="badge open">ohne Bilddaten</span>') +
-        reviewBadge +
-      '</div>' +
-      '<p>' + escapeHtml(item.folder) + '</p>' +
-      '<div class="contact-details">' +
-        '<div class="contact-line"><span>Name</span><strong>' + escapeHtml(item.name) + '</strong></div>' +
-        '<div class="contact-line"><span>Personalnummer</span><strong>' + escapeHtml(item.nr) + '</strong></div>' +
-        '<div class="contact-line"><span>Telefon dienstlich</span><strong>' + escapeHtml(workPhone) + '</strong></div>' +
-        '<div class="contact-line"><span>Telefon privat</span><strong>' + escapeHtml(privatePhone) + '</strong></div>' +
-      '</div>' +
-      '<div class="personnel-details">' +
-        detailBox('Adresse', privateRecord.address) +
-        detailBox('Eintritt', privateRecord.entryDate) +
-        detailBox('Geboren', privateRecord.birthDate) +
-        detailBox('Probezeit Ende', privateRecord.probationEnd) +
-        detailBox('Vertrag Ende', privateRecord.contractEnd) +
-        detailBox('Leistungsfaktor', privateRecord.performanceFactor) +
-        detailBox('Stundenlohn', privateRecord.hourlyWage) +
-        detailBox('FS-Nummer', privateRecord.licenseNumber) +
-        detailBox('FS bis', privateRecord.licenseValidUntil) +
-        detailBox('Ausl. Gruppe', privateRecord.assignmentGroup) +
-        detailBox('Monteurtyp', privateRecord.mechanicType) +
-        detailBox('Fahrerkarte', privateRecord.driverCard) +
-      '</div>' +
-      '<p class="source-note">' + escapeHtml(sourceText) + ' Dienstlich: Mitarbeiter_Master. Privat: ' + escapeHtml(source ? source.title : 'Quelle offen') + '.</p>' +
-      note +
-      '<div class="actions">' +
-        '<a class="button-link" target="_blank" rel="noopener" href="' + escapeHtml(item.url) + '">Akte oeffnen</a>' +
-        (source ? '<a class="button-link" target="_blank" rel="noopener" href="' + escapeHtml(source.url) + '">Eingang Bilder</a>' : '') +
-      '</div>' +
-    '</article>';
-  }).join('');
-
-  targetLists.forEach(list => {
-    list.innerHTML = html;
-  });
-}
-
-function renderVehicleSources(moduleId){
-  const sourceData = window.ATHubContactData && window.ATHubContactData.vehicleSources;
-  if(!sourceData) return '';
-
-  const sourceKeys = moduleId === 'fahrzeuge'
-    ? ['lkw','tourenmonitor','webfleetAlt']
-    : moduleId === 'anhaenger'
-      ? ['anhaenger','tourenmonitor']
-      : ['boxen','tourenmonitor'];
-
-  return '<div class="data-list">' + sourceKeys.map(key => {
-    const source = sourceData[key];
-    if(!source) return '';
-    const badgeClass = source.status.includes('vorhanden') ? 'ok' : 'open';
-    return '<div class="data-item">' +
-      '<h4>' + escapeHtml(source.title) + '</h4>' +
-      '<p>' + escapeHtml(source.note) + '</p>' +
-      '<div class="actions">' +
-        '<span class="badge ' + badgeClass + '">' + escapeHtml(source.status) + '</span>' +
-        '<a class="button-link" target="_blank" rel="noopener" href="' + escapeHtml(source.url) + '">Oeffnen</a>' +
-      '</div>' +
-    '</div>';
-  }).join('') + '</div>';
-}
-
-function normalizeSearch(value){
-  return String(value)
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ue/g, 'u')
-    .replace(/oe/g, 'o')
-    .replace(/ae/g, 'a')
-    .replace(/ss/g, 's');
-}
-
-async function ladeWetter(lat, lon, ort){
-  try{
-    const url = 'https://api.open-meteo.com/v1/forecast?latitude=' +
-      lat + '&longitude=' + lon +
-      '&current=temperature_2m,wind_speed_10m&timezone=Europe%2FBerlin';
-    const response = await fetch(url);
-    const data = await response.json();
-    const temp = Math.round(data.current.temperature_2m);
-    const wind = Math.round(data.current.wind_speed_10m);
-    qs('#wetter').textContent = 'Wetter ' + ort + ': ' + temp + '°C · Wind ' + wind + ' km/h';
-  }catch(error){
-    qs('#wetter').textContent = 'Wetter nicht verfügbar';
-  }
-}
-
-function starteWetter(){
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      position => ladeWetter(position.coords.latitude, position.coords.longitude, 'aktueller Standort'),
-      () => ladeWetter(54.0924, 12.0991, 'Rostock')
-    );
-  }else{
-    ladeWetter(54.0924, 12.0991, 'Rostock');
-  }
-}
-
-function toggleForm(id, visible){
-  const form = document.getElementById(id);
-  if(form) form.classList.toggle('active', visible);
-}
-
-async function saveArbeitszeit(){
-  const eintrag = {
-    id: String(Date.now()),
-    datum: qs('#azDatum').value,
-    kommt: qs('#azKommt').value,
-    geht: qs('#azGeht').value,
-    pause: qs('#azPause').value || '0',
-    kategorie: qs('#azKategorie').value,
-    uebernachtung: qs('#azUebernachtung').value,
-    ort: qs('#azOrt').value.trim(),
-    notiz: qs('#azNotiz').value.trim()
-  };
-
-  if(!eintrag.datum){
-    alert('Bitte ein Datum eintragen.');
-    return;
-  }
-
-  state.arbeitszeiten.unshift(eintrag);
-  localStorage.setItem('atHubArbeitszeiten', JSON.stringify(state.arbeitszeiten));
-  renderArbeitszeiten();
-  toggleForm('arbeitszeitForm', false);
-  qsa('#arbeitszeitForm input, #arbeitszeitForm textarea').forEach(field => field.value = '');
-  await syncArbeitszeit(eintrag);
-}
-
-function deleteArbeitszeit(id){
-  state.arbeitszeiten = state.arbeitszeiten.filter(eintrag => eintrag.id !== id);
-  localStorage.setItem('atHubArbeitszeiten', JSON.stringify(state.arbeitszeiten));
-  renderArbeitszeiten();
-}
-
-function renderArbeitszeiten(){
-  const list = qs('#arbeitszeitListe');
-  if(!state.arbeitszeiten.length){
-    list.innerHTML = '<p class="badge open">Noch keine lokalen Arbeitszeiten gespeichert.</p>';
-    return;
-  }
-
-  list.innerHTML = state.arbeitszeiten.map(eintrag => {
-    const zeit = [eintrag.kommt, eintrag.geht].filter(Boolean).join(' - ') || 'keine Zeit';
-    const detail = [eintrag.kategorie, eintrag.uebernachtung, eintrag.ort, eintrag.notiz].filter(Boolean).join(' · ');
-    return '<div class="entry">' +
-      '<div><strong>' + escapeHtml(eintrag.datum) + ' · ' + escapeHtml(zeit) + '</strong><span>' + escapeHtml(detail) + '</span></div>' +
-      '<button data-delete="' + eintrag.id + '">Löschen</button>' +
-    '</div>';
-  }).join('');
-}
-
-async function syncArbeitszeit(eintrag){
-  if(!config.arbeitszeitSyncUrl){
-    setSyncStatus('Speicher: lokal', 'open');
-    return;
-  }
-
-  setSyncStatus('Speichern...', 'sync');
-
-  try{
-    const response = await fetch(config.arbeitszeitSyncUrl, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({
-        token:config.syncToken,
-        entry:eintrag
-      })
-    });
-
-    if(!response.ok) throw new Error('Sync fehlgeschlagen');
-    setSyncStatus('Speicher: Google', 'ok');
-  }catch(error){
-    setSyncStatus('Lokal gespeichert', 'error');
-  }
-}
-
-async function loadArbeitszeitenFromSync(){
-  if(!config.arbeitszeitSyncUrl){
-    setSyncStatus('Speicher: lokal', 'open');
-    return;
-  }
-
-  setSyncStatus('Lade Google...', 'sync');
-
-  try{
-    const url = new URL(config.arbeitszeitSyncUrl);
-    if(config.syncToken) url.searchParams.set('token', config.syncToken);
-    const response = await fetch(url.toString());
-    if(!response.ok) throw new Error('Laden fehlgeschlagen');
-    const data = await response.json();
-
-    if(Array.isArray(data.entries)){
-      state.arbeitszeiten = data.entries;
-      localStorage.setItem('atHubArbeitszeiten', JSON.stringify(state.arbeitszeiten));
-      renderArbeitszeiten();
-    }
-
-    setSyncStatus('Speicher: Google', 'ok');
-  }catch(error){
-    setSyncStatus('Google nicht erreichbar', 'error');
-  }
-}
-
-function exportArbeitszeit(){
-  const blob = new Blob([JSON.stringify(state.arbeitszeiten, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'at-hub-arbeitszeiten.json';
-  link.click();
-  URL.revokeObjectURL(url);
-}
-
-function clearArbeitszeit(){
-  if(!state.arbeitszeiten.length) return;
-  if(confirm('Lokale Arbeitszeitliste wirklich leeren?')){
-    state.arbeitszeiten = [];
-    localStorage.removeItem('atHubArbeitszeiten');
-    renderArbeitszeiten();
-  }
-}
-
-function createGoogleCalendarLink(){
-  const title = qs('#gTitel').value.trim() || 'Termin';
-  const date = qs('#gDatum').value;
-  const start = qs('#gStart').value || '09:00';
-  const end = qs('#gEnde').value || '10:00';
-  const ort = qs('#gOrt').value.trim();
-  const notiz = qs('#gNotiz').value.trim();
-
-  if(!date){
-    alert('Bitte ein Datum eintragen.');
-    return;
-  }
-
-  const startValue = date.replaceAll('-','') + 'T' + start.replace(':','') + '00';
-  const endValue = date.replaceAll('-','') + 'T' + end.replace(':','') + '00';
-  const params = new URLSearchParams({
-    action:'TEMPLATE',
-    text:title,
-    dates:startValue + '/' + endValue,
-    ctz:'Europe/Berlin',
-    location:ort,
-    details:notiz
-  });
-
-  window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank', 'noopener');
-}
-
-function escapeHtml(value){
-  return String(value).replace(/[&<>"']/g, char => ({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#039;'
-  }[char]));
-}
-
-function syncEmployeeSearch(value){
-  ['#employeeSearch'].forEach(selector => {
-    const input = qs(selector);
-    if(input && input.value !== value) input.value = value;
-  });
-  renderEmployeeRecords(value);
+  qs('#timeText').textContent = now.toLocaleTimeString('de-DE');
 }
 
 document.addEventListener('click', event => {
-  const target = event.target.closest('button');
+  const target = event.target.closest('[data-view]');
   if(!target) return;
-
-  if(target.dataset.view) showView(target.dataset.view);
-  if(target.dataset.viewJump) showView(target.dataset.viewJump);
-  if(target.dataset.tab) openTab(target.dataset.tab);
-  if(target.dataset.tabButton) openTab(target.dataset.tabButton);
-  if(target.dataset.privateTab) openPrivateTab(target.dataset.privateTab);
-  if(target.dataset.workModule) openWorkModule(target.dataset.workModule);
-  if(target.dataset.delete) deleteArbeitszeit(target.dataset.delete);
+  showView(target.dataset.view);
 });
 
-qs('#openArbeitszeitForm').addEventListener('click', () => toggleForm('arbeitszeitForm', true));
-qs('#closeArbeitszeitForm').addEventListener('click', () => toggleForm('arbeitszeitForm', false));
-qs('#saveArbeitszeit').addEventListener('click', () => saveArbeitszeit());
-qs('#openGoogleTerminForm').addEventListener('click', () => toggleForm('googleTerminForm', true));
-qs('#closeGoogleTerminForm').addEventListener('click', () => toggleForm('googleTerminForm', false));
-qs('#createGoogleCalendarLink').addEventListener('click', createGoogleCalendarLink);
-qs('#openGoogleTerminFormFromCalendar').addEventListener('click', () => openTab('arbeitszeit') || toggleForm('googleTerminForm', true));
-qs('#exportArbeitszeit').addEventListener('click', exportArbeitszeit);
-qs('#clearArbeitszeit').addEventListener('click', clearArbeitszeit);
-qs('#employeeSearch').addEventListener('input', event => syncEmployeeSearch(event.target.value));
-
-prepareDashboardPrivacy();
-qs('#azDatum').valueAsDate = new Date();
-qs('#gDatum').valueAsDate = new Date();
-updateTime();
-setInterval(updateTime, 1000);
-starteWetter();
-renderWorkModules();
-renderDriveData();
-renderArbeitszeiten();
-loadArbeitszeitenFromSync();
+updateClock();
+setInterval(updateClock, 1000);
 </script>
 </body>
 </html>
