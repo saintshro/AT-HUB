@@ -405,6 +405,35 @@ textarea{
   margin:10px 0;
 }
 
+.personnel-details{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:8px;
+  margin:10px 0;
+}
+
+.detail-box{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+  background:var(--panel-soft);
+  min-height:58px;
+}
+
+.detail-box span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.detail-box strong{
+  display:block;
+  font-size:14px;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+
 .contact-line{
   display:flex;
   justify-content:space-between;
@@ -670,6 +699,10 @@ footer{
     <div class="panel">
       <h2>Arbeit</h2>
       <p>Beruflicher Bereich mit Translogistik, Mitarbeitern, WEBFLEET, BKF, Teams, Fuhrpark, Touren und Auswertungen.</p>
+      <div class="actions">
+        <button data-view-jump="mitarbeiter">Mitarbeiter oeffnen</button>
+        <a class="button-link" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1Kj0GsmvzoaBBKq0Gm-GNd8ULkzsT5ah5">Aktenordner oeffnen</a>
+      </div>
     </div>
 
     <div id="workModules" class="grid"></div>
@@ -863,10 +896,11 @@ footer{
   </section>
 </main>
 
-<footer>AT HUB · Version 4.4 · Browser-App</footer>
+<footer>AT HUB · Version 4.5 · Browser-App</footer>
 
 <script src="data/drive-data.js"></script>
 <script src="data/contact-data.js"></script>
+<script src="data/personnel-private-data.js"></script>
 <script>
 const workModules = [
   { id:'arbeitszeitkalender', title:'Arbeitszeitkalender', description:'Arbeitszeit, Übernachtungen, Meisterschule, Urlaub, Krankheit und Steuerübersicht.', status:'Grundlage vorhanden', type:'work', action:'arbeitszeit' },
@@ -1100,6 +1134,8 @@ function renderEmployeeRecords(filterText){
   const data = window.ATHubDriveData && window.ATHubDriveData.personal;
   const contactData = window.ATHubContactData || {};
   const contacts = contactData.employees || {};
+  const privateData = window.ATHubPersonnelPrivateData || {};
+  const privateRecords = privateData.employees || {};
   const lists = ['#employeeRecords']
     .map(selector => qs(selector))
     .filter(Boolean);
@@ -1108,7 +1144,23 @@ function renderEmployeeRecords(filterText){
   const query = normalizeSearch(filterText || '');
   const records = data.items.filter(item => {
     const contact = contacts[item.nr] || {};
-    const haystack = normalizeSearch([item.nr, item.name, item.gruppe, item.folder, item.note || '', contact.workPhone || '', contact.privatePhone || ''].join(' '));
+    const privateRecord = privateRecords[item.nr] || {};
+    const haystack = normalizeSearch([
+      item.nr,
+      item.name,
+      item.gruppe,
+      item.folder,
+      item.note || '',
+      contact.workPhone || '',
+      contact.privatePhone || '',
+      privateRecord.address || '',
+      privateRecord.privatePhone || '',
+      privateRecord.workPhone || '',
+      privateRecord.entryDate || '',
+      privateRecord.assignmentGroup || '',
+      privateRecord.mechanicType || '',
+      privateRecord.profession || ''
+    ].join(' '));
     return !query || haystack.includes(query);
   });
 
@@ -1117,11 +1169,13 @@ function renderEmployeeRecords(filterText){
     const group506 = data.items.filter(item => item.gruppe === '506').length;
     const group604 = data.items.filter(item => item.gruppe === '604').length;
     const workPhoneCount = data.items.filter(item => contacts[item.nr] && contacts[item.nr].workPhone).length;
+    const privateRecordCount = Object.keys(privateRecords).length;
     summary.innerHTML =
       '<div class="summary-box"><span>Akten gesamt</span><strong>' + data.items.length + '</strong></div>' +
       '<div class="summary-box"><span>Gruppe 506</span><strong>' + group506 + '</strong></div>' +
       '<div class="summary-box"><span>Gruppe 604</span><strong>' + group604 + '</strong></div>' +
       '<div class="summary-box"><span>Dienstnummern</span><strong>' + workPhoneCount + '</strong></div>' +
+      '<div class="summary-box"><span>Bilddaten</span><strong>' + privateRecordCount + '</strong></div>' +
       '<div class="summary-box"><span>Treffer aktuell</span><strong>' + records.length + '</strong></div>';
   }
 
@@ -1142,15 +1196,23 @@ function renderEmployeeRecords(filterText){
 
   const html = records.map(item => {
     const contact = contacts[item.nr] || {};
-    const workPhone = contact.workPhone || 'nicht hinterlegt';
-    const privatePhone = contact.privatePhone || 'noch aus Eingangsbildern zuordnen';
+    const privateRecord = privateRecords[item.nr] || {};
+    const workPhone = privateRecord.workPhone || contact.workPhone || 'nicht hinterlegt';
+    const privatePhone = privateRecord.privatePhone || contact.privatePhone || 'noch nicht hinterlegt';
     const source = contactData.sources && contactData.sources.phoneImages;
+    const sourceText = privateRecord.image
+      ? 'Bilddaten: ' + privateRecord.image
+      : 'Noch keine Bilddaten in der lokalen privaten Datei.';
     const note = item.note ? '<p>' + escapeHtml(item.note) + '</p>' : '';
+    const reviewBadge = privateRecord.review ? '<span class="badge open">Pruefen</span>' : '';
+    const detailBox = (label, value) => '<div class="detail-box"><span>' + escapeHtml(label) + '</span><strong>' + escapeHtml(value || '-') + '</strong></div>';
     return '<article class="employee-card">' +
       '<h4>' + escapeHtml(item.name) + '</h4>' +
       '<div class="employee-meta">' +
         '<span class="badge sync">PN ' + escapeHtml(item.nr) + '</span>' +
         '<span class="badge ok">Gruppe ' + escapeHtml(item.gruppe) + '</span>' +
+        (privateRecord.image ? '<span class="badge sync">Bilddaten</span>' : '<span class="badge open">ohne Bilddaten</span>') +
+        reviewBadge +
       '</div>' +
       '<p>' + escapeHtml(item.folder) + '</p>' +
       '<div class="contact-details">' +
@@ -1159,7 +1221,21 @@ function renderEmployeeRecords(filterText){
         '<div class="contact-line"><span>Telefon dienstlich</span><strong>' + escapeHtml(workPhone) + '</strong></div>' +
         '<div class="contact-line"><span>Telefon privat</span><strong>' + escapeHtml(privatePhone) + '</strong></div>' +
       '</div>' +
-      '<p class="source-note">Dienstlich: Mitarbeiter_Master. Privat: ' + escapeHtml(source ? source.title : 'Quelle offen') + '.</p>' +
+      '<div class="personnel-details">' +
+        detailBox('Adresse', privateRecord.address) +
+        detailBox('Eintritt', privateRecord.entryDate) +
+        detailBox('Geboren', privateRecord.birthDate) +
+        detailBox('Probezeit Ende', privateRecord.probationEnd) +
+        detailBox('Vertrag Ende', privateRecord.contractEnd) +
+        detailBox('Leistungsfaktor', privateRecord.performanceFactor) +
+        detailBox('Stundenlohn', privateRecord.hourlyWage) +
+        detailBox('FS-Nummer', privateRecord.licenseNumber) +
+        detailBox('FS bis', privateRecord.licenseValidUntil) +
+        detailBox('Ausl. Gruppe', privateRecord.assignmentGroup) +
+        detailBox('Monteurtyp', privateRecord.mechanicType) +
+        detailBox('Fahrerkarte', privateRecord.driverCard) +
+      '</div>' +
+      '<p class="source-note">' + escapeHtml(sourceText) + ' Dienstlich: Mitarbeiter_Master. Privat: ' + escapeHtml(source ? source.title : 'Quelle offen') + '.</p>' +
       note +
       '<div class="actions">' +
         '<a class="button-link" target="_blank" rel="noopener" href="' + escapeHtml(item.url) + '">Akte oeffnen</a>' +
