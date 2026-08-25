@@ -1,80 +1,74 @@
-<!doctype html>
-<html lang="de">
-<head>
+<!doctype html><html lang="de"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0b"><title>AT HUB Finanzcockpit</title>
+<meta name="theme-color" content="#0b0b0b"><title>AT HUB · Finanzcockpit</title>
 <style>
-:root{--b:#0b0b0b;--r:#b00020;--g:#168044;--a:#a86600;--bg:#f3f4f5;--card:#fff;--muted:#687078;--line:#dfe2e5}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#111}header{background:var(--b);color:#fff;border-bottom:5px solid var(--r);padding:18px 16px}header h1{margin:0}header p{margin:4px 0 0;color:#bbb}
-main{max-width:1000px;margin:auto;padding:16px 13px 44px}.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:800;color:var(--r)}.hero{display:flex;justify-content:space-between;gap:10px;align-items:center}.hero h2{margin:4px 0 14px}.pill{background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:999px;font-size:12px}
-.primary,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px}.primary{border:2px solid var(--g)}.money{font-size:44px;font-weight:900;color:var(--g);margin:7px 0}.money.neg,.red{color:var(--r)}.muted{color:var(--muted);font-size:13px;line-height:1.5}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px}.cards article{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px}.cards span{display:block;font-size:11px;color:var(--muted)}.cards b{display:block;font-size:20px;margin-top:5px}
-.inputrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.inputrow label{font-size:12px;color:var(--muted)}input{width:100%;font-size:17px;padding:11px;border:1px solid var(--line);border-radius:10px;margin-top:5px}.btn{border:0;background:#111;color:#fff;border-radius:10px;padding:11px 14px;min-height:44px;cursor:pointer}
-.formula,.due{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eee}.formula.total{font-weight:900;border-top:2px solid #222;border-bottom:0}.due>div small{display:block;color:var(--muted);margin-top:3px}.badge{font-size:11px;border-radius:999px;padding:4px 7px;background:#fff2d8;color:#8b5700}.badge.done{background:#e6f5ec;color:var(--g)}
-.dispo{height:14px;background:#e3e5e7;border-radius:999px;overflow:hidden;margin:10px 0}.dispo>div{height:100%;background:#111;width:0}.legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
-.notice{background:#fff5d9;border:1px solid #ecd18b;border-radius:11px;padding:11px;font-size:13px;margin-bottom:12px}
-.tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 10px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 13px;white-space:nowrap}.tab.active{background:#111;color:#fff}.pane{display:none}.pane.active{display:block}
-@media(max-width:650px){.cards{grid-template-columns:repeat(2,1fr)}.money{font-size:39px}.inputrow{grid-template-columns:1fr}.hero{align-items:flex-start}}@media(max-width:360px){.cards{grid-template-columns:1fr}}
+:root{--b:#0b0b0b;--r:#b00020;--g:#168044;--a:#a86600;--bg:#f3f4f5;--line:#dfe2e5;--muted:#687078}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#111}header{background:var(--b);color:#fff;border-bottom:5px solid var(--r);padding:18px 16px}header h1{margin:0;font-size:27px}header p{margin:4px 0 0;color:#bbb}
+main{max-width:1000px;margin:auto;padding:16px 13px 45px}.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:800;color:var(--r)}h2{margin:4px 0 14px}.panel,.heroCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:11px}.heroCard{border:2px solid var(--g)}
+.money{font-size:43px;font-weight:900;color:var(--g);margin:6px 0}.money.red,.red{color:var(--r)}.muted{color:var(--muted);font-size:13px;line-height:1.5}.notice{background:#fff5d9;border:1px solid #ecd18b;border-radius:11px;padding:11px;font-size:13px;margin-bottom:11px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:11px}.cards article{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px}.cards span{display:block;font-size:11px;color:var(--muted)}.cards b{display:block;font-size:20px;margin-top:5px}
+.timeline{position:relative;padding-left:22px}.event{position:relative;border-left:2px solid #ddd;padding:0 0 18px 20px}.event:before{content:"";position:absolute;left:-7px;top:3px;width:12px;height:12px;border-radius:50%;background:#111}.event.done:before{background:var(--g)}.event.future:before{background:var(--a)}.event h4{margin:0 0 4px}.event p{margin:2px 0}.amount{font-weight:900}
+.due{display:grid;grid-template-columns:1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.due small{display:block;color:var(--muted);margin-top:3px}.right{text-align:right}.badge{display:inline-block;font-size:10px;padding:3px 6px;border-radius:999px;background:#eee;margin-top:4px}.high{background:#e6f5ec;color:var(--g)}.mid{background:#fff2d8;color:#8b5700}
+.toggle{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 9px;margin-top:6px;cursor:pointer}.toggle.on{background:#e6f5ec;color:var(--g)}
+.dispo{height:15px;background:#e1e3e5;border-radius:999px;overflow:hidden;margin:10px 0}.dispo div{height:100%;background:#111}.inputrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}label{font-size:12px;color:var(--muted)}input{width:100%;font-size:17px;padding:11px;border:1px solid var(--line);border-radius:10px;margin-top:5px}.btn{border:0;background:#111;color:#fff;border-radius:10px;padding:11px 14px;min-height:44px}
+.formula{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #eee}.formula.total{font-weight:900;border-top:2px solid #222;border-bottom:0}
+@media(max-width:650px){.cards{grid-template-columns:repeat(2,1fr)}.money{font-size:38px}.inputrow{grid-template-columns:1fr}}@media(max-width:360px){.cards{grid-template-columns:1fr}}
 </style></head><body>
 <header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header><main>
-<div class="hero"><div><div class="eyebrow">PRIVAT · FINANZEN</div><h2>Liquiditätscockpit bis 15.09.2026</h2></div><div class="pill">Finanzmonat 15.08.–15.09.</div></div>
+<div class="eyebrow">PRIVAT · FINANZEN</div><h2>Finanzmonat 15.08. → 15.09.2026</h2>
+<div class="notice"><b>Prognose aus dem vollständigen DKB-Jahresauszug.</b> Bereits gebuchte Zahlungen und erwartete Abbuchungen sind getrennt. Unsichere Positionen kannst du mit einem Klick aus der Prognose nehmen.</div>
 
-<div class="notice"><b>Neu:</b> Trage deinen aktuellen DKB-Kontostand ein. Das Cockpit zieht alle noch erwarteten Abbuchungen bis zum 15.09. ab und zeigt zusätzlich, wie viel vom 500-€-Dispo danach noch übrig wäre.</div>
+<section class="panel"><div class="inputrow"><label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01" placeholder="Kontostand eingeben"></label><button class="btn" id="save">Speichern</button></div><p class="muted">Der Wert bleibt nur lokal in deinem Browser. Ein bereits in v5 gespeicherter Kontostand wird übernommen.</p></section>
 
-<section class="panel"><div class="inputrow"><label>Aktueller DKB-Kontostand<input id="balanceInput" type="number" step="0.01" placeholder="z. B. -120,50"></label><button id="saveBalance" class="btn">Kontostand speichern</button></div><p class="muted">Der Kontostand wird nur lokal in deinem Browser gespeichert.</p></section>
-
-<section class="primary"><div class="eyebrow">PROGNOSE KONTOSTAND AM 15.09.</div><div id="forecast" class="money">–</div><div class="muted">Aktueller Kontostand minus alle noch offenen erwarteten Abbuchungen.</div></section>
+<section class="heroCard"><div class="eyebrow">PROGNOSE VOR DEM NÄCHSTEN GEHALT</div><div id="forecast" class="money">–</div><div id="forecastText" class="muted"></div></section>
 
 <section class="cards">
-<article><span>Aktueller Kontostand</span><b id="balance">–</b></article>
-<article><span>Noch kommende Abbuchungen</span><b id="upcoming">–</b></article>
-<article><span>Verfügbar inkl. 500 € Dispo am 15.</span><b id="bankAvailable">–</b></article>
-<article><span>Dispo beansprucht am 15.</span><b id="dispoUsed">–</b></article>
-<article><span>Dispo-Spielraum danach</span><b id="dispoLeft">–</b></article>
-<article><span>Urlaubssparen</span><b>250,00 €</b></article>
+<article><span>Kontostand heute</span><b id="current">–</b></article>
+<article><span>Noch erwartete Fixabbuchungen</span><b id="futureSum">–</b></article>
+<article><span>Disporahmen</span><b>500,00 €</b></article>
+<article><span>Über Dispolimit prognostiziert</span><b id="over">–</b></article>
+<article><span>Bereits fest abgebucht seit Gehalt</span><b>1.487,68 €</b></article>
+<article><span>Gehalt 13.08.</span><b>2.296,57 €</b></article>
 </section>
 
-<nav class="tabs"><button class="tab active" data-tab="due">Kommt noch</button><button class="tab" data-tab="budget">Monatsbudget</button><button class="tab" data-tab="dispo">Dispo</button></nav>
+<section class="panel"><h3>Zeitstrahl: Was passiert mit dem Geld?</h3><div class="timeline">
+<div class="event done"><h4>13.08. · Gehalt</h4><p class="amount">+2.296,57 €</p></div>
+<div class="event done"><h4>14.–25.08. · bereits gebucht</h4><p>Daniela 900 €, Unterhalt 500 €, IG Metall 17,68 €, Amazon Prime 8,99 €, Google 9,99 €, Best Fitness 51,27 €.</p><p class="muted">Zusätzlich gab es variable Einkäufe/Ausgaben. Audible 9,95 € ist ebenfalls bereits gebucht.</p></div>
+<div class="event future"><h4>27.–31.08. · Monatsende</h4><p>Telefonica Insurance, Telefonica/O2 und Creditplus.</p><p class="amount" id="endMonth">–</p></div>
+<div class="event future"><h4>01.–03.09. · Monatsanfang</h4><p>Versicherungen, Best Fitness und voraussichtlich Deutschlandticket.</p><p class="amount" id="startMonth">–</p></div>
+<div class="event future"><h4>14.–15.09. · kurz vor neuem Finanzmonat</h4><p>Netflix.</p><p class="amount">−13,99 €</p></div>
+</div></section>
 
-<section id="due" class="pane active"><div class="panel"><h3>Noch erwartete Abbuchungen bis 15.09.</h3><p class="muted">Die Termine sind Prognosen aus den bekannten regelmäßigen Zahlungen. Tippe auf „gebucht“, wenn eine Position bereits vom Konto abgegangen ist. Später erledigt das der PDF-Import automatisch.</p><div id="dueList"></div></div></section>
+<section class="panel"><h3>Noch kommende Abbuchungen</h3><p class="muted">„Einrechnen“ ist aktiv. Wenn du weißt, dass etwas bereits bezahlt wurde oder nicht kommt, schalte die Position aus.</p><div id="dues"></div></section>
 
-<section id="budget" class="pane"><div class="panel"><h3>Persönliches Monatsbudget</h3><div id="budgetFormula"></div><p class="muted">Diese Rechnung trennt dein persönliches Ausgabebudget von der Bank-Liquidität. Der Dispo ist kein Einkommen.</p></div></section>
+<section class="panel"><h3>500-€-Dispo</h3><div class="dispo"><div id="bar"></div></div><div id="dispoText" class="muted"></div></section>
 
-<section id="dispo" class="pane"><div class="panel"><h3>500-€-Disporahmen</h3><div class="dispo"><div id="dispoBar"></div></div><div class="legend"><span>0 € genutzt</span><span>500 € Limit</span></div><div id="dispoText" class="muted" style="margin-top:12px"></div></div></section>
+<section class="panel"><h3>Planrechnung</h3><div id="formula"></div><p class="muted"><b>Nürnberger-Hinweis:</b> Am 20.08. wurde eine Rücklastschrift über 119,14 € gebucht. Der reguläre Septemberbeitrag von 113,14 € bleibt deshalb vorerst in der Prognose; eine zusätzliche Nachforderung für August ist nicht eingerechnet und wird als Risiko behandelt.</p></section>
 
-</main><script>
-const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
-const expected=[{"name": "Creditplus", "amount": 162.16, "day": 1, "match": ["creditplus"]}, {"name": "Telefonica", "amount": 118.92, "day": 2, "match": ["telefonica germany"]}, {"name": "Nürnberger Leben", "amount": 113.14, "day": 1, "match": ["nurnberger lebensversicherung"]}, {"name": "HUK Krankenversicherung", "amount": 24.04, "day": 1, "match": ["huk-coburg krankenversicherung"]}, {"name": "Mecklenburgische KV", "amount": 20.44, "day": 1, "match": ["mecklenburgische kranken"]}, {"name": "Mecklenburgische Unfall", "amount": 29.42, "day": 1, "match": ["mecklenburgische versicherungs"]}, {"name": "Telefonica Insurance", "amount": 7.95, "day": 1, "match": ["telefonica insurance"]}, {"name": "Best Fitness", "amount": 65.91, "day": 1, "match": ["best fitness"]}, {"name": "Deutschlandticket", "amount": 68.0, "day": 1, "match": ["transdev", "deutschlandticket"]}, {"name": "Netflix", "amount": 13.99, "day": 5, "match": ["netflix"]}, {"name": "Audible", "amount": 9.95, "day": 7, "match": ["audible"]}, {"name": "Amazon Prime", "amount": 8.99, "day": 8, "match": ["amazonprime", "amznprime"]}, {"name": "Amazon Music", "amount": 16.99, "day": 10, "match": ["amazon music"]}, {"name": "Google", "amount": 9.99, "day": 10, "match": ["google payment"]}, {"name": "IG Metall", "amount": 17.68, "day": 1, "match": ["industriegewerkscha"]}, {"name": "Telekom", "amount": 12.95, "day": 5, "match": ["telekom deutschland"]}];
-const DISPO=500;
-const plan={income:2296.57,household:650,vacation:250,maintenance:500,fixed:695.52,buffer:50,paydown:100,variable:161.71};
-let balance=Number(localStorage.getItem("athub-balance"));
-if(!Number.isFinite(balance)) balance=NaN;
-let done=JSON.parse(localStorage.getItem("athub-due-done")||"{}");
-const input=document.querySelector("#balanceInput"); if(Number.isFinite(balance))input.value=balance.toFixed(2);
-
-function openItems(){return expected.filter((x,i)=>!done[i])}
+<script>
+const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"}), DISPO=500;
+const dues=[{"date": "27.–31.08.", "name": "Telefonica Insurance", "amount": 7.95, "confidence": "hoch", "note": "meist 27.–29. des Monats"}, {"date": "29.–31.08.", "name": "Telefonica / O2", "amount": 118.92, "confidence": "hoch", "note": "Betrag schwankt; letzter Wert 118,92 €"}, {"date": "29.–31.08.", "name": "Creditplus", "amount": 162.16, "confidence": "sehr hoch", "note": "monatlich 162,16 € zum Monatsende"}, {"date": "01.–03.09.", "name": "Nürnberger Leben", "amount": 113.14, "confidence": "mittel", "note": "regulärer Monatsbeitrag; August-Rücklastschrift separat beachten"}, {"date": "01.–03.09.", "name": "HUK Krankenversicherung", "amount": 24.04, "confidence": "sehr hoch", "note": "stabil am ersten Bankarbeitstag"}, {"date": "01.–03.09.", "name": "Mecklenburgische KV", "amount": 20.44, "confidence": "sehr hoch", "note": "stabil am ersten Bankarbeitstag"}, {"date": "01.–03.09.", "name": "Mecklenburgische Unfall", "amount": 29.42, "confidence": "sehr hoch", "note": "stabil am ersten Bankarbeitstag"}, {"date": "01.–03.09.", "name": "Best Fitness Grundbeitrag", "amount": 29.99, "confidence": "mittel", "note": "zusätzliche Fitness-Buchungen können auftreten"}, {"date": "Anfang Sept.", "name": "Deutschlandticket", "amount": 68.0, "confidence": "mittel", "note": "August 63,00 €; neuer Planwert ca. 68 €"}, {"date": "14.–15.09.", "name": "Netflix", "amount": 13.99, "confidence": "hoch", "note": "monatlich um den 14./15."}];
+let active=JSON.parse(localStorage.getItem("athub-v6-active")||"null")||dues.map(()=>true);
+let balance=Number(localStorage.getItem("athub-balance"));if(!Number.isFinite(balance))balance=NaN;
+const bal=document.querySelector("#bal");if(Number.isFinite(balance))bal.value=balance.toFixed(2);
 function render(){
- const open=openItems(), upcoming=open.reduce((s,x)=>s+x.amount,0);
- const forecast=Number.isFinite(balance)?balance-upcoming:NaN;
- const bankAvail=Number.isFinite(forecast)?forecast+DISPO:NaN;
- const used=Number.isFinite(forecast)?Math.min(DISPO,Math.max(0,-forecast)):NaN;
- const left=Number.isFinite(used)?Math.max(0,DISPO-used):NaN;
- document.querySelector("#balance").textContent=Number.isFinite(balance)?euro.format(balance):"Kontostand fehlt";
- document.querySelector("#upcoming").textContent=euro.format(upcoming);
+ const sum=dues.reduce((s,x,i)=>s+(active[i]?x.amount:0),0), forecast=Number.isFinite(balance)?balance-sum:NaN;
+ const over=Number.isFinite(forecast)?Math.max(0,-forecast-DISPO):NaN, used=Number.isFinite(forecast)?Math.min(DISPO,Math.max(0,-forecast)):0;
+ document.querySelector("#current").textContent=Number.isFinite(balance)?euro.format(balance):"fehlt";
+ document.querySelector("#futureSum").textContent=euro.format(sum);
  document.querySelector("#forecast").textContent=Number.isFinite(forecast)?euro.format(forecast):"Kontostand eingeben";
- document.querySelector("#forecast").classList.toggle("neg",Number.isFinite(forecast)&&forecast<0);
- document.querySelector("#bankAvailable").textContent=Number.isFinite(bankAvail)?euro.format(bankAvail):"–";
- document.querySelector("#dispoUsed").textContent=Number.isFinite(used)?euro.format(used):"–";
- document.querySelector("#dispoLeft").textContent=Number.isFinite(left)?euro.format(left):"–";
- document.querySelector("#dispoBar").style.width=Number.isFinite(used)?Math.min(100,used/DISPO*100)+"%":"0%";
- document.querySelector("#dispoText").textContent=!Number.isFinite(forecast)?"Bitte zuerst den aktuellen Kontostand eintragen.":forecast>=0?`Nach den erwarteten Abbuchungen läge das Konto bei ${euro.format(forecast)}. Der 500-€-Dispo wäre voraussichtlich nicht beansprucht.`:`Nach den erwarteten Abbuchungen läge das Konto bei ${euro.format(forecast)}. Damit wären voraussichtlich ${euro.format(used)} vom Dispo genutzt und noch ${euro.format(left)} Kreditlinie übrig.`;
- document.querySelector("#dueList").innerHTML=expected.map((x,i)=>`<div class="due"><div><b>${x.name}</b><small>erwartet ca. ${String(x.day).padStart(2,"0")}.09. · ${euro.format(x.amount)}</small></div><button class="badge ${done[i]?"done":""}" onclick="toggleDone(${i})">${done[i]?"gebucht ✓":"noch offen"}</button></div>`).join("");
- const reserved=plan.household+plan.vacation+plan.maintenance+plan.fixed+plan.buffer+plan.paydown,start=plan.income-reserved,free=start-plan.variable;
- const rows=[["Gehalt",plan.income],["Haushalt",-plan.household],["Urlaubssparen",-plan.vacation],["Unterhalt",-plan.maintenance],["Weitere Fixkosten",-plan.fixed],["Sicherheitspuffer",-plan.buffer],["Geplanter Dispo-Abbau",-plan.paydown],["Persönliches Startbudget",start],["Bisher variable Ausgaben",-plan.variable],["Persönlich noch frei",free]];
- document.querySelector("#budgetFormula").innerHTML=rows.map((r,i)=>`<div class="formula ${i>=7?"total":""}"><span>${r[0]}</span><b class="${i===9&&r[1]<0?"red":""}">${euro.format(r[1])}</b></div>`).join("");
+ document.querySelector("#forecast").classList.toggle("red",Number.isFinite(forecast)&&forecast<0);
+ document.querySelector("#over").textContent=Number.isFinite(over)?euro.format(over):"–";document.querySelector("#over").className=over>0?"red":"";
+ document.querySelector("#bar").style.width=(used/DISPO*100)+"%";
+ document.querySelector("#dispoText").textContent=!Number.isFinite(forecast)?"Kontostand fehlt.":forecast>=0?`Nach den eingeplanten Abbuchungen wäre der Dispo nicht genutzt.`:over>0?`Der Dispo wäre vollständig genutzt. Zusätzlich läge die Prognose ${euro.format(over)} über dem 500-€-Limit.`:`Voraussichtlich wären ${euro.format(used)} vom Dispo genutzt und ${euro.format(DISPO-used)} noch frei.`;
+ document.querySelector("#forecastText").textContent=Number.isFinite(forecast)?`Aktueller Kontostand ${euro.format(balance)} minus ${euro.format(sum)} noch eingeplante Abbuchungen.`:"Trage deinen aktuellen Kontostand ein.";
+ document.querySelector("#dues").innerHTML=dues.map((x,i)=>`<div class="due"><div><b>${x.name}</b><small>${x.date} · ${x.note}</small><span class="badge ${x.confidence.includes("hoch")?"high":"mid"}">Sicherheit: ${x.confidence}</span></div><div class="right"><b>${euro.format(x.amount)}</b><br><button class="toggle ${active[i]?"on":""}" onclick="toggle(${i})">${active[i]?"eingerechnet ✓":"ausgeschaltet"}</button></div></div>`).join("");
+ const end=dues.slice(0,3).reduce((s,x,i)=>s+(active[i]?x.amount:0),0), start=dues.slice(3,9).reduce((s,x,j)=>s+(active[j+3]?x.amount:0),0);
+ document.querySelector("#endMonth").textContent="−"+euro.format(end);document.querySelector("#startMonth").textContent="−"+euro.format(start);
+ const rows=[["Kontostand heute",balance],["Noch eingeplante Abbuchungen",-sum],["Prognose 15.09.",forecast],["Disporahmen",DISPO],["Abstand zum Dispolimit",Number.isFinite(forecast)?forecast+DISPO:NaN]];
+ document.querySelector("#formula").innerHTML=rows.map((r,i)=>`<div class="formula ${i>=2?"total":""}"><span>${r[0]}</span><b class="${Number.isFinite(r[1])&&r[1]<0?"red":""}">${Number.isFinite(r[1])?euro.format(r[1]):"–"}</b></div>`).join("");
 }
-window.toggleDone=i=>{done[i]=!done[i];localStorage.setItem("athub-due-done",JSON.stringify(done));render()};
-document.querySelector("#saveBalance").onclick=()=>{balance=Number(input.value);if(Number.isFinite(balance)){localStorage.setItem("athub-balance",balance);render()}};
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".pane").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelector("#"+b.dataset.tab).classList.add("active")});
+window.toggle=i=>{active[i]=!active[i];localStorage.setItem("athub-v6-active",JSON.stringify(active));render()};
+document.querySelector("#save").onclick=()=>{balance=Number(bal.value);if(Number.isFinite(balance)){localStorage.setItem("athub-balance",balance);render()}};
 render();
 </script></body></html>
