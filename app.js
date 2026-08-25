@@ -19,8 +19,201 @@ $("#saveBal").onclick=async()=>{const v=Number($("#bal").value);if(Number.isFini
 const drop=$("#drop"),pdf=$("#pdf");drop.onclick=()=>pdf.click();drop.ondragover=e=>e.preventDefault();drop.ondrop=e=>{e.preventDefault();if(e.dataTransfer.files[0])handlePDF(e.dataTransfer.files[0])};pdf.onchange=()=>pdf.files[0]&&handlePDF(pdf.files[0]);
 $("#saveClient").onclick=async()=>{state.drive.clientId=$("#clientId").value.trim();await saveState();msgDrive(state.drive.clientId?"Client-ID gespeichert.":"Client-ID entfernt.","good")};$("#connect").onclick=connectDrive;$("#sync").onclick=syncDrive}
 async function loadPdfJs(){return await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/+esm")}
-async function handlePDF(file){const msg=$("#pdfMsg");$("#review").innerHTML="";if(file.type!=="application/pdf"){msg.textContent="Bitte PDF auswählen.";msg.className="msg bad";return}msg.textContent="PDF wird lokal gelesen …";try{const pdfjs=await loadPdfJs();pdfjs.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs";const pdf=await pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;let text=[];for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p),c=await pg.getTextContent();text.push(c.items.map(i=>i.str).join(" "))}reviewRows=parseDKB(text.join("\n"));msg.textContent=`${pdf.numPages} Seiten gelesen · ${reviewRows.length} Kandidaten.`;msg.className="msg good";renderReview()}catch(e){msg.textContent="PDF konnte nicht gelesen werden: "+e.message;msg.className="msg bad"}}
-function parseDKB(text){const c=text.replace(/\u00a0/g," ").replace(/\s+/g," ");const rx=/(\d{2}\.\d{2}\.\d{4})\s+(.{2,160}?)\s+(-?\d{1,6}[.,]\d{2})(?=\s+\d{2}\.\d{2}\.\d{4}|\s*$)/g;let m,out=[],seen=new Set();while((m=rx.exec(c))){let name=m[2].replace(/IBAN\s+[A-Z0-9 ]+/gi,"").trim(),amount=Number(m[3].replace(".","").replace(",",".")),key=m[1]+"|"+name+"|"+amount;if(seen.has(key))continue;seen.add(key);let type=autoType(name,amount),cat=autoCat(name,amount),[dd,mm,yy]=m[1].split(".");out.push({id:hash(key),date:m[1],iso:`${yy}-${mm}-${dd}`,name,amount,type,category:cat})}return out.slice(0,700)}
+async function handlePDF(file){
+ const msg=$("#pdfMsg");
+ $("#review").innerHTML="";
+
+ if(file.type!=="application/pdf"){
+  msg.textContent="Bitte PDF auswählen.";
+  msg.className="msg bad";
+  return;
+ }
+
+ msg.textContent="PDF wird lokal gelesen …";
+ msg.className="msg";
+
+ try{
+  const pdfjs=await loadPdfJs();
+
+  pdfjs.GlobalWorkerOptions.workerSrc=
+   "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs";
+
+  const pdf=await pdfjs.getDocument({
+   data:new Uint8Array(await file.arrayBuffer())
+  }).promise;
+
+  let lines=[];
+
+  for(let p=1;p<=pdf.numPages;p++){
+   const pg=await pdf.getPage(p);
+   const c=await pg.getTextContent();
+
+   const rows=new Map();
+
+   for(const it of c.items){
+    const y=Math.round((it.transform?.[5]||0)*2)/2;
+
+    if(!rows.has(y)){
+     rows.set(y,[]);
+    }
+
+    rows.get(y).push({
+     x:it.transform?.[4]||0,
+     s:it.str||""
+    });
+   }
+
+   const pageLines=[...rows.entries()]
+    .sort((a,b)=>b[0]-a[0])
+    .map(([y,items])=>
+     items
+      .sort((a,b)=>a.x-b.x)
+      .map(v=>v.s)
+      .join(" ")
+      .replace(/\s+/g," ")
+      .trim()
+    )
+    .filter(Boolean);
+
+   lines.push(...pageLines);
+  }
+
+  reviewRows=parseDKBLines(lines);
+
+  msg.textContent=
+   `${pdf.numPages} Seiten gelesen · ${reviewRows.length} Buchungen erkannt.`;
+
+  msg.className="msg good";
+
+  renderReview();
+
+ }catch(e){
+  msg.textContent=
+   "PDF konnte nicht gelesen werden: "+e.message;
+
+  msg.className="msg bad";
+ }
+}
+
+
+function parseMoney(raw){
+
+ let s=String(raw||"")
+  .trim()
+  .replace(/\s/g,"");
+
+ if(!s){
+  return NaN;
+ }
+
+ const neg=s.startsWith("-");
+
+ s=s.replace(/^[-+]/,"");
+
+ const lastComma=s.lastIndexOf(",");
+ const lastDot=s.lastIndexOf(".");
+
+ if(lastComma>=0 && lastDot>=0){
+
+  if(lastComma>lastDot){
+   s=s.replace(/\./g,"")
+      .replace(",",".");
+  }else{
+   s=s.replace(/,/g,"");
+  }
+
+ }else if(lastComma>=0){
+
+  const parts=s.split(",");
+
+  if(parts[parts.length-1].length===2){
+   s=
+    parts.slice(0,-1).join("")+
+    "."+
+    parts.at(-1);
+  }else{
+   s=s.replace(/,/g,"");
+  }
+
+ }else if(lastDot>=0){
+
+  const parts=s.split(".");
+
+  if(parts[parts.length-1].length===2){
+   s=
+    parts.slice(0,-1).join("")+
+    "."+
+    parts.at(-1);
+  }else{
+   s=s.replace(/\./g,"");
+  }
+ }
+
+ const n=Number(s);
+
+ return Number.isFinite(n)
+  ? (neg ? -n : n)
+  : NaN;
+}
+
+
+function parseDKBLines(lines){
+
+ const out=[];
+ const seen=new Set();
+
+ const rowRx=
+  /^(\d{2}\.\d{2}\.\d{4})\s+(.+?)\s+(-?\d{1,6}(?:[.,]\d{2}))$/;
+
+ for(let i=0;i<lines.length;i++){
+
+  const m=lines[i].match(rowRx);
+
+  if(!m){
+   continue;
+  }
+
+  const date=m[1];
+  const name=m[2].trim();
+  const amount=parseMoney(m[3]);
+
+  if(!Number.isFinite(amount)){
+   continue;
+  }
+
+  if(/^(Datum|Zeitraum|Auszug)$/i.test(name)){
+   continue;
+  }
+
+  const key=
+   date+"|"+
+   name+"|"+
+   amount.toFixed(2);
+
+  if(seen.has(key)){
+   continue;
+  }
+
+  seen.add(key);
+
+  const type=autoType(name,amount);
+  const cat=autoCat(name,amount);
+
+  const [dd,mm,yy]=date.split(".");
+
+  out.push({
+   id:hash(key),
+   date:date,
+   iso:`${yy}-${mm}-${dd}`,
+   name:name,
+   amount:amount,
+   type:type,
+   category:cat
+  });
+ }
+
+ return out.slice(0,700);
+}
 function autoType(n,a){n=n.toLowerCase();if(a>0)return n.includes("waltersdorf")?"income":"income_other";if(n.includes("add to balance"))return"transfer";if(config.dues.some(d=>d.match.some(x=>n.includes(x))))return"fixed";return"variable"}
 function autoCat(n,a){n=n.toLowerCase();if(a>0)return n.includes("waltersdorf")?"Gehalt":"Einnahme";for(const d of config.dues)if(d.match.some(x=>n.includes(x)))return d.name;if(n.includes("paypal"))return"PayPal / prüfen";if(n.includes("lidl")||n.includes("rewe")||n.includes("netto")||n.includes("aldi")||n.includes("kaufland"))return"Lebensmittel";return"Variable Ausgabe"}
 function renderReview(){if(!reviewRows.length){$("#review").innerHTML='<p class="muted">Keine Buchungen erkannt.</p>';return}$("#review").innerHTML=reviewRows.slice(0,120).map((t,i)=>`<div class="review" data-i="${i}"><div class="head"><div><b>${esc(t.name)}</b><small>${t.date}</small></div><b>${euro.format(t.amount)}</b></div><select><option value="fixed" ${t.type==="fixed"?"selected":""}>Fixkosten</option><option value="variable" ${t.type==="variable"?"selected":""}>Variable Ausgabe</option><option value="one_off">Sonderausgabe</option><option value="transfer" ${t.type==="transfer"?"selected":""}>Umbuchung</option><option value="income" ${t.type==="income"?"selected":""}>Gehalt</option><option value="income_other" ${t.type==="income_other"?"selected":""}>Sonstige Einnahme</option></select></div>`).join("")+'<button class="btn" id="confirmImport">Geprüfte Buchungen übernehmen</button>';$("#confirmImport").onclick=confirmImport}
