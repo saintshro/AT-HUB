@@ -1,24 +1,451 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111111">
-<title>AT HUB Reisen</title>
-<style>
-:root{--ink:#151922;--muted:#667085;--brand:#b00020;--line:#d8dee8;--soft:#f5f6f8}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--ink)}
-header{background:#101114;color:#fff;border-bottom:5px solid var(--brand);padding:22px 16px}
-main{max-width:820px;margin:0 auto;padding:18px 14px}
-h1{margin:0;font-size:28px}p{color:var(--muted);line-height:1.45}
-.panel{border:1px solid var(--line);border-radius:8px;padding:16px;margin:14px 0;background:#fff}
-.button{min-height:48px;border-radius:8px;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:12px 16px}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.badge{border-radius:8px;background:var(--soft);padding:7px 9px;font-weight:700;color:#344054}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>AT HUB</title>
+
+  <style>
+    :root{
+      --black:#0b0b0b;
+      --red:#b00020;
+      --green:#168044;
+      --bg:#f3f4f5;
+      --card:#ffffff;
+      --text:#111111;
+      --muted:#687078;
+      --line:#dfe2e5;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    header{
+      background:var(--black);
+      color:#fff;
+      border-bottom:5px solid var(--red);
+      padding:20px 16px;
+    }
+
+    header h1{
+      margin:0;
+      font-size:28px;
+    }
+
+    header p{
+      margin:5px 0 0;
+      color:#bbb;
+    }
+
+    main{
+      max-width:980px;
+      margin:auto;
+      padding:18px 14px 44px;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:.12em;
+      font-weight:800;
+      color:var(--red);
+    }
+
+    .notice{
+      background:#fff5d9;
+      border:1px solid #ecd18b;
+      border-radius:12px;
+      padding:12px;
+      font-size:13px;
+      margin-bottom:14px;
+    }
+
+    .primary,
+    .panel{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:20px;
+      margin-bottom:14px;
+    }
+
+    .primary{
+      border:2px solid var(--green);
+    }
+
+    .money{
+      font-size:46px;
+      font-weight:900;
+      color:var(--green);
+      margin:7px 0;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .cards article{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    .cards span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .cards b{
+      display:block;
+      font-size:21px;
+      margin-top:5px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:11px;
+    }
+
+    label{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    input{
+      width:100%;
+      font-size:16px;
+      margin-top:5px;
+      padding:11px;
+      border:1px solid var(--line);
+      border-radius:10px;
+    }
+
+    .btn{
+      border:0;
+      background:var(--black);
+      color:#fff;
+      border-radius:11px;
+      padding:12px 15px;
+      margin-top:14px;
+      min-height:44px;
+      cursor:pointer;
+    }
+
+    .formula{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid #eee;
+      padding:9px 0;
+    }
+
+    .formula.total{
+      font-weight:900;
+      border-top:2px solid #222;
+      border-bottom:0;
+    }
+
+    @media(max-width:650px){
+      .cards{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .money{
+        font-size:40px;
+      }
+    }
+
+    @media(max-width:360px){
+      .cards{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header><h1>AT HUB Reisen</h1><p>Sommerurlaub 2026 · London und Bordeaux</p></header>
-<main><section class="panel"><h2>Reise-App</h2><p>Diese Online-Version ist fuer Telefon und Tablet vorbereitet. Private Tickets, Ausweise, echte Unterkunftsdaten und persoenliche Dokumente bleiben ausserhalb dieser oeffentlichen Version.</p><div class="badges"><span class="badge">offlinefaehig</span><span class="badge">App 0.5.0</span><span class="badge">Reisedaten 2026-07-05-006</span><span class="badge">Routen ueber Google Maps</span></div><a class="button" href="Reisen/London_Bordeaux_2026/app-v5/index.html">Reise-App 0.5 oeffnen</a></section></main>
+
+<header>
+  <h1>AT HUB</h1>
+  <p>Übersicht schafft Klarheit.</p>
+</header>
+
+<main>
+
+  <div class="eyebrow">PRIVAT · FINANZEN</div>
+  <h2 id="period">Finanzcockpit</h2>
+
+  <div class="notice">
+    Deine privaten Finanzwerte werden nur auf diesem Gerät im Browser gespeichert.
+    Im öffentlichen GitHub-Repository liegen keine Kontobuchungen oder Kontoauszüge.
+  </div>
+
+  <section class="primary">
+    <div class="eyebrow">FREI VERFÜGBAR</div>
+    <div id="free" class="money">–</div>
+    <div class="muted">
+      Nach Fixkosten, Urlaubssparen, Sicherheitspuffer und geplantem Dispo-Abbau.
+    </div>
+  </section>
+
+  <section class="cards">
+    <article>
+      <span>Monatseinkommen</span>
+      <b id="income">–</b>
+    </article>
+
+    <article>
+      <span>Reserviert</span>
+      <b id="reserved">–</b>
+    </article>
+
+    <article>
+      <span>Tagesbudget</span>
+      <b id="daily">–</b>
+    </article>
+
+    <article>
+      <span>Dispo-Abbau</span>
+      <b id="paydownView">–</b>
+    </article>
+
+    <article>
+      <span>Urlaubssparen</span>
+      <b id="vacationView">–</b>
+    </article>
+
+    <article>
+      <span>Variabel ausgegeben</span>
+      <b id="spentView">–</b>
+    </article>
+  </section>
+
+  <section class="panel">
+    <h2>Monatsplan</h2>
+
+    <form id="plan">
+      <div class="grid">
+
+        <label>
+          Nettoeinkommen
+          <input name="income" type="number" step="0.01">
+        </label>
+
+        <label>
+          Haushalt
+          <input name="household" type="number" step="0.01">
+        </label>
+
+        <label>
+          Urlaubssparen
+          <input name="vacation" type="number" step="0.01">
+        </label>
+
+        <label>
+          Unterhalt
+          <input name="maintenance" type="number" step="0.01">
+        </label>
+
+        <label>
+          Weitere Fixkosten
+          <input name="fixed" type="number" step="0.01">
+        </label>
+
+        <label>
+          Sicherheitspuffer
+          <input name="buffer" type="number" step="0.01">
+        </label>
+
+        <label>
+          Dispo-Abbau
+          <input name="paydown" type="number" step="0.01">
+        </label>
+
+        <label>
+          Bereits variabel ausgegeben
+          <input name="spent" type="number" step="0.01">
+        </label>
+
+      </div>
+
+      <button class="btn" type="submit">
+        Speichern & neu berechnen
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Berechnung</h2>
+    <div id="formula"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Nächster Ausbau</h2>
+    <p class="muted">
+      Als Nächstes ergänzen wir den DKB-PDF-Import und die private
+      Google-Drive-Synchronisierung. Die App kann öffentlich über GitHub Pages
+      laufen, während deine Finanzdaten privat bleiben.
+    </p>
+  </section>
+
+</main>
+
+<script>
+  const defaults = {
+    income: 2296.57,
+    household: 650,
+    vacation: 250,
+    maintenance: 500,
+    fixed: 696.51,
+    buffer: 50,
+    paydown: 100,
+    spent: 0
+  };
+
+  const euro = new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR"
+  });
+
+  let plan = {
+    ...defaults,
+    ...JSON.parse(localStorage.getItem("athub-fin-plan") || "{}")
+  };
+
+  const form = document.querySelector("#plan");
+
+  Object.keys(defaults).forEach(key => {
+    form.elements[key].value = plan[key];
+  });
+
+  function render() {
+    const reserved =
+      Number(plan.household) +
+      Number(plan.vacation) +
+      Number(plan.maintenance) +
+      Number(plan.fixed) +
+      Number(plan.buffer) +
+      Number(plan.paydown);
+
+    const startBudget =
+      Number(plan.income) - reserved;
+
+    const free =
+      startBudget - Number(plan.spent);
+
+    const now = new Date();
+
+    const end = new Date(
+      now.getFullYear(),
+      now.getMonth() + (now.getDate() >= 15 ? 1 : 0),
+      15
+    );
+
+    const start = new Date(
+      end.getFullYear(),
+      end.getMonth() - 1,
+      15
+    );
+
+    const remainingDays = Math.max(
+      1,
+      Math.ceil((end - now) / 86400000)
+    );
+
+    const daily =
+      free > 0 ? free / remainingDays : 0;
+
+    document.querySelector("#free").textContent =
+      euro.format(free);
+
+    document.querySelector("#income").textContent =
+      euro.format(plan.income);
+
+    document.querySelector("#reserved").textContent =
+      euro.format(reserved);
+
+    document.querySelector("#daily").textContent =
+      euro.format(daily);
+
+    document.querySelector("#paydownView").textContent =
+      euro.format(plan.paydown);
+
+    document.querySelector("#vacationView").textContent =
+      euro.format(plan.vacation);
+
+    document.querySelector("#spentView").textContent =
+      euro.format(plan.spent);
+
+    document.querySelector("#period").textContent =
+      "Finanzmonat " +
+      start.toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit"
+      }) +
+      " – " +
+      end.toLocaleDateString("de-DE");
+
+    const rows = [
+      ["Einkommen", plan.income],
+      ["Haushalt", -plan.household],
+      ["Urlaubssparen", -plan.vacation],
+      ["Unterhalt", -plan.maintenance],
+      ["Weitere Fixkosten", -plan.fixed],
+      ["Sicherheitspuffer", -plan.buffer],
+      ["Dispo-Abbau", -plan.paydown],
+      ["Monatsbudget Start", startBudget],
+      ["Noch frei verfügbar", free]
+    ];
+
+    document.querySelector("#formula").innerHTML =
+      rows.map((row, index) => `
+        <div class="formula ${index > 6 ? "total" : ""}">
+          <span>${row[0]}</span>
+          <b>${euro.format(row[1])}</b>
+        </div>
+      `).join("");
+  }
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    Object.keys(defaults).forEach(key => {
+      plan[key] =
+        Number(form.elements[key].value) || 0;
+    });
+
+    localStorage.setItem(
+      "athub-fin-plan",
+      JSON.stringify(plan)
+    );
+
+    render();
+  });
+
+  render();
+</script>
+
 </body>
 </html>
