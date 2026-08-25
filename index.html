@@ -1,451 +1,80 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b0b0b">
-  <title>AT HUB</title>
-
-  <style>
-    :root{
-      --black:#0b0b0b;
-      --red:#b00020;
-      --green:#168044;
-      --bg:#f3f4f5;
-      --card:#ffffff;
-      --text:#111111;
-      --muted:#687078;
-      --line:#dfe2e5;
-    }
-
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    header{
-      background:var(--black);
-      color:#fff;
-      border-bottom:5px solid var(--red);
-      padding:20px 16px;
-    }
-
-    header h1{
-      margin:0;
-      font-size:28px;
-    }
-
-    header p{
-      margin:5px 0 0;
-      color:#bbb;
-    }
-
-    main{
-      max-width:980px;
-      margin:auto;
-      padding:18px 14px 44px;
-    }
-
-    .eyebrow{
-      font-size:11px;
-      letter-spacing:.12em;
-      font-weight:800;
-      color:var(--red);
-    }
-
-    .notice{
-      background:#fff5d9;
-      border:1px solid #ecd18b;
-      border-radius:12px;
-      padding:12px;
-      font-size:13px;
-      margin-bottom:14px;
-    }
-
-    .primary,
-    .panel{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:20px;
-      margin-bottom:14px;
-    }
-
-    .primary{
-      border:2px solid var(--green);
-    }
-
-    .money{
-      font-size:46px;
-      font-weight:900;
-      color:var(--green);
-      margin:7px 0;
-    }
-
-    .muted{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-bottom:14px;
-    }
-
-    .cards article{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:14px;
-    }
-
-    .cards span{
-      display:block;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .cards b{
-      display:block;
-      font-size:21px;
-      margin-top:5px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:11px;
-    }
-
-    label{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    input{
-      width:100%;
-      font-size:16px;
-      margin-top:5px;
-      padding:11px;
-      border:1px solid var(--line);
-      border-radius:10px;
-    }
-
-    .btn{
-      border:0;
-      background:var(--black);
-      color:#fff;
-      border-radius:11px;
-      padding:12px 15px;
-      margin-top:14px;
-      min-height:44px;
-      cursor:pointer;
-    }
-
-    .formula{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      border-bottom:1px solid #eee;
-      padding:9px 0;
-    }
-
-    .formula.total{
-      font-weight:900;
-      border-top:2px solid #222;
-      border-bottom:0;
-    }
-
-    @media(max-width:650px){
-      .cards{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .money{
-        font-size:40px;
-      }
-    }
-
-    @media(max-width:360px){
-      .cards{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1>AT HUB</h1>
-  <p>Übersicht schafft Klarheit.</p>
-</header>
-
-<main>
-
-  <div class="eyebrow">PRIVAT · FINANZEN</div>
-  <h2 id="period">Finanzcockpit</h2>
-
-  <div class="notice">
-    Deine privaten Finanzwerte werden nur auf diesem Gerät im Browser gespeichert.
-    Im öffentlichen GitHub-Repository liegen keine Kontobuchungen oder Kontoauszüge.
-  </div>
-
-  <section class="primary">
-    <div class="eyebrow">FREI VERFÜGBAR</div>
-    <div id="free" class="money">–</div>
-    <div class="muted">
-      Nach Fixkosten, Urlaubssparen, Sicherheitspuffer und geplantem Dispo-Abbau.
-    </div>
-  </section>
-
-  <section class="cards">
-    <article>
-      <span>Monatseinkommen</span>
-      <b id="income">–</b>
-    </article>
-
-    <article>
-      <span>Reserviert</span>
-      <b id="reserved">–</b>
-    </article>
-
-    <article>
-      <span>Tagesbudget</span>
-      <b id="daily">–</b>
-    </article>
-
-    <article>
-      <span>Dispo-Abbau</span>
-      <b id="paydownView">–</b>
-    </article>
-
-    <article>
-      <span>Urlaubssparen</span>
-      <b id="vacationView">–</b>
-    </article>
-
-    <article>
-      <span>Variabel ausgegeben</span>
-      <b id="spentView">–</b>
-    </article>
-  </section>
-
-  <section class="panel">
-    <h2>Monatsplan</h2>
-
-    <form id="plan">
-      <div class="grid">
-
-        <label>
-          Nettoeinkommen
-          <input name="income" type="number" step="0.01">
-        </label>
-
-        <label>
-          Haushalt
-          <input name="household" type="number" step="0.01">
-        </label>
-
-        <label>
-          Urlaubssparen
-          <input name="vacation" type="number" step="0.01">
-        </label>
-
-        <label>
-          Unterhalt
-          <input name="maintenance" type="number" step="0.01">
-        </label>
-
-        <label>
-          Weitere Fixkosten
-          <input name="fixed" type="number" step="0.01">
-        </label>
-
-        <label>
-          Sicherheitspuffer
-          <input name="buffer" type="number" step="0.01">
-        </label>
-
-        <label>
-          Dispo-Abbau
-          <input name="paydown" type="number" step="0.01">
-        </label>
-
-        <label>
-          Bereits variabel ausgegeben
-          <input name="spent" type="number" step="0.01">
-        </label>
-
-      </div>
-
-      <button class="btn" type="submit">
-        Speichern & neu berechnen
-      </button>
-    </form>
-  </section>
-
-  <section class="panel">
-    <h2>Berechnung</h2>
-    <div id="formula"></div>
-  </section>
-
-  <section class="panel">
-    <h2>Nächster Ausbau</h2>
-    <p class="muted">
-      Als Nächstes ergänzen wir den DKB-PDF-Import und die private
-      Google-Drive-Synchronisierung. Die App kann öffentlich über GitHub Pages
-      laufen, während deine Finanzdaten privat bleiben.
-    </p>
-  </section>
-
-</main>
-
-<script>
-  const defaults = {
-    income: 2296.57,
-    household: 650,
-    vacation: 250,
-    maintenance: 500,
-    fixed: 696.51,
-    buffer: 50,
-    paydown: 100,
-    spent: 0
-  };
-
-  const euro = new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR"
-  });
-
-  let plan = {
-    ...defaults,
-    ...JSON.parse(localStorage.getItem("athub-fin-plan") || "{}")
-  };
-
-  const form = document.querySelector("#plan");
-
-  Object.keys(defaults).forEach(key => {
-    form.elements[key].value = plan[key];
-  });
-
-  function render() {
-    const reserved =
-      Number(plan.household) +
-      Number(plan.vacation) +
-      Number(plan.maintenance) +
-      Number(plan.fixed) +
-      Number(plan.buffer) +
-      Number(plan.paydown);
-
-    const startBudget =
-      Number(plan.income) - reserved;
-
-    const free =
-      startBudget - Number(plan.spent);
-
-    const now = new Date();
-
-    const end = new Date(
-      now.getFullYear(),
-      now.getMonth() + (now.getDate() >= 15 ? 1 : 0),
-      15
-    );
-
-    const start = new Date(
-      end.getFullYear(),
-      end.getMonth() - 1,
-      15
-    );
-
-    const remainingDays = Math.max(
-      1,
-      Math.ceil((end - now) / 86400000)
-    );
-
-    const daily =
-      free > 0 ? free / remainingDays : 0;
-
-    document.querySelector("#free").textContent =
-      euro.format(free);
-
-    document.querySelector("#income").textContent =
-      euro.format(plan.income);
-
-    document.querySelector("#reserved").textContent =
-      euro.format(reserved);
-
-    document.querySelector("#daily").textContent =
-      euro.format(daily);
-
-    document.querySelector("#paydownView").textContent =
-      euro.format(plan.paydown);
-
-    document.querySelector("#vacationView").textContent =
-      euro.format(plan.vacation);
-
-    document.querySelector("#spentView").textContent =
-      euro.format(plan.spent);
-
-    document.querySelector("#period").textContent =
-      "Finanzmonat " +
-      start.toLocaleDateString("de-DE", {
-        day: "2-digit",
-        month: "2-digit"
-      }) +
-      " – " +
-      end.toLocaleDateString("de-DE");
-
-    const rows = [
-      ["Einkommen", plan.income],
-      ["Haushalt", -plan.household],
-      ["Urlaubssparen", -plan.vacation],
-      ["Unterhalt", -plan.maintenance],
-      ["Weitere Fixkosten", -plan.fixed],
-      ["Sicherheitspuffer", -plan.buffer],
-      ["Dispo-Abbau", -plan.paydown],
-      ["Monatsbudget Start", startBudget],
-      ["Noch frei verfügbar", free]
-    ];
-
-    document.querySelector("#formula").innerHTML =
-      rows.map((row, index) => `
-        <div class="formula ${index > 6 ? "total" : ""}">
-          <span>${row[0]}</span>
-          <b>${euro.format(row[1])}</b>
-        </div>
-      `).join("");
-  }
-
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-
-    Object.keys(defaults).forEach(key => {
-      plan[key] =
-        Number(form.elements[key].value) || 0;
-    });
-
-    localStorage.setItem(
-      "athub-fin-plan",
-      JSON.stringify(plan)
-    );
-
-    render();
-  });
-
-  render();
-</script>
-
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b"><title>AT HUB Finanzcockpit</title>
+<style>
+:root{--b:#0b0b0b;--r:#b00020;--g:#168044;--a:#a86600;--bg:#f3f4f5;--card:#fff;--muted:#687078;--line:#dfe2e5}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#111}header{background:var(--b);color:#fff;border-bottom:5px solid var(--r);padding:18px 16px}header h1{margin:0}header p{margin:4px 0 0;color:#bbb}
+main{max-width:1000px;margin:auto;padding:16px 13px 44px}.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:800;color:var(--r)}.hero{display:flex;justify-content:space-between;gap:10px;align-items:center}.hero h2{margin:4px 0 14px}.pill{background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:999px;font-size:12px}
+.primary,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px}.primary{border:2px solid var(--g)}.money{font-size:44px;font-weight:900;color:var(--g);margin:7px 0}.money.neg,.red{color:var(--r)}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px}.cards article{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px}.cards span{display:block;font-size:11px;color:var(--muted)}.cards b{display:block;font-size:20px;margin-top:5px}
+.inputrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.inputrow label{font-size:12px;color:var(--muted)}input{width:100%;font-size:17px;padding:11px;border:1px solid var(--line);border-radius:10px;margin-top:5px}.btn{border:0;background:#111;color:#fff;border-radius:10px;padding:11px 14px;min-height:44px;cursor:pointer}
+.formula,.due{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eee}.formula.total{font-weight:900;border-top:2px solid #222;border-bottom:0}.due>div small{display:block;color:var(--muted);margin-top:3px}.badge{font-size:11px;border-radius:999px;padding:4px 7px;background:#fff2d8;color:#8b5700}.badge.done{background:#e6f5ec;color:var(--g)}
+.dispo{height:14px;background:#e3e5e7;border-radius:999px;overflow:hidden;margin:10px 0}.dispo>div{height:100%;background:#111;width:0}.legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.notice{background:#fff5d9;border:1px solid #ecd18b;border-radius:11px;padding:11px;font-size:13px;margin-bottom:12px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 10px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 13px;white-space:nowrap}.tab.active{background:#111;color:#fff}.pane{display:none}.pane.active{display:block}
+@media(max-width:650px){.cards{grid-template-columns:repeat(2,1fr)}.money{font-size:39px}.inputrow{grid-template-columns:1fr}.hero{align-items:flex-start}}@media(max-width:360px){.cards{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header><main>
+<div class="hero"><div><div class="eyebrow">PRIVAT · FINANZEN</div><h2>Liquiditätscockpit bis 15.09.2026</h2></div><div class="pill">Finanzmonat 15.08.–15.09.</div></div>
+
+<div class="notice"><b>Neu:</b> Trage deinen aktuellen DKB-Kontostand ein. Das Cockpit zieht alle noch erwarteten Abbuchungen bis zum 15.09. ab und zeigt zusätzlich, wie viel vom 500-€-Dispo danach noch übrig wäre.</div>
+
+<section class="panel"><div class="inputrow"><label>Aktueller DKB-Kontostand<input id="balanceInput" type="number" step="0.01" placeholder="z. B. -120,50"></label><button id="saveBalance" class="btn">Kontostand speichern</button></div><p class="muted">Der Kontostand wird nur lokal in deinem Browser gespeichert.</p></section>
+
+<section class="primary"><div class="eyebrow">PROGNOSE KONTOSTAND AM 15.09.</div><div id="forecast" class="money">–</div><div class="muted">Aktueller Kontostand minus alle noch offenen erwarteten Abbuchungen.</div></section>
+
+<section class="cards">
+<article><span>Aktueller Kontostand</span><b id="balance">–</b></article>
+<article><span>Noch kommende Abbuchungen</span><b id="upcoming">–</b></article>
+<article><span>Verfügbar inkl. 500 € Dispo am 15.</span><b id="bankAvailable">–</b></article>
+<article><span>Dispo beansprucht am 15.</span><b id="dispoUsed">–</b></article>
+<article><span>Dispo-Spielraum danach</span><b id="dispoLeft">–</b></article>
+<article><span>Urlaubssparen</span><b>250,00 €</b></article>
+</section>
+
+<nav class="tabs"><button class="tab active" data-tab="due">Kommt noch</button><button class="tab" data-tab="budget">Monatsbudget</button><button class="tab" data-tab="dispo">Dispo</button></nav>
+
+<section id="due" class="pane active"><div class="panel"><h3>Noch erwartete Abbuchungen bis 15.09.</h3><p class="muted">Die Termine sind Prognosen aus den bekannten regelmäßigen Zahlungen. Tippe auf „gebucht“, wenn eine Position bereits vom Konto abgegangen ist. Später erledigt das der PDF-Import automatisch.</p><div id="dueList"></div></div></section>
+
+<section id="budget" class="pane"><div class="panel"><h3>Persönliches Monatsbudget</h3><div id="budgetFormula"></div><p class="muted">Diese Rechnung trennt dein persönliches Ausgabebudget von der Bank-Liquidität. Der Dispo ist kein Einkommen.</p></div></section>
+
+<section id="dispo" class="pane"><div class="panel"><h3>500-€-Disporahmen</h3><div class="dispo"><div id="dispoBar"></div></div><div class="legend"><span>0 € genutzt</span><span>500 € Limit</span></div><div id="dispoText" class="muted" style="margin-top:12px"></div></div></section>
+
+</main><script>
+const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
+const expected=[{"name": "Creditplus", "amount": 162.16, "day": 1, "match": ["creditplus"]}, {"name": "Telefonica", "amount": 118.92, "day": 2, "match": ["telefonica germany"]}, {"name": "Nürnberger Leben", "amount": 113.14, "day": 1, "match": ["nurnberger lebensversicherung"]}, {"name": "HUK Krankenversicherung", "amount": 24.04, "day": 1, "match": ["huk-coburg krankenversicherung"]}, {"name": "Mecklenburgische KV", "amount": 20.44, "day": 1, "match": ["mecklenburgische kranken"]}, {"name": "Mecklenburgische Unfall", "amount": 29.42, "day": 1, "match": ["mecklenburgische versicherungs"]}, {"name": "Telefonica Insurance", "amount": 7.95, "day": 1, "match": ["telefonica insurance"]}, {"name": "Best Fitness", "amount": 65.91, "day": 1, "match": ["best fitness"]}, {"name": "Deutschlandticket", "amount": 68.0, "day": 1, "match": ["transdev", "deutschlandticket"]}, {"name": "Netflix", "amount": 13.99, "day": 5, "match": ["netflix"]}, {"name": "Audible", "amount": 9.95, "day": 7, "match": ["audible"]}, {"name": "Amazon Prime", "amount": 8.99, "day": 8, "match": ["amazonprime", "amznprime"]}, {"name": "Amazon Music", "amount": 16.99, "day": 10, "match": ["amazon music"]}, {"name": "Google", "amount": 9.99, "day": 10, "match": ["google payment"]}, {"name": "IG Metall", "amount": 17.68, "day": 1, "match": ["industriegewerkscha"]}, {"name": "Telekom", "amount": 12.95, "day": 5, "match": ["telekom deutschland"]}];
+const DISPO=500;
+const plan={income:2296.57,household:650,vacation:250,maintenance:500,fixed:695.52,buffer:50,paydown:100,variable:161.71};
+let balance=Number(localStorage.getItem("athub-balance"));
+if(!Number.isFinite(balance)) balance=NaN;
+let done=JSON.parse(localStorage.getItem("athub-due-done")||"{}");
+const input=document.querySelector("#balanceInput"); if(Number.isFinite(balance))input.value=balance.toFixed(2);
+
+function openItems(){return expected.filter((x,i)=>!done[i])}
+function render(){
+ const open=openItems(), upcoming=open.reduce((s,x)=>s+x.amount,0);
+ const forecast=Number.isFinite(balance)?balance-upcoming:NaN;
+ const bankAvail=Number.isFinite(forecast)?forecast+DISPO:NaN;
+ const used=Number.isFinite(forecast)?Math.min(DISPO,Math.max(0,-forecast)):NaN;
+ const left=Number.isFinite(used)?Math.max(0,DISPO-used):NaN;
+ document.querySelector("#balance").textContent=Number.isFinite(balance)?euro.format(balance):"Kontostand fehlt";
+ document.querySelector("#upcoming").textContent=euro.format(upcoming);
+ document.querySelector("#forecast").textContent=Number.isFinite(forecast)?euro.format(forecast):"Kontostand eingeben";
+ document.querySelector("#forecast").classList.toggle("neg",Number.isFinite(forecast)&&forecast<0);
+ document.querySelector("#bankAvailable").textContent=Number.isFinite(bankAvail)?euro.format(bankAvail):"–";
+ document.querySelector("#dispoUsed").textContent=Number.isFinite(used)?euro.format(used):"–";
+ document.querySelector("#dispoLeft").textContent=Number.isFinite(left)?euro.format(left):"–";
+ document.querySelector("#dispoBar").style.width=Number.isFinite(used)?Math.min(100,used/DISPO*100)+"%":"0%";
+ document.querySelector("#dispoText").textContent=!Number.isFinite(forecast)?"Bitte zuerst den aktuellen Kontostand eintragen.":forecast>=0?`Nach den erwarteten Abbuchungen läge das Konto bei ${euro.format(forecast)}. Der 500-€-Dispo wäre voraussichtlich nicht beansprucht.`:`Nach den erwarteten Abbuchungen läge das Konto bei ${euro.format(forecast)}. Damit wären voraussichtlich ${euro.format(used)} vom Dispo genutzt und noch ${euro.format(left)} Kreditlinie übrig.`;
+ document.querySelector("#dueList").innerHTML=expected.map((x,i)=>`<div class="due"><div><b>${x.name}</b><small>erwartet ca. ${String(x.day).padStart(2,"0")}.09. · ${euro.format(x.amount)}</small></div><button class="badge ${done[i]?"done":""}" onclick="toggleDone(${i})">${done[i]?"gebucht ✓":"noch offen"}</button></div>`).join("");
+ const reserved=plan.household+plan.vacation+plan.maintenance+plan.fixed+plan.buffer+plan.paydown,start=plan.income-reserved,free=start-plan.variable;
+ const rows=[["Gehalt",plan.income],["Haushalt",-plan.household],["Urlaubssparen",-plan.vacation],["Unterhalt",-plan.maintenance],["Weitere Fixkosten",-plan.fixed],["Sicherheitspuffer",-plan.buffer],["Geplanter Dispo-Abbau",-plan.paydown],["Persönliches Startbudget",start],["Bisher variable Ausgaben",-plan.variable],["Persönlich noch frei",free]];
+ document.querySelector("#budgetFormula").innerHTML=rows.map((r,i)=>`<div class="formula ${i>=7?"total":""}"><span>${r[0]}</span><b class="${i===9&&r[1]<0?"red":""}">${euro.format(r[1])}</b></div>`).join("");
+}
+window.toggleDone=i=>{done[i]=!done[i];localStorage.setItem("athub-due-done",JSON.stringify(done));render()};
+document.querySelector("#saveBalance").onclick=()=>{balance=Number(input.value);if(Number.isFinite(balance)){localStorage.setItem("athub-balance",balance);render()}};
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".pane").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelector("#"+b.dataset.tab).classList.add("active")});
+render();
+</script></body></html>
