@@ -1,0 +1,118 @@
+{
+  "version": "7.0.0",
+  "financialMonthStartDay": 15,
+  "overdraftLimit": 500,
+  "plan": {
+    "vacationSavings": 250,
+    "emergencyBuffer": 50,
+    "plannedPaydown": 100
+  },
+  "drive": {
+    "clientId": "",
+    "fileName": "AT_HUB_Finanzdaten.json",
+    "scope": "https://www.googleapis.com/auth/drive.file"
+  },
+  "dues": [
+    {
+      "id": "tel_ins",
+      "date": "27.–31.",
+      "name": "Telefonica Insurance",
+      "amount": 7.95,
+      "confidence": "hoch",
+      "match": [
+        "telefonica insurance"
+      ]
+    },
+    {
+      "id": "tel_o2",
+      "date": "29.–31.",
+      "name": "Telefonica / O2",
+      "amount": 118.92,
+      "confidence": "hoch",
+      "match": [
+        "telefonica germany"
+      ]
+    },
+    {
+      "id": "creditplus",
+      "date": "29.–31.",
+      "name": "Creditplus",
+      "amount": 162.16,
+      "confidence": "sehr hoch",
+      "match": [
+        "creditplus"
+      ]
+    },
+    {
+      "id": "nuernberger",
+      "date": "01.–03.",
+      "name": "Nürnberger Leben",
+      "amount": 113.14,
+      "confidence": "mittel",
+      "match": [
+        "nurnberger lebensversicherung"
+      ]
+    },
+    {
+      "id": "huk",
+      "date": "01.–03.",
+      "name": "HUK Krankenversicherung",
+      "amount": 24.04,
+      "confidence": "sehr hoch",
+      "match": [
+        "huk-coburg"
+      ]
+    },
+    {
+      "id": "meck_kv",
+      "date": "01.–03.",
+      "name": "Mecklenburgische KV",
+      "amount": 20.44,
+      "confidence": "sehr hoch",
+      "match": [
+        "mecklenburgische kranken"
+      ]
+    },
+    {
+      "id": "meck_unfall",
+      "date": "01.–03.",
+      "name": "Mecklenburgische Unfall",
+      "amount": 29.42,
+      "confidence": "sehr hoch",
+      "match": [
+        "mecklenburgische versicherungs"
+      ]
+    },
+    {
+      "id": "fitness",
+      "date": "01.–03.",
+      "name": "Best Fitness Grundbeitrag",
+      "amount": 29.99,
+      "confidence": "mittel",
+      "match": [
+        "best fitness"
+      ]
+    },
+    {
+      "id": "d_ticket",
+      "date": "Anfang",
+      "name": "Deutschlandticket",
+      "amount": 68.0,
+      "confidence": "mittel",
+      "match": [
+        "transdev",
+        "deutschlandticket"
+      ]
+    },
+    {
+      "id": "netflix",
+      "date": "14.–15.",
+      "name": "Netflix",
+      "amount": 13.99,
+      "confidence": "hoch",
+      "match": [
+        "netflix"
+      ]
+    }
+  ]
+}

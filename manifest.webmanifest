@@ -1,0 +1,8 @@
+{
+  "name": "AT HUB Finanzcockpit v7",
+  "short_name": "AT Finanzen",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f4f5",
+  "theme_color": "#0b0b0b"
+}
