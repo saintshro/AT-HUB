@@ -1,6 +1,11 @@
 {
-  "version": "8.6.0",
+  "version": "8.7.0",
   "module": "Finanzcockpit",
   "updated": "2026-08-27",
-  "notes": "Harte 15.-des-Monats-Grenze; spätere Fälligkeiten können weder lokal noch per Drive-Sync in die aktuelle Prognose reaktiviert werden."
+  "notes": [
+    "Automatischer Finanzmonat vom 15. bis einschließlich 15. des Folgemonats.",
+    "Wiederkehrende Abbuchungen werden aus den in v8.6 bekannten Rhythmen automatisch dem aktuellen Finanzmonat zugeordnet.",
+    "Google-Drive-Sync bleibt erhalten; lokale Daten bleiben Offline-Kopie.",
+    "Beim Wechsel des Finanzmonats wird für die neue Periode eine neue Fälligkeitsliste erzeugt."
+  ]
 }

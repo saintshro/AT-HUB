@@ -1,6 +1,14 @@
-AT HUB Finanzcockpit v8.6
+AT HUB Finanzcockpit v8.7
 
-Nur in den Branch gh--pages hochladen und vorhandene Dateien ersetzen:
+NEU:
+- Finanzmonat wechselt automatisch am 15.
+- Zeitraum wird aus dem aktuellen Datum erzeugt.
+- Wiederkehrende Fixkosten werden automatisch in den passenden Zeitraum 15. → 15. einsortiert.
+- Positionen nach dem Enddatum des Finanzmonats zählen nicht.
+- Drive Sync bleibt erhalten.
+
+UPLOAD:
+Im Branch gh--pages diese Dateien ersetzen:
 index.html
 app.js
 styles.css
@@ -9,11 +17,5 @@ manifest.webmanifest
 sw.js
 app-version.json
 
-SOLLDATEN:
-Kontostand -101,03 €
-Noch offen 339,98 €
-Reserviert 50,00 €
-Prognose -491,01 €
-Dispo frei 8,99 €
-
-Alles nach dem 15.09. ist technisch ausgeschlossen.
+Danach committen, z.B.:
+Finanzcockpit v8.7 automatischer Finanzmonat

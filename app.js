@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
 let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.6.0";
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.7.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -36,7 +36,7 @@ function defaultState(){
   return {
     balance:config.currentSnapshot?.balance ?? null,
     transactions:[],
-    dueActive:Object.fromEntries(config.dues.map(d=>[d.id,true])),
+    dueActive:Object.fromEntries(dues.map(d=>[d.id,true])),
     planActive:{emergencyBuffer:true,vacationSavings:false,plannedPaydown:false},
     lastSyncAt:null,
     localChangedAt:new Date().toISOString(),
@@ -62,7 +62,7 @@ function migrateState(){
 
   if(state.migratedTo!==MIGRATION){
     state.balance=config.currentSnapshot?.balance ?? state.balance;
-    state.dueActive=Object.fromEntries(config.dues.map(d=>[d.id, d.includeInForecast!==false]));
+    state.dueActive=Object.fromEntries(buildCycleDues().rows.map(d=>[d.id,true]));
     state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
     state.migratedTo=MIGRATION;
     touchField("dueActive");
@@ -88,6 +88,80 @@ function reserveRows(){
 function activeReserveSum(){
   return reserveRows().reduce((s,[k,,v])=>s+(state.planActive?.[k]?v:0),0);
 }
+
+function localDateISO(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function cycleForDate(now=new Date()){
+  const anchor=config.financeCycle?.anchorDay||15;
+  let start, end;
+  if(now.getDate()>=anchor){
+    start=new Date(now.getFullYear(),now.getMonth(),anchor);
+    end=new Date(now.getFullYear(),now.getMonth()+1,anchor);
+  }else{
+    start=new Date(now.getFullYear(),now.getMonth()-1,anchor);
+    end=new Date(now.getFullYear(),now.getMonth(),anchor);
+  }
+  return {start,end,startISO:localDateISO(start),endISO:localDateISO(end)};
+}
+function euroDate(d){return new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"}).format(d);}
+function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
+function occurrenceDates(rule,cycle){
+  const dates=[];
+  const add=(y,m,day)=>{
+    const max=daysInMonth(y,m), safe=Math.min(day,max), dt=new Date(y,m,safe);
+    if(dt>=cycle.start && dt<=cycle.end) dates.push(dt);
+  };
+  if(rule.type==="monthly"){
+    for(let cursor=new Date(cycle.start.getFullYear(),cycle.start.getMonth(),1); cursor<=cycle.end; cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,1)){
+      add(cursor.getFullYear(),cursor.getMonth(),rule.dayStart||1);
+    }
+  }else if(rule.type==="quarterly"){
+    for(let cursor=new Date(cycle.start.getFullYear(),cycle.start.getMonth(),1); cursor<=cycle.end; cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,1)){
+      if((rule.months||[]).includes(cursor.getMonth()+1)) add(cursor.getFullYear(),cursor.getMonth(),rule.dayStart||15);
+    }
+  }else if(rule.type==="biweekly"){
+    const ref=new Date(`${rule.referenceDate}T12:00:00`);
+    const step=(rule.intervalDays||14)*86400000;
+    let t=ref.getTime();
+    while(t>cycle.start.getTime()) t-=step;
+    while(t<cycle.start.getTime()) t+=step;
+    while(t<=cycle.end.getTime()){dates.push(new Date(t));t+=step;}
+  }
+  return dates.sort((a,b)=>a-b);
+}
+function buildCycleDues(){
+  const cycle=cycleForDate();
+  const rows=[];
+  for(const rule of (config.recurrences||[])){
+    for(const dt of occurrenceDates(rule,cycle)){
+      rows.push({
+        ...rule,
+        cycleId:`${rule.id}@${localDateISO(dt)}`,
+        baseId:rule.id,
+        id:`${rule.id}@${localDateISO(dt)}`,
+        dueDate:localDateISO(dt),
+        date:euroDate(dt),
+        includeInForecast:true
+      });
+    }
+  }
+  rows.sort((a,b)=>a.dueDate.localeCompare(b.dueDate)||a.name.localeCompare(b.name));
+  return {cycle,rows};
+}
+function ensureCycleState(){
+  const {cycle,rows}=buildCycleDues();
+  if(state.financeCycleId!==`${cycle.startISO}_${cycle.endISO}`){
+    state.financeCycleId=`${cycle.startISO}_${cycle.endISO}`;
+    state.dueActive=Object.fromEntries(rows.map(d=>[d.id,true]));
+    state.migratedTo=MIGRATION;
+    touchField("dueActive");
+    saveState(false).catch(()=>{});
+  }
+  return {cycle,rows};
+}
+
 function render(){
   const p=financePeriod();
   const open=config.dues.filter(d=>d.includeInForecast!==false && state.dueActive[d.id]!==false);
@@ -133,7 +207,7 @@ function render(){
   if($("#driveStatus")) $("#driveStatus").textContent=driveToken?"verbunden":"nicht verbunden";
 }
 window.toggleDue=async id=>{
-  const d=config.dues.find(x=>x.id===id);
+  const d=buildCycleDues().rows.find(x=>x.id===id);
   if(d?.includeInForecast===false){
     state.dueActive[id]=false;
     touchField("dueActive");
@@ -465,9 +539,8 @@ function mergeStates(local,remote){
     local.fieldChangedAt?.dueActive||local.localChangedAt,
     remote.fieldChangedAt?.dueActive||remote.localChangedAt
   );
-  for(const d of config.dues){
-    if(d.includeInForecast===false) merged.dueActive[d.id]=false;
-  }
+  const validCycleIds=new Set(buildCycleDues().rows.map(d=>d.id));
+  merged.dueActive=Object.fromEntries(Object.entries(merged.dueActive||{}).filter(([id])=>validCycleIds.has(id)));
 
   merged.planActive=mergeObjectByTimestamp(
     local.planActive,remote.planActive,
