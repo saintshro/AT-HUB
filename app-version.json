@@ -1,6 +1,6 @@
 {
-  "version": "8.4.0",
+  "version": "8.5.0",
   "module": "Finanzcockpit",
   "updated": "2026-08-27",
-  "notes": "Jahresauszug-sicherer PDF-Import: historische Buchungen verändern Prognose nicht; nur Buchungen im aktuellen Fälligkeitsfenster markieren Positionen bezahlt; Prognose wird bei Migration auf korrekten v8.3-Stand zurückgesetzt."
+  "notes": "Google Drive als zentraler Datenspeicher für Handy und Rechner; merge-basierte Synchronisierung; Autosync nach Änderungen und zyklisch; lokale Offline-Kopie bleibt bestehen."
 }

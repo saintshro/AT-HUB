@@ -1,5 +1,5 @@
 {
-  "version": "8.4.0",
+  "version": "8.5.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -21,8 +21,10 @@
   },
   "drive": {
     "clientId": "",
-    "fileName": "AT_HUB_Finanzdaten.json",
-    "scope": "https://www.googleapis.com/auth/drive.file"
+    "fileName": "AT_HUB_Finanzdaten_v8_5.json",
+    "scope": "https://www.googleapis.com/auth/drive.file",
+    "autoSync": true,
+    "syncIntervalSeconds": 60
   },
   "dues": [
     {

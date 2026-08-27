@@ -1,20 +1,28 @@
-AT HUB Finanzcockpit v8.4
+AT HUB Finanzcockpit v8.5
+
+ZIEL:
+Handy und Rechner verwenden denselben Finanzdatenstand über Google Drive.
 
 UPLOAD:
 Alle Dateien aus diesem ZIP in das Root-Verzeichnis von saintshro/AT-HUB hochladen und vorhandene Dateien ersetzen.
 
-Danach:
+DANACH:
 1. Commit changes
-2. AT-HUB-Seite öffnen
-3. Strg + F5
+2. Seite mit Strg+F5 neu laden
+3. Reiter 'Drive Sync' öffnen
+4. Google OAuth Client-ID eintragen
+5. 'Mit Drive verbinden'
+6. Auf Handy dieselbe AT-HUB-Seite öffnen
+7. Dort dieselbe Client-ID eintragen und mit demselben Google-Konto verbinden
 
-WICHTIG v8.4:
-- Jahresauszüge dürfen komplett importiert werden.
-- Historische Buchungen verändern die aktuelle Prognose NICHT.
-- Nur Buchungen im expliziten aktuellen Fälligkeitsfenster dürfen eine offene Position als bezahlt markieren.
-- Beim ersten Start von v8.4 wird die Prognose auf den korrekten Ausgangsstand zurückgesetzt:
-  offene Abbuchungen 339,98 €
-  Puffer 50,00 €
-  Prognose -491,01 €
-  Dispo frei 8,99 €
-- Nach PDF-Import wird angezeigt, wie viele aktuelle Fälligkeiten wirklich bestätigt wurden.
+SYNCHRONISIERUNG:
+- Drive-Datei: AT_HUB_Finanzdaten_v8_5.json
+- Autosync nach Änderungen
+- zusätzlicher zyklischer Sync etwa jede Minute
+- Buchungen werden zusammengeführt
+- Kontostand/Schalter: jeweils der neuere Stand gewinnt
+- lokale Daten bleiben als Offline-Kopie erhalten
+
+HINWEIS:
+Google erlaubt einer Browser-App keinen dauerhaften Refresh-Token ohne Backend.
+Daher kann Google je nach Browser/Sitzung gelegentlich erneut eine Anmeldung verlangen.

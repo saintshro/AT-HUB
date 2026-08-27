@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0b">
-<title>AT HUB · Finanzcockpit v8.4</title>
+<title>AT HUB · Finanzcockpit v8.5</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,7 +13,7 @@
 <main>
   <div class="hero">
     <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
-    <div class="pill">v8.4</div>
+    <div class="pill">v8.5</div>
   </div>
 
   <section class="heroCard">
@@ -80,18 +80,38 @@
 
   <section id="drive" class="pane">
     <div class="panel">
-      <div class="eyebrow">GOOGLE DRIVE</div>
-      <h3>PC und Handy synchronisieren</h3>
-      <p class="muted">Finanzdaten werden als private JSON-Datei gespeichert. PDFs werden nicht hochgeladen.</p>
-      <label>Google OAuth Client-ID<input id="clientId" type="text" placeholder="…apps.googleusercontent.com"></label>
+      <div class="eyebrow">GOOGLE DRIVE · ZENTRALER SPEICHER</div>
+      <h3>Handy und Rechner synchronisieren</h3>
+      <p class="muted">Beide Geräte verwenden dieselbe private JSON-Datei in deinem Google Drive. Lokale Daten bleiben als Offline-Kopie erhalten.</p>
+
+      <div class="cards" style="margin-top:10px">
+        <article><span>Drive-Status</span><b id="driveStatus">nicht verbunden</b></article>
+        <article><span>Letzter Sync</span><b id="lastSync">–</b></article>
+        <article><span>Autosync</span><b id="autoSyncState">aktiv</b></article>
+      </div>
+
+      <label>Google OAuth Client-ID
+        <input id="clientId" type="text" placeholder="…apps.googleusercontent.com">
+      </label>
+
       <div class="actions">
         <button id="saveClient" class="btn">Client-ID speichern</button>
         <button id="connect" class="btn secondary">Mit Drive verbinden</button>
         <button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button>
       </div>
+
+      <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
+        <input id="autoSync" type="checkbox" style="width:auto;margin:0">
+        <span>Automatisch synchronisieren</span>
+      </label>
+
       <p id="driveMsg" class="msg"></p>
     </div>
-    <div class="panel"><h3>Konfliktschutz</h3><p class="muted">Wenn Drive und dieses Gerät geändert wurden, wird nichts ungefragt überschrieben.</p></div>
+
+    <div class="panel">
+      <h3>Synchronisationsregeln</h3>
+      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der neuere Kontostand und die neueren Schalter gewinnen. Konflikte werden angezeigt, nicht still überschrieben.</p>
+    </div>
   </section>
 </main>
 <script src="app.js"></script>

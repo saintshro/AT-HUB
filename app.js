@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
 let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.4.0";
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.5.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -27,6 +27,11 @@ async function saveState(localChange=true){
     t.oncomplete=res; t.onerror=()=>rej(t.error);
   });
 }
+
+function touchField(field){
+  if(!state.fieldChangedAt) state.fieldChangedAt={};
+  state.fieldChangedAt[field]=new Date().toISOString();
+}
 function defaultState(){
   return {
     balance:config.currentSnapshot?.balance ?? null,
@@ -35,19 +40,25 @@ function defaultState(){
     planActive:{emergencyBuffer:true,vacationSavings:false,plannedPaydown:false},
     lastSyncAt:null,
     localChangedAt:new Date().toISOString(),
-    drive:{clientId:config.drive.clientId||""},
+    deviceId:localStorage.getItem("athub-device-id")||("dev-"+crypto.randomUUID()),
+    fieldChangedAt:{balance:new Date().toISOString(),dueActive:new Date().toISOString(),planActive:new Date().toISOString()},
+    drive:{clientId:config.drive.clientId||"",autoSync:config.drive.autoSync!==false},
     migratedTo:MIGRATION
   };
 }
 function migrateState(){
   if(!state || typeof state!=="object") state=defaultState();
+  if(!state.deviceId) state.deviceId=localStorage.getItem("athub-device-id")||("dev-"+crypto.randomUUID());
+  localStorage.setItem("athub-device-id",state.deviceId);
+  if(!state.fieldChangedAt) state.fieldChangedAt={balance:state.localChangedAt||new Date().toISOString(),dueActive:state.localChangedAt||new Date().toISOString(),planActive:state.localChangedAt||new Date().toISOString()};
   if(!state.transactions) state.transactions=[];
   if(!state.dueActive) state.dueActive={};
   for(const d of config.dues){
     if(!(d.id in state.dueActive)) state.dueActive[d.id]=true;
   }
   if(!state.planActive) state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
-  if(!state.drive) state.drive={clientId:config.drive.clientId||""};
+  if(!state.drive) state.drive={clientId:config.drive.clientId||"",autoSync:config.drive.autoSync!==false};
+  if(typeof state.drive.autoSync!=="boolean") state.drive.autoSync=config.drive.autoSync!==false;
 
   if(state.migratedTo!==MIGRATION){
     state.balance=config.currentSnapshot?.balance ?? state.balance;
@@ -115,9 +126,13 @@ function render(){
 
   $("#bal").value=state.balance??"";
   $("#clientId").value=state.drive.clientId||"";
+  if($("#autoSync")) $("#autoSync").checked=state.drive.autoSync!==false;
+  if($("#autoSyncState")) $("#autoSyncState").textContent=state.drive.autoSync!==false?"aktiv":"aus";
+  if($("#lastSync")) $("#lastSync").textContent=state.lastSyncAt?new Date(state.lastSyncAt).toLocaleString("de-DE"):"–";
+  if($("#driveStatus")) $("#driveStatus").textContent=driveToken?"verbunden":"nicht verbunden";
 }
-window.toggleDue=async id=>{state.dueActive[id]=state.dueActive[id]===false;await saveState();render();};
-window.togglePlan=async id=>{state.planActive[id]=!state.planActive[id];await saveState();render();};
+window.toggleDue=async id=>{state.dueActive[id]=state.dueActive[id]===false;touchField("dueActive");await saveState();render();queueAutoSync();};
+window.togglePlan=async id=>{state.planActive[id]=!state.planActive[id];touchField("planActive");await saveState();render();queueAutoSync();};
 
 function bind(){
   $$(".tab").forEach(b=>b.onclick=()=>{
@@ -128,7 +143,7 @@ function bind(){
   });
   $("#saveBal").onclick=async()=>{
     const v=Number($("#bal").value);
-    if(Number.isFinite(v)){state.balance=v;await saveState();render();}
+    if(Number.isFinite(v)){state.balance=v;touchField("balance");await saveState();render();queueAutoSync();}
   };
   const drop=$("#drop"),pdf=$("#pdf");
   drop.onclick=()=>pdf.click();
@@ -147,6 +162,12 @@ function bind(){
   };
   $("#connect").onclick=connectDrive;
   $("#sync").onclick=syncDrive;
+  $("#autoSync").onchange=async()=>{
+    state.drive.autoSync=$("#autoSync").checked;
+    await saveState();
+    render();
+    if(state.drive.autoSync) queueAutoSync();
+  };
 }
 async function loadPdfJs(){
   return await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/+esm");
@@ -324,6 +345,7 @@ async function confirmImport(){
     : '<p class="muted">Keine aktuell fällige Position wurde durch diesen Auszug als bezahlt bestätigt.</p>';
 
   render();
+  queueAutoSync();
 }
 
 async function loadGIS(){
@@ -344,56 +366,152 @@ async function connectDrive(){
       client_id:state.drive.clientId,scope:config.drive.scope,
       callback:r=>{
         if(r.error){msgDrive(r.error,"bad");return;}
-        driveToken=r.access_token;$("#sync").disabled=false;msgDrive("Google Drive verbunden.","good");
+        driveToken=r.access_token;$("#sync").disabled=false;msgDrive("Google Drive verbunden.","good");startAutoSyncLoop();render();if(state.drive.autoSync!==false) syncDrive();
       }
     });
     tc.requestAccessToken({prompt:"consent"});
   }catch(e){msgDrive(e.message,"bad");}
 }
+
 async function dfetch(url,opt={}){
-  const h=new Headers(opt.headers||{});h.set("Authorization","Bearer "+driveToken);
+  const h=new Headers(opt.headers||{});
+  h.set("Authorization","Bearer "+driveToken);
   const r=await fetch(url,{...opt,headers:h});
   if(!r.ok) throw Error("Drive-Fehler "+r.status);
   return r;
 }
 async function findDrive(){
   const q=encodeURIComponent(`name='${config.drive.fileName}' and trashed=false`);
-  const r=await dfetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,modifiedTime)`);
-  const j=await r.json();driveFileId=j.files?.[0]?.id||null;return j.files?.[0]||null;
+  const r=await dfetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,modifiedTime,name)`);
+  const j=await r.json();
+  driveFileId=j.files?.[0]?.id||null;
+  return j.files?.[0]||null;
 }
 async function pullDrive(){
-  const meta=await findDrive();if(!meta)return null;
+  const meta=await findDrive();
+  if(!meta) return null;
   const r=await dfetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`);
   return await r.json();
 }
 async function pushDrive(payload){
+  const data={...payload,updatedAt:new Date().toISOString(),schemaVersion:"8.5.0"};
   if(!driveFileId){
-    const boundary="athub"+Date.now(),meta={name:config.drive.fileName,mimeType:"application/json"},
-    body=`--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(payload)}\r\n--${boundary}--`;
-    const r=await dfetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{method:"POST",headers:{"Content-Type":"multipart/related; boundary="+boundary},body});
+    const boundary="athub"+Date.now();
+    const meta={name:config.drive.fileName,mimeType:"application/json"};
+    const body=`--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`;
+    const r=await dfetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{
+      method:"POST",
+      headers:{"Content-Type":"multipart/related; boundary="+boundary},
+      body
+    });
     driveFileId=(await r.json()).id;
   }else{
-    await dfetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    await dfetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
   }
+}
+function newerValue(localVal,remoteVal,localTs,remoteTs){
+  const l=Date.parse(localTs||0),r=Date.parse(remoteTs||0);
+  return r>l?remoteVal:localVal;
+}
+function mergeTransactions(a=[],b=[]){
+  const map=new Map();
+  for(const t of [...a,...b]){
+    if(!t?.id) continue;
+    const prev=map.get(t.id);
+    if(!prev) map.set(t.id,t);
+    else{
+      const pt=Date.parse(prev.updatedAt||prev.iso||0);
+      const nt=Date.parse(t.updatedAt||t.iso||0);
+      if(nt>pt) map.set(t.id,t);
+    }
+  }
+  return [...map.values()];
+}
+function mergeObjectByTimestamp(localObj={},remoteObj={},localTs,remoteTs){
+  return Date.parse(remoteTs||0)>Date.parse(localTs||0)?{...remoteObj}:{...localObj};
+}
+function mergeStates(local,remote){
+  const merged={...local};
+  merged.transactions=mergeTransactions(local.transactions,remote.transactions);
+
+  merged.balance=newerValue(
+    local.balance,remote.balance,
+    local.fieldChangedAt?.balance||local.localChangedAt,
+    remote.fieldChangedAt?.balance||remote.localChangedAt
+  );
+
+  merged.dueActive=mergeObjectByTimestamp(
+    local.dueActive,remote.dueActive,
+    local.fieldChangedAt?.dueActive||local.localChangedAt,
+    remote.fieldChangedAt?.dueActive||remote.localChangedAt
+  );
+
+  merged.planActive=mergeObjectByTimestamp(
+    local.planActive,remote.planActive,
+    local.fieldChangedAt?.planActive||local.localChangedAt,
+    remote.fieldChangedAt?.planActive||remote.localChangedAt
+  );
+
+  merged.fieldChangedAt={
+    balance: Date.parse(remote.fieldChangedAt?.balance||0)>Date.parse(local.fieldChangedAt?.balance||0)
+      ? remote.fieldChangedAt?.balance : local.fieldChangedAt?.balance,
+    dueActive: Date.parse(remote.fieldChangedAt?.dueActive||0)>Date.parse(local.fieldChangedAt?.dueActive||0)
+      ? remote.fieldChangedAt?.dueActive : local.fieldChangedAt?.dueActive,
+    planActive: Date.parse(remote.fieldChangedAt?.planActive||0)>Date.parse(local.fieldChangedAt?.planActive||0)
+      ? remote.fieldChangedAt?.planActive : local.fieldChangedAt?.planActive
+  };
+
+  merged.drive={...local.drive,clientId:local.drive?.clientId||remote.drive?.clientId||"",autoSync:local.drive?.autoSync!==false};
+  merged.localChangedAt=new Date(Math.max(Date.parse(local.localChangedAt||0),Date.parse(remote.localChangedAt||0))).toISOString();
+  merged.migratedTo=MIGRATION;
+  merged.deviceId=local.deviceId;
+  return merged;
 }
 async function syncDrive(){
   if(!driveToken){msgDrive("Nicht verbunden.","bad");return;}
   try{
     msgDrive("Synchronisierung läuft …");
     const remote=await pullDrive();
+
     if(!remote){
-      await pushDrive({...state,updatedAt:new Date().toISOString()});
-      state.lastSyncAt=new Date().toISOString();await saveState(false);
-      msgDrive("Erste Drive-Datei angelegt.","good");render();return;
+      await pushDrive(state);
+      state.lastSyncAt=new Date().toISOString();
+      await saveState(false);
+      msgDrive("Drive-Datei angelegt. Dieses Gerät ist jetzt synchronisiert.","good");
+      render();
+      return;
     }
-    const rt=Date.parse(remote.updatedAt||remote.localChangedAt||0),lt=Date.parse(state.localChangedAt||0),st=Date.parse(state.lastSyncAt||0);
-    const localChanged=lt>st,remoteChanged=rt>st;
-    if(localChanged&&remoteChanged){msgDrive("Konflikt: Gerät und Drive wurden geändert. Nichts wurde überschrieben.","bad");return;}
-    if(remoteChanged){state=remote;migrateState();await saveState(false);msgDrive("Neueren Drive-Stand übernommen.","good");}
-    else if(localChanged){await pushDrive({...state,updatedAt:new Date().toISOString()});state.lastSyncAt=new Date().toISOString();await saveState(false);msgDrive("Lokalen Stand nach Drive gespeichert.","good");}
-    else msgDrive("Alles aktuell.","good");
+
+    state=mergeStates(state,remote);
+    migrateState();
+    await saveState(false);
+    await pushDrive(state);
+    state.lastSyncAt=new Date().toISOString();
+    await saveState(false);
+
+    msgDrive("Synchronisiert. Handy und Rechner verwenden denselben Datenstand.","good");
     render();
-  }catch(e){msgDrive(e.message,"bad");}
+  }catch(e){
+    msgDrive(e.message,"bad");
+  }
+}
+let autoSyncTimer=null;
+let autoSyncQueued=null;
+function startAutoSyncLoop(){
+  clearInterval(autoSyncTimer);
+  const sec=Math.max(30,Number(config.drive.syncIntervalSeconds||60));
+  autoSyncTimer=setInterval(()=>{
+    if(state?.drive?.autoSync!==false && driveToken) syncDrive();
+  },sec*1000);
+}
+function queueAutoSync(){
+  if(state?.drive?.autoSync===false || !driveToken) return;
+  clearTimeout(autoSyncQueued);
+  autoSyncQueued=setTimeout(()=>syncDrive(),1200);
 }
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return(h>>>0).toString(16);}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
@@ -404,5 +522,6 @@ function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;","
   migrateState();
   bind();
   render();
+  startAutoSyncLoop();
   if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 })();
