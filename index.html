@@ -1,21 +1,21 @@
 <!doctype html><html lang="de"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0b"><title>AT HUB · Finanzcockpit v7</title>
+<meta name="theme-color" content="#0b0b0b"><title>AT HUB · Finanzcockpit v8</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css">
 </head><body>
 <header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header>
 <main>
-<div class="hero"><div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div><div class="pill">v7</div></div>
+<div class="hero"><div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div><div class="pill">v8</div></div>
 
-<section class="heroCard"><div class="eyebrow">PROGNOSE VOR DEM NÄCHSTEN GEHALT</div><div id="forecast" class="money">–</div><div id="forecastText" class="muted"></div></section>
+<section class="heroCard"><div class="eyebrow">VERFÜGBAR BIS ZUM NÄCHSTEN GEHALT</div><div id="forecast" class="money">–</div><div id="forecastText" class="muted"></div></section>
 
 <section class="cards">
 <article><span>Kontostand</span><b id="current">–</b></article>
 <article><span>Noch offen</span><b id="futureSum">–</b></article>
-<article><span>Dispo 500 €</span><b id="dispoLeft">–</b></article>
-<article><span>Sparziel bis 15.</span><b id="saveGoal">–</b></article>
-<article><span>Urlaubssparen</span><b>250,00 €</b></article>
-<article><span>Sync-Status</span><b id="syncState">lokal</b></article>
+<article><span>Reserviert</span><b id="reserveSum">–</b></article>
+<article><span>Dispo noch frei</span><b id="dispoLeft">–</b></article>
+<article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
+<article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
 </section>
 
 <nav class="tabs">
@@ -44,6 +44,6 @@
 <label>Google OAuth Client-ID<input id="clientId" type="text" placeholder="…apps.googleusercontent.com"></label>
 <div class="actions"><button id="saveClient" class="btn">Client-ID speichern</button><button id="connect" class="btn secondary">Mit Drive verbinden</button><button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button></div>
 <p id="driveMsg" class="msg"></p></div>
-<div class="panel"><h3>Konfliktschutz</h3><p class="muted">Wenn Drive und dieses Gerät seit der letzten Synchronisierung geändert wurden, überschreibt v7 nichts automatisch. Dann entscheidest du bewusst, welcher Stand gilt.</p></div>
+<div class="panel"><h3>Konfliktschutz</h3><p class="muted">Wenn Drive und dieses Gerät seit der letzten Synchronisierung geändert wurden, überschreibt v8 nichts automatisch.</p></div>
 </section>
-</main><script src="app.js"></script></body></html>
+</main><script src="app.js"></script><script src="v8.js"></script></body></html>

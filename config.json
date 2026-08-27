@@ -1,7 +1,19 @@
 {
-  "version": "7.0.0",
+  "version": "8.0.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
+  "currentSnapshot": {
+    "date": "2026-08-27",
+    "balance": -101.03,
+    "settledDueIds": [
+      "tel_ins",
+      "tel_o2",
+      "creditplus",
+      "nuernberger",
+      "fitness",
+      "fitness_2"
+    ]
+  },
   "plan": {
     "vacationSavings": 250,
     "emergencyBuffer": 50,
@@ -86,8 +98,18 @@
     {
       "id": "fitness",
       "date": "01.–03.",
-      "name": "Best Fitness Grundbeitrag",
+      "name": "Best Fitness Vertrag 1",
       "amount": 29.99,
+      "confidence": "hoch",
+      "match": [
+        "best fitness"
+      ]
+    },
+    {
+      "id": "fitness_2",
+      "date": "01.–03.",
+      "name": "Best Fitness Vertrag 2",
+      "amount": 51.27,
       "confidence": "mittel",
       "match": [
         "best fitness"
