@@ -1,28 +1,19 @@
-AT HUB Finanzcockpit v8.5
+AT HUB Finanzcockpit v8.6
 
-ZIEL:
-Handy und Rechner verwenden denselben Finanzdatenstand über Google Drive.
+Nur in den Branch gh--pages hochladen und vorhandene Dateien ersetzen:
+index.html
+app.js
+styles.css
+config.json
+manifest.webmanifest
+sw.js
+app-version.json
 
-UPLOAD:
-Alle Dateien aus diesem ZIP in das Root-Verzeichnis von saintshro/AT-HUB hochladen und vorhandene Dateien ersetzen.
+SOLLDATEN:
+Kontostand -101,03 €
+Noch offen 339,98 €
+Reserviert 50,00 €
+Prognose -491,01 €
+Dispo frei 8,99 €
 
-DANACH:
-1. Commit changes
-2. Seite mit Strg+F5 neu laden
-3. Reiter 'Drive Sync' öffnen
-4. Google OAuth Client-ID eintragen
-5. 'Mit Drive verbinden'
-6. Auf Handy dieselbe AT-HUB-Seite öffnen
-7. Dort dieselbe Client-ID eintragen und mit demselben Google-Konto verbinden
-
-SYNCHRONISIERUNG:
-- Drive-Datei: AT_HUB_Finanzdaten_v8_5.json
-- Autosync nach Änderungen
-- zusätzlicher zyklischer Sync etwa jede Minute
-- Buchungen werden zusammengeführt
-- Kontostand/Schalter: jeweils der neuere Stand gewinnt
-- lokale Daten bleiben als Offline-Kopie erhalten
-
-HINWEIS:
-Google erlaubt einer Browser-App keinen dauerhaften Refresh-Token ohne Backend.
-Daher kann Google je nach Browser/Sitzung gelegentlich erneut eine Anmeldung verlangen.
+Alles nach dem 15.09. ist technisch ausgeschlossen.

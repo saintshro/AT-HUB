@@ -1,5 +1,5 @@
 {
-  "version": "8.5.0",
+  "version": "8.6.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -36,7 +36,9 @@
       "match": [
         "telefonica insurance"
       ],
-      "note": "nächste reguläre Abbuchung ca. 27.–29.09.; aktuell nicht in Prognose"
+      "note": "nächste reguläre Abbuchung ca. 27.–29.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "tel_o2",
@@ -47,7 +49,9 @@
       "match": [
         "telefonica germany"
       ],
-      "note": "nächste reguläre Abbuchung Ende September; aktuell nicht in Prognose"
+      "note": "nächste reguläre Abbuchung Ende September; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "creditplus",
@@ -58,7 +62,9 @@
       "match": [
         "creditplus"
       ],
-      "note": "nächste reguläre Rate Ende September; aktuell nicht in Prognose"
+      "note": "nächste reguläre Rate Ende September; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "nuernberger",
@@ -74,7 +80,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "huk",
@@ -88,7 +95,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "meck_kv",
@@ -102,7 +110,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "meck_unfall",
@@ -116,7 +125,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "fitness",
@@ -132,7 +142,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "d_ticket",
@@ -148,7 +159,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-07"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "fitness_2",
@@ -164,7 +176,8 @@
       "window": {
         "start": "2026-09-10",
         "end": "2026-09-12"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "netflix",
@@ -178,7 +191,8 @@
       "window": {
         "start": "2026-09-14",
         "end": "2026-09-15"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "gez",
@@ -195,7 +209,8 @@
       "window": {
         "start": "2026-09-15",
         "end": "2026-09-15"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "audible",
@@ -206,7 +221,9 @@
       "match": [
         "audible"
       ],
-      "note": "nächste Abbuchung ca. 25.–27.09.; aktuell nicht in Prognose"
+      "note": "nächste Abbuchung ca. 25.–27.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "amazon_prime",
@@ -217,7 +234,9 @@
       "match": [
         "amznprime"
       ],
-      "note": "nächste Abbuchung ca. 16.–18.09.; aktuell nicht in Prognose"
+      "note": "nächste Abbuchung ca. 16.–18.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "ig_metall",
@@ -229,7 +248,9 @@
         "industriegewerkschaft metall",
         "industriegewerkscha"
       ],
-      "note": "nächste Abbuchung ca. 17.–18.09.; aktuell nicht in Prognose"
+      "note": "nächste Abbuchung ca. 17.–18.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     }
   ]
 }

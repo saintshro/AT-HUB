@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
 let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.5.0";
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.6.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -62,10 +62,11 @@ function migrateState(){
 
   if(state.migratedTo!==MIGRATION){
     state.balance=config.currentSnapshot?.balance ?? state.balance;
-    state.dueActive=Object.fromEntries(config.dues.map(d=>[d.id,true]));
-    for(const id of (config.currentSnapshot?.settledDueIds||[])) state.dueActive[id]=false;
+    state.dueActive=Object.fromEntries(config.dues.map(d=>[d.id, d.includeInForecast!==false]));
     state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
     state.migratedTo=MIGRATION;
+    touchField("dueActive");
+    touchField("planActive");
     saveState(false).catch(()=>{});
   }
 }
@@ -89,7 +90,7 @@ function activeReserveSum(){
 }
 function render(){
   const p=financePeriod();
-  const open=config.dues.filter(d=>state.dueActive[d.id]!==false);
+  const open=config.dues.filter(d=>d.includeInForecast!==false && state.dueActive[d.id]!==false);
   const openSum=open.reduce((s,x)=>s+Number(x.amount||0),0);
   const reserves=activeReserveSum();
   const available=state.balance==null?null:state.balance-openSum-reserves;
@@ -114,8 +115,8 @@ function render(){
   ).join("");
 
   $("#dues").innerHTML=config.dues.map(d=>
-    `<div class="due"><div><b>${esc(d.name)}</b><small>${d.date} · ${euro.format(d.amount)} · Sicherheit: ${d.confidence}${d.note?` · ${esc(d.note)}`:""}</small></div>
-     <div class="right"><button class="toggle ${state.dueActive[d.id]!==false?"on":""}" onclick="toggleDue('${d.id}')">${state.dueActive[d.id]!==false?"eingerechnet ✓":"bezahlt / aus"}</button></div></div>`
+    `<div class="due"><div><b>${esc(d.name)}</b><small>${d.date} · ${euro.format(d.amount)} · Sicherheit: ${d.confidence}${d.note?` · ${esc(d.note)}`:""}${d.includeInForecast===false?` · nicht Teil der aktuellen Prognose`:""}</small></div>
+     <div class="right"><button class="toggle ${d.includeInForecast!==false && state.dueActive[d.id]!==false?"on":""}" onclick="toggleDue('${d.id}')">${d.includeInForecast===false?"nach dem 15. · ausgeschlossen":(state.dueActive[d.id]!==false?"eingerechnet ✓":"bezahlt / aus")}</button></div></div>`
   ).join("");
 
   $("#txList").innerHTML=state.transactions.length
@@ -131,7 +132,21 @@ function render(){
   if($("#lastSync")) $("#lastSync").textContent=state.lastSyncAt?new Date(state.lastSyncAt).toLocaleString("de-DE"):"–";
   if($("#driveStatus")) $("#driveStatus").textContent=driveToken?"verbunden":"nicht verbunden";
 }
-window.toggleDue=async id=>{state.dueActive[id]=state.dueActive[id]===false;touchField("dueActive");await saveState();render();queueAutoSync();};
+window.toggleDue=async id=>{
+  const d=config.dues.find(x=>x.id===id);
+  if(d?.includeInForecast===false){
+    state.dueActive[id]=false;
+    touchField("dueActive");
+    await saveState();
+    render();
+    return;
+  }
+  state.dueActive[id]=state.dueActive[id]===false;
+  touchField("dueActive");
+  await saveState();
+  render();
+  queueAutoSync();
+};
 window.togglePlan=async id=>{state.planActive[id]=!state.planActive[id];touchField("planActive");await saveState();render();queueAutoSync();};
 
 function bind(){
@@ -315,6 +330,7 @@ async function confirmImport(){
 
     // Nur aktuelle Fälligkeiten im expliziten Zahlungsfenster dürfen erledigt werden.
     for(const d of config.dues){
+      if(d.includeInForecast===false) continue;
       if(state.dueActive[d.id]===false) continue;
       if(!dueCanBeSettledByTx(t,d)) continue;
 
@@ -449,6 +465,9 @@ function mergeStates(local,remote){
     local.fieldChangedAt?.dueActive||local.localChangedAt,
     remote.fieldChangedAt?.dueActive||remote.localChangedAt
   );
+  for(const d of config.dues){
+    if(d.includeInForecast===false) merged.dueActive[d.id]=false;
+  }
 
   merged.planActive=mergeObjectByTimestamp(
     local.planActive,remote.planActive,

@@ -1,6 +1,6 @@
 {
-  "version": "8.5.0",
+  "version": "8.6.0",
   "module": "Finanzcockpit",
   "updated": "2026-08-27",
-  "notes": "Google Drive als zentraler Datenspeicher für Handy und Rechner; merge-basierte Synchronisierung; Autosync nach Änderungen und zyklisch; lokale Offline-Kopie bleibt bestehen."
+  "notes": "Harte 15.-des-Monats-Grenze; spätere Fälligkeiten können weder lokal noch per Drive-Sync in die aktuelle Prognose reaktiviert werden."
 }
