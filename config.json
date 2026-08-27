@@ -1,5 +1,5 @@
 {
-  "version": "8.0.0",
+  "version": "8.1.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -62,7 +62,8 @@
       "amount": 113.14,
       "confidence": "mittel",
       "match": [
-        "nurnberger lebensversicherung"
+        "nurnberger lebensversicherung",
+        "nurnberger lebensversicherung aktiengesellscha"
       ]
     },
     {

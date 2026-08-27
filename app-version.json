@@ -1,6 +1,6 @@
 {
-  "version": "8.0.0",
+  "version": "8.1.0",
   "module": "Finanzcockpit",
   "updated": "2026-08-27",
-  "notes": "Verfügbar-Prognose mit offenen Abbuchungen, 50-Euro-Puffer und optionalen Rücklagen; aktueller DKB-Stand -101,03 EUR."
+  "notes": "Einheitliche app.js; echte Verfügbar-Prognose; DKB-PDF-Import getestet; aktueller Kontostand -101,03 EUR."
 }

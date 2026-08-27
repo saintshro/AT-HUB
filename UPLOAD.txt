@@ -1,2 +1,15 @@
-Diese Dateien im GitHub-Repository saintshro/AT-HUB im Branch main hochladen/ersetzen.
-app.js und styles.css bleiben unverändert.
+AT HUB Finanzcockpit v8.1
+
+UPLOAD:
+Alle Dateien aus diesem ZIP in das Root-Verzeichnis des GitHub-Repositories saintshro/AT-HUB hochladen und vorhandene Dateien ersetzen.
+
+WICHTIG:
+- v8.js wird ab v8.1 nicht mehr benötigt und kann später gelöscht werden.
+- Die Seite lädt nur noch app.js.
+- Nach Upload: Browser mit Strg+F5 neu laden.
+
+PDF-IMPORT:
+Reiter "PDF-Import" öffnen.
+DKB-Kontoauszug als PDF anklicken oder in die große Ablagefläche ziehen.
+Die Buchungen werden zuerst nur angezeigt.
+Erst "Geprüfte Buchungen übernehmen" speichert sie lokal.

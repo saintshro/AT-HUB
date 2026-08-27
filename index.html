@@ -1,49 +1,99 @@
-<!doctype html><html lang="de"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0b"><title>AT HUB · Finanzcockpit v8</title>
-<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css">
-</head><body>
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<title>AT HUB · Finanzcockpit v8.1</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header>
 <main>
-<div class="hero"><div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div><div class="pill">v8</div></div>
+  <div class="hero">
+    <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
+    <div class="pill">v8.1</div>
+  </div>
 
-<section class="heroCard"><div class="eyebrow">VERFÜGBAR BIS ZUM NÄCHSTEN GEHALT</div><div id="forecast" class="money">–</div><div id="forecastText" class="muted"></div></section>
+  <section class="heroCard">
+    <div class="eyebrow">VERFÜGBAR BIS ZUM NÄCHSTEN GEHALT</div>
+    <div id="forecast" class="money">–</div>
+    <div id="forecastText" class="muted"></div>
+  </section>
 
-<section class="cards">
-<article><span>Kontostand</span><b id="current">–</b></article>
-<article><span>Noch offen</span><b id="futureSum">–</b></article>
-<article><span>Reserviert</span><b id="reserveSum">–</b></article>
-<article><span>Dispo noch frei</span><b id="dispoLeft">–</b></article>
-<article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
-<article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
-</section>
+  <section class="cards">
+    <article><span>Kontostand</span><b id="current">–</b></article>
+    <article><span>Noch offen</span><b id="futureSum">–</b></article>
+    <article><span>Reserviert</span><b id="reserveSum">–</b></article>
+    <article><span>Dispo noch frei</span><b id="dispoLeft">–</b></article>
+    <article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
+    <article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
+  </section>
 
-<nav class="tabs">
-<button class="tab active" data-tab="dashboard">Übersicht</button>
-<button class="tab" data-tab="import">PDF-Import</button>
-<button class="tab" data-tab="transactions">Buchungen</button>
-<button class="tab" data-tab="drive">Drive Sync</button>
-</nav>
+  <nav class="tabs">
+    <button class="tab active" data-tab="dashboard">Übersicht</button>
+    <button class="tab" data-tab="import">PDF-Import</button>
+    <button class="tab" data-tab="transactions">Buchungen</button>
+    <button class="tab" data-tab="drive">Drive Sync</button>
+  </nav>
 
-<section id="dashboard" class="pane active">
-<div class="panel"><h3>Kontostand</h3><div class="inputrow"><label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label><button id="saveBal" class="btn">Speichern</button></div></div>
-<div class="panel"><h3>Noch kommende Abbuchungen</h3><div id="dues"></div></div>
-</section>
+  <section id="dashboard" class="pane active">
+    <div class="panel">
+      <h3>Kontostand</h3>
+      <div class="inputrow">
+        <label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label>
+        <button id="saveBal" class="btn">Speichern</button>
+      </div>
+    </div>
 
-<section id="import" class="pane">
-<div class="panel"><div class="eyebrow">DKB PDF</div><h3>Neuen Kontoauszug einlesen</h3><p class="muted">Die PDF wird lokal im Browser gelesen. Nichts wird vor deiner Bestätigung gespeichert.</p>
-<label class="drop" id="drop"><input id="pdf" type="file" accept="application/pdf" hidden><b>PDF auswählen</b><span>oder hierher ziehen</span></label>
-<div id="pdfMsg" class="msg"></div><div id="review"></div></div>
-</section>
+    <div class="panel">
+      <h3>Planung & Rücklagen</h3>
+      <p class="muted">Nur aktive Beträge werden von der verfügbaren Summe abgezogen.</p>
+      <div id="planRows"></div>
+    </div>
 
-<section id="transactions" class="pane"><div class="panel"><h3>Gespeicherte Buchungen</h3><div id="txList"></div></div></section>
+    <div class="panel">
+      <h3>Noch kommende Abbuchungen</h3>
+      <div id="dues"></div>
+    </div>
+  </section>
 
-<section id="drive" class="pane">
-<div class="panel"><div class="eyebrow">GOOGLE DRIVE</div><h3>PC und Handy synchronisieren</h3>
-<p class="muted">Die Finanzdaten werden als private JSON-Datei in deinem Drive gespeichert. PDFs werden nicht automatisch hochgeladen.</p>
-<label>Google OAuth Client-ID<input id="clientId" type="text" placeholder="…apps.googleusercontent.com"></label>
-<div class="actions"><button id="saveClient" class="btn">Client-ID speichern</button><button id="connect" class="btn secondary">Mit Drive verbinden</button><button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button></div>
-<p id="driveMsg" class="msg"></p></div>
-<div class="panel"><h3>Konfliktschutz</h3><p class="muted">Wenn Drive und dieses Gerät seit der letzten Synchronisierung geändert wurden, überschreibt v8 nichts automatisch.</p></div>
-</section>
-</main><script src="app.js"></script><script src="v8.js"></script></body></html>
+  <section id="import" class="pane">
+    <div class="panel">
+      <div class="eyebrow">DKB KONTOAUSZUG</div>
+      <h3>PDF-Kontoauszug einlesen</h3>
+      <p class="muted">Der Kontoauszug wird nur lokal im Browser gelesen. Erst nach deiner Bestätigung werden erkannte Buchungen gespeichert.</p>
+      <label class="drop" id="drop">
+        <input id="pdf" type="file" accept="application/pdf,.pdf" hidden>
+        <b>DKB-PDF hier ablegen oder anklicken</b>
+        <span>Unterstützt den DKB-Umsatzexport wie dein Auszug vom 20.08.–27.08.2026</span>
+      </label>
+      <div id="pdfMsg" class="msg"></div>
+      <div id="review"></div>
+    </div>
+  </section>
+
+  <section id="transactions" class="pane">
+    <div class="panel"><h3>Gespeicherte Buchungen</h3><div id="txList"></div></div>
+  </section>
+
+  <section id="drive" class="pane">
+    <div class="panel">
+      <div class="eyebrow">GOOGLE DRIVE</div>
+      <h3>PC und Handy synchronisieren</h3>
+      <p class="muted">Finanzdaten werden als private JSON-Datei gespeichert. PDFs werden nicht hochgeladen.</p>
+      <label>Google OAuth Client-ID<input id="clientId" type="text" placeholder="…apps.googleusercontent.com"></label>
+      <div class="actions">
+        <button id="saveClient" class="btn">Client-ID speichern</button>
+        <button id="connect" class="btn secondary">Mit Drive verbinden</button>
+        <button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button>
+      </div>
+      <p id="driveMsg" class="msg"></p>
+    </div>
+    <div class="panel"><h3>Konfliktschutz</h3><p class="muted">Wenn Drive und dieses Gerät geändert wurden, wird nichts ungefragt überschrieben.</p></div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
