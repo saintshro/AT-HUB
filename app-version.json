@@ -1,6 +1,6 @@
 {
-  "version": "8.3.0",
+  "version": "8.4.0",
   "module": "Finanzcockpit",
   "updated": "2026-08-27",
-  "notes": "Prognose immer bis einschließlich 15.; GEZ 28 EUR berücksichtigt; Deutschlandticket 63 EUR; bestätigte Monatsanfangs-Versicherungen und Best-Fitness-Rhythmen; Monatsendposten nach 15. ausgeschlossen."
+  "notes": "Jahresauszug-sicherer PDF-Import: historische Buchungen verändern Prognose nicht; nur Buchungen im aktuellen Fälligkeitsfenster markieren Positionen bezahlt; Prognose wird bei Migration auf korrekten v8.3-Stand zurückgesetzt."
 }

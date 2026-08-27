@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
 let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.3.0";
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.4.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -233,6 +233,15 @@ function matchesDue(name,d){
   const n=name.toLowerCase();
   return (d.match||[]).some(x=>n.includes(String(x).toLowerCase()));
 }
+function inDueWindow(tx,d){
+  if(!d.window) return false;
+  return tx.iso>=d.window.start && tx.iso<=d.window.end;
+}
+function dueCanBeSettledByTx(tx,d){
+  if(tx.amount>=0) return false;
+  if(!matchesDue(tx.name,d)) return false;
+  return inDueWindow(tx,d);
+}
 function autoType(n,a){
   const low=n.toLowerCase();
   if(a>0) return low.includes("waltersdorf")?"income":"income_other";
@@ -272,28 +281,48 @@ function renderReview(){
 }
 async function confirmImport(){
   const ids=new Set(state.transactions.map(t=>t.id));
+  const settledNow=[];
+  let added=0;
+
   reviewRows.forEach((t,i)=>{
     t.type=$(`.review[data-i="${i}"] select`).value;
-    if(!ids.has(t.id)){state.transactions.push(t);ids.add(t.id);}
-    if(t.amount<0){
-      const matching=config.dues.filter(d=>matchesDue(t.name,d));
-      if(t.name.toLowerCase().includes("best fitness")){
-        // Bei zwei Fitness-Verträgen den passendsten offenen Vertrag anhand des Betrags schließen.
-        const exact=matching.find(d=>state.dueActive[d.id]!==false && Math.abs(d.amount-Math.abs(t.amount))<0.02);
-        if(exact) state.dueActive[exact.id]=false;
-        else {
-          const first=matching.find(d=>state.dueActive[d.id]!==false);
-          if(first) state.dueActive[first.id]=false;
-        }
-      }else{
-        matching.forEach(d=>state.dueActive[d.id]=false);
-      }
+    if(!ids.has(t.id)){
+      state.transactions.push(t);
+      ids.add(t.id);
+      added++;
+    }
+
+    // Nur aktuelle Fälligkeiten im expliziten Zahlungsfenster dürfen erledigt werden.
+    for(const d of config.dues){
+      if(state.dueActive[d.id]===false) continue;
+      if(!dueCanBeSettledByTx(t,d)) continue;
+
+      // Bei Best Fitness zusätzlich Betrag gegen Vertrag prüfen.
+      if(d.id==="fitness" && Math.abs(Math.abs(t.amount)-29.99)>0.02) continue;
+      if(d.id==="fitness_2" && Math.abs(Math.abs(t.amount)-17.96)>0.02) continue;
+
+      state.dueActive[d.id]=false;
+      settledNow.push({due:d.name,tx:t.name,date:t.date,amount:t.amount});
     }
   });
+
   await saveState();
-  $("#pdfMsg").textContent="Import übernommen. Erkannte Fixkosten wurden als bezahlt markiert.";
+
+  const historical=reviewRows.filter(t=>{
+    return !config.dues.some(d=>dueCanBeSettledByTx(t,d));
+  }).length;
+
+  $("#pdfMsg").textContent=
+    `Auszug analysiert: ${reviewRows.length} Buchungen erkannt, ${added} neu gespeichert, `+
+    `${settledNow.length} aktuelle Fälligkeiten bestätigt. Historische Buchungen ändern die Prognose nicht.`;
   $("#pdfMsg").className="msg good";
-  $("#review").innerHTML="";
+
+  $("#review").innerHTML = settledNow.length
+    ? `<div class="panel"><h3>Aktuell bestätigte Fälligkeiten</h3>${
+        settledNow.map(x=>`<div class="due"><div><b>${esc(x.due)}</b><small>${esc(x.date)} · erkannt über ${esc(x.tx)}</small></div><b>${euro.format(x.amount)}</b></div>`).join("")
+      }</div>`
+    : '<p class="muted">Keine aktuell fällige Position wurde durch diesen Auszug als bezahlt bestätigt.</p>';
+
   render();
 }
 

@@ -1,5 +1,5 @@
 {
-  "version": "8.3.0",
+  "version": "8.4.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -68,7 +68,11 @@
         "nurnberger lebensversicherung",
         "nurnberger lebensversicherung aktiengesellscha"
       ],
-      "note": "regulärer Monatsbeitrag; Rücklastgebühren separat"
+      "note": "regulärer Monatsbeitrag; Rücklastgebühren separat",
+      "window": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      }
     },
     {
       "id": "huk",
@@ -78,7 +82,11 @@
       "confidence": "sehr hoch",
       "match": [
         "huk-coburg"
-      ]
+      ],
+      "window": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      }
     },
     {
       "id": "meck_kv",
@@ -88,7 +96,11 @@
       "confidence": "sehr hoch",
       "match": [
         "mecklenburgische kranken"
-      ]
+      ],
+      "window": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      }
     },
     {
       "id": "meck_unfall",
@@ -98,7 +110,11 @@
       "confidence": "sehr hoch",
       "match": [
         "mecklenburgische versicherungs"
-      ]
+      ],
+      "window": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      }
     },
     {
       "id": "fitness",
@@ -110,7 +126,11 @@
         "best fitness"
       ],
       "rhythm": "monatlich",
-      "note": "Vertrag 4863 · 29,99 € monatlich"
+      "note": "Vertrag 4863 · 29,99 € monatlich",
+      "window": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      }
     },
     {
       "id": "d_ticket",
@@ -122,7 +142,11 @@
         "transdev",
         "deutschlandticket"
       ],
-      "note": "August 63,00 €; Juli 67,18 € – Prognosewert 63,00 €"
+      "note": "August 63,00 €; Juli 67,18 € – Prognosewert 63,00 €",
+      "window": {
+        "start": "2026-09-01",
+        "end": "2026-09-07"
+      }
     },
     {
       "id": "fitness_2",
@@ -134,7 +158,11 @@
         "best fitness"
       ],
       "rhythm": "14-tägig",
-      "note": "Vertrag 16026 · 17,96 € je 14 Tage · Gebühren separat"
+      "note": "Vertrag 16026 · 17,96 € je 14 Tage · Gebühren separat",
+      "window": {
+        "start": "2026-09-10",
+        "end": "2026-09-12"
+      }
     },
     {
       "id": "netflix",
@@ -144,7 +172,11 @@
       "confidence": "sehr hoch",
       "match": [
         "netflix"
-      ]
+      ],
+      "window": {
+        "start": "2026-09-14",
+        "end": "2026-09-15"
+      }
     },
     {
       "id": "gez",
@@ -157,7 +189,11 @@
         "rundfunk"
       ],
       "rhythm": "vierteljährlich",
-      "note": "Dreimonatsrhythmus; für Prognose bis einschließlich 15. berücksichtigt"
+      "note": "Dreimonatsrhythmus; für Prognose bis einschließlich 15. berücksichtigt",
+      "window": {
+        "start": "2026-09-15",
+        "end": "2026-09-15"
+      }
     },
     {
       "id": "audible",
