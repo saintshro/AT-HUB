@@ -1,5 +1,5 @@
 {
-  "version": "8.1.0",
+  "version": "8.2.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -8,10 +8,7 @@
     "settledDueIds": [
       "tel_ins",
       "tel_o2",
-      "creditplus",
-      "nuernberger",
-      "fitness",
-      "fitness_2"
+      "creditplus"
     ]
   },
   "plan": {
@@ -57,10 +54,10 @@
     },
     {
       "id": "nuernberger",
-      "date": "01.–03.",
+      "date": "01.–03.09.",
       "name": "Nürnberger Leben",
       "amount": 113.14,
-      "confidence": "mittel",
+      "confidence": "sehr hoch",
       "match": [
         "nurnberger lebensversicherung",
         "nurnberger lebensversicherung aktiengesellscha"
@@ -98,23 +95,27 @@
     },
     {
       "id": "fitness",
-      "date": "01.–03.",
-      "name": "Best Fitness Vertrag 1",
+      "date": "01.–03.09.",
+      "name": "Best Fitness Vertrag 4863",
       "amount": 29.99,
-      "confidence": "hoch",
+      "confidence": "sehr hoch",
       "match": [
         "best fitness"
-      ]
+      ],
+      "rhythm": "monatlich",
+      "note": "Vertrag 4863 · 29,99 € monatlich"
     },
     {
       "id": "fitness_2",
-      "date": "01.–03.",
-      "name": "Best Fitness Vertrag 2",
-      "amount": 51.27,
-      "confidence": "mittel",
+      "date": "10.–12.09.",
+      "name": "Best Fitness Vertrag 16026",
+      "amount": 17.96,
+      "confidence": "hoch",
       "match": [
         "best fitness"
-      ]
+      ],
+      "rhythm": "14-tägig",
+      "note": "Vertrag 16026 · 17,96 € je 14 Tage · Gebühren separat"
     },
     {
       "id": "d_ticket",

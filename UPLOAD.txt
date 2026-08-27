@@ -1,15 +1,18 @@
-AT HUB Finanzcockpit v8.1
+AT HUB Finanzcockpit v8.2
 
-UPLOAD:
-Alle Dateien aus diesem ZIP in das Root-Verzeichnis des GitHub-Repositories saintshro/AT-HUB hochladen und vorhandene Dateien ersetzen.
+Diese Dateien komplett in saintshro/AT-HUB (Branch main, Root) hochladen und vorhandene Dateien ersetzen:
+- index.html
+- app.js
+- styles.css
+- config.json
+- manifest.webmanifest
+- sw.js
+- app-version.json
 
-WICHTIG:
-- v8.js wird ab v8.1 nicht mehr benötigt und kann später gelöscht werden.
-- Die Seite lädt nur noch app.js.
-- Nach Upload: Browser mit Strg+F5 neu laden.
+Danach Commit changes und auf der AT-HUB-Seite Strg+F5.
 
-PDF-IMPORT:
-Reiter "PDF-Import" öffnen.
-DKB-Kontoauszug als PDF anklicken oder in die große Ablagefläche ziehen.
-Die Buchungen werden zuerst nur angezeigt.
-Erst "Geprüfte Buchungen übernehmen" speichert sie lokal.
+Änderungen v8.2:
+- Nürnberger Leben für 01.–03.09. mit 113,14 € wieder aktiv
+- Best Fitness Vertrag 4863: 29,99 € monatlich, Anfang September aktiv
+- Best Fitness Vertrag 16026: 17,96 € alle 14 Tage, nächste Planung 10.–12.09.
+- Storno-/Rücklastgebühren werden nicht als reguläre Fixkosten geplant

@@ -1,6 +1,6 @@
 {
-  "version": "8.1.0",
+  "version": "8.2.0",
   "module": "Finanzcockpit",
   "updated": "2026-08-27",
-  "notes": "Einheitliche app.js; echte Verfügbar-Prognose; DKB-PDF-Import getestet; aktueller Kontostand -101,03 EUR."
+  "notes": "Nürnberger September reaktiviert; Best Fitness 4863 monatlich 29,99 EUR; Best Fitness 16026 17,96 EUR alle 14 Tage; Gebühren separat."
 }
