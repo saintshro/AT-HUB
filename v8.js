@@ -7,7 +7,7 @@
     if(!state.planActive) state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
     if(state.migratedTo!==MIGRATION){
       state.balance=config.currentSnapshot?.balance ?? state.balance;
-      settledIds.forEach(id=>{ if(id in state.dueActive) state.dueActive[id]=false; });
+      settledIds.forEach(id=>{ state.dueActive[id]=false; });
       state.migratedTo=MIGRATION;
       saveState(false).catch(()=>{});
     }
