@@ -1,18 +1,28 @@
-AT HUB Finanzcockpit v8.2
+AT HUB Finanzcockpit v8.3
 
-Diese Dateien komplett in saintshro/AT-HUB (Branch main, Root) hochladen und vorhandene Dateien ersetzen:
-- index.html
-- app.js
-- styles.css
-- config.json
-- manifest.webmanifest
-- sw.js
-- app-version.json
+UPLOAD:
+Alle Dateien aus diesem ZIP in das Root-Verzeichnis von saintshro/AT-HUB hochladen und vorhandene Dateien ersetzen.
 
-Danach Commit changes und auf der AT-HUB-Seite Strg+F5.
+Danach:
+1. Commit changes
+2. AT-HUB-Seite öffnen
+3. Strg + F5
 
-Änderungen v8.2:
-- Nürnberger Leben für 01.–03.09. mit 113,14 € wieder aktiv
-- Best Fitness Vertrag 4863: 29,99 € monatlich, Anfang September aktiv
-- Best Fitness Vertrag 16026: 17,96 € alle 14 Tage, nächste Planung 10.–12.09.
-- Storno-/Rücklastgebühren werden nicht als reguläre Fixkosten geplant
+WICHTIGE LOGIK v8.3:
+- Prognose immer bis einschließlich 15. des Monats
+- aktueller Kontostand: -101,03 €
+- Puffer: 50,00 € standardmäßig aktiv
+- GEZ 28,00 € am 15.09. wird berücksichtigt
+- Deutschlandticket: 63,00 € Anfang September
+- Nürnberger: 113,14 € Anfang September
+- HUK: 24,04 €
+- Mecklenburgische KV: 20,44 €
+- Mecklenburgische Unfall: 29,42 €
+- Best Fitness 4863: 29,99 € monatlich
+- Best Fitness 16026: 17,96 € je 14 Tage, nächste Planung 10.–12.09.
+- Netflix: 13,99 € bis 15.09.
+- Telefonica Insurance, O2, Creditplus, Audible, Amazon Prime und IG Metall liegen nach dem 15.09. und werden aktuell nicht abgezogen.
+
+Erwartete offene Abbuchungen bis 15.09.: 339,98 €
+Mit 50 € Puffer und Kontostand -101,03 € ergibt sich eine Prognose von -491,01 €.
+Bei 500 € Dispo bleiben 8,99 € frei nach Planung.

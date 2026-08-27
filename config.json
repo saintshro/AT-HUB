@@ -1,5 +1,5 @@
 {
-  "version": "8.2.0",
+  "version": "8.3.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -8,7 +8,10 @@
     "settledDueIds": [
       "tel_ins",
       "tel_o2",
-      "creditplus"
+      "creditplus",
+      "audible",
+      "amazon_prime",
+      "ig_metall"
     ]
   },
   "plan": {
@@ -24,33 +27,36 @@
   "dues": [
     {
       "id": "tel_ins",
-      "date": "27.–31.",
+      "date": "nach 15.09.",
       "name": "Telefonica Insurance",
       "amount": 7.95,
-      "confidence": "hoch",
+      "confidence": "sehr hoch",
       "match": [
         "telefonica insurance"
-      ]
+      ],
+      "note": "nächste reguläre Abbuchung ca. 27.–29.09.; aktuell nicht in Prognose"
     },
     {
       "id": "tel_o2",
-      "date": "29.–31.",
+      "date": "nach 15.09.",
       "name": "Telefonica / O2",
       "amount": 118.92,
       "confidence": "hoch",
       "match": [
         "telefonica germany"
-      ]
+      ],
+      "note": "nächste reguläre Abbuchung Ende September; aktuell nicht in Prognose"
     },
     {
       "id": "creditplus",
-      "date": "29.–31.",
+      "date": "nach 15.09.",
       "name": "Creditplus",
       "amount": 162.16,
       "confidence": "sehr hoch",
       "match": [
         "creditplus"
-      ]
+      ],
+      "note": "nächste reguläre Rate Ende September; aktuell nicht in Prognose"
     },
     {
       "id": "nuernberger",
@@ -61,11 +67,12 @@
       "match": [
         "nurnberger lebensversicherung",
         "nurnberger lebensversicherung aktiengesellscha"
-      ]
+      ],
+      "note": "regulärer Monatsbeitrag; Rücklastgebühren separat"
     },
     {
       "id": "huk",
-      "date": "01.–03.",
+      "date": "01.–03.09.",
       "name": "HUK Krankenversicherung",
       "amount": 24.04,
       "confidence": "sehr hoch",
@@ -75,7 +82,7 @@
     },
     {
       "id": "meck_kv",
-      "date": "01.–03.",
+      "date": "01.–03.09.",
       "name": "Mecklenburgische KV",
       "amount": 20.44,
       "confidence": "sehr hoch",
@@ -85,7 +92,7 @@
     },
     {
       "id": "meck_unfall",
-      "date": "01.–03.",
+      "date": "01.–03.09.",
       "name": "Mecklenburgische Unfall",
       "amount": 29.42,
       "confidence": "sehr hoch",
@@ -106,6 +113,18 @@
       "note": "Vertrag 4863 · 29,99 € monatlich"
     },
     {
+      "id": "d_ticket",
+      "date": "Anfang September",
+      "name": "Deutschlandticket",
+      "amount": 63.0,
+      "confidence": "hoch",
+      "match": [
+        "transdev",
+        "deutschlandticket"
+      ],
+      "note": "August 63,00 €; Juli 67,18 € – Prognosewert 63,00 €"
+    },
+    {
       "id": "fitness_2",
       "date": "10.–12.09.",
       "name": "Best Fitness Vertrag 16026",
@@ -118,25 +137,61 @@
       "note": "Vertrag 16026 · 17,96 € je 14 Tage · Gebühren separat"
     },
     {
-      "id": "d_ticket",
-      "date": "Anfang",
-      "name": "Deutschlandticket",
-      "amount": 68.0,
-      "confidence": "mittel",
-      "match": [
-        "transdev",
-        "deutschlandticket"
-      ]
-    },
-    {
       "id": "netflix",
-      "date": "14.–15.",
+      "date": "14.–15.09.",
       "name": "Netflix",
       "amount": 13.99,
-      "confidence": "hoch",
+      "confidence": "sehr hoch",
       "match": [
         "netflix"
       ]
+    },
+    {
+      "id": "gez",
+      "date": "15.09.",
+      "name": "GEZ / Rundfunkbeitrag",
+      "amount": 28.0,
+      "confidence": "hoch",
+      "match": [
+        "gez",
+        "rundfunk"
+      ],
+      "rhythm": "vierteljährlich",
+      "note": "Dreimonatsrhythmus; für Prognose bis einschließlich 15. berücksichtigt"
+    },
+    {
+      "id": "audible",
+      "date": "nach 15.09.",
+      "name": "Audible",
+      "amount": 9.95,
+      "confidence": "sehr hoch",
+      "match": [
+        "audible"
+      ],
+      "note": "nächste Abbuchung ca. 25.–27.09.; aktuell nicht in Prognose"
+    },
+    {
+      "id": "amazon_prime",
+      "date": "nach 15.09.",
+      "name": "Amazon Prime",
+      "amount": 8.99,
+      "confidence": "sehr hoch",
+      "match": [
+        "amznprime"
+      ],
+      "note": "nächste Abbuchung ca. 16.–18.09.; aktuell nicht in Prognose"
+    },
+    {
+      "id": "ig_metall",
+      "date": "nach 15.09.",
+      "name": "IG Metall",
+      "amount": 17.68,
+      "confidence": "sehr hoch",
+      "match": [
+        "industriegewerkschaft metall",
+        "industriegewerkscha"
+      ],
+      "note": "nächste Abbuchung ca. 17.–18.09.; aktuell nicht in Prognose"
     }
   ]
 }

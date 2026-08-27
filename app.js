@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
 let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.2.0";
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.3.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -51,7 +51,9 @@ function migrateState(){
 
   if(state.migratedTo!==MIGRATION){
     state.balance=config.currentSnapshot?.balance ?? state.balance;
+    state.dueActive=Object.fromEntries(config.dues.map(d=>[d.id,true]));
     for(const id of (config.currentSnapshot?.settledDueIds||[])) state.dueActive[id]=false;
+    state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
     state.migratedTo=MIGRATION;
     saveState(false).catch(()=>{});
   }
