@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<title>AT HUB · Finanzcockpit v8.8</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header>
+<main>
+  <div class="hero">
+    <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
+    <div class="pill">v8.8</div>
+  </div>
+
+  <section class="heroCard">
+    <div class="eyebrow">PROGNOSE BIS ZUM 15. DES MONATS</div>
+    <div id="forecast" class="money">–</div>
+    <div id="forecastText" class="muted"></div><div class="muted" style="margin-top:6px">Der Finanzmonat wechselt automatisch am 15. Erwartete Abbuchungen werden anhand ihres Rhythmus dem jeweils aktuellen Zeitraum 15. → 15. zugeordnet.</div>
+  </section>
+
+  <section class="cards">
+    <article><span>Kontostand</span><b id="current">–</b></article>
+    <article><span>Noch offen</span><b id="futureSum">–</b></article>
+    <article><span>Reserviert</span><b id="reserveSum">–</b></article>
+    <article><span>Dispo frei nach Planung</span><b id="dispoLeft">–</b></article>
+    <article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
+    <article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="dashboard">Übersicht</button>
+    <button class="tab" data-tab="import">PDF-Import</button>
+    <button class="tab" data-tab="transactions">Buchungen</button>
+    <button class="tab" data-tab="drive">Drive Sync</button>
+  </nav>
+
+  <section id="dashboard" class="pane active">
+    <div class="panel">
+      <h3>Kontostand</h3>
+      <div class="inputrow">
+        <label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label>
+        <button id="saveBal" class="btn">Speichern</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Planung & Rücklagen</h3>
+      <p class="muted">Nur aktive Beträge werden von der verfügbaren Summe abgezogen.</p>
+      <div id="planRows"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Noch kommende Abbuchungen</h3>
+      <div id="dues"></div>
+    </div>
+  </section>
+
+  <section id="import" class="pane">
+    <div class="panel">
+      <div class="eyebrow">DKB KONTOAUSZUG</div>
+      <h3>PDF-Kontoauszug einlesen</h3>
+      <p class="muted">Der Kontoauszug wird nur lokal im Browser gelesen. Der erkannte Kontostand und ausschließlich neue Buchungen werden nach deiner Bestätigung gespeichert. Bereits vorhandene Buchungen werden automatisch ausgeschlossen.</p>
+      <label class="drop" id="drop">
+        <input id="pdf" type="file" accept="application/pdf,.pdf" hidden>
+        <b>DKB-PDF hier ablegen oder anklicken</b>
+        <span>Auch Jahresauszüge sind erlaubt: historische Buchungen dienen nur zur Mustererkennung; nur passende aktuelle Fälligkeiten ändern die Prognose.</span>
+      </label>
+      <div id="pdfMsg" class="msg"></div>
+      <div id="review"></div>
+    </div>
+  </section>
+
+  <section id="transactions" class="pane">
+    <div class="panel"><h3>Gespeicherte Buchungen</h3><div id="txList"></div></div>
+  </section>
+
+  <section id="drive" class="pane">
+    <div class="panel">
+      <div class="eyebrow">GOOGLE DRIVE · ZENTRALER SPEICHER</div>
+      <h3>Handy und Rechner synchronisieren</h3>
+      <p class="muted">Beide Geräte verwenden dieselbe private JSON-Datei in deinem Google Drive. Lokale Daten bleiben als Offline-Kopie erhalten.</p>
+
+      <div class="cards" style="margin-top:10px">
+        <article><span>Drive-Status</span><b id="driveStatus">nicht verbunden</b></article>
+        <article><span>Letzter Sync</span><b id="lastSync">–</b></article>
+        <article><span>Autosync</span><b id="autoSyncState">aktiv</b></article>
+      </div>
+
+      <label>Google OAuth Client-ID
+        <input id="clientId" type="text" placeholder="…apps.googleusercontent.com">
+      </label>
+
+      <div class="actions">
+        <button id="saveClient" class="btn">Client-ID speichern</button>
+        <button id="connect" class="btn secondary">Mit Drive verbinden</button>
+        <button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button>
+      </div>
+
+      <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
+        <input id="autoSync" type="checkbox" style="width:auto;margin:0">
+        <span>Automatisch synchronisieren</span>
+      </label>
+
+      <p id="driveMsg" class="msg"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Synchronisationsregeln</h3>
+      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der neuere Kontostand und die neueren Schalter gewinnen. Konflikte werden angezeigt, nicht still überschrieben.</p>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
