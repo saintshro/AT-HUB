@@ -1,11 +1,14 @@
 {
-  "version": "8.7.0",
+  "version": "8.8.0",
   "module": "Finanzcockpit",
-  "updated": "2026-08-27",
+  "updated": "2026-09-02",
   "notes": [
     "Automatischer Finanzmonat vom 15. bis einschließlich 15. des Folgemonats.",
     "Wiederkehrende Abbuchungen werden aus den in v8.6 bekannten Rhythmen automatisch dem aktuellen Finanzmonat zugeordnet.",
     "Google-Drive-Sync bleibt erhalten; lokale Daten bleiben Offline-Kopie.",
-    "Beim Wechsel des Finanzmonats wird für die neue Periode eine neue Fälligkeitsliste erzeugt."
+    "Beim Wechsel des Finanzmonats wird für die neue Periode eine neue Fälligkeitsliste erzeugt.",
+    "Der im DKB-PDF erkannte Kontostand wird mit der bestätigten Importvorschau automatisch aktualisiert.",
+    "Normalisierte Buchungskennungen und Vorkommenszählung verhindern Doppelimporte auch bei überlappenden Kontoauszügen.",
+    "Unklare Übereinstimmungen werden zur Prüfung markiert und standardmäßig nicht übernommen."
   ]
 }

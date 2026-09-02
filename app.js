@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
-let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.7.0";
+let config=null,state=null,reviewRows=[],pendingImportBalance=null,driveToken=null,driveFileId=null;
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.8.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -61,12 +61,8 @@ function migrateState(){
   if(typeof state.drive.autoSync!=="boolean") state.drive.autoSync=config.drive.autoSync!==false;
 
   if(state.migratedTo!==MIGRATION){
-    state.balance=config.currentSnapshot?.balance ?? state.balance;
-    state.dueActive=Object.fromEntries(buildCycleDues().rows.map(d=>[d.id,true]));
-    state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
+    // Versionswechsel dürfen bestehende Finanzdaten niemals zurücksetzen.
     state.migratedTo=MIGRATION;
-    touchField("dueActive");
-    touchField("planActive");
     saveState(false).catch(()=>{});
   }
 }
@@ -264,6 +260,7 @@ async function loadPdfJs(){
 async function handlePDF(file){
   const msg=$("#pdfMsg");
   $("#review").innerHTML="";
+  pendingImportBalance=null;
   const isPdf=file && (file.type==="application/pdf" || /\.pdf$/i.test(file.name||""));
   if(!isPdf){
     msg.textContent="Bitte einen PDF-Kontoauszug auswählen.";
@@ -292,7 +289,10 @@ async function handlePDF(file){
     }
 
     reviewRows=parseDKBLines(lines);
-    msg.textContent=`${pdf.numPages} Seiten gelesen · ${reviewRows.length} Buchungen erkannt.`;
+    pendingImportBalance=extractStatementBalance(lines);
+    classifyReviewRows();
+    const counts=reviewRows.reduce((a,t)=>(a[t.importStatus]=(a[t.importStatus]||0)+1,a),{});
+    msg.textContent=`${pdf.numPages} Seiten gelesen · ${reviewRows.length} Buchungen erkannt · ${counts.new||0} neu · ${counts.duplicate||0} bereits vorhanden · ${counts.possible||0} bitte prüfen${Number.isFinite(pendingImportBalance)?` · Kontostand ${euro.format(pendingImportBalance)} erkannt`:" · kein Kontostand erkannt"}.`;
     msg.className=reviewRows.length?"msg good":"msg bad";
     renderReview();
   }catch(e){
@@ -320,24 +320,78 @@ function parseMoney(raw){
   return Number.isFinite(n)?(neg?-n:n):NaN;
 }
 function parseDKBLines(lines){
-  const out=[],seen=new Set();
-  const rowRx=/^(\d{2}\.\d{2}\.\d{4})\s+(.+?)\s+(-?\d{1,9}(?:[.,]\d{2}))$/;
+  const out=[],occurrences=new Map();
+  const rowRx=/^(\d{2}\.\d{2}\.\d{4})\s+(.+?)\s+([+-]?(?:(?:\d{1,3}(?:\.\d{3})+|\d{1,9}),\d{2}|(?:\d{1,3}(?:,\d{3})+|\d{1,9})\.\d{2}))\s*(?:€|EUR)?$/i;
 
   for(const line of lines){
     const m=line.match(rowRx);
     if(!m) continue;
     const date=m[1],name=m[2].trim(),amount=parseMoney(m[3]);
     if(!Number.isFinite(amount) || /^(Datum|Zeitraum|Auszug)$/i.test(name)) continue;
-    const key=`${date}|${name}|${amount.toFixed(2)}`;
-    if(seen.has(key)) continue;
-    seen.add(key);
+    const legacyKey=`${date}|${name}|${amount.toFixed(2)}`;
     const [dd,mm,yy]=date.split(".");
+    const duplicateKey=transactionDuplicateKey({iso:`${yy}-${mm}-${dd}`,name,amount});
+    const occurrence=(occurrences.get(duplicateKey)||0)+1;
+    occurrences.set(duplicateKey,occurrence);
     out.push({
-      id:hash(key),date,iso:`${yy}-${mm}-${dd}`,name,amount,
+      id:hash(`v2|${duplicateKey}|${occurrence}`),legacyId:hash(legacyKey),
+      duplicateKey,occurrence,date,iso:`${yy}-${mm}-${dd}`,name,amount,
       type:autoType(name,amount),category:autoCat(name,amount)
     });
   }
   return out.slice(0,700);
+}
+function normalizeBookingText(value){
+  return String(value||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g," ").trim().replace(/\s+/g," ");
+}
+function transactionDuplicateKey(t){
+  if(t?.duplicateKey) return t.duplicateKey;
+  return `${t?.iso||""}|${Number(t?.amount||0).toFixed(2)}|${normalizeBookingText(t?.name)}`;
+}
+function transactionLooseKey(t){
+  return `${t?.iso||""}|${Number(t?.amount||0).toFixed(2)}`;
+}
+function classifyReviewRows(){
+  const exactCounts=new Map(),exactIds=new Set(),looseKeys=new Set();
+  for(const t of state.transactions){
+    const key=transactionDuplicateKey(t);
+    exactCounts.set(key,(exactCounts.get(key)||0)+1);
+    exactIds.add(t.id);
+    looseKeys.add(transactionLooseKey(t));
+  }
+  for(const t of reviewRows){
+    const existingExactCount=exactCounts.get(t.duplicateKey)||0;
+    const exact=t.occurrence<=existingExactCount || exactIds.has(t.id) || exactIds.has(t.legacyId);
+    if(exact){t.importStatus="duplicate";t.include=false;continue;}
+    // Ein weiteres identisches Vorkommen im selben Bankexport ist eine echte
+    // zusätzliche Buchung, nicht bloß eine ähnlich aussehende Zahlung.
+    if(existingExactCount>0){t.importStatus="new";t.include=true;continue;}
+    if(looseKeys.has(transactionLooseKey(t))){t.importStatus="possible";t.include=false;continue;}
+    t.importStatus="new";t.include=true;
+  }
+}
+function extractStatementBalance(lines){
+  const amountRx=/[-+\u2212]?\s*\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|[-+\u2212]?\s*\d+(?:[.,]\d{2})/g;
+  const candidates=[];
+  for(let i=0;i<lines.length;i++){
+    const windows=[lines[i],`${lines[i]} ${lines[i+1]||""}`,`${lines[i-1]||""} ${lines[i]}`];
+    for(const text of windows){
+      const low=normalizeBookingText(text);
+      let score=0;
+      if(low.includes("aktueller kontostand")) score=100;
+      else if(low.includes("neuer kontostand")||low.includes("endsaldo")) score=95;
+      else if(low.includes("kontostand am")) score=85;
+      else if(low.includes("kontostand")) score=70;
+      else if(/(^| )saldo( |$)/.test(low)) score=55;
+      if(!score) continue;
+      if(low.includes("alter kontostand")||low.includes("anfangssaldo")) score-=40;
+      const amounts=[...text.matchAll(amountRx)].map(m=>parseMoney(m[0].replace("\u2212","-"))).filter(Number.isFinite);
+      if(amounts.length) candidates.push({score,index:i,value:amounts.at(-1)});
+    }
+  }
+  candidates.sort((a,b)=>b.score-a.score||b.index-a.index);
+  return candidates[0]?.value ?? null;
 }
 function matchesDue(name,d){
   const n=name.toLowerCase();
@@ -371,12 +425,19 @@ function autoCat(n,a){
 }
 function renderReview(){
   if(!reviewRows.length){
-    $("#review").innerHTML='<p class="muted">Keine DKB-Buchungen erkannt. Bitte prüfen, ob es sich um den DKB-Umsatz-PDF-Export handelt.</p>';
+    $("#review").innerHTML=Number.isFinite(pendingImportBalance)
+      ?`<div class="balancePreview"><span>Erkannter neuer Kontostand</span><b>${euro.format(pendingImportBalance)}</b></div><p class="muted">Keine neuen Buchungszeilen erkannt. Der Kontostand kann trotzdem übernommen werden.</p><button class="btn" id="confirmImport">Kontostand übernehmen</button>`
+      :'<p class="muted">Keine DKB-Buchungen und kein eindeutiger Kontostand erkannt. Bitte prüfen, ob es sich um den DKB-Umsatz-PDF-Export handelt.</p>';
+    if($("#confirmImport")) $("#confirmImport").onclick=confirmImport;
     return;
   }
-  $("#review").innerHTML=reviewRows.map((t,i)=>
+  const balanceNote=Number.isFinite(pendingImportBalance)
+    ?`<div class="balancePreview"><span>Erkannter neuer Kontostand</span><b>${euro.format(pendingImportBalance)}</b></div>`
+    :'<div class="msg bad">Im Dokument wurde kein eindeutiger Kontostand erkannt. Die Buchungen können trotzdem geprüft werden.</div>';
+  $("#review").innerHTML=balanceNote+reviewRows.map((t,i)=>
     `<div class="review" data-i="${i}">
-      <div class="head"><div><b>${esc(t.name)}</b><small>${t.date}</small></div><b>${euro.format(t.amount)}</b></div>
+      <div class="head"><div><b>${esc(t.name)}</b><small>${t.date} · <span class="status ${t.importStatus}">${t.importStatus==="new"?"neu":t.importStatus==="duplicate"?"bereits vorhanden":"mögliche Doppelung – prüfen"}</span></small></div><b>${euro.format(t.amount)}</b></div>
+      <label class="importChoice"><input type="checkbox" ${t.include?"checked":""} ${t.importStatus==="duplicate"?"disabled":""}> ${t.importStatus==="duplicate"?"wird nicht erneut übernommen":"diese Buchung übernehmen"}</label>
       <select>
         <option value="fixed" ${t.type==="fixed"?"selected":""}>Fixkosten</option>
         <option value="variable" ${t.type==="variable"?"selected":""}>Variable Ausgabe</option>
@@ -396,11 +457,16 @@ async function confirmImport(){
 
   reviewRows.forEach((t,i)=>{
     t.type=$(`.review[data-i="${i}"] select`).value;
-    if(!ids.has(t.id)){
-      state.transactions.push(t);
+    t.include=$(`.review[data-i="${i}"] input[type="checkbox"]`).checked;
+    if(t.include && !ids.has(t.id)){
+      const saved={...t,importedAt:new Date().toISOString()};
+      delete saved.importStatus; delete saved.include; delete saved.legacyId;
+      state.transactions.push(saved);
       ids.add(t.id);
       added++;
     }
+
+    if(!t.include) return;
 
     // Nur aktuelle Fälligkeiten im expliziten Zahlungsfenster dürfen erledigt werden.
     for(const d of config.dues){
@@ -417,6 +483,11 @@ async function confirmImport(){
     }
   });
 
+  if(Number.isFinite(pendingImportBalance)){
+    state.balance=pendingImportBalance;
+    touchField("balance");
+  }
+
   await saveState();
 
   const historical=reviewRows.filter(t=>{
@@ -424,8 +495,8 @@ async function confirmImport(){
   }).length;
 
   $("#pdfMsg").textContent=
-    `Auszug analysiert: ${reviewRows.length} Buchungen erkannt, ${added} neu gespeichert, `+
-    `${settledNow.length} aktuelle Fälligkeiten bestätigt. Historische Buchungen ändern die Prognose nicht.`;
+    `Import abgeschlossen: ${added} neue Buchungen gespeichert, ${reviewRows.filter(t=>t.importStatus==="duplicate").length} Doppelbuchungen verhindert, `+
+    `${settledNow.length} aktuelle Fälligkeiten bestätigt${Number.isFinite(pendingImportBalance)?` und Kontostand auf ${euro.format(pendingImportBalance)} aktualisiert`:""}.`;
   $("#pdfMsg").className="msg good";
 
   $("#review").innerHTML = settledNow.length

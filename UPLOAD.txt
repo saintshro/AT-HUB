@@ -1,4 +1,4 @@
-AT HUB Finanzcockpit v8.7
+AT HUB Finanzcockpit v8.8
 
 NEU:
 - Finanzmonat wechselt automatisch am 15.
@@ -6,6 +6,9 @@ NEU:
 - Wiederkehrende Fixkosten werden automatisch in den passenden Zeitraum 15. → 15. einsortiert.
 - Positionen nach dem Enddatum des Finanzmonats zählen nicht.
 - Drive Sync bleibt erhalten.
+- Der erkannte DKB-Kontostand wird beim bestätigten Import automatisch übernommen.
+- Bereits gespeicherte Buchungen werden bei überlappenden Auszügen nicht doppelt angelegt.
+- Unklare Übereinstimmungen bleiben zur manuellen Prüfung zunächst abgewählt.
 
 UPLOAD:
 Im Branch gh--pages diese Dateien ersetzen:
@@ -18,4 +21,4 @@ sw.js
 app-version.json
 
 Danach committen, z.B.:
-Finanzcockpit v8.7 automatischer Finanzmonat
+Finanzcockpit v8.8 Kontostand und Dublettenprüfung
