@@ -1,0 +1,690 @@
+const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
+let config=null,state=null,reviewRows=[],pendingImportBalance=null,driveToken=null,driveFileId=null;
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.8.0";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+async function db(){
+  return await new Promise((res,rej)=>{
+    const r=indexedDB.open(DB,1);
+    r.onupgradeneeded=()=>r.result.createObjectStore(STORE);
+    r.onsuccess=()=>res(r.result);
+    r.onerror=()=>rej(r.error);
+  });
+}
+async function loadState(){
+  const d=await db();
+  return await new Promise((res,rej)=>{
+    const t=d.transaction(STORE,"readonly"),q=t.objectStore(STORE).get("main");
+    q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error);
+  });
+}
+async function saveState(localChange=true){
+  if(localChange) state.localChangedAt=new Date().toISOString();
+  const d=await db();
+  return await new Promise((res,rej)=>{
+    const t=d.transaction(STORE,"readwrite");
+    t.objectStore(STORE).put(state,"main");
+    t.oncomplete=res; t.onerror=()=>rej(t.error);
+  });
+}
+
+function touchField(field){
+  if(!state.fieldChangedAt) state.fieldChangedAt={};
+  state.fieldChangedAt[field]=new Date().toISOString();
+}
+function defaultState(){
+  return {
+    balance:config.currentSnapshot?.balance ?? null,
+    transactions:[],
+    dueActive:Object.fromEntries(dues.map(d=>[d.id,true])),
+    planActive:{emergencyBuffer:true,vacationSavings:false,plannedPaydown:false},
+    lastSyncAt:null,
+    localChangedAt:new Date().toISOString(),
+    deviceId:localStorage.getItem("athub-device-id")||("dev-"+crypto.randomUUID()),
+    fieldChangedAt:{balance:new Date().toISOString(),dueActive:new Date().toISOString(),planActive:new Date().toISOString()},
+    drive:{clientId:config.drive.clientId||"",autoSync:config.drive.autoSync!==false},
+    migratedTo:MIGRATION
+  };
+}
+function migrateState(){
+  if(!state || typeof state!=="object") state=defaultState();
+  if(!state.deviceId) state.deviceId=localStorage.getItem("athub-device-id")||("dev-"+crypto.randomUUID());
+  localStorage.setItem("athub-device-id",state.deviceId);
+  if(!state.fieldChangedAt) state.fieldChangedAt={balance:state.localChangedAt||new Date().toISOString(),dueActive:state.localChangedAt||new Date().toISOString(),planActive:state.localChangedAt||new Date().toISOString()};
+  if(!state.transactions) state.transactions=[];
+  if(!state.dueActive) state.dueActive={};
+  for(const d of config.dues){
+    if(!(d.id in state.dueActive)) state.dueActive[d.id]=true;
+  }
+  if(!state.planActive) state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
+  if(!state.drive) state.drive={clientId:config.drive.clientId||"",autoSync:config.drive.autoSync!==false};
+  if(typeof state.drive.autoSync!=="boolean") state.drive.autoSync=config.drive.autoSync!==false;
+
+  if(state.migratedTo!==MIGRATION){
+    // Versionswechsel dürfen bestehende Finanzdaten niemals zurücksetzen.
+    state.migratedTo=MIGRATION;
+    saveState(false).catch(()=>{});
+  }
+}
+function financePeriod(){
+  const n=new Date(),s=config.financialMonthStartDay||15,d=n.getDate();
+  let start,end;
+  if(d>=s){start=new Date(n.getFullYear(),n.getMonth(),s);end=new Date(n.getFullYear(),n.getMonth()+1,s);}
+  else{start=new Date(n.getFullYear(),n.getMonth()-1,s);end=new Date(n.getFullYear(),n.getMonth(),s);}
+  return{start,end};
+}
+function fmt(d){return d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"});}
+function reserveRows(){
+  return [
+    ["emergencyBuffer","Puffer für Unvorhergesehenes",Number(config.plan?.emergencyBuffer||0),"monatlich reservieren"],
+    ["vacationSavings","Urlaubssparen",Number(config.plan?.vacationSavings||0),"in 900 € Daniela enthalten – nur aktivieren, wenn noch nicht bezahlt"],
+    ["plannedPaydown","Dispo-/Schuldenabbau",Number(config.plan?.plannedPaydown||0),"optionales Monatsziel"]
+  ];
+}
+function activeReserveSum(){
+  return reserveRows().reduce((s,[k,,v])=>s+(state.planActive?.[k]?v:0),0);
+}
+
+function localDateISO(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function cycleForDate(now=new Date()){
+  const anchor=config.financeCycle?.anchorDay||15;
+  let start, end;
+  if(now.getDate()>=anchor){
+    start=new Date(now.getFullYear(),now.getMonth(),anchor);
+    end=new Date(now.getFullYear(),now.getMonth()+1,anchor);
+  }else{
+    start=new Date(now.getFullYear(),now.getMonth()-1,anchor);
+    end=new Date(now.getFullYear(),now.getMonth(),anchor);
+  }
+  return {start,end,startISO:localDateISO(start),endISO:localDateISO(end)};
+}
+function euroDate(d){return new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"}).format(d);}
+function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
+function occurrenceDates(rule,cycle){
+  const dates=[];
+  const add=(y,m,day)=>{
+    const max=daysInMonth(y,m), safe=Math.min(day,max), dt=new Date(y,m,safe);
+    if(dt>=cycle.start && dt<=cycle.end) dates.push(dt);
+  };
+  if(rule.type==="monthly"){
+    for(let cursor=new Date(cycle.start.getFullYear(),cycle.start.getMonth(),1); cursor<=cycle.end; cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,1)){
+      add(cursor.getFullYear(),cursor.getMonth(),rule.dayStart||1);
+    }
+  }else if(rule.type==="quarterly"){
+    for(let cursor=new Date(cycle.start.getFullYear(),cycle.start.getMonth(),1); cursor<=cycle.end; cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,1)){
+      if((rule.months||[]).includes(cursor.getMonth()+1)) add(cursor.getFullYear(),cursor.getMonth(),rule.dayStart||15);
+    }
+  }else if(rule.type==="biweekly"){
+    const ref=new Date(`${rule.referenceDate}T12:00:00`);
+    const step=(rule.intervalDays||14)*86400000;
+    let t=ref.getTime();
+    while(t>cycle.start.getTime()) t-=step;
+    while(t<cycle.start.getTime()) t+=step;
+    while(t<=cycle.end.getTime()){dates.push(new Date(t));t+=step;}
+  }
+  return dates.sort((a,b)=>a-b);
+}
+function buildCycleDues(){
+  const cycle=cycleForDate();
+  const rows=[];
+  for(const rule of (config.recurrences||[])){
+    for(const dt of occurrenceDates(rule,cycle)){
+      rows.push({
+        ...rule,
+        cycleId:`${rule.id}@${localDateISO(dt)}`,
+        baseId:rule.id,
+        id:`${rule.id}@${localDateISO(dt)}`,
+        dueDate:localDateISO(dt),
+        date:euroDate(dt),
+        includeInForecast:true
+      });
+    }
+  }
+  rows.sort((a,b)=>a.dueDate.localeCompare(b.dueDate)||a.name.localeCompare(b.name));
+  return {cycle,rows};
+}
+function ensureCycleState(){
+  const {cycle,rows}=buildCycleDues();
+  if(state.financeCycleId!==`${cycle.startISO}_${cycle.endISO}`){
+    state.financeCycleId=`${cycle.startISO}_${cycle.endISO}`;
+    state.dueActive=Object.fromEntries(rows.map(d=>[d.id,true]));
+    state.migratedTo=MIGRATION;
+    touchField("dueActive");
+    saveState(false).catch(()=>{});
+  }
+  return {cycle,rows};
+}
+
+function render(){
+  const p=financePeriod();
+  const open=config.dues.filter(d=>d.includeInForecast!==false && state.dueActive[d.id]!==false);
+  const openSum=open.reduce((s,x)=>s+Number(x.amount||0),0);
+  const reserves=activeReserveSum();
+  const available=state.balance==null?null:state.balance-openSum-reserves;
+  const dispoLeft=available==null?null:Math.max(0,config.overdraftLimit-Math.max(0,-available));
+
+  $("#period").textContent=`Finanzmonat ${fmt(p.start)} → ${fmt(p.end)}`;
+  $("#current").textContent=state.balance==null?"fehlt":euro.format(state.balance);
+  $("#futureSum").textContent=euro.format(openSum);
+  $("#reserveSum").textContent=euro.format(reserves);
+  $("#forecast").textContent=available==null?"Kontostand eingeben":euro.format(available);
+  $("#forecast").classList.toggle("red",available!=null&&available<0);
+  $("#forecastText").textContent=available==null
+    ?"Bitte aktuellen Kontostand eintragen."
+    :`Kontostand ${euro.format(state.balance)} − offene Abbuchungen ${euro.format(openSum)} − reserviert ${euro.format(reserves)}.`;
+  $("#dispoLeft").textContent=dispoLeft==null?"–":euro.format(dispoLeft);
+  $("#saveGoal").textContent=euro.format(config.plan?.plannedPaydown||0);
+  $("#vacationValue").textContent=euro.format(config.plan?.vacationSavings||0);
+
+  $("#planRows").innerHTML=reserveRows().map(([k,label,val,note])=>
+    `<div class="due"><div><b>${esc(label)}</b><small>${euro.format(val)} · ${esc(note)}</small></div>
+     <div class="right"><button class="toggle ${state.planActive[k]?"on":""}" onclick="togglePlan('${k}')">${state.planActive[k]?"aktiv ✓":"aus"}</button></div></div>`
+  ).join("");
+
+  $("#dues").innerHTML=config.dues.map(d=>
+    `<div class="due"><div><b>${esc(d.name)}</b><small>${d.date} · ${euro.format(d.amount)} · Sicherheit: ${d.confidence}${d.note?` · ${esc(d.note)}`:""}${d.includeInForecast===false?` · nicht Teil der aktuellen Prognose`:""}</small></div>
+     <div class="right"><button class="toggle ${d.includeInForecast!==false && state.dueActive[d.id]!==false?"on":""}" onclick="toggleDue('${d.id}')">${d.includeInForecast===false?"nach dem 15. · ausgeschlossen":(state.dueActive[d.id]!==false?"eingerechnet ✓":"bezahlt / aus")}</button></div></div>`
+  ).join("");
+
+  $("#txList").innerHTML=state.transactions.length
+    ?state.transactions.slice().sort((a,b)=>b.iso.localeCompare(a.iso)).map(t=>
+      `<div class="tx"><div><b>${esc(t.name)}</b><small>${t.date} · ${esc(t.category)}</small></div>
+       <b class="${t.amount<0?"red":"good"}">${euro.format(t.amount)}</b></div>`).join("")
+    :'<p class="muted">Noch keine importierten Buchungen gespeichert.</p>';
+
+  $("#bal").value=state.balance??"";
+  $("#clientId").value=state.drive.clientId||"";
+  if($("#autoSync")) $("#autoSync").checked=state.drive.autoSync!==false;
+  if($("#autoSyncState")) $("#autoSyncState").textContent=state.drive.autoSync!==false?"aktiv":"aus";
+  if($("#lastSync")) $("#lastSync").textContent=state.lastSyncAt?new Date(state.lastSyncAt).toLocaleString("de-DE"):"–";
+  if($("#driveStatus")) $("#driveStatus").textContent=driveToken?"verbunden":"nicht verbunden";
+}
+window.toggleDue=async id=>{
+  const d=buildCycleDues().rows.find(x=>x.id===id);
+  if(d?.includeInForecast===false){
+    state.dueActive[id]=false;
+    touchField("dueActive");
+    await saveState();
+    render();
+    return;
+  }
+  state.dueActive[id]=state.dueActive[id]===false;
+  touchField("dueActive");
+  await saveState();
+  render();
+  queueAutoSync();
+};
+window.togglePlan=async id=>{state.planActive[id]=!state.planActive[id];touchField("planActive");await saveState();render();queueAutoSync();};
+
+function bind(){
+  $$(".tab").forEach(b=>b.onclick=()=>{
+    $$(".tab").forEach(x=>x.classList.remove("active"));
+    $$(".pane").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    $("#"+b.dataset.tab).classList.add("active");
+  });
+  $("#saveBal").onclick=async()=>{
+    const v=Number($("#bal").value);
+    if(Number.isFinite(v)){state.balance=v;touchField("balance");await saveState();render();queueAutoSync();}
+  };
+  const drop=$("#drop"),pdf=$("#pdf");
+  drop.onclick=()=>pdf.click();
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add("drag");};
+  drop.ondragleave=()=>drop.classList.remove("drag");
+  drop.ondrop=e=>{
+    e.preventDefault();drop.classList.remove("drag");
+    if(e.dataTransfer.files[0]) handlePDF(e.dataTransfer.files[0]);
+  };
+  pdf.onchange=()=>pdf.files[0]&&handlePDF(pdf.files[0]);
+
+  $("#saveClient").onclick=async()=>{
+    state.drive.clientId=$("#clientId").value.trim();
+    await saveState();
+    msgDrive(state.drive.clientId?"Client-ID gespeichert.":"Client-ID entfernt.","good");
+  };
+  $("#connect").onclick=connectDrive;
+  $("#sync").onclick=syncDrive;
+  $("#autoSync").onchange=async()=>{
+    state.drive.autoSync=$("#autoSync").checked;
+    await saveState();
+    render();
+    if(state.drive.autoSync) queueAutoSync();
+  };
+}
+async function loadPdfJs(){
+  return await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/+esm");
+}
+async function handlePDF(file){
+  const msg=$("#pdfMsg");
+  $("#review").innerHTML="";
+  pendingImportBalance=null;
+  const isPdf=file && (file.type==="application/pdf" || /\.pdf$/i.test(file.name||""));
+  if(!isPdf){
+    msg.textContent="Bitte einen PDF-Kontoauszug auswählen.";
+    msg.className="msg bad"; return;
+  }
+  msg.textContent="DKB-PDF wird lokal gelesen …";
+  msg.className="msg";
+
+  try{
+    const pdfjs=await loadPdfJs();
+    pdfjs.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs";
+    const pdf=await pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+    let lines=[];
+
+    for(let p=1;p<=pdf.numPages;p++){
+      const pg=await pdf.getPage(p),c=await pg.getTextContent(),rows=new Map();
+      for(const it of c.items){
+        const y=Math.round((it.transform?.[5]||0)*2)/2;
+        if(!rows.has(y)) rows.set(y,[]);
+        rows.get(y).push({x:it.transform?.[4]||0,s:it.str||""});
+      }
+      lines.push(...[...rows.entries()]
+        .sort((a,b)=>b[0]-a[0])
+        .map(([,items])=>items.sort((a,b)=>a.x-b.x).map(v=>v.s).join(" ").replace(/\s+/g," ").trim())
+        .filter(Boolean));
+    }
+
+    reviewRows=parseDKBLines(lines);
+    pendingImportBalance=extractStatementBalance(lines);
+    classifyReviewRows();
+    const counts=reviewRows.reduce((a,t)=>(a[t.importStatus]=(a[t.importStatus]||0)+1,a),{});
+    msg.textContent=`${pdf.numPages} Seiten gelesen · ${reviewRows.length} Buchungen erkannt · ${counts.new||0} neu · ${counts.duplicate||0} bereits vorhanden · ${counts.possible||0} bitte prüfen${Number.isFinite(pendingImportBalance)?` · Kontostand ${euro.format(pendingImportBalance)} erkannt`:" · kein Kontostand erkannt"}.`;
+    msg.className=reviewRows.length?"msg good":"msg bad";
+    renderReview();
+  }catch(e){
+    msg.textContent="PDF konnte nicht gelesen werden: "+e.message;
+    msg.className="msg bad";
+  }
+}
+function parseMoney(raw){
+  let s=String(raw||"").trim().replace(/\s/g,"").replace(/[€]/g,"");
+  if(!s) return NaN;
+  const neg=s.startsWith("-");
+  s=s.replace(/^[-+]/,"");
+  const lc=s.lastIndexOf(","),ld=s.lastIndexOf(".");
+  if(lc>=0&&ld>=0){
+    if(lc>ld)s=s.replace(/\./g,"").replace(",",".");
+    else s=s.replace(/,/g,"");
+  }else if(lc>=0){
+    const p=s.split(",");
+    s=p.at(-1).length===2?p.slice(0,-1).join("")+"."+p.at(-1):s.replace(/,/g,"");
+  }else if(ld>=0){
+    const p=s.split(".");
+    s=p.at(-1).length===2?p.slice(0,-1).join("")+"."+p.at(-1):s.replace(/\./g,"");
+  }
+  const n=Number(s);
+  return Number.isFinite(n)?(neg?-n:n):NaN;
+}
+function parseDKBLines(lines){
+  const out=[],occurrences=new Map();
+  const rowRx=/^(\d{2}\.\d{2}\.\d{4})\s+(.+?)\s+([+-]?(?:(?:\d{1,3}(?:\.\d{3})+|\d{1,9}),\d{2}|(?:\d{1,3}(?:,\d{3})+|\d{1,9})\.\d{2}))\s*(?:€|EUR)?$/i;
+
+  for(const line of lines){
+    const m=line.match(rowRx);
+    if(!m) continue;
+    const date=m[1],name=m[2].trim(),amount=parseMoney(m[3]);
+    if(!Number.isFinite(amount) || /^(Datum|Zeitraum|Auszug)$/i.test(name)) continue;
+    const legacyKey=`${date}|${name}|${amount.toFixed(2)}`;
+    const [dd,mm,yy]=date.split(".");
+    const duplicateKey=transactionDuplicateKey({iso:`${yy}-${mm}-${dd}`,name,amount});
+    const occurrence=(occurrences.get(duplicateKey)||0)+1;
+    occurrences.set(duplicateKey,occurrence);
+    out.push({
+      id:hash(`v2|${duplicateKey}|${occurrence}`),legacyId:hash(legacyKey),
+      duplicateKey,occurrence,date,iso:`${yy}-${mm}-${dd}`,name,amount,
+      type:autoType(name,amount),category:autoCat(name,amount)
+    });
+  }
+  return out.slice(0,700);
+}
+function normalizeBookingText(value){
+  return String(value||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g," ").trim().replace(/\s+/g," ");
+}
+function transactionDuplicateKey(t){
+  if(t?.duplicateKey) return t.duplicateKey;
+  return `${t?.iso||""}|${Number(t?.amount||0).toFixed(2)}|${normalizeBookingText(t?.name)}`;
+}
+function transactionLooseKey(t){
+  return `${t?.iso||""}|${Number(t?.amount||0).toFixed(2)}`;
+}
+function classifyReviewRows(){
+  const exactCounts=new Map(),exactIds=new Set(),looseKeys=new Set();
+  for(const t of state.transactions){
+    const key=transactionDuplicateKey(t);
+    exactCounts.set(key,(exactCounts.get(key)||0)+1);
+    exactIds.add(t.id);
+    looseKeys.add(transactionLooseKey(t));
+  }
+  for(const t of reviewRows){
+    const existingExactCount=exactCounts.get(t.duplicateKey)||0;
+    const exact=t.occurrence<=existingExactCount || exactIds.has(t.id) || exactIds.has(t.legacyId);
+    if(exact){t.importStatus="duplicate";t.include=false;continue;}
+    // Ein weiteres identisches Vorkommen im selben Bankexport ist eine echte
+    // zusätzliche Buchung, nicht bloß eine ähnlich aussehende Zahlung.
+    if(existingExactCount>0){t.importStatus="new";t.include=true;continue;}
+    if(looseKeys.has(transactionLooseKey(t))){t.importStatus="possible";t.include=false;continue;}
+    t.importStatus="new";t.include=true;
+  }
+}
+function extractStatementBalance(lines){
+  const amountRx=/[-+\u2212]?\s*\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|[-+\u2212]?\s*\d+(?:[.,]\d{2})/g;
+  const candidates=[];
+  for(let i=0;i<lines.length;i++){
+    const windows=[lines[i],`${lines[i]} ${lines[i+1]||""}`,`${lines[i-1]||""} ${lines[i]}`];
+    for(const text of windows){
+      const low=normalizeBookingText(text);
+      let score=0;
+      if(low.includes("aktueller kontostand")) score=100;
+      else if(low.includes("neuer kontostand")||low.includes("endsaldo")) score=95;
+      else if(low.includes("kontostand am")) score=85;
+      else if(low.includes("kontostand")) score=70;
+      else if(/(^| )saldo( |$)/.test(low)) score=55;
+      if(!score) continue;
+      if(low.includes("alter kontostand")||low.includes("anfangssaldo")) score-=40;
+      const amounts=[...text.matchAll(amountRx)].map(m=>parseMoney(m[0].replace("\u2212","-"))).filter(Number.isFinite);
+      if(amounts.length) candidates.push({score,index:i,value:amounts.at(-1)});
+    }
+  }
+  candidates.sort((a,b)=>b.score-a.score||b.index-a.index);
+  return candidates[0]?.value ?? null;
+}
+function matchesDue(name,d){
+  const n=name.toLowerCase();
+  return (d.match||[]).some(x=>n.includes(String(x).toLowerCase()));
+}
+function inDueWindow(tx,d){
+  if(!d.window) return false;
+  return tx.iso>=d.window.start && tx.iso<=d.window.end;
+}
+function dueCanBeSettledByTx(tx,d){
+  if(tx.amount>=0) return false;
+  if(!matchesDue(tx.name,d)) return false;
+  return inDueWindow(tx,d);
+}
+function autoType(n,a){
+  const low=n.toLowerCase();
+  if(a>0) return low.includes("waltersdorf")?"income":"income_other";
+  if(low.includes("add to balance")) return "transfer";
+  if(config.dues.some(d=>matchesDue(n,d))) return "fixed";
+  return "variable";
+}
+function autoCat(n,a){
+  const low=n.toLowerCase();
+  if(a>0) return low.includes("waltersdorf")?"Gehalt":"Einnahme";
+  for(const d of config.dues) if(matchesDue(n,d)) return d.name;
+  if(low.includes("paypal")) return "PayPal / prüfen";
+  if(low.includes("lidl")||low.includes("rewe")||low.includes("netto")||low.includes("aldi")||low.includes("kaufland")) return "Lebensmittel";
+  if(low.includes("audible")) return "Abonnement";
+  if(low.includes("google")) return "Digital / Google";
+  return "Variable Ausgabe";
+}
+function renderReview(){
+  if(!reviewRows.length){
+    $("#review").innerHTML=Number.isFinite(pendingImportBalance)
+      ?`<div class="balancePreview"><span>Erkannter neuer Kontostand</span><b>${euro.format(pendingImportBalance)}</b></div><p class="muted">Keine neuen Buchungszeilen erkannt. Der Kontostand kann trotzdem übernommen werden.</p><button class="btn" id="confirmImport">Kontostand übernehmen</button>`
+      :'<p class="muted">Keine DKB-Buchungen und kein eindeutiger Kontostand erkannt. Bitte prüfen, ob es sich um den DKB-Umsatz-PDF-Export handelt.</p>';
+    if($("#confirmImport")) $("#confirmImport").onclick=confirmImport;
+    return;
+  }
+  const balanceNote=Number.isFinite(pendingImportBalance)
+    ?`<div class="balancePreview"><span>Erkannter neuer Kontostand</span><b>${euro.format(pendingImportBalance)}</b></div>`
+    :'<div class="msg bad">Im Dokument wurde kein eindeutiger Kontostand erkannt. Die Buchungen können trotzdem geprüft werden.</div>';
+  $("#review").innerHTML=balanceNote+reviewRows.map((t,i)=>
+    `<div class="review" data-i="${i}">
+      <div class="head"><div><b>${esc(t.name)}</b><small>${t.date} · <span class="status ${t.importStatus}">${t.importStatus==="new"?"neu":t.importStatus==="duplicate"?"bereits vorhanden":"mögliche Doppelung – prüfen"}</span></small></div><b>${euro.format(t.amount)}</b></div>
+      <label class="importChoice"><input type="checkbox" ${t.include?"checked":""} ${t.importStatus==="duplicate"?"disabled":""}> ${t.importStatus==="duplicate"?"wird nicht erneut übernommen":"diese Buchung übernehmen"}</label>
+      <select>
+        <option value="fixed" ${t.type==="fixed"?"selected":""}>Fixkosten</option>
+        <option value="variable" ${t.type==="variable"?"selected":""}>Variable Ausgabe</option>
+        <option value="one_off">Sonderausgabe</option>
+        <option value="transfer" ${t.type==="transfer"?"selected":""}>Umbuchung</option>
+        <option value="income" ${t.type==="income"?"selected":""}>Gehalt</option>
+        <option value="income_other" ${t.type==="income_other"?"selected":""}>Sonstige Einnahme</option>
+      </select>
+    </div>`).join("")+
+    '<button class="btn" id="confirmImport">Geprüfte Buchungen übernehmen</button>';
+  $("#confirmImport").onclick=confirmImport;
+}
+async function confirmImport(){
+  const ids=new Set(state.transactions.map(t=>t.id));
+  const settledNow=[];
+  let added=0;
+
+  reviewRows.forEach((t,i)=>{
+    t.type=$(`.review[data-i="${i}"] select`).value;
+    t.include=$(`.review[data-i="${i}"] input[type="checkbox"]`).checked;
+    if(t.include && !ids.has(t.id)){
+      const saved={...t,importedAt:new Date().toISOString()};
+      delete saved.importStatus; delete saved.include; delete saved.legacyId;
+      state.transactions.push(saved);
+      ids.add(t.id);
+      added++;
+    }
+
+    if(!t.include) return;
+
+    // Nur aktuelle Fälligkeiten im expliziten Zahlungsfenster dürfen erledigt werden.
+    for(const d of config.dues){
+      if(d.includeInForecast===false) continue;
+      if(state.dueActive[d.id]===false) continue;
+      if(!dueCanBeSettledByTx(t,d)) continue;
+
+      // Bei Best Fitness zusätzlich Betrag gegen Vertrag prüfen.
+      if(d.id==="fitness" && Math.abs(Math.abs(t.amount)-29.99)>0.02) continue;
+      if(d.id==="fitness_2" && Math.abs(Math.abs(t.amount)-17.96)>0.02) continue;
+
+      state.dueActive[d.id]=false;
+      settledNow.push({due:d.name,tx:t.name,date:t.date,amount:t.amount});
+    }
+  });
+
+  if(Number.isFinite(pendingImportBalance)){
+    state.balance=pendingImportBalance;
+    touchField("balance");
+  }
+
+  await saveState();
+
+  const historical=reviewRows.filter(t=>{
+    return !config.dues.some(d=>dueCanBeSettledByTx(t,d));
+  }).length;
+
+  $("#pdfMsg").textContent=
+    `Import abgeschlossen: ${added} neue Buchungen gespeichert, ${reviewRows.filter(t=>t.importStatus==="duplicate").length} Doppelbuchungen verhindert, `+
+    `${settledNow.length} aktuelle Fälligkeiten bestätigt${Number.isFinite(pendingImportBalance)?` und Kontostand auf ${euro.format(pendingImportBalance)} aktualisiert`:""}.`;
+  $("#pdfMsg").className="msg good";
+
+  $("#review").innerHTML = settledNow.length
+    ? `<div class="panel"><h3>Aktuell bestätigte Fälligkeiten</h3>${
+        settledNow.map(x=>`<div class="due"><div><b>${esc(x.due)}</b><small>${esc(x.date)} · erkannt über ${esc(x.tx)}</small></div><b>${euro.format(x.amount)}</b></div>`).join("")
+      }</div>`
+    : '<p class="muted">Keine aktuell fällige Position wurde durch diesen Auszug als bezahlt bestätigt.</p>';
+
+  render();
+  queueAutoSync();
+}
+
+async function loadGIS(){
+  if(window.google?.accounts?.oauth2)return;
+  await new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src="https://accounts.google.com/gsi/client";
+    s.onload=res;s.onerror=()=>rej(Error("Google-Anmeldung konnte nicht geladen werden"));
+    document.head.appendChild(s);
+  });
+}
+function msgDrive(t,k=""){const e=$("#driveMsg");e.textContent=t;e.className="msg "+k;}
+async function connectDrive(){
+  if(!state.drive.clientId){msgDrive("Bitte zuerst Client-ID eintragen.","bad");return;}
+  try{
+    await loadGIS();
+    const tc=google.accounts.oauth2.initTokenClient({
+      client_id:state.drive.clientId,scope:config.drive.scope,
+      callback:r=>{
+        if(r.error){msgDrive(r.error,"bad");return;}
+        driveToken=r.access_token;$("#sync").disabled=false;msgDrive("Google Drive verbunden.","good");startAutoSyncLoop();render();if(state.drive.autoSync!==false) syncDrive();
+      }
+    });
+    tc.requestAccessToken({prompt:"consent"});
+  }catch(e){msgDrive(e.message,"bad");}
+}
+
+async function dfetch(url,opt={}){
+  const h=new Headers(opt.headers||{});
+  h.set("Authorization","Bearer "+driveToken);
+  const r=await fetch(url,{...opt,headers:h});
+  if(!r.ok) throw Error("Drive-Fehler "+r.status);
+  return r;
+}
+async function findDrive(){
+  const q=encodeURIComponent(`name='${config.drive.fileName}' and trashed=false`);
+  const r=await dfetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,modifiedTime,name)`);
+  const j=await r.json();
+  driveFileId=j.files?.[0]?.id||null;
+  return j.files?.[0]||null;
+}
+async function pullDrive(){
+  const meta=await findDrive();
+  if(!meta) return null;
+  const r=await dfetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`);
+  return await r.json();
+}
+async function pushDrive(payload){
+  const data={...payload,updatedAt:new Date().toISOString(),schemaVersion:"8.5.0"};
+  if(!driveFileId){
+    const boundary="athub"+Date.now();
+    const meta={name:config.drive.fileName,mimeType:"application/json"};
+    const body=`--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`;
+    const r=await dfetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{
+      method:"POST",
+      headers:{"Content-Type":"multipart/related; boundary="+boundary},
+      body
+    });
+    driveFileId=(await r.json()).id;
+  }else{
+    await dfetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
+  }
+}
+function newerValue(localVal,remoteVal,localTs,remoteTs){
+  const l=Date.parse(localTs||0),r=Date.parse(remoteTs||0);
+  return r>l?remoteVal:localVal;
+}
+function mergeTransactions(a=[],b=[]){
+  const map=new Map();
+  for(const t of [...a,...b]){
+    if(!t?.id) continue;
+    const prev=map.get(t.id);
+    if(!prev) map.set(t.id,t);
+    else{
+      const pt=Date.parse(prev.updatedAt||prev.iso||0);
+      const nt=Date.parse(t.updatedAt||t.iso||0);
+      if(nt>pt) map.set(t.id,t);
+    }
+  }
+  return [...map.values()];
+}
+function mergeObjectByTimestamp(localObj={},remoteObj={},localTs,remoteTs){
+  return Date.parse(remoteTs||0)>Date.parse(localTs||0)?{...remoteObj}:{...localObj};
+}
+function mergeStates(local,remote){
+  const merged={...local};
+  merged.transactions=mergeTransactions(local.transactions,remote.transactions);
+
+  merged.balance=newerValue(
+    local.balance,remote.balance,
+    local.fieldChangedAt?.balance||local.localChangedAt,
+    remote.fieldChangedAt?.balance||remote.localChangedAt
+  );
+
+  merged.dueActive=mergeObjectByTimestamp(
+    local.dueActive,remote.dueActive,
+    local.fieldChangedAt?.dueActive||local.localChangedAt,
+    remote.fieldChangedAt?.dueActive||remote.localChangedAt
+  );
+  const validCycleIds=new Set(buildCycleDues().rows.map(d=>d.id));
+  merged.dueActive=Object.fromEntries(Object.entries(merged.dueActive||{}).filter(([id])=>validCycleIds.has(id)));
+
+  merged.planActive=mergeObjectByTimestamp(
+    local.planActive,remote.planActive,
+    local.fieldChangedAt?.planActive||local.localChangedAt,
+    remote.fieldChangedAt?.planActive||remote.localChangedAt
+  );
+
+  merged.fieldChangedAt={
+    balance: Date.parse(remote.fieldChangedAt?.balance||0)>Date.parse(local.fieldChangedAt?.balance||0)
+      ? remote.fieldChangedAt?.balance : local.fieldChangedAt?.balance,
+    dueActive: Date.parse(remote.fieldChangedAt?.dueActive||0)>Date.parse(local.fieldChangedAt?.dueActive||0)
+      ? remote.fieldChangedAt?.dueActive : local.fieldChangedAt?.dueActive,
+    planActive: Date.parse(remote.fieldChangedAt?.planActive||0)>Date.parse(local.fieldChangedAt?.planActive||0)
+      ? remote.fieldChangedAt?.planActive : local.fieldChangedAt?.planActive
+  };
+
+  merged.drive={...local.drive,clientId:local.drive?.clientId||remote.drive?.clientId||"",autoSync:local.drive?.autoSync!==false};
+  merged.localChangedAt=new Date(Math.max(Date.parse(local.localChangedAt||0),Date.parse(remote.localChangedAt||0))).toISOString();
+  merged.migratedTo=MIGRATION;
+  merged.deviceId=local.deviceId;
+  return merged;
+}
+async function syncDrive(){
+  if(!driveToken){msgDrive("Nicht verbunden.","bad");return;}
+  try{
+    msgDrive("Synchronisierung läuft …");
+    const remote=await pullDrive();
+
+    if(!remote){
+      await pushDrive(state);
+      state.lastSyncAt=new Date().toISOString();
+      await saveState(false);
+      msgDrive("Drive-Datei angelegt. Dieses Gerät ist jetzt synchronisiert.","good");
+      render();
+      return;
+    }
+
+    state=mergeStates(state,remote);
+    migrateState();
+    await saveState(false);
+    await pushDrive(state);
+    state.lastSyncAt=new Date().toISOString();
+    await saveState(false);
+
+    msgDrive("Synchronisiert. Handy und Rechner verwenden denselben Datenstand.","good");
+    render();
+  }catch(e){
+    msgDrive(e.message,"bad");
+  }
+}
+let autoSyncTimer=null;
+let autoSyncQueued=null;
+function startAutoSyncLoop(){
+  clearInterval(autoSyncTimer);
+  const sec=Math.max(30,Number(config.drive.syncIntervalSeconds||60));
+  autoSyncTimer=setInterval(()=>{
+    if(state?.drive?.autoSync!==false && driveToken) syncDrive();
+  },sec*1000);
+}
+function queueAutoSync(){
+  if(state?.drive?.autoSync===false || !driveToken) return;
+  clearTimeout(autoSyncQueued);
+  autoSyncQueued=setTimeout(()=>syncDrive(),1200);
+}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return(h>>>0).toString(16);}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+(async()=>{
+  config=await fetch("config.json",{cache:"no-store"}).then(r=>r.json());
+  state=await loadState().catch(()=>null)||defaultState();
+  migrateState();
+  bind();
+  render();
+  startAutoSyncLoop();
+  if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+})();
