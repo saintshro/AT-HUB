@@ -1,6 +1,6 @@
 const euro=new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR"});
-let config=null,state=null,reviewRows=[],driveToken=null,driveFileId=null;
-const DB="athub-fin-v7",STORE="state",MIGRATION="8.5.0";
+let config=null,state=null,reviewRows=[],pendingImportBalance=null,driveToken=null,driveFileId=null;
+const DB="athub-fin-v7",STORE="state",MIGRATION="8.8.0";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 async function db(){
@@ -36,7 +36,7 @@ function defaultState(){
   return {
     balance:config.currentSnapshot?.balance ?? null,
     transactions:[],
-    dueActive:Object.fromEntries(config.dues.map(d=>[d.id,true])),
+    dueActive:Object.fromEntries(dues.map(d=>[d.id,true])),
     planActive:{emergencyBuffer:true,vacationSavings:false,plannedPaydown:false},
     lastSyncAt:null,
     localChangedAt:new Date().toISOString(),
@@ -61,10 +61,7 @@ function migrateState(){
   if(typeof state.drive.autoSync!=="boolean") state.drive.autoSync=config.drive.autoSync!==false;
 
   if(state.migratedTo!==MIGRATION){
-    state.balance=config.currentSnapshot?.balance ?? state.balance;
-    state.dueActive=Object.fromEntries(config.dues.map(d=>[d.id,true]));
-    for(const id of (config.currentSnapshot?.settledDueIds||[])) state.dueActive[id]=false;
-    state.planActive={emergencyBuffer:true,vacationSavings:false,plannedPaydown:false};
+    // Versionswechsel dürfen bestehende Finanzdaten niemals zurücksetzen.
     state.migratedTo=MIGRATION;
     saveState(false).catch(()=>{});
   }
@@ -87,9 +84,83 @@ function reserveRows(){
 function activeReserveSum(){
   return reserveRows().reduce((s,[k,,v])=>s+(state.planActive?.[k]?v:0),0);
 }
+
+function localDateISO(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function cycleForDate(now=new Date()){
+  const anchor=config.financeCycle?.anchorDay||15;
+  let start, end;
+  if(now.getDate()>=anchor){
+    start=new Date(now.getFullYear(),now.getMonth(),anchor);
+    end=new Date(now.getFullYear(),now.getMonth()+1,anchor);
+  }else{
+    start=new Date(now.getFullYear(),now.getMonth()-1,anchor);
+    end=new Date(now.getFullYear(),now.getMonth(),anchor);
+  }
+  return {start,end,startISO:localDateISO(start),endISO:localDateISO(end)};
+}
+function euroDate(d){return new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"}).format(d);}
+function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
+function occurrenceDates(rule,cycle){
+  const dates=[];
+  const add=(y,m,day)=>{
+    const max=daysInMonth(y,m), safe=Math.min(day,max), dt=new Date(y,m,safe);
+    if(dt>=cycle.start && dt<=cycle.end) dates.push(dt);
+  };
+  if(rule.type==="monthly"){
+    for(let cursor=new Date(cycle.start.getFullYear(),cycle.start.getMonth(),1); cursor<=cycle.end; cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,1)){
+      add(cursor.getFullYear(),cursor.getMonth(),rule.dayStart||1);
+    }
+  }else if(rule.type==="quarterly"){
+    for(let cursor=new Date(cycle.start.getFullYear(),cycle.start.getMonth(),1); cursor<=cycle.end; cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,1)){
+      if((rule.months||[]).includes(cursor.getMonth()+1)) add(cursor.getFullYear(),cursor.getMonth(),rule.dayStart||15);
+    }
+  }else if(rule.type==="biweekly"){
+    const ref=new Date(`${rule.referenceDate}T12:00:00`);
+    const step=(rule.intervalDays||14)*86400000;
+    let t=ref.getTime();
+    while(t>cycle.start.getTime()) t-=step;
+    while(t<cycle.start.getTime()) t+=step;
+    while(t<=cycle.end.getTime()){dates.push(new Date(t));t+=step;}
+  }
+  return dates.sort((a,b)=>a-b);
+}
+function buildCycleDues(){
+  const cycle=cycleForDate();
+  const rows=[];
+  for(const rule of (config.recurrences||[])){
+    for(const dt of occurrenceDates(rule,cycle)){
+      rows.push({
+        ...rule,
+        cycleId:`${rule.id}@${localDateISO(dt)}`,
+        baseId:rule.id,
+        id:`${rule.id}@${localDateISO(dt)}`,
+        dueDate:localDateISO(dt),
+        date:euroDate(dt),
+        includeInForecast:true
+      });
+    }
+  }
+  rows.sort((a,b)=>a.dueDate.localeCompare(b.dueDate)||a.name.localeCompare(b.name));
+  return {cycle,rows};
+}
+function ensureCycleState(){
+  const {cycle,rows}=buildCycleDues();
+  if(state.financeCycleId!==`${cycle.startISO}_${cycle.endISO}`){
+    state.financeCycleId=`${cycle.startISO}_${cycle.endISO}`;
+    state.dueActive=Object.fromEntries(rows.map(d=>[d.id,true]));
+    state.migratedTo=MIGRATION;
+    touchField("dueActive");
+    saveState(false).catch(()=>{});
+  }
+  return {cycle,rows};
+}
+
 function render(){
   const p=financePeriod();
-  const open=config.dues.filter(d=>state.dueActive[d.id]!==false);
+  const open=config.dues.filter(d=>d.includeInForecast!==false && state.dueActive[d.id]!==false);
   const openSum=open.reduce((s,x)=>s+Number(x.amount||0),0);
   const reserves=activeReserveSum();
   const available=state.balance==null?null:state.balance-openSum-reserves;
@@ -114,8 +185,8 @@ function render(){
   ).join("");
 
   $("#dues").innerHTML=config.dues.map(d=>
-    `<div class="due"><div><b>${esc(d.name)}</b><small>${d.date} · ${euro.format(d.amount)} · Sicherheit: ${d.confidence}${d.note?` · ${esc(d.note)}`:""}</small></div>
-     <div class="right"><button class="toggle ${state.dueActive[d.id]!==false?"on":""}" onclick="toggleDue('${d.id}')">${state.dueActive[d.id]!==false?"eingerechnet ✓":"bezahlt / aus"}</button></div></div>`
+    `<div class="due"><div><b>${esc(d.name)}</b><small>${d.date} · ${euro.format(d.amount)} · Sicherheit: ${d.confidence}${d.note?` · ${esc(d.note)}`:""}${d.includeInForecast===false?` · nicht Teil der aktuellen Prognose`:""}</small></div>
+     <div class="right"><button class="toggle ${d.includeInForecast!==false && state.dueActive[d.id]!==false?"on":""}" onclick="toggleDue('${d.id}')">${d.includeInForecast===false?"nach dem 15. · ausgeschlossen":(state.dueActive[d.id]!==false?"eingerechnet ✓":"bezahlt / aus")}</button></div></div>`
   ).join("");
 
   $("#txList").innerHTML=state.transactions.length
@@ -131,7 +202,21 @@ function render(){
   if($("#lastSync")) $("#lastSync").textContent=state.lastSyncAt?new Date(state.lastSyncAt).toLocaleString("de-DE"):"–";
   if($("#driveStatus")) $("#driveStatus").textContent=driveToken?"verbunden":"nicht verbunden";
 }
-window.toggleDue=async id=>{state.dueActive[id]=state.dueActive[id]===false;touchField("dueActive");await saveState();render();queueAutoSync();};
+window.toggleDue=async id=>{
+  const d=buildCycleDues().rows.find(x=>x.id===id);
+  if(d?.includeInForecast===false){
+    state.dueActive[id]=false;
+    touchField("dueActive");
+    await saveState();
+    render();
+    return;
+  }
+  state.dueActive[id]=state.dueActive[id]===false;
+  touchField("dueActive");
+  await saveState();
+  render();
+  queueAutoSync();
+};
 window.togglePlan=async id=>{state.planActive[id]=!state.planActive[id];touchField("planActive");await saveState();render();queueAutoSync();};
 
 function bind(){
@@ -175,6 +260,7 @@ async function loadPdfJs(){
 async function handlePDF(file){
   const msg=$("#pdfMsg");
   $("#review").innerHTML="";
+  pendingImportBalance=null;
   const isPdf=file && (file.type==="application/pdf" || /\.pdf$/i.test(file.name||""));
   if(!isPdf){
     msg.textContent="Bitte einen PDF-Kontoauszug auswählen.";
@@ -203,7 +289,10 @@ async function handlePDF(file){
     }
 
     reviewRows=parseDKBLines(lines);
-    msg.textContent=`${pdf.numPages} Seiten gelesen · ${reviewRows.length} Buchungen erkannt.`;
+    pendingImportBalance=extractStatementBalance(lines);
+    classifyReviewRows();
+    const counts=reviewRows.reduce((a,t)=>(a[t.importStatus]=(a[t.importStatus]||0)+1,a),{});
+    msg.textContent=`${pdf.numPages} Seiten gelesen · ${reviewRows.length} Buchungen erkannt · ${counts.new||0} neu · ${counts.duplicate||0} bereits vorhanden · ${counts.possible||0} bitte prüfen${Number.isFinite(pendingImportBalance)?` · Kontostand ${euro.format(pendingImportBalance)} erkannt`:" · kein Kontostand erkannt"}.`;
     msg.className=reviewRows.length?"msg good":"msg bad";
     renderReview();
   }catch(e){
@@ -231,24 +320,78 @@ function parseMoney(raw){
   return Number.isFinite(n)?(neg?-n:n):NaN;
 }
 function parseDKBLines(lines){
-  const out=[],seen=new Set();
-  const rowRx=/^(\d{2}\.\d{2}\.\d{4})\s+(.+?)\s+(-?\d{1,9}(?:[.,]\d{2}))$/;
+  const out=[],occurrences=new Map();
+  const rowRx=/^(\d{2}\.\d{2}\.\d{4})\s+(.+?)\s+([+-]?(?:(?:\d{1,3}(?:\.\d{3})+|\d{1,9}),\d{2}|(?:\d{1,3}(?:,\d{3})+|\d{1,9})\.\d{2}))\s*(?:€|EUR)?$/i;
 
   for(const line of lines){
     const m=line.match(rowRx);
     if(!m) continue;
     const date=m[1],name=m[2].trim(),amount=parseMoney(m[3]);
     if(!Number.isFinite(amount) || /^(Datum|Zeitraum|Auszug)$/i.test(name)) continue;
-    const key=`${date}|${name}|${amount.toFixed(2)}`;
-    if(seen.has(key)) continue;
-    seen.add(key);
+    const legacyKey=`${date}|${name}|${amount.toFixed(2)}`;
     const [dd,mm,yy]=date.split(".");
+    const duplicateKey=transactionDuplicateKey({iso:`${yy}-${mm}-${dd}`,name,amount});
+    const occurrence=(occurrences.get(duplicateKey)||0)+1;
+    occurrences.set(duplicateKey,occurrence);
     out.push({
-      id:hash(key),date,iso:`${yy}-${mm}-${dd}`,name,amount,
+      id:hash(`v2|${duplicateKey}|${occurrence}`),legacyId:hash(legacyKey),
+      duplicateKey,occurrence,date,iso:`${yy}-${mm}-${dd}`,name,amount,
       type:autoType(name,amount),category:autoCat(name,amount)
     });
   }
   return out.slice(0,700);
+}
+function normalizeBookingText(value){
+  return String(value||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g," ").trim().replace(/\s+/g," ");
+}
+function transactionDuplicateKey(t){
+  if(t?.duplicateKey) return t.duplicateKey;
+  return `${t?.iso||""}|${Number(t?.amount||0).toFixed(2)}|${normalizeBookingText(t?.name)}`;
+}
+function transactionLooseKey(t){
+  return `${t?.iso||""}|${Number(t?.amount||0).toFixed(2)}`;
+}
+function classifyReviewRows(){
+  const exactCounts=new Map(),exactIds=new Set(),looseKeys=new Set();
+  for(const t of state.transactions){
+    const key=transactionDuplicateKey(t);
+    exactCounts.set(key,(exactCounts.get(key)||0)+1);
+    exactIds.add(t.id);
+    looseKeys.add(transactionLooseKey(t));
+  }
+  for(const t of reviewRows){
+    const existingExactCount=exactCounts.get(t.duplicateKey)||0;
+    const exact=t.occurrence<=existingExactCount || exactIds.has(t.id) || exactIds.has(t.legacyId);
+    if(exact){t.importStatus="duplicate";t.include=false;continue;}
+    // Ein weiteres identisches Vorkommen im selben Bankexport ist eine echte
+    // zusätzliche Buchung, nicht bloß eine ähnlich aussehende Zahlung.
+    if(existingExactCount>0){t.importStatus="new";t.include=true;continue;}
+    if(looseKeys.has(transactionLooseKey(t))){t.importStatus="possible";t.include=false;continue;}
+    t.importStatus="new";t.include=true;
+  }
+}
+function extractStatementBalance(lines){
+  const amountRx=/[-+\u2212]?\s*\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|[-+\u2212]?\s*\d+(?:[.,]\d{2})/g;
+  const candidates=[];
+  for(let i=0;i<lines.length;i++){
+    const windows=[lines[i],`${lines[i]} ${lines[i+1]||""}`,`${lines[i-1]||""} ${lines[i]}`];
+    for(const text of windows){
+      const low=normalizeBookingText(text);
+      let score=0;
+      if(low.includes("aktueller kontostand")) score=100;
+      else if(low.includes("neuer kontostand")||low.includes("endsaldo")) score=95;
+      else if(low.includes("kontostand am")) score=85;
+      else if(low.includes("kontostand")) score=70;
+      else if(/(^| )saldo( |$)/.test(low)) score=55;
+      if(!score) continue;
+      if(low.includes("alter kontostand")||low.includes("anfangssaldo")) score-=40;
+      const amounts=[...text.matchAll(amountRx)].map(m=>parseMoney(m[0].replace("\u2212","-"))).filter(Number.isFinite);
+      if(amounts.length) candidates.push({score,index:i,value:amounts.at(-1)});
+    }
+  }
+  candidates.sort((a,b)=>b.score-a.score||b.index-a.index);
+  return candidates[0]?.value ?? null;
 }
 function matchesDue(name,d){
   const n=name.toLowerCase();
@@ -282,12 +425,19 @@ function autoCat(n,a){
 }
 function renderReview(){
   if(!reviewRows.length){
-    $("#review").innerHTML='<p class="muted">Keine DKB-Buchungen erkannt. Bitte prüfen, ob es sich um den DKB-Umsatz-PDF-Export handelt.</p>';
+    $("#review").innerHTML=Number.isFinite(pendingImportBalance)
+      ?`<div class="balancePreview"><span>Erkannter neuer Kontostand</span><b>${euro.format(pendingImportBalance)}</b></div><p class="muted">Keine neuen Buchungszeilen erkannt. Der Kontostand kann trotzdem übernommen werden.</p><button class="btn" id="confirmImport">Kontostand übernehmen</button>`
+      :'<p class="muted">Keine DKB-Buchungen und kein eindeutiger Kontostand erkannt. Bitte prüfen, ob es sich um den DKB-Umsatz-PDF-Export handelt.</p>';
+    if($("#confirmImport")) $("#confirmImport").onclick=confirmImport;
     return;
   }
-  $("#review").innerHTML=reviewRows.map((t,i)=>
+  const balanceNote=Number.isFinite(pendingImportBalance)
+    ?`<div class="balancePreview"><span>Erkannter neuer Kontostand</span><b>${euro.format(pendingImportBalance)}</b></div>`
+    :'<div class="msg bad">Im Dokument wurde kein eindeutiger Kontostand erkannt. Die Buchungen können trotzdem geprüft werden.</div>';
+  $("#review").innerHTML=balanceNote+reviewRows.map((t,i)=>
     `<div class="review" data-i="${i}">
-      <div class="head"><div><b>${esc(t.name)}</b><small>${t.date}</small></div><b>${euro.format(t.amount)}</b></div>
+      <div class="head"><div><b>${esc(t.name)}</b><small>${t.date} · <span class="status ${t.importStatus}">${t.importStatus==="new"?"neu":t.importStatus==="duplicate"?"bereits vorhanden":"mögliche Doppelung – prüfen"}</span></small></div><b>${euro.format(t.amount)}</b></div>
+      <label class="importChoice"><input type="checkbox" ${t.include?"checked":""} ${t.importStatus==="duplicate"?"disabled":""}> ${t.importStatus==="duplicate"?"wird nicht erneut übernommen":"diese Buchung übernehmen"}</label>
       <select>
         <option value="fixed" ${t.type==="fixed"?"selected":""}>Fixkosten</option>
         <option value="variable" ${t.type==="variable"?"selected":""}>Variable Ausgabe</option>
@@ -307,14 +457,20 @@ async function confirmImport(){
 
   reviewRows.forEach((t,i)=>{
     t.type=$(`.review[data-i="${i}"] select`).value;
-    if(!ids.has(t.id)){
-      state.transactions.push(t);
+    t.include=$(`.review[data-i="${i}"] input[type="checkbox"]`).checked;
+    if(t.include && !ids.has(t.id)){
+      const saved={...t,importedAt:new Date().toISOString()};
+      delete saved.importStatus; delete saved.include; delete saved.legacyId;
+      state.transactions.push(saved);
       ids.add(t.id);
       added++;
     }
 
+    if(!t.include) return;
+
     // Nur aktuelle Fälligkeiten im expliziten Zahlungsfenster dürfen erledigt werden.
     for(const d of config.dues){
+      if(d.includeInForecast===false) continue;
       if(state.dueActive[d.id]===false) continue;
       if(!dueCanBeSettledByTx(t,d)) continue;
 
@@ -327,6 +483,11 @@ async function confirmImport(){
     }
   });
 
+  if(Number.isFinite(pendingImportBalance)){
+    state.balance=pendingImportBalance;
+    touchField("balance");
+  }
+
   await saveState();
 
   const historical=reviewRows.filter(t=>{
@@ -334,8 +495,8 @@ async function confirmImport(){
   }).length;
 
   $("#pdfMsg").textContent=
-    `Auszug analysiert: ${reviewRows.length} Buchungen erkannt, ${added} neu gespeichert, `+
-    `${settledNow.length} aktuelle Fälligkeiten bestätigt. Historische Buchungen ändern die Prognose nicht.`;
+    `Import abgeschlossen: ${added} neue Buchungen gespeichert, ${reviewRows.filter(t=>t.importStatus==="duplicate").length} Doppelbuchungen verhindert, `+
+    `${settledNow.length} aktuelle Fälligkeiten bestätigt${Number.isFinite(pendingImportBalance)?` und Kontostand auf ${euro.format(pendingImportBalance)} aktualisiert`:""}.`;
   $("#pdfMsg").className="msg good";
 
   $("#review").innerHTML = settledNow.length
@@ -449,6 +610,8 @@ function mergeStates(local,remote){
     local.fieldChangedAt?.dueActive||local.localChangedAt,
     remote.fieldChangedAt?.dueActive||remote.localChangedAt
   );
+  const validCycleIds=new Set(buildCycleDues().rows.map(d=>d.id));
+  merged.dueActive=Object.fromEntries(Object.entries(merged.dueActive||{}).filter(([id])=>validCycleIds.has(id)));
 
   merged.planActive=mergeObjectByTimestamp(
     local.planActive,remote.planActive,

@@ -1,5 +1,5 @@
 {
-  "version": "8.5.0",
+  "version": "8.8.0",
   "financialMonthStartDay": 15,
   "overdraftLimit": 500,
   "currentSnapshot": {
@@ -36,7 +36,9 @@
       "match": [
         "telefonica insurance"
       ],
-      "note": "nächste reguläre Abbuchung ca. 27.–29.09.; aktuell nicht in Prognose"
+      "note": "nächste reguläre Abbuchung ca. 27.–29.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "tel_o2",
@@ -47,7 +49,9 @@
       "match": [
         "telefonica germany"
       ],
-      "note": "nächste reguläre Abbuchung Ende September; aktuell nicht in Prognose"
+      "note": "nächste reguläre Abbuchung Ende September; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "creditplus",
@@ -58,7 +62,9 @@
       "match": [
         "creditplus"
       ],
-      "note": "nächste reguläre Rate Ende September; aktuell nicht in Prognose"
+      "note": "nächste reguläre Rate Ende September; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "nuernberger",
@@ -74,7 +80,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "huk",
@@ -88,7 +95,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "meck_kv",
@@ -102,7 +110,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "meck_unfall",
@@ -116,7 +125,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "fitness",
@@ -132,7 +142,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-03"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "d_ticket",
@@ -148,7 +159,8 @@
       "window": {
         "start": "2026-09-01",
         "end": "2026-09-07"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "fitness_2",
@@ -164,7 +176,8 @@
       "window": {
         "start": "2026-09-10",
         "end": "2026-09-12"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "netflix",
@@ -178,7 +191,8 @@
       "window": {
         "start": "2026-09-14",
         "end": "2026-09-15"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "gez",
@@ -195,7 +209,8 @@
       "window": {
         "start": "2026-09-15",
         "end": "2026-09-15"
-      }
+      },
+      "includeInForecast": true
     },
     {
       "id": "audible",
@@ -206,7 +221,9 @@
       "match": [
         "audible"
       ],
-      "note": "nächste Abbuchung ca. 25.–27.09.; aktuell nicht in Prognose"
+      "note": "nächste Abbuchung ca. 25.–27.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "amazon_prime",
@@ -217,7 +234,9 @@
       "match": [
         "amznprime"
       ],
-      "note": "nächste Abbuchung ca. 16.–18.09.; aktuell nicht in Prognose"
+      "note": "nächste Abbuchung ca. 16.–18.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
     },
     {
       "id": "ig_metall",
@@ -229,7 +248,171 @@
         "industriegewerkschaft metall",
         "industriegewerkscha"
       ],
-      "note": "nächste Abbuchung ca. 17.–18.09.; aktuell nicht in Prognose"
+      "note": "nächste Abbuchung ca. 17.–18.09.; aktuell nicht in Prognose",
+      "includeInForecast": false,
+      "lockedOutReason": "nächste Fälligkeit liegt nach dem 15.09.2026"
+    }
+  ],
+  "financeCycle": {
+    "anchorDay": 15,
+    "periodRule": "15th_to_15th",
+    "forecastIncludesEndDate": true,
+    "automatic": true,
+    "description": "Finanzmonat läuft automatisch vom 15. eines Monats bis einschließlich 15. des Folgemonats."
+  },
+  "recurrences": [
+    {
+      "id": "tel_ins",
+      "name": "Telefonica Insurance",
+      "amount": 7.95,
+      "confidence": "sehr hoch",
+      "note": "nächste reguläre Abbuchung ca. 27.–29.09.; aktuell nicht in Prognose",
+      "type": "manual",
+      "sourceLabel": "nach 15.09."
+    },
+    {
+      "id": "tel_o2",
+      "name": "Telefonica / O2",
+      "amount": 118.92,
+      "confidence": "hoch",
+      "note": "nächste reguläre Abbuchung Ende September; aktuell nicht in Prognose",
+      "type": "manual",
+      "sourceLabel": "nach 15.09."
+    },
+    {
+      "id": "creditplus",
+      "name": "Creditplus",
+      "amount": 162.16,
+      "confidence": "sehr hoch",
+      "note": "nächste reguläre Rate Ende September; aktuell nicht in Prognose",
+      "type": "monthly",
+      "dayStart": 29,
+      "dayEnd": 31
+    },
+    {
+      "id": "nuernberger",
+      "name": "Nürnberger Leben",
+      "amount": 113.14,
+      "confidence": "sehr hoch",
+      "note": "regulärer Monatsbeitrag; Rücklastgebühren separat",
+      "type": "monthly",
+      "dayStart": 1,
+      "dayEnd": 3
+    },
+    {
+      "id": "huk",
+      "name": "HUK Krankenversicherung",
+      "amount": 24.04,
+      "confidence": "sehr hoch",
+      "note": "",
+      "type": "monthly",
+      "dayStart": 1,
+      "dayEnd": 3
+    },
+    {
+      "id": "meck_kv",
+      "name": "Mecklenburgische KV",
+      "amount": 20.44,
+      "confidence": "sehr hoch",
+      "note": "",
+      "type": "monthly",
+      "dayStart": 1,
+      "dayEnd": 3
+    },
+    {
+      "id": "meck_unfall",
+      "name": "Mecklenburgische Unfall",
+      "amount": 29.42,
+      "confidence": "sehr hoch",
+      "note": "",
+      "type": "monthly",
+      "dayStart": 1,
+      "dayEnd": 3
+    },
+    {
+      "id": "fitness",
+      "name": "Best Fitness Vertrag 4863",
+      "amount": 29.99,
+      "confidence": "sehr hoch",
+      "note": "Vertrag 4863 · 29,99 € monatlich",
+      "type": "monthly",
+      "dayStart": 1,
+      "dayEnd": 3
+    },
+    {
+      "id": "d_ticket",
+      "name": "Deutschlandticket",
+      "amount": 63.0,
+      "confidence": "hoch",
+      "note": "August 63,00 €; Juli 67,18 € – Prognosewert 63,00 €",
+      "type": "monthly",
+      "dayStart": 1,
+      "dayEnd": 5
+    },
+    {
+      "id": "fitness_2",
+      "name": "Best Fitness Vertrag 16026",
+      "amount": 17.96,
+      "confidence": "hoch",
+      "note": "Vertrag 16026 · 17,96 € je 14 Tage · Gebühren separat",
+      "type": "biweekly",
+      "intervalDays": 14,
+      "referenceDate": "2026-09-11"
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "amount": 13.99,
+      "confidence": "sehr hoch",
+      "note": "",
+      "type": "monthly",
+      "dayStart": 14,
+      "dayEnd": 15
+    },
+    {
+      "id": "gez",
+      "name": "GEZ / Rundfunkbeitrag",
+      "amount": 28.0,
+      "confidence": "hoch",
+      "note": "Dreimonatsrhythmus; für Prognose bis einschließlich 15. berücksichtigt",
+      "type": "quarterly",
+      "months": [
+        3,
+        6,
+        9,
+        12
+      ],
+      "dayStart": 15,
+      "dayEnd": 15
+    },
+    {
+      "id": "audible",
+      "name": "Audible",
+      "amount": 9.95,
+      "confidence": "sehr hoch",
+      "note": "nächste Abbuchung ca. 25.–27.09.; aktuell nicht in Prognose",
+      "type": "monthly",
+      "dayStart": 25,
+      "dayEnd": 27
+    },
+    {
+      "id": "amazon_prime",
+      "name": "Amazon Prime",
+      "amount": 8.99,
+      "confidence": "sehr hoch",
+      "note": "nächste Abbuchung ca. 16.–18.09.; aktuell nicht in Prognose",
+      "type": "manual",
+      "sourceLabel": "nach 15.09."
+    },
+    {
+      "id": "ig_metall",
+      "name": "IG Metall",
+      "amount": 17.68,
+      "confidence": "sehr hoch",
+      "note": "nächste Abbuchung ca. 17.–18.09.; aktuell nicht in Prognose",
+      "type": "monthly",
+      "dayStart": 17,
+      "dayEnd": 18
     }
   ]
 }
