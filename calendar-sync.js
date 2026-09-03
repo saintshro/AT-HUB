@@ -1,9 +1,9 @@
 (() => {
   "use strict";
 
-  const VERSION = "1.4.0";
+  const VERSION = "1.4.1";
   const SCOPE = "https://www.googleapis.com/auth/calendar";
-  const TOKEN_KEY = "athub-calendar-token-v1";
+  const TOKEN_KEY = "athub-calendar-token-v2-write";
   const SELECTED_KEY = "athub-calendar-selected-v1";
   const CACHE_KEY = "athub-calendar-events-v1";
 
@@ -122,6 +122,14 @@
   };
 
   const connect = async () => {
+    // v1.4.1: alte Readonly-Tokens bewusst verwerfen, damit Google
+    // die neue Schreibberechtigung sicher erneut abfragt.
+    try {
+      sessionStorage.removeItem("athub-calendar-token-v1");
+      sessionStorage.removeItem(TOKEN_KEY);
+    } catch {}
+    accessToken = "";
+    tokenExpiresAt = 0;
     await requestToken(true);
     await listCalendars();
     emit({connected:true, message:"Kalender verbunden"});

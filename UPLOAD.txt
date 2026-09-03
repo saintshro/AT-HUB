@@ -1,41 +1,33 @@
-AT HUB · KALENDER BEARBEITEN v1.4
-===================================
+AT HUB · KALENDER BEARBEITEN v1.4.1
+=====================================
+
+FEHLERBEHEBUNG
+„Request had insufficient authentication scopes.“
+
+Ursache:
+v1.3 hatte nur Lesezugriff. Der Browser konnte diesen alten Google-Token
+noch verwenden, obwohl v1.4 bereits Schreibzugriff verlangt.
+
+v1.4.1 verwirft den alten Readonly-Token automatisch und fordert beim
+nächsten Verbinden die neue Kalender-Berechtigung erneut an.
 
 IN GITHUB ERSETZEN
-1. index.html
-2. einstellungen-hub.html
-3. calendar-sync.js
-4. hub.css
-5. sw.js
+1. calendar-sync.js
+2. index.html
+3. einstellungen-hub.html
+4. sw.js
 
-UNVERÄNDERT
-- hub-sync.js
-- finanzen.html
-- arbeitszeit.html
-- übrige HUB-Seiten und Finanzdateien
+hub.css aus v1.4 kann unverändert bleiben.
+FinanzHub und Drive-Sync bleiben unverändert.
 
-NEU
-- „+ Neuer Termin“ direkt auf dem Dashboard
-- bestehenden Termin anklicken → bearbeiten
-- Titel, Datum, Beginn, Ende, Ort, Beschreibung
-- ganztägige Termine
-- Kalenderauswahl für neue Termine
-- Löschen nur nach zusätzlicher Sicherheitsabfrage
-- nur Kalender mit Google-Schreibberechtigung können beschrieben werden
-- bestehende Kalenderanzeige bleibt erhalten
+NACH DEM UPLOAD
+1. GitHub Pages Deployment abwarten.
+2. Strg+F5.
+3. Einstellungen → Google Kalender verbinden.
+4. Google-Konto auswählen.
+5. Die neue Berechtigung zum Verwalten der Kalendertermine bestätigen.
+6. Dashboard → vorhandenen Termin anklicken → ändern → speichern.
+7. Danach „+ Neuer Termin“ testen.
 
-WICHTIG BEIM ERSTEN START
-Die Google-Berechtigung ändert sich von calendar.readonly auf calendar.
-Darum muss Google Kalender nach dem Update EINMAL NEU verbunden werden
-und die zusätzliche Berechtigung bestätigt werden.
-
-TEST
-1. GitHub-Dateien hochladen, Deployment abwarten, Strg+F5.
-2. Einstellungen → Google Kalender verbinden → Berechtigung bestätigen.
-3. Dashboard → „+ Neuer Termin“.
-4. Testtermin im gewünschten Kalender erstellen.
-5. Prüfen, ob er in der Google-Kalender-App erscheint.
-6. Termin im HUB anklicken, Uhrzeit ändern, speichern.
-7. Löschen testen – erst nach Bestätigung.
-
-Danach: Arbeitszeitkalender als nächster größerer Ausbau.
+Falls Google keine neue Berechtigungsabfrage zeigt:
+Browser-Tab schließen, AT HUB neu öffnen und nochmals „Google Kalender verbinden“.
