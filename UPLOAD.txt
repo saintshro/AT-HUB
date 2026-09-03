@@ -1,15 +1,13 @@
-AT HUB · KALENDER BEARBEITEN v1.4.1
+AT HUB · KALENDER BEARBEITEN v1.4.2
 =====================================
 
-FEHLERBEHEBUNG
-„Request had insufficient authentication scopes.“
+KORREKTUR
+Google Cloud ist jetzt auf genau diese beiden OAuth-Bereiche eingestellt:
+- calendar.readonly
+- calendar.events
 
-Ursache:
-v1.3 hatte nur Lesezugriff. Der Browser konnte diesen alten Google-Token
-noch verwenden, obwohl v1.4 bereits Schreibzugriff verlangt.
-
-v1.4.1 verwirft den alten Readonly-Token automatisch und fordert beim
-nächsten Verbinden die neue Kalender-Berechtigung erneut an.
+v1.4.1 hat dagegen den breiteren Bereich /auth/calendar angefordert.
+v1.4.2 fordert jetzt exakt die beiden in Google Auth Platform freigegebenen Bereiche an.
 
 IN GITHUB ERSETZEN
 1. calendar-sync.js
@@ -17,17 +15,19 @@ IN GITHUB ERSETZEN
 3. einstellungen-hub.html
 4. sw.js
 
-hub.css aus v1.4 kann unverändert bleiben.
-FinanzHub und Drive-Sync bleiben unverändert.
+hub.css bleibt wie in v1.4.
+FinanzHub, hub-sync.js und Arbeitszeitkalender bleiben unverändert.
 
-NACH DEM UPLOAD
+DANACH
 1. GitHub Pages Deployment abwarten.
 2. Strg+F5.
 3. Einstellungen → Google Kalender verbinden.
 4. Google-Konto auswählen.
-5. Die neue Berechtigung zum Verwalten der Kalendertermine bestätigen.
-6. Dashboard → vorhandenen Termin anklicken → ändern → speichern.
-7. Danach „+ Neuer Termin“ testen.
+5. Berechtigungen bestätigen.
+6. Bestehenden Termin öffnen → Titel oder Uhrzeit ändern → Termin speichern.
+7. Neuen Termin anlegen testen.
+8. Löschen weiterhin nur mit Bestätigung testen.
 
-Falls Google keine neue Berechtigungsabfrage zeigt:
-Browser-Tab schließen, AT HUB neu öffnen und nochmals „Google Kalender verbinden“.
+WICHTIG
+Dass Löschen bereits möglich war, zeigt, dass der Kalender grundsätzlich beschreibbar ist.
+Der Fehler lag sehr wahrscheinlich am nicht passenden angeforderten OAuth-Scope der v1.4.1.

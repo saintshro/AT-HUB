@@ -1,9 +1,9 @@
 (() => {
   "use strict";
 
-  const VERSION = "1.4.1";
-  const SCOPE = "https://www.googleapis.com/auth/calendar";
-  const TOKEN_KEY = "athub-calendar-token-v2-write";
+  const VERSION = "1.4.2";
+  const SCOPE = "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events";
+  const TOKEN_KEY = "athub-calendar-token-v3-events-write";
   const SELECTED_KEY = "athub-calendar-selected-v1";
   const CACHE_KEY = "athub-calendar-events-v1";
 
@@ -126,6 +126,7 @@
     // die neue Schreibberechtigung sicher erneut abfragt.
     try {
       sessionStorage.removeItem("athub-calendar-token-v1");
+      sessionStorage.removeItem("athub-calendar-token-v2-write");
       sessionStorage.removeItem(TOKEN_KEY);
     } catch {}
     accessToken = "";
