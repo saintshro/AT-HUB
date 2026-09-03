@@ -22,7 +22,60 @@
 <p class="subtle">Die Module bleiben technisch eigenständig. Das Dashboard verbindet sie nur über Navigation und Status.</p></div>
 <div class="status-box"><div class="eyebrow">STATUS</div><div class="status-good">FinanzHub v8.9 stabil</div><div class="subtle">Arbeitszeitmodul vorhanden · Meisterbuch im Aufbau</div><div class="subtle" style="margin-top:10px">☁️ <span data-athub-sync-status>Drive nicht verbunden</span> · letzter Sync: <span data-athub-last-sync>–</span></div></div>
 </div></section>
-<div class="section-title"><div><div class="eyebrow">HAUPTBEREICHE</div><h2>Wo möchtest du hin?</h2></div></div>
+<div class="section-title"><div>
+<section class="hero today-panel" id="todayPanel" style="margin-top:18px">
+  <div class="eyebrow">HEUTE</div>
+  <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap">
+    <div>
+      <h2 style="margin-bottom:5px">Was steht heute an?</h2>
+      <div class="subtle" id="todayDate">–</div>
+    </div>
+    <button id="editToday" style="padding:10px 14px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Heute bearbeiten</button>
+  </div>
+
+  <div class="today-grid" style="margin-top:18px">
+    <article class="today-card">
+      <div class="eyebrow">📅 TERMINE</div>
+      <strong id="todayAppointment">Noch kein Termin hinterlegt</strong>
+      <span id="todayAppointmentNote" class="subtle">Später mit Google Kalender verknüpfbar.</span>
+    </article>
+    <article class="today-card">
+      <div class="eyebrow">💼 ARBEIT</div>
+      <strong id="todayWork">Kein Tagesstatus hinterlegt</strong>
+      <span id="todayWorkNote" class="subtle">Arbeitszeit bleibt ein eigenes Modul.</span>
+    </article>
+    <article class="today-card">
+      <div class="eyebrow">🎓 MEISTERSCHULE / WISSEN</div>
+      <strong id="todayStudy">Kein Lernpunkt hinterlegt</strong>
+      <span id="todayStudyNote" class="subtle">Für Meisterschule, Prüfung und Meisterbuch.</span>
+    </article>
+    <article class="today-card">
+      <div class="eyebrow">💶 FINANZEN</div>
+      <strong>FinanzHub v8.9</strong>
+      <span class="subtle">Aktuelle Finanzprognose im eigenen Modul.</span>
+      <a href="finanzen.html" style="margin-top:8px;display:inline-block">Finanzen öffnen →</a>
+    </article>
+  </div>
+
+  <div id="todayEditor" class="today-editor" hidden>
+    <div class="eyebrow">TAGESÜBERSICHT BEARBEITEN</div>
+    <div class="today-form">
+      <label>Termin / Uhrzeit<input id="fAppointment" placeholder="z. B. 14:30 Videokonferenz"></label>
+      <label>Terminhinweis<input id="fAppointmentNote" placeholder="z. B. Teams · Kommissionen prüfen"></label>
+      <label>Arbeit<input id="fWork" placeholder="z. B. Rostock · Frühdienst"></label>
+      <label>Arbeitshinweis<input id="fWorkNote" placeholder="z. B. Boxenplanung prüfen"></label>
+      <label>Meisterschule / Lernen<input id="fStudy" placeholder="z. B. BWH · Deckungsbeitrag"></label>
+      <label>Lernhinweis<input id="fStudyNote" placeholder="z. B. 30 Minuten Wiederholung"></label>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <button id="saveToday">Speichern & synchronisieren</button>
+      <button id="cancelToday" class="secondary-btn">Abbrechen</button>
+    </div>
+    <div id="todayMsg" class="subtle" style="margin-top:10px"></div>
+  </div>
+</section>
+
+<div class="eyebrow">HAUPTBEREICHE</div><h2>Wo möchtest du hin?</h2></div></div>
 <section class="grid">
 <a class="card ready" href="translogistik.html"><div class="icon">🚚</div><h2>Translogistik</h2><p>Arbeitszeit, Mitarbeiter, WEBFLEET, Teams, Fahrzeuge, Tourenplanung und weitere Arbeitsmodule.</p><div class="go">Bereich öffnen →</div></a>
 <a class="card stable" href="privat.html"><div class="icon">👤</div><h2>Privat</h2><p>Private Organisation mit dem fertigen FinanzHub als erstem stabilen Kernmodul.</p><div class="go">Privat öffnen →</div></a>
@@ -34,4 +87,66 @@
 <footer>AT HUB · Übersicht schafft Klarheit.</footer>
 </main></div>
 <script src="hub-sync.js"></script>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const defaults={
+    appointment:"",appointmentNote:"",
+    work:"",workNote:"",
+    study:"",studyNote:""
+  };
+  function key(){
+    const d=new Date(), y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+    return `${y}-${m}-${day}`;
+  }
+  function dateLabel(){
+    $("todayDate").textContent=new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(new Date());
+  }
+  function allDashboard(){return ATHubData.getSection("dashboard")||{}}
+  function getToday(){return {...defaults,...(allDashboard().days?.[key()]||{})}}
+  function render(){
+    dateLabel();
+    const d=getToday();
+    $("todayAppointment").textContent=d.appointment||"Noch kein Termin hinterlegt";
+    $("todayAppointmentNote").textContent=d.appointmentNote||"Später mit Google Kalender verknüpfbar.";
+    $("todayWork").textContent=d.work||"Kein Tagesstatus hinterlegt";
+    $("todayWorkNote").textContent=d.workNote||"Arbeitszeit bleibt ein eigenes Modul.";
+    $("todayStudy").textContent=d.study||"Kein Lernpunkt hinterlegt";
+    $("todayStudyNote").textContent=d.studyNote||"Für Meisterschule, Prüfung und Meisterbuch.";
+  }
+  function openEditor(){
+    const d=getToday();
+    $("fAppointment").value=d.appointment;$("fAppointmentNote").value=d.appointmentNote;
+    $("fWork").value=d.work;$("fWorkNote").value=d.workNote;
+    $("fStudy").value=d.study;$("fStudyNote").value=d.studyNote;
+    $("todayEditor").hidden=false;
+  }
+  $("editToday").onclick=openEditor;
+  $("cancelToday").onclick=()=>{$("todayEditor").hidden=true};
+  $("saveToday").onclick=async()=>{
+    const current=allDashboard(), days={...(current.days||{})};
+    days[key()]={
+      appointment:$("fAppointment").value.trim(),
+      appointmentNote:$("fAppointmentNote").value.trim(),
+      work:$("fWork").value.trim(),
+      workNote:$("fWorkNote").value.trim(),
+      study:$("fStudy").value.trim(),
+      studyNote:$("fStudyNote").value.trim(),
+      updatedAt:new Date().toISOString()
+    };
+    ATHubData.patchSection("dashboard",{days});
+    $("todayMsg").textContent="Lokal gespeichert. Drive-Synchronisierung läuft …";
+    try{
+      if(ATHubData.status().connected) await ATHubData.sync();
+      $("todayMsg").textContent=ATHubData.status().connected?"Gespeichert und mit Drive synchronisiert.":"Gespeichert. Drive beim nächsten Verbinden synchronisieren.";
+    }catch(e){$("todayMsg").textContent="Gespeichert; Drive-Sync derzeit nicht möglich."}
+    render();
+    setTimeout(()=>{$("todayEditor").hidden=true},700);
+  };
+  window.addEventListener("athub-data-updated",render);
+  render();
+})();
+</script>
+
 <script>document.querySelector('[data-page="dashboard"]')?.classList.add('active');</script></body></html>

@@ -1,60 +1,40 @@
-AT HUB · GRUNDRAHMEN v1.1 · ZENTRALER DRIVE-SYNC
-==================================================
+AT HUB · DASHBOARD HEUTE v1.2
+================================
 
-IN GITHUB HOCHLADEN / ERSETZEN
-- index.html
-- translogistik.html
-- privat.html
-- projekte-wissen.html
-- siggi.html
-- einstellungen-hub.html
-- sw.js
+ERSETZEN IN GITHUB
+1. index.html
+2. hub.css
+3. sw.js
 
-NEU
+UNVERÄNDERT LASSEN
 - hub-sync.js
-
-NICHT ÄNDERN
+- einstellungen-hub.html
 - finanzen.html
 - app.js
 - finance-core-v8.8.1.js
 - finance-ui-v8.9.js
 - config.json
-- styles.css
-- manifest.webmanifest
 - arbeitszeit.html
+- alle übrigen HUB-Seiten
 
-ERSTER TEST NACH UPLOAD
-1. GitHub Pages Veröffentlichung abwarten.
-2. Seite mit Strg+F5 neu laden.
-3. AT HUB -> Einstellungen öffnen.
-4. Prüfen, ob die Google OAuth Client-ID automatisch aus dem FinanzHub übernommen wird.
-5. Falls leer: dieselbe Client-ID wie im FinanzHub einmal eintragen und speichern.
-6. 'Mit Drive verbinden' drücken und Google-Zugriff bestätigen.
-7. Danach sollte 'AT_HUB_Daten_v1.json' im Drive angelegt werden.
-8. Auf dem zweiten Gerät ebenfalls AT HUB -> Einstellungen -> Mit Drive verbinden.
+NEU AUF DEM DASHBOARD
+- Bereich „Was steht heute an?“
+- heutiges Datum automatisch
+- Termine
+- Arbeit
+- Meisterschule / Wissen
+- direkter Zugang Finanzen
+- „Heute bearbeiten“
+- Tagesdaten werden über den bestehenden zentralen Drive-Sync im Bereich dashboard gespeichert
 
-ARCHITEKTUR
-GitHub:
-- HTML/CSS/JS/Programmcode
+TEST
+1. Dateien hochladen und GitHub Pages abwarten.
+2. Strg+F5.
+3. Dashboard öffnen.
+4. „Heute bearbeiten“ anklicken.
+5. Testeintrag speichern.
+6. Auf zweitem Gerät Drive verbinden/synchronisieren und Dashboard prüfen.
 
-Google Drive:
-- AT_HUB_Daten_v1.json = zentrale veränderliche HUB-Daten
-- FinanzHub behält seine bestehende eigene Datei und Logik
-- Große Dokumente/Meisterunterlagen bleiben normale Drive-Dateien
-
-DATENTRENNUNG IN AT_HUB_Daten_v1.json
-- translogistik
-- privat
-- wissen
-- dashboard
-- settings
-
-SYNC
-- nach lokaler Datenänderung (sobald Module die zentrale API verwenden)
-- alle 60 Sekunden, solange Drive verbunden ist
-- beim Zurückkehren in den Browser
-- wenn die Internetverbindung wieder online kommt
-
-WICHTIG
-Diese Version schafft die zentrale Datengrundlage. Bestehende Module werden nicht automatisch umgeschrieben.
-Neue/umgebaute Module müssen ATHubData.getSection/setSection/patchSection verwenden.
+HINWEIS
+Google Kalender ist in v1.2 noch nicht direkt in die öffentliche GitHub-Page eingebunden.
+Der Bereich ist bereits so vorbereitet, dass Kalenderdaten später ergänzt werden können.

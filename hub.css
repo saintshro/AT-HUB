@@ -41,3 +41,14 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:#
 @media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:18px}
 .nav{grid-template-columns:repeat(3,minmax(0,1fr))}.nav-label{display:none}.nav a{justify-content:center;font-size:.83rem}.content{padding-top:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-grid{grid-template-columns:1fr}.status-box{border-left:0;border-top:1px solid var(--line);padding:16px 0 0}}
 @media(max-width:600px){.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.grid,.module-list{grid-template-columns:1fr}.topbar{display:block}.badge{display:inline-block;margin-top:12px}.card{min-height:150px}}
+
+.today-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.today-card{border:1px solid var(--line);background:var(--panel2);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:7px;min-height:130px}
+.today-card strong{font-size:1.03rem}
+.today-editor{margin-top:18px;border-top:1px solid var(--line);padding-top:18px}
+.today-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.today-form label{display:grid;gap:6px;font-size:.9rem;color:var(--muted)}
+.today-form input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0e1116;color:white}
+.today-editor button{padding:10px 14px;border:0;border-radius:11px;font-weight:750;cursor:pointer}
+.secondary-btn{border:1px solid var(--line)!important;background:var(--panel2)!important;color:white!important}
+@media(max-width:720px){.today-grid,.today-form{grid-template-columns:1fr}}
