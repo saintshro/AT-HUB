@@ -1,22 +1,20 @@
-AT HUB · GRUNDRAHMEN v1.0
-============================
-
-ZIEL
-Der bisherige FinanzHub wird nicht verändert. Er zieht lediglich von index.html nach finanzen.html.
-index.html wird zur neuen AT-HUB-Startseite.
+AT HUB · GRUNDRAHMEN v1.1 · ZENTRALER DRIVE-SYNC
+==================================================
 
 IN GITHUB HOCHLADEN / ERSETZEN
-1. index.html               ERSETZEN
-2. sw.js                    ERSETZEN
-3. hub.css                  NEU
-4. finanzen.html            NEU
-5. translogistik.html       NEU
-6. privat.html              NEU
-7. projekte-wissen.html     NEU
-8. siggi.html               NEU
-9. einstellungen-hub.html   NEU
+- index.html
+- translogistik.html
+- privat.html
+- projekte-wissen.html
+- siggi.html
+- einstellungen-hub.html
+- sw.js
 
-NICHT LÖSCHEN / NICHT ÄNDERN
+NEU
+- hub-sync.js
+
+NICHT ÄNDERN
+- finanzen.html
 - app.js
 - finance-core-v8.8.1.js
 - finance-ui-v8.9.js
@@ -24,15 +22,39 @@ NICHT LÖSCHEN / NICHT ÄNDERN
 - styles.css
 - manifest.webmanifest
 - arbeitszeit.html
-- bestehende Drive-Daten
+
+ERSTER TEST NACH UPLOAD
+1. GitHub Pages Veröffentlichung abwarten.
+2. Seite mit Strg+F5 neu laden.
+3. AT HUB -> Einstellungen öffnen.
+4. Prüfen, ob die Google OAuth Client-ID automatisch aus dem FinanzHub übernommen wird.
+5. Falls leer: dieselbe Client-ID wie im FinanzHub einmal eintragen und speichern.
+6. 'Mit Drive verbinden' drücken und Google-Zugriff bestätigen.
+7. Danach sollte 'AT_HUB_Daten_v1.json' im Drive angelegt werden.
+8. Auf dem zweiten Gerät ebenfalls AT HUB -> Einstellungen -> Mit Drive verbinden.
+
+ARCHITEKTUR
+GitHub:
+- HTML/CSS/JS/Programmcode
+
+Google Drive:
+- AT_HUB_Daten_v1.json = zentrale veränderliche HUB-Daten
+- FinanzHub behält seine bestehende eigene Datei und Logik
+- Große Dokumente/Meisterunterlagen bleiben normale Drive-Dateien
+
+DATENTRENNUNG IN AT_HUB_Daten_v1.json
+- translogistik
+- privat
+- wissen
+- dashboard
+- settings
+
+SYNC
+- nach lokaler Datenänderung (sobald Module die zentrale API verwenden)
+- alle 60 Sekunden, solange Drive verbunden ist
+- beim Zurückkehren in den Browser
+- wenn die Internetverbindung wieder online kommt
 
 WICHTIG
-finanzen.html ist eine Kopie der stabilen FinanzHub-v8.9-index.html.
-Die Finanzlogik und Drive-Synchronisierung werden dadurch nicht umgebaut.
-
-NACH DEM UPLOAD
-1. GitHub Pages Veröffentlichung abwarten.
-2. Seite hart neu laden (Strg+F5).
-3. Dashboard öffnen.
-4. Privat -> Finanzen testen.
-5. Translogistik -> Arbeitszeitkalender testen.
+Diese Version schafft die zentrale Datengrundlage. Bestehende Module werden nicht automatisch umgeschrieben.
+Neue/umgebaute Module müssen ATHubData.getSection/setSection/patchSection verwenden.

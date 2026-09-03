@@ -17,15 +17,54 @@
 <main class="content">
 <div class="topbar"><div><div class="eyebrow">AT HUB · SYSTEM</div><h1>Einstellungen</h1><p class="lead">Zentrale Einstellungen und Modulstatus.</p></div><div class="badge">Grundrahmen v1.0</div></div>
 
-<section class="hero"><div class="eyebrow">SYSTEM</div><h2>HUB-Einstellungen</h2>
-<p class="subtle">Die bestehenden Modul-Einstellungen bleiben zunächst in ihren jeweiligen Modulen. Hier kommen später nur HUB-weite Einstellungen und Statusinformationen hinein.</p></section>
+<section class="hero"><div class="eyebrow">SYSTEM</div><h2>Zentrale Google-Drive-Synchronisierung</h2>
+<p class="subtle">Neue AT-HUB-Module speichern ihre veränderlichen Daten künftig in einer gemeinsamen Drive-Datei. Arbeit, Privat und Wissen bleiben darin als getrennte Bereiche organisiert. Das bestehende FinanzHub v8.9 bleibt technisch unverändert.</p></section>
+
 <div class="module-list">
-<div class="module"><strong>💶 FinanzHub</strong><span>v8.9 · stabil</span></div>
-<div class="module"><strong>⏱ Arbeitszeit</strong><span>vorhanden</span></div>
-<div class="module"><strong>🎓 Meisterbuch</strong><span>im Aufbau</span></div>
-<div class="module"><strong>☁️ Datenhaltung</strong><span>GitHub + Google Drive</span></div>
+<div class="module"><strong>☁️ Zentraler Sync</strong><span data-athub-sync-status>Drive nicht verbunden</span></div>
+<div class="module"><strong>🕘 Letzter Sync</strong><span data-athub-last-sync>–</span></div>
+<div class="module"><strong>📄 Drive-Datei</strong><span>AT_HUB_Daten_v1.json</span></div>
+<div class="module"><strong>💶 FinanzHub</strong><span>eigener v8.9-Sync · unverändert</span></div>
 </div>
 
+<section class="hero" style="margin-top:18px">
+<div class="eyebrow">VERBINDUNG</div><h2>Google Drive verbinden</h2>
+<p class="subtle">Wenn im FinanzHub bereits dieselbe Google OAuth Client-ID gespeichert wurde, versucht der HUB sie automatisch zu übernehmen. Falls nicht, kannst du sie hier einmal eintragen.</p>
+<div style="margin-top:18px;display:grid;gap:12px;max-width:780px">
+<label style="display:grid;gap:7px"><span class="subtle">Google OAuth Client-ID</span>
+<input id="hubClientId" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0e1116;color:white" placeholder="…apps.googleusercontent.com"></label>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button id="saveHubClient" style="padding:11px 15px;border:0;border-radius:11px;font-weight:750;cursor:pointer">Client-ID speichern</button>
+<button id="connectHubDrive" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Mit Drive verbinden</button>
+<button id="syncHubDrive" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Jetzt synchronisieren</button>
+</div>
+<div id="hubSyncMsg" class="subtle"></div>
+</div>
+</section>
+
+<section class="hero" style="margin-top:18px">
+<div class="eyebrow">DATENPRINZIP</div><h2>Was wird zentral gespeichert?</h2>
+<p class="subtle">Die zentrale Datei ist für veränderliche HUB-Daten vorgesehen: spätere Mitarbeiter-/Teamdaten, Tourenplanungsstatus, Dashboard-Einstellungen, Meisterbuch-Fortschritt und private HUB-Daten. Programmdateien bleiben auf GitHub. Große Dokumente und Originalunterlagen bleiben als normale Dateien in Drive.</p>
+</section>
 <footer>AT HUB · Übersicht schafft Klarheit.</footer>
 </main></div>
+<script src="hub-sync.js"></script>
+<script>
+const msg=document.getElementById("hubSyncMsg");
+const inp=document.getElementById("hubClientId");
+function show(t,good=false){msg.textContent=t;msg.style.color=good?"var(--ok)":"var(--muted)";}
+setTimeout(()=>{inp.value=window.ATHubData?.getClientId?.()||"";},150);
+document.getElementById("saveHubClient").onclick=()=>{
+  ATHubData.setClientId(inp.value); show("Client-ID gespeichert.",true);
+};
+document.getElementById("connectHubDrive").onclick=async()=>{
+  try{show("Google Drive wird verbunden …"); await ATHubData.connect(); show("Drive verbunden und AT_HUB_Daten_v1.json synchronisiert.",true);}
+  catch(e){show("Verbindung fehlgeschlagen: "+(e.message||e));}
+};
+document.getElementById("syncHubDrive").onclick=async()=>{
+  try{show("Synchronisierung läuft …"); await ATHubData.sync({interactive:true}); show("Synchronisierung abgeschlossen.",true);}
+  catch(e){show("Synchronisierung fehlgeschlagen: "+(e.message||e));}
+};
+window.addEventListener("athub-sync-status",e=>{ if(e.detail.clientId && !inp.value) inp.value=e.detail.clientId; });
+</script>
 <script>document.querySelector('[data-page="settings"]')?.classList.add('active');</script></body></html>
