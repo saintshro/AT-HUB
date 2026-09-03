@@ -1,22 +1,38 @@
-AT HUB · Finanzcockpit v8.9
+AT HUB · GRUNDRAHMEN v1.0
+============================
 
-Im GitHub-Repository saintshro/AT-HUB im Hauptverzeichnis:
+ZIEL
+Der bisherige FinanzHub wird nicht verändert. Er zieht lediglich von index.html nach finanzen.html.
+index.html wird zur neuen AT-HUB-Startseite.
 
-NEU HOCHLADEN:
-- finance-ui-v8.9.js
+IN GITHUB HOCHLADEN / ERSETZEN
+1. index.html               ERSETZEN
+2. sw.js                    ERSETZEN
+3. hub.css                  NEU
+4. finanzen.html            NEU
+5. translogistik.html       NEU
+6. privat.html              NEU
+7. projekte-wissen.html     NEU
+8. siggi.html               NEU
+9. einstellungen-hub.html   NEU
 
-ERSETZEN:
-- index.html
-- sw.js
-- app-version.json
-
-NICHT ÄNDERN / NICHT LÖSCHEN:
+NICHT LÖSCHEN / NICHT ÄNDERN
 - app.js
 - finance-core-v8.8.1.js
+- finance-ui-v8.9.js
 - config.json
-- bestehende Google-Drive-Datei und Drive-Einstellungen
+- styles.css
+- manifest.webmanifest
+- arbeitszeit.html
+- bestehende Drive-Daten
 
-Wichtig:
-v8.9 setzt bewusst auf dem stabilen v8.8.1-Kern auf. Es ändert nur die Anzeige und Berechnung des Feldes „Noch verfügbar bis 15.“ sowie die transparente Fälligkeitsübersicht.
+WICHTIG
+finanzen.html ist eine Kopie der stabilen FinanzHub-v8.9-index.html.
+Die Finanzlogik und Drive-Synchronisierung werden dadurch nicht umgebaut.
 
-Nach dem Speichern GitHub Pages neu laden. Falls noch v8.8.1 angezeigt wird, die Seite einmal vollständig neu laden; der neue Service-Worker verwendet den Cache athub-fin-v8-9.
+NACH DEM UPLOAD
+1. GitHub Pages Veröffentlichung abwarten.
+2. Seite hart neu laden (Strg+F5).
+3. Dashboard öffnen.
+4. Privat -> Finanzen testen.
+5. Translogistik -> Arbeitszeitkalender testen.

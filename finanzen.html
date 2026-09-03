@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<title>AT HUB · Finanzcockpit v8.9</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header>
+<main>
+  <div class="hero">
+    <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
+    <div class="pill">v8.9</div>
+  </div>
+
+  <section class="heroCard">
+    <div class="eyebrow">PROGNOSE BIS ZUM 15. DES MONATS</div>
+    <div id="forecast" class="money">–</div>
+    <div id="forecastText" class="muted"></div><div class="muted" style="margin-top:6px">Der Finanzmonat wechselt automatisch am 15. Erwartete Abbuchungen werden anhand ihres Rhythmus dem jeweils aktuellen Zeitraum 15. → 15. zugeordnet.</div>
+  </section>
+
+  <section class="cards">
+    <article><span>Kontostand</span><b id="current">–</b></article>
+    <article id="futureCard"><span>Noch offen</span><b id="futureSum">–</b><small>Antippen für Details</small></article>
+    <article><span>Reserviert</span><b id="reserveSum">–</b></article>
+    <article><span>Noch verfügbar bis 15.</span><b id="dispoLeft">–</b></article>
+    <article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
+    <article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="dashboard">Übersicht</button>
+    <button class="tab" data-tab="import">PDF-Import</button>
+    <button class="tab" data-tab="transactions">Buchungen</button>
+    <button class="tab" data-tab="drive">Drive Sync</button>
+  </nav>
+
+  <section id="dashboard" class="pane active">
+    <div class="panel">
+      <h3>Kontostand</h3>
+      <div class="inputrow">
+        <label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label>
+        <button id="saveBal" class="btn">Speichern</button>
+      </div>
+      <p class="muted">Ein manuell gespeicherter Kontostand ist der bestätigte Basisstand. Später neu erkannte Buchungen schreiben ihn automatisch fort – auch wenn der nächste Kontoauszug keinen Kontostand enthält.</p>
+    </div>
+
+    <div class="panel">
+      <h3>Planung & Rücklagen</h3>
+      <p class="muted">Nur aktive Beträge werden von der verfügbaren Summe abgezogen.</p>
+      <div id="planRows"></div>
+    </div>
+
+    <div class="panel" id="duesPanel">
+      <h3>Noch offen bis zum 15.</h3>
+      <p class="muted">Hier siehst du genau, welche erwarteten Abbuchungen noch in der Prognose stecken. Bereits erkannte Buchungen werden separat als gebucht geführt.</p>
+      <div id="dues"></div>
+    </div>
+  </section>
+
+  <section id="import" class="pane">
+    <div class="panel">
+      <div class="eyebrow">DKB KONTOAUSZUG</div>
+      <h3>PDF-Kontoauszug einlesen</h3>
+      <p class="muted">Der Kontoauszug wird nur lokal im Browser gelesen. Ausschließlich neue Buchungen werden nach deiner Bestätigung gespeichert. Ist ein Kontostand im PDF enthalten, wird er als neuer Basisstand verwendet. Fehlt er, wird der bestehende Kontostand aus den neuen Buchungen automatisch fortgeschrieben.</p>
+      <label class="drop" id="drop">
+        <input id="pdf" type="file" accept="application/pdf,.pdf" hidden>
+        <b>DKB-PDF hier ablegen oder anklicken</b>
+        <span>Auch Jahresauszüge sind erlaubt: historische Buchungen verändern einen später bestätigten Kontostand nicht rückwirkend. Aktuelle passende Fälligkeiten werden automatisch aus „Noch offen“ entfernt.</span>
+      </label>
+      <div id="pdfMsg" class="msg"></div>
+      <div id="review"></div>
+    </div>
+  </section>
+
+  <section id="transactions" class="pane">
+    <div class="panel"><h3>Gespeicherte Buchungen</h3><div id="txList"></div></div>
+  </section>
+
+  <section id="drive" class="pane">
+    <div class="panel">
+      <div class="eyebrow">GOOGLE DRIVE · ZENTRALER SPEICHER</div>
+      <h3>Handy und Rechner synchronisieren</h3>
+      <p class="muted">Beide Geräte verwenden dieselbe private JSON-Datei in deinem Google Drive. Lokale Daten bleiben als Offline-Kopie erhalten.</p>
+
+      <div class="cards" style="margin-top:10px">
+        <article><span>Drive-Status</span><b id="driveStatus">nicht verbunden</b></article>
+        <article><span>Letzter Sync</span><b id="lastSync">–</b></article>
+        <article><span>Autosync</span><b id="autoSyncState">aktiv</b></article>
+      </div>
+
+      <label>Google OAuth Client-ID
+        <input id="clientId" type="text" placeholder="…apps.googleusercontent.com">
+      </label>
+
+      <div class="actions">
+        <button id="saveClient" class="btn">Client-ID speichern</button>
+        <button id="connect" class="btn secondary">Mit Drive verbinden</button>
+        <button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button>
+      </div>
+
+      <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
+        <input id="autoSync" type="checkbox" style="width:auto;margin:0">
+        <span>Automatisch synchronisieren</span>
+      </label>
+
+      <p id="driveMsg" class="msg"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Synchronisationsregeln</h3>
+      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der bestätigte Kontostand-Basiswert und die Buchungen werden gemeinsam synchronisiert; daraus wird der aktuelle Kontostand auf jedem Gerät neu berechnet.</p>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+<script src="finance-core-v8.8.1.js"></script>
+<script src="finance-ui-v8.9.js"></script>
+</body>
+</html>
