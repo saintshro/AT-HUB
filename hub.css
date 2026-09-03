@@ -69,3 +69,26 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:#
 .calendar-modal-card{width:min(760px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 22px 70px rgba(0,0,0,.45)}
 .calendar-modal select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0e1116;color:white}
 .danger-btn{background:#8d2626!important;color:white!important}
+
+/* Arbeitszeitkalender v1.0 */
+.wt-content{max-width:1600px}
+.wt-syncbar,.wt-toolbar,.wt-panel{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:15px 16px;margin-bottom:14px}
+.wt-syncbar,.wt-toolbar,.wt-modal-head,.wt-form-actions{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.wt-actions{display:flex;gap:8px;flex-wrap:wrap}
+.wt-actions button,.wt-month-nav button,.wt-primary-btn,.wt-month-button{padding:10px 13px;border-radius:11px;font-weight:750;cursor:pointer}
+.wt-primary-btn{border:0;background:#2d79c7;color:white}
+.wt-month-nav{display:flex;align-items:center;gap:8px}.wt-month-button{min-width:190px;border:1px solid var(--line);background:#0e1116;color:white}
+.wt-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.wt-kpi{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;min-height:78px}
+.wt-kpi>span{font-size:1.35rem}.wt-kpi div{display:grid}.wt-kpi strong{font-size:1.25rem}.wt-kpi small{color:var(--muted);margin-top:2px}
+.wt-weekdays,.wt-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.wt-weekdays{margin-bottom:7px}.wt-weekdays span{text-align:center;color:var(--muted);font-size:.78rem;font-weight:800;text-transform:uppercase}
+.wt-day{position:relative;min-height:126px;border:1px solid var(--line);border-radius:13px;background:#10141a;color:white;padding:10px;text-align:left;display:flex;flex-direction:column;gap:4px;cursor:pointer;overflow:hidden}
+.wt-day:hover{border-color:#566273;background:#161b22}.wt-day-number{font-weight:850;font-size:1rem}.wt-day .wt-status{position:absolute;right:8px;top:8px;border:1px solid var(--line);border-radius:999px;padding:2px 7px;font-size:.7rem;font-weight:850}
+.wt-day strong{margin-top:10px;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wt-day small{font-size:.72rem;color:#b0bac6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wt-day.wt-empty{visibility:hidden}.wt-day.wt-today{outline:2px solid #4fa3ff;outline-offset:1px}
+.wt-day.status-a{border-color:#315a46;background:#112019}.wt-day.status-e{border-color:#365b78;background:#10202c}.wt-day.status-u{border-color:#725f32;background:#251f10}.wt-day.status-f{opacity:.72}.wt-day.status-ft{border-color:#694272;background:#241429}.wt-day.status-k{border-color:#6e3b3b;background:#261414}
+.wt-note{margin:12px 2px 0}.wt-year-table-wrap{overflow:auto}.wt-year-table{width:100%;border-collapse:collapse;min-width:760px}.wt-year-table th,.wt-year-table td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:right}.wt-year-table th:first-child,.wt-year-table td:first-child{text-align:left}.wt-total{font-weight:850;background:var(--panel2)}
+.wt-modal-card{width:min(880px,100%)}.wt-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.wt-form label{display:grid;gap:6px;color:var(--muted);font-size:.88rem}.wt-form input,.wt-form select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0e1116;color:white}.wt-span2{grid-column:1/-1}.wt-check{display:flex!important;grid-template-columns:auto 1fr!important;align-items:center;justify-content:flex-start;gap:9px!important;color:#dbe3ec!important}.wt-check input{width:18px!important;height:18px}.wt-subsection{padding-top:10px;border-top:1px solid var(--line)}
+@media(max-width:1000px){.wt-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.wt-day{min-height:108px}}
+@media(max-width:700px){.wt-syncbar,.wt-toolbar{align-items:stretch;flex-direction:column}.wt-month-nav{width:100%}.wt-month-button{flex:1;min-width:0}.wt-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.wt-kpi{padding:10px;min-height:68px}.wt-weekdays,.wt-calendar{gap:3px}.wt-panel{padding:10px 7px}.wt-day{min-height:72px;border-radius:9px;padding:6px}.wt-day strong,.wt-day small{display:none}.wt-day .wt-status{right:4px;top:4px;padding:1px 4px;font-size:.62rem}.wt-day-number{font-size:.9rem}.wt-form{grid-template-columns:1fr}.wt-span2{grid-column:auto}.wt-form-actions{align-items:stretch;flex-direction:column-reverse}.wt-form-actions>.wt-actions{display:grid;grid-template-columns:1fr 1fr}.wt-topbar h1{font-size:2rem}}

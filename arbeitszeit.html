@@ -1,173 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AT HUB | Arbeitszeit</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Arbeitszeitkalender</title>
+  <link rel="stylesheet" href="hub.css">
 </head>
-
 <body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav">
+      <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik" class="active">🚚 <span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
+      <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
+    </nav>
+  </aside>
 
-<div class="app">
+  <main class="content wt-content">
+    <a class="back" href="translogistik.html">← Zurück zu Translogistik</a>
+    <div class="topbar wt-topbar">
+      <div>
+        <div class="eyebrow">AT HUB · ARBEITSZEIT</div>
+        <h1>Arbeitszeitkalender</h1>
+        <p class="lead">Arbeitszeit, Box, Büro, externe Einsätze, Meisterschule und Übernachtungen – auf Rechner und Telefon pflegbar.</p>
+      </div>
+      <div class="badge">Arbeitszeit v1.0 · HUB v1.5.0</div>
+    </div>
 
-<aside class="sidebar">
+    <section class="wt-syncbar" aria-label="Synchronisierung">
+      <div>
+        <strong>☁️ <span data-athub-sync-status>Drive nicht verbunden</span></strong>
+        <div class="subtle">Letzter Sync: <span data-athub-last-sync>–</span> · Änderungen werden im zentralen AT-HUB-Datenspeicher gesichert.</div>
+      </div>
+      <div class="wt-actions">
+        <button class="secondary-btn" id="wtConnectBtn" type="button">Drive verbinden</button>
+        <button class="secondary-btn" id="wtSyncBtn" type="button">Jetzt synchronisieren</button>
+      </div>
+    </section>
 
-<div class="logo">AT HUB</div>
-<div class="motto">Übersicht schafft Klarheit.</div>
+    <section class="wt-toolbar">
+      <div class="wt-month-nav">
+        <button type="button" class="secondary-btn" id="wtPrevMonth" aria-label="Vorheriger Monat">‹</button>
+        <button type="button" class="wt-month-button" id="wtMonthLabel">September 2026</button>
+        <button type="button" class="secondary-btn" id="wtNextMonth" aria-label="Nächster Monat">›</button>
+      </div>
+      <div class="wt-actions">
+        <button type="button" class="secondary-btn" id="wtTodayBtn">Heute</button>
+        <button type="button" class="secondary-btn" id="wtYearBtn">Jahresübersicht</button>
+      </div>
+    </section>
 
-<div class="nav-title">Navigation</div>
+    <section class="wt-kpis" id="wtKpis" aria-label="Monatsauswertung"></section>
 
-<a class="nav-link" href="index.html">🏠 Dashboard</a>
-<a class="nav-link" href="projekte.html">📁 Projekte</a>
-<a class="nav-link" href="dokumente.html">📄 Dokumente</a>
-<a class="nav-link" href="kalender.html">📅 Kalender</a>
-<a class="nav-link active" href="arbeitszeit.html">⏱ Arbeitszeit</a>
-<a class="nav-link" href="ki.html">🤖 Siggi</a>
-<a class="nav-link" href="einstellungen.html">⚙ Einstellungen</a>
+    <section class="wt-panel">
+      <div class="wt-weekdays" aria-hidden="true">
+        <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+      </div>
+      <div class="wt-calendar" id="wtCalendar"></div>
+      <p class="subtle wt-note">A = Büro oder Box · E = extern, also weder Büro noch Box. Bei übernommenen Alt-Daten ist kein automatischer Pausenabzug hinterlegt.</p>
+    </section>
 
-</aside>
+    <section class="wt-panel wt-year-panel" id="wtYearPanel" hidden>
+      <div class="section-title"><div><h2>Jahresübersicht <span id="wtYearTitle">2026</span></h2><p>Automatisch aus den Tagesdaten berechnet.</p></div></div>
+      <div class="wt-year-table-wrap"><table class="wt-year-table" id="wtYearTable"></table></div>
+    </section>
 
-<main class="content">
-
-<section class="topbar">
-
-<div>
-<h1>Arbeitszeitkalender</h1>
-<p>Version 3.0</p>
+    <footer>AT HUB · Arbeitszeit v1.0 · Übersicht schafft Klarheit.</footer>
+  </main>
 </div>
 
-</section>
+<div class="calendar-modal" id="wtModal" hidden>
+  <div class="calendar-modal-card wt-modal-card" role="dialog" aria-modal="true" aria-labelledby="wtModalTitle">
+    <div class="wt-modal-head">
+      <div><div class="eyebrow">TAGESEINTRAG</div><h2 id="wtModalTitle">Arbeitszeit bearbeiten</h2><div class="subtle" id="wtDateText"></div></div>
+      <button type="button" class="secondary-btn" id="wtCloseBtn">✕</button>
+    </div>
 
-<section class="dashboard">
+    <form id="wtForm" class="wt-form">
+      <input type="hidden" id="wtDate">
+      <label>Status
+        <select id="wtStatus">
+          <option value="">– nicht festgelegt –</option>
+          <option value="A">A · Anwesend</option>
+          <option value="E">E · Extern</option>
+          <option value="U">U · Urlaub</option>
+          <option value="F">F · Frei</option>
+          <option value="FT">FT · Feiertag</option>
+          <option value="K">K · Krank</option>
+        </select>
+      </label>
 
-<div class="panel">
+      <label id="wtWorkplaceWrap">Arbeitsort
+        <select id="wtWorkplace">
+          <option value="">– auswählen –</option>
+          <option value="Büro">Büro</option>
+          <option value="Box">Box</option>
+          <option value="Extern">Extern</option>
+        </select>
+      </label>
 
-<h2>Arbeitszeit</h2>
+      <label id="wtBoxWrap">Box
+        <input id="wtBox" inputmode="numeric" placeholder="z. B. 658">
+      </label>
 
-<p>
-Der Arbeitszeitkalender bildet die Grundlage des gesamten AT HUB.
-</p>
+      <label id="wtExternalWrap">Externer Ort / Anlass
+        <input id="wtExternalLocation" placeholder="z. B. Bochum, Betriebsrat, Termin">
+      </label>
 
-<p>
+      <label>Kommt
+        <input id="wtStart" type="time">
+      </label>
+      <label>Geht
+        <input id="wtEnd" type="time">
+      </label>
+      <label>Pause in Minuten
+        <input id="wtPause" type="number" min="0" max="600" step="5" inputmode="numeric" value="0">
+      </label>
 
-<a href="https://docs.google.com/spreadsheets/d/180HaNfZ7Gu9j4Df-ltRO4s3aOEUnmHdk/edit"
-target="_blank">
+      <label>Aufgabe
+        <input id="wtTask" placeholder="z. B. Büro, MTL Vertretung">
+      </label>
+      <label class="wt-span2">Beschreibung
+        <input id="wtDescription" placeholder="z. B. AzubiTag, Betriebsrat, Freisprechung">
+      </label>
 
-📊 Arbeitszeitkalender öffnen
+      <div class="wt-span2 wt-subsection">
+        <strong>🎓 Meisterschule / Weiterbildung</strong>
+        <div class="subtle">Kann zusätzlich zu einem normalen Arbeitstag erfasst werden.</div>
+      </div>
+      <label>Beginn Meisterschule
+        <input id="wtSchoolStart" type="time">
+      </label>
+      <label>Ende Meisterschule
+        <input id="wtSchoolEnd" type="time">
+      </label>
 
-</a>
+      <label class="wt-check wt-span2"><input id="wtOvernight" type="checkbox"> 🛏 Übernachtung</label>
 
-</p>
+      <div class="wt-span2 wt-subsection">
+        <strong>Steuerdaten – vorbereitet</strong>
+        <div class="subtle">Diese Felder werden später vom Steuermodul automatisch ausgewertet.</div>
+      </div>
+      <label class="wt-check"><input id="wtBusinessTrip" type="checkbox"> Dienstreise / Auswärtstätigkeit</label>
+      <label class="wt-check"><input id="wtTraining" type="checkbox"> Fortbildung / Meisterschule</label>
+      <label>Entfernung Arbeitsstätte (km)
+        <input id="wtDistanceKm" type="number" min="0" step="0.1" inputmode="decimal">
+      </label>
+      <label>Dienstliche Kilometer
+        <input id="wtBusinessKm" type="number" min="0" step="0.1" inputmode="decimal">
+      </label>
 
+      <div class="wt-form-actions wt-span2">
+        <button type="button" class="danger-btn" id="wtClearBtn">Tag leeren</button>
+        <div class="wt-actions">
+          <button type="button" class="secondary-btn" id="wtCancelBtn">Abbrechen</button>
+          <button type="submit" class="wt-primary-btn">Speichern</button>
+        </div>
+      </div>
+      <div class="wt-span2 subtle" id="wtFormMessage" role="status"></div>
+    </form>
+  </div>
 </div>
 
-<div class="panel">
-
-<h2>Jahresübersicht 2026</h2>
-
-<ul>
-
-<li>✅ Arbeitszeiten</li>
-
-<li>✅ Extern</li>
-
-<li>✅ Urlaub</li>
-
-<li>✅ Meisterschule</li>
-
-<li>✅ Übernachtungen</li>
-
-<li>✅ Steuerübersicht</li>
-
-</ul>
-
-</div>
-
-<div class="panel">
-
-<h2>Urlaub</h2>
-
-<p>
-
-Sommerurlaub
-
-<br><br>
-
-13.07.2026 bis 31.07.2026
-
-</p>
-
-<p>
-
-Oktoberurlaub
-
-<br>
-
-folgt
-
-</p>
-
-</div>
-
-<div class="panel">
-
-<h2>Steuer</h2>
-
-<p>
-
-Übernachtungen
-
-<br>
-
-Frühstück
-
-<br>
-
-Auswärtstage
-
-<br>
-
-Jahresübersicht
-
-</p>
-
-</div>
-
-<div class="panel">
-
-<h2>Nächste Ausbaustufe</h2>
-
-<ul>
-
-<li>Arbeitszeit heute erfassen</li>
-
-<li>Monatsübersicht</li>
-
-<li>Diagramme</li>
-
-<li>GPS Einsatzorte</li>
-
-<li>Belege fotografieren</li>
-
-<li>Steuerexport</li>
-
-</ul>
-
-</div>
-
-</section>
-
-<footer>
-
-AT HUB · Arbeitszeit Version 3.0
-
-</footer>
-
-</main>
-
-</div>
-
+<script src="hub-sync.js"></script>
+<script src="arbeitszeit.js"></script>
 </body>
-
 </html>

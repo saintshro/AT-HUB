@@ -1,33 +1,36 @@
-AT HUB · KALENDER BEARBEITEN v1.4.2
-=====================================
+AT HUB v1.5.0 – Arbeitszeitkalender v1.0
 
-KORREKTUR
-Google Cloud ist jetzt auf genau diese beiden OAuth-Bereiche eingestellt:
-- calendar.readonly
-- calendar.events
+Diese Version baut direkt auf der stabilen Kalender-Version v1.4.2 auf.
+Google Kalender v1.4.2 und FinanzHub bleiben unverändert.
 
-v1.4.1 hat dagegen den breiteren Bereich /auth/calendar angefordert.
-v1.4.2 fordert jetzt exakt die beiden in Google Auth Platform freigegebenen Bereiche an.
+Für GitHub Pages am einfachsten den INHALT dieses Ordners vollständig ins Repository hochladen/ersetzen.
 
-IN GITHUB ERSETZEN
-1. calendar-sync.js
-2. index.html
-3. einstellungen-hub.html
-4. sw.js
+Neu:
+- arbeitszeit.html
+- arbeitszeit.js
+- worktime-seed-2026.json
 
-hub.css bleibt wie in v1.4.
-FinanzHub, hub-sync.js und Arbeitszeitkalender bleiben unverändert.
+Geändert:
+- hub.css (Arbeitszeit-Darstellung ergänzt)
+- translogistik.html (Arbeitszeit als aktiv markiert)
+- sw.js (neuer Cache + Arbeitszeitdateien)
 
-DANACH
-1. GitHub Pages Deployment abwarten.
-2. Strg+F5.
-3. Einstellungen → Google Kalender verbinden.
-4. Google-Konto auswählen.
-5. Berechtigungen bestätigen.
-6. Bestehenden Termin öffnen → Titel oder Uhrzeit ändern → Termin speichern.
-7. Neuen Termin anlegen testen.
-8. Löschen weiterhin nur mit Bestätigung testen.
+Funktionen Arbeitszeit v1.0:
+- Monatskalender am PC und Smartphone
+- Tagesbearbeitung durch Antippen/Anklicken
+- A = Büro oder Box
+- E = Extern (weder Büro noch Box)
+- U / F / FT / K
+- Kommt / Geht / Pause
+- Boxnummer
+- externer Ort / Anlass
+- Meisterschule zusätzlich zum Arbeitstag
+- Übernachtung
+- vorbereitete Steuerfelder
+- Jahresübersicht
+- zentrale Synchronisierung über AT_HUB_Daten_v1.json (hub-sync.js)
+- bestehende Daten aus Arbeitszeit 2026 als Erstbestand enthalten
+- Box 658 im Februar 2026 ist mit A und 06:30–16:30 übernommen
 
-WICHTIG
-Dass Löschen bereits möglich war, zeigt, dass der Kalender grundsätzlich beschreibbar ist.
-Der Fehler lag sehr wahrscheinlich am nicht passenden angeforderten OAuth-Scope der v1.4.1.
+Wichtig für PC + Smartphone:
+Auf jedem Gerät einmal im HUB Drive verbinden. Danach werden Arbeitszeitänderungen über den zentralen AT-HUB-Datenspeicher synchronisiert.
