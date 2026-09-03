@@ -63,3 +63,9 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:#
 .calendar-settings-list{display:grid;gap:8px;max-width:780px}
 .calendar-setting{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);cursor:pointer}
 .calendar-setting input{width:18px;height:18px}
+
+.calendar-modal{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:1000;display:grid;place-items:center;padding:18px}
+.calendar-modal[hidden]{display:none}
+.calendar-modal-card{width:min(760px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 22px 70px rgba(0,0,0,.45)}
+.calendar-modal select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0e1116;color:white}
+.danger-btn{background:#8d2626!important;color:white!important}

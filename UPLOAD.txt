@@ -1,51 +1,41 @@
-AT HUB · GOOGLE KALENDER v1.3
-================================
+AT HUB · KALENDER BEARBEITEN v1.4
+===================================
 
-IN GITHUB ERSETZEN / NEU HOCHLADEN
+IN GITHUB ERSETZEN
 1. index.html
 2. einstellungen-hub.html
-3. hub.css
-4. sw.js
-5. calendar-sync.js   ← NEU
+3. calendar-sync.js
+4. hub.css
+5. sw.js
 
-UNVERÄNDERT LASSEN
+UNVERÄNDERT
 - hub-sync.js
 - finanzen.html
-- app.js
-- finance-core-v8.8.1.js
-- finance-ui-v8.9.js
-- config.json
 - arbeitszeit.html
-- translogistik.html
-- privat.html
-- projekte-wissen.html
-- siggi.html
+- übrige HUB-Seiten und Finanzdateien
 
-WAS v1.3 MACHT
-- Google Kalender wird ausschließlich LESEND angebunden.
-- Dieselbe Google OAuth Client-ID wie für Drive wird verwendet.
-- Auf dem Dashboard werden die heutigen Termine automatisch angezeigt.
-- Unter Einstellungen kannst du auswählen, welche Google-Kalender berücksichtigt werden.
-- Die Kalenderauswahl wird zusätzlich über AT_HUB_Daten_v1.json zwischen Geräten synchronisiert.
-- Arbeit und Meisterschule/Lernen bleiben separat manuell bearbeitbar.
-- FinanzHub v8.9 und bestehender Drive-Sync bleiben unverändert.
+NEU
+- „+ Neuer Termin“ direkt auf dem Dashboard
+- bestehenden Termin anklicken → bearbeiten
+- Titel, Datum, Beginn, Ende, Ort, Beschreibung
+- ganztägige Termine
+- Kalenderauswahl für neue Termine
+- Löschen nur nach zusätzlicher Sicherheitsabfrage
+- nur Kalender mit Google-Schreibberechtigung können beschrieben werden
+- bestehende Kalenderanzeige bleibt erhalten
 
-ERSTER TEST
-1. Dateien in GitHub hochladen und Pages-Deployment abwarten.
-2. Strg+F5.
-3. AT HUB → Einstellungen.
-4. „Google Kalender verbinden“ drücken.
-5. Google-Konto auswählen und Nur-Lese-Zugriff bestätigen.
-6. Gewünschte Kalender anhaken und „Auswahl speichern“.
-7. Dashboard öffnen.
-8. Die Termine des heutigen Tages sollten unter „Google Kalender“ erscheinen.
+WICHTIG BEIM ERSTEN START
+Die Google-Berechtigung ändert sich von calendar.readonly auf calendar.
+Darum muss Google Kalender nach dem Update EINMAL NEU verbunden werden
+und die zusätzliche Berechtigung bestätigt werden.
 
-WICHTIG
-Falls Google „Calendar API has not been used / is disabled“ meldet:
-Im selben Google-Cloud-Projekt, zu dem deine bestehende OAuth Client-ID gehört,
-muss einmal die „Google Calendar API“ aktiviert werden.
-An der Client-ID selbst muss nichts geändert werden.
+TEST
+1. GitHub-Dateien hochladen, Deployment abwarten, Strg+F5.
+2. Einstellungen → Google Kalender verbinden → Berechtigung bestätigen.
+3. Dashboard → „+ Neuer Termin“.
+4. Testtermin im gewünschten Kalender erstellen.
+5. Prüfen, ob er in der Google-Kalender-App erscheint.
+6. Termin im HUB anklicken, Uhrzeit ändern, speichern.
+7. Löschen testen – erst nach Bestätigung.
 
-BERECHTIGUNG
-https://www.googleapis.com/auth/calendar.readonly
-Der HUB kann damit keine Termine erstellen, ändern oder löschen.
+Danach: Arbeitszeitkalender als nächster größerer Ausbau.

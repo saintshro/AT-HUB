@@ -15,7 +15,7 @@
   </nav>
 </aside>
 <main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB</div><h1>Dashboard</h1><p class="lead">Deine zentrale Startseite für Arbeit, Privat und Wissen.</p></div><div class="badge">v1.3</div></div>
+<div class="topbar"><div><div class="eyebrow">AT HUB</div><h1>Dashboard</h1><p class="lead">Deine zentrale Startseite für Arbeit, Privat und Wissen.</p></div><div class="badge">v1.4</div></div>
 
 <section class="hero"><div class="hero-grid">
 <div><div class="eyebrow">DEINE ZENTRALE</div><div class="today">Ein HUB. Klare Bereiche. Keine doppelte Datenpflege.</div>
@@ -33,6 +33,7 @@
   <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap">
     <div><h2 style="margin-bottom:5px">Was steht heute an?</h2><div class="subtle" id="todayDate">–</div></div>
     <div style="display:flex;gap:9px;flex-wrap:wrap">
+      <button id="newCalendarEvent" class="secondary-btn">+ Neuer Termin</button>
       <button id="refreshCalendar" class="secondary-btn">Kalender aktualisieren</button>
       <button id="editToday" class="secondary-btn">Arbeit & Lernen bearbeiten</button>
     </div>
@@ -91,6 +92,29 @@
 <a class="card planned" href="einstellungen-hub.html"><div class="icon">⚙️</div><h2>Einstellungen</h2><p>Google Drive, Google Kalender und HUB-weite Einstellungen.</p><div class="go">Einstellungen →</div></a>
 </section>
 
+
+<div id="calendarEditorModal" class="calendar-modal" hidden>
+ <div class="calendar-modal-card">
+  <div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><div class="eyebrow">GOOGLE KALENDER</div><h2 id="calendarEditorTitle">Neuer Termin</h2></div><button id="closeCalendarEditor" class="secondary-btn">✕</button></div>
+  <div class="today-form" style="margin-top:14px">
+   <label>Kalender<select id="ceCalendar"></select></label>
+   <label>Titel<input id="ceTitle" placeholder="Termin"></label>
+   <label>Datum<input id="ceDate" type="date"></label>
+   <label><span>Ganztägig</span><input id="ceAllDay" type="checkbox" style="width:20px;height:20px"></label>
+   <label class="ce-time">Beginn<input id="ceStart" type="time"></label>
+   <label class="ce-time">Ende<input id="ceEnd" type="time"></label>
+   <label>Ort<input id="ceLocation" placeholder="Ort"></label>
+   <label>Beschreibung<input id="ceDescription" placeholder="Beschreibung"></label>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+   <button id="saveCalendarEvent">Termin speichern</button>
+   <button id="deleteCalendarEvent" class="danger-btn" hidden>Termin löschen</button>
+   <button id="cancelCalendarEditor" class="secondary-btn">Abbrechen</button>
+  </div>
+  <div id="calendarEditorMsg" class="subtle" style="margin-top:10px"></div>
+ </div>
+</div>
+
 <footer>AT HUB · Übersicht schafft Klarheit.</footer>
 </main></div>
 <script src="hub-sync.js"></script>
@@ -127,6 +151,10 @@
       row.innerHTML=`<div class="calendar-time">${meta}</div><strong></strong><span class="subtle"></span>`;
       row.querySelector("strong").textContent=ev.title;
       row.querySelector("span").textContent=ev.location||"";
+      row.dataset.eventId=ev.id;
+      row.title="Termin anklicken zum Bearbeiten";
+      row.style.cursor="pointer";
+      row.onclick=()=>openExistingEvent(ev);
       box.appendChild(row);
     });
   }
@@ -147,6 +175,56 @@
       btn.hidden=false; msg.textContent=e.message||String(e);
     }
   }
+
+  let currentCalendarEvent=null;
+  const modal=$("calendarEditorModal");
+  function localDateValue(d){const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`}
+  function localTimeValue(d){const x=new Date(d);return `${String(x.getHours()).padStart(2,"0")}:${String(x.getMinutes()).padStart(2,"0")}`}
+  function populateWritableCalendars(selected){
+    const sel=$("ceCalendar");sel.innerHTML="";
+    const writable=new Set(ATHubCalendar.writableCalendarIds());
+    const cals=ATHubCalendar.status().calendars.filter(c=>writable.has(c.id));
+    cals.forEach(c=>{const o=document.createElement("option");o.value=c.id;o.textContent=c.summary;o.selected=c.id===selected;sel.appendChild(o)});
+  }
+  function toggleTimes(){document.querySelectorAll(".ce-time").forEach(x=>x.style.display=$("ceAllDay").checked?"none":"grid")}
+  function openNewEvent(){
+    currentCalendarEvent=null;$("calendarEditorTitle").textContent="Neuer Termin";$("deleteCalendarEvent").hidden=true;
+    populateWritableCalendars(ATHubCalendar.getSelectedCalendarIds()[0]);
+    const now=new Date(), later=new Date(now.getTime()+60*60*1000);
+    $("ceTitle").value="";$("ceDate").value=localDateValue(now);$("ceAllDay").checked=false;
+    $("ceStart").value=localTimeValue(now);$("ceEnd").value=localTimeValue(later);$("ceLocation").value="";$("ceDescription").value="";
+    toggleTimes();modal.hidden=false;
+  }
+  function openExistingEvent(ev){
+    currentCalendarEvent=ev;$("calendarEditorTitle").textContent="Termin bearbeiten";$("deleteCalendarEvent").hidden=false;
+    populateWritableCalendars(ev.calendarId);$("ceCalendar").value=ev.calendarId;$("ceTitle").value=ev.title||"";
+    $("ceAllDay").checked=!!ev.allDay;$("ceDate").value=ev.allDay?ev.start:new Date(ev.start).toLocaleDateString("sv-SE");
+    if(!ev.allDay){$("ceStart").value=localTimeValue(ev.start);$("ceEnd").value=localTimeValue(ev.end)}
+    $("ceLocation").value=ev.location||"";$("ceDescription").value="";toggleTimes();modal.hidden=false;
+  }
+  function editorData(){
+    const date=$("ceDate").value, allDay=$("ceAllDay").checked;
+    return {title:$("ceTitle").value.trim(),location:$("ceLocation").value.trim(),description:$("ceDescription").value.trim(),allDay,startDate:date,
+      start:allDay?null:`${date}T${$("ceStart").value}:00`,end:allDay?null:`${date}T${$("ceEnd").value}:00`};
+  }
+  $("newCalendarEvent").onclick=openNewEvent;$("closeCalendarEditor").onclick=()=>modal.hidden=true;$("cancelCalendarEditor").onclick=()=>modal.hidden=true;$("ceAllDay").onchange=toggleTimes;
+  $("saveCalendarEvent").onclick=async()=>{
+    try{
+      $("calendarEditorMsg").textContent="Termin wird gespeichert …";const data=editorData();
+      if(!data.title) throw new Error("Bitte einen Titel eingeben.");
+      if(!data.allDay && (!data.start || !data.end || new Date(data.end)<=new Date(data.start))) throw new Error("Bitte gültige Start- und Endzeit eingeben.");
+      if(currentCalendarEvent) await ATHubCalendar.updateEvent(currentCalendarEvent.calendarId,currentCalendarEvent.id.split(":").slice(1).join(":"),data);
+      else await ATHubCalendar.createEvent($("ceCalendar").value,data);
+      $("calendarEditorMsg").textContent="Termin gespeichert.";await loadCalendar(true);setTimeout(()=>modal.hidden=true,500);
+    }catch(e){$("calendarEditorMsg").textContent=e.message||String(e)}
+  };
+  $("deleteCalendarEvent").onclick=async()=>{
+    if(!currentCalendarEvent) return;
+    if(!confirm(`Termin „${currentCalendarEvent.title}“ wirklich löschen?`)) return;
+    try{$("calendarEditorMsg").textContent="Termin wird gelöscht …";await ATHubCalendar.deleteEvent(currentCalendarEvent.calendarId,currentCalendarEvent.id.split(":").slice(1).join(":"));await loadCalendar(true);modal.hidden=true}
+    catch(e){$("calendarEditorMsg").textContent=e.message||String(e)}
+  };
+
   $("connectCalendarDashboard").onclick=async()=>{
     try{await ATHubCalendar.connect(); await loadCalendar(true)}catch(e){$("calendarDashboardMsg").textContent=e.message||String(e)}
   };

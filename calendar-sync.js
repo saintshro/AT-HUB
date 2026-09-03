@@ -1,8 +1,8 @@
 (() => {
   "use strict";
 
-  const VERSION = "1.3.0";
-  const SCOPE = "https://www.googleapis.com/auth/calendar.readonly";
+  const VERSION = "1.4.0";
+  const SCOPE = "https://www.googleapis.com/auth/calendar";
   const TOKEN_KEY = "athub-calendar-token-v1";
   const SELECTED_KEY = "athub-calendar-selected-v1";
   const CACHE_KEY = "athub-calendar-events-v1";
@@ -230,6 +230,62 @@
     return events;
   };
 
+
+  const writableCalendarIds = () => calendars.filter(c => ["owner","writer"].includes(c.accessRole)).map(c => c.id);
+
+  const eventPayload = (data) => {
+    const allDay = !!data.allDay;
+    const payload = {
+      summary: data.title || "(Ohne Titel)",
+      location: data.location || "",
+      description: data.description || ""
+    };
+    if (allDay) {
+      payload.start = {date: data.startDate};
+      const end = new Date(data.startDate + "T00:00:00");
+      end.setDate(end.getDate() + 1);
+      payload.end = {date: end.toISOString().slice(0,10)};
+    } else {
+      payload.start = {dateTime: new Date(data.start).toISOString()};
+      payload.end = {dateTime: new Date(data.end).toISOString()};
+    }
+    return payload;
+  };
+
+  const createEvent = async (calendarId, data) => {
+    const token = await requestToken(false);
+    const r = await fetch("https://www.googleapis.com/calendar/v3/calendars/" + encodeURIComponent(calendarId) + "/events", {
+      method:"POST",
+      headers:{Authorization:`Bearer ${token}`,"Content-Type":"application/json"},
+      body:JSON.stringify(eventPayload(data))
+    });
+    if(!r.ok){let m=`Termin konnte nicht erstellt werden (${r.status})`;try{const j=await r.json();m=j?.error?.message||m}catch{};throw new Error(m)}
+    localStorage.removeItem(CACHE_KEY);
+    return r.json();
+  };
+
+  const updateEvent = async (calendarId, eventId, data) => {
+    const token = await requestToken(false);
+    const r = await fetch("https://www.googleapis.com/calendar/v3/calendars/" + encodeURIComponent(calendarId) + "/events/" + encodeURIComponent(eventId), {
+      method:"PATCH",
+      headers:{Authorization:`Bearer ${token}`,"Content-Type":"application/json"},
+      body:JSON.stringify(eventPayload(data))
+    });
+    if(!r.ok){let m=`Termin konnte nicht geändert werden (${r.status})`;try{const j=await r.json();m=j?.error?.message||m}catch{};throw new Error(m)}
+    localStorage.removeItem(CACHE_KEY);
+    return r.json();
+  };
+
+  const deleteEvent = async (calendarId, eventId) => {
+    const token = await requestToken(false);
+    const r = await fetch("https://www.googleapis.com/calendar/v3/calendars/" + encodeURIComponent(calendarId) + "/events/" + encodeURIComponent(eventId), {
+      method:"DELETE", headers:{Authorization:`Bearer ${token}`}
+    });
+    if(!r.ok && r.status!==204){let m=`Termin konnte nicht gelöscht werden (${r.status})`;try{const j=await r.json();m=j?.error?.message||m}catch{};throw new Error(m)}
+    localStorage.removeItem(CACHE_KEY);
+    return true;
+  };
+
   const status = () => ({
     connected: !!(accessToken && tokenExpiresAt > Date.now()) || restoreToken(),
     version: VERSION,
@@ -248,6 +304,10 @@
     loadCachedToday,
     getSelectedCalendarIds,
     setSelectedCalendarIds,
+    writableCalendarIds,
+    createEvent,
+    updateEvent,
+    deleteEvent,
     status
   };
 
