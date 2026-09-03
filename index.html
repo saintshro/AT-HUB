@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0b">
-<title>AT HUB · Finanzcockpit v8.8.1</title>
+<title>AT HUB · Finanzcockpit v8.9</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,7 +13,7 @@
 <main>
   <div class="hero">
     <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
-    <div class="pill">v8.8.1</div>
+    <div class="pill">v8.9</div>
   </div>
 
   <section class="heroCard">
@@ -24,9 +24,9 @@
 
   <section class="cards">
     <article><span>Kontostand</span><b id="current">–</b></article>
-    <article><span>Noch offen</span><b id="futureSum">–</b></article>
+    <article id="futureCard"><span>Noch offen</span><b id="futureSum">–</b><small>Antippen für Details</small></article>
     <article><span>Reserviert</span><b id="reserveSum">–</b></article>
-    <article><span>Dispo frei nach Planung</span><b id="dispoLeft">–</b></article>
+    <article><span>Noch verfügbar bis 15.</span><b id="dispoLeft">–</b></article>
     <article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
     <article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
   </section>
@@ -54,8 +54,9 @@
       <div id="planRows"></div>
     </div>
 
-    <div class="panel">
-      <h3>Noch kommende Abbuchungen</h3>
+    <div class="panel" id="duesPanel">
+      <h3>Noch offen bis zum 15.</h3>
+      <p class="muted">Hier siehst du genau, welche erwarteten Abbuchungen noch in der Prognose stecken. Bereits erkannte Buchungen werden separat als gebucht geführt.</p>
       <div id="dues"></div>
     </div>
   </section>
@@ -117,5 +118,6 @@
 </main>
 <script src="app.js"></script>
 <script src="finance-core-v8.8.1.js"></script>
+<script src="finance-ui-v8.9.js"></script>
 </body>
 </html>

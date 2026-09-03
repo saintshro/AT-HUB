@@ -1,18 +1,22 @@
-AT HUB · Finanzcockpit v8.8.1
+AT HUB · Finanzcockpit v8.9
 
-Im GitHub-Repository saintshro/AT-HUB folgende Dateien ins Hauptverzeichnis hochladen:
+Im GitHub-Repository saintshro/AT-HUB im Hauptverzeichnis:
 
-NEU:
-- finance-core-v8.8.1.js
+NEU HOCHLADEN:
+- finance-ui-v8.9.js
 
 ERSETZEN:
 - index.html
 - sw.js
 - app-version.json
 
-NICHT ÄNDERN:
+NICHT ÄNDERN / NICHT LÖSCHEN:
 - app.js
+- finance-core-v8.8.1.js
 - config.json
-- bestehende Google-Drive-Datei / Drive-Einstellungen
+- bestehende Google-Drive-Datei und Drive-Einstellungen
 
-Danach GitHub Pages neu laden. Falls auf einem Gerät noch v8.8 angezeigt wird, Seite einmal vollständig aktualisieren; der neue Service-Worker verwendet den Cache athub-fin-v8-8-1.
+Wichtig:
+v8.9 setzt bewusst auf dem stabilen v8.8.1-Kern auf. Es ändert nur die Anzeige und Berechnung des Feldes „Noch verfügbar bis 15.“ sowie die transparente Fälligkeitsübersicht.
+
+Nach dem Speichern GitHub Pages neu laden. Falls noch v8.8.1 angezeigt wird, die Seite einmal vollständig neu laden; der neue Service-Worker verwendet den Cache athub-fin-v8-9.
