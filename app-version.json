@@ -1,14 +1,14 @@
 {
-  "version": "8.8.0",
+  "version": "8.8.1",
   "module": "Finanzcockpit",
-  "updated": "2026-09-02",
+  "updated": "2026-09-03",
   "notes": [
-    "Automatischer Finanzmonat vom 15. bis einschließlich 15. des Folgemonats.",
-    "Wiederkehrende Abbuchungen werden aus den in v8.6 bekannten Rhythmen automatisch dem aktuellen Finanzmonat zugeordnet.",
-    "Google-Drive-Sync bleibt erhalten; lokale Daten bleiben Offline-Kopie.",
-    "Beim Wechsel des Finanzmonats wird für die neue Periode eine neue Fälligkeitsliste erzeugt.",
-    "Der im DKB-PDF erkannte Kontostand wird mit der bestätigten Importvorschau automatisch aktualisiert.",
-    "Normalisierte Buchungskennungen und Vorkommenszählung verhindern Doppelimporte auch bei überlappenden Kontoauszügen.",
-    "Unklare Übereinstimmungen werden zur Prüfung markiert und standardmäßig nicht übernommen."
+    "Manuell bestätigter Kontostand wird als Basisstand gespeichert.",
+    "Fehlt im nächsten DKB-PDF ein Kontostand, wird der aktuelle Kontostand automatisch aus ausschließlich neuen Buchungen fortgeschrieben.",
+    "Historische, später importierte Buchungen vor dem bestätigten Basisdatum verändern den aktuellen Kontostand nicht rückwirkend.",
+    "Noch offen wird aus den Wiederholungsregeln des aktuellen Finanzmonats 15. bis einschließlich 15. erzeugt.",
+    "Erkannte tatsächliche Abbuchungen setzen die passende Fälligkeit automatisch auf erledigt und reduzieren Noch offen.",
+    "Normalisierte Buchungskennungen verhindern weiterhin Doppelimporte.",
+    "Google-Drive-Sync und die bestehende Drive-Datei bleiben erhalten; der Kontostand-Basisanker wird mit synchronisiert."
   ]
 }

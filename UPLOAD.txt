@@ -1,24 +1,18 @@
-AT HUB Finanzcockpit v8.8
+AT HUB · Finanzcockpit v8.8.1
+
+Im GitHub-Repository saintshro/AT-HUB folgende Dateien ins Hauptverzeichnis hochladen:
 
 NEU:
-- Finanzmonat wechselt automatisch am 15.
-- Zeitraum wird aus dem aktuellen Datum erzeugt.
-- Wiederkehrende Fixkosten werden automatisch in den passenden Zeitraum 15. → 15. einsortiert.
-- Positionen nach dem Enddatum des Finanzmonats zählen nicht.
-- Drive Sync bleibt erhalten.
-- Der erkannte DKB-Kontostand wird beim bestätigten Import automatisch übernommen.
-- Bereits gespeicherte Buchungen werden bei überlappenden Auszügen nicht doppelt angelegt.
-- Unklare Übereinstimmungen bleiben zur manuellen Prüfung zunächst abgewählt.
+- finance-core-v8.8.1.js
 
-UPLOAD:
-Im Branch gh--pages diese Dateien ersetzen:
-index.html
-app.js
-styles.css
-config.json
-manifest.webmanifest
-sw.js
-app-version.json
+ERSETZEN:
+- index.html
+- sw.js
+- app-version.json
 
-Danach committen, z.B.:
-Finanzcockpit v8.8 Kontostand und Dublettenprüfung
+NICHT ÄNDERN:
+- app.js
+- config.json
+- bestehende Google-Drive-Datei / Drive-Einstellungen
+
+Danach GitHub Pages neu laden. Falls auf einem Gerät noch v8.8 angezeigt wird, Seite einmal vollständig aktualisieren; der neue Service-Worker verwendet den Cache athub-fin-v8-8-1.

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0b">
-<title>AT HUB · Finanzcockpit v8.8</title>
+<title>AT HUB · Finanzcockpit v8.8.1</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,7 +13,7 @@
 <main>
   <div class="hero">
     <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
-    <div class="pill">v8.8</div>
+    <div class="pill">v8.8.1</div>
   </div>
 
   <section class="heroCard">
@@ -45,6 +45,7 @@
         <label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label>
         <button id="saveBal" class="btn">Speichern</button>
       </div>
+      <p class="muted">Ein manuell gespeicherter Kontostand ist der bestätigte Basisstand. Später neu erkannte Buchungen schreiben ihn automatisch fort – auch wenn der nächste Kontoauszug keinen Kontostand enthält.</p>
     </div>
 
     <div class="panel">
@@ -63,11 +64,11 @@
     <div class="panel">
       <div class="eyebrow">DKB KONTOAUSZUG</div>
       <h3>PDF-Kontoauszug einlesen</h3>
-      <p class="muted">Der Kontoauszug wird nur lokal im Browser gelesen. Der erkannte Kontostand und ausschließlich neue Buchungen werden nach deiner Bestätigung gespeichert. Bereits vorhandene Buchungen werden automatisch ausgeschlossen.</p>
+      <p class="muted">Der Kontoauszug wird nur lokal im Browser gelesen. Ausschließlich neue Buchungen werden nach deiner Bestätigung gespeichert. Ist ein Kontostand im PDF enthalten, wird er als neuer Basisstand verwendet. Fehlt er, wird der bestehende Kontostand aus den neuen Buchungen automatisch fortgeschrieben.</p>
       <label class="drop" id="drop">
         <input id="pdf" type="file" accept="application/pdf,.pdf" hidden>
         <b>DKB-PDF hier ablegen oder anklicken</b>
-        <span>Auch Jahresauszüge sind erlaubt: historische Buchungen dienen nur zur Mustererkennung; nur passende aktuelle Fälligkeiten ändern die Prognose.</span>
+        <span>Auch Jahresauszüge sind erlaubt: historische Buchungen verändern einen später bestätigten Kontostand nicht rückwirkend. Aktuelle passende Fälligkeiten werden automatisch aus „Noch offen“ entfernt.</span>
       </label>
       <div id="pdfMsg" class="msg"></div>
       <div id="review"></div>
@@ -110,10 +111,11 @@
 
     <div class="panel">
       <h3>Synchronisationsregeln</h3>
-      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der neuere Kontostand und die neueren Schalter gewinnen. Konflikte werden angezeigt, nicht still überschrieben.</p>
+      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der bestätigte Kontostand-Basiswert und die Buchungen werden gemeinsam synchronisiert; daraus wird der aktuelle Kontostand auf jedem Gerät neu berechnet.</p>
     </div>
   </section>
 </main>
 <script src="app.js"></script>
+<script src="finance-core-v8.8.1.js"></script>
 </body>
 </html>
