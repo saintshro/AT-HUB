@@ -15,39 +15,47 @@
   </nav>
 </aside>
 <main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB</div><h1>Dashboard</h1><p class="lead">Deine zentrale Startseite für Arbeit, Privat und Wissen.</p></div><div class="badge">Grundrahmen v1.0</div></div>
+<div class="topbar"><div><div class="eyebrow">AT HUB</div><h1>Dashboard</h1><p class="lead">Deine zentrale Startseite für Arbeit, Privat und Wissen.</p></div><div class="badge">v1.3</div></div>
 
 <section class="hero"><div class="hero-grid">
 <div><div class="eyebrow">DEINE ZENTRALE</div><div class="today">Ein HUB. Klare Bereiche. Keine doppelte Datenpflege.</div>
-<p class="subtle">Die Module bleiben technisch eigenständig. Das Dashboard verbindet sie nur über Navigation und Status.</p></div>
-<div class="status-box"><div class="eyebrow">STATUS</div><div class="status-good">FinanzHub v8.9 stabil</div><div class="subtle">Arbeitszeitmodul vorhanden · Meisterbuch im Aufbau</div><div class="subtle" style="margin-top:10px">☁️ <span data-athub-sync-status>Drive nicht verbunden</span> · letzter Sync: <span data-athub-last-sync>–</span></div></div>
+<p class="subtle">Google Kalender liefert die Termine. Die anderen Module bleiben technisch eigenständig.</p></div>
+<div class="status-box">
+  <div class="eyebrow">STATUS</div>
+  <div class="status-good">FinanzHub v8.9 stabil</div>
+  <div class="subtle">☁️ <span data-athub-sync-status>Drive nicht verbunden</span> · letzter Sync: <span data-athub-last-sync>–</span></div>
+  <div class="subtle" style="margin-top:7px">📅 <span data-athub-calendar-status>Kalender nicht verbunden</span></div>
+</div>
 </div></section>
-<div class="section-title"><div>
+
 <section class="hero today-panel" id="todayPanel" style="margin-top:18px">
   <div class="eyebrow">HEUTE</div>
   <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap">
-    <div>
-      <h2 style="margin-bottom:5px">Was steht heute an?</h2>
-      <div class="subtle" id="todayDate">–</div>
+    <div><h2 style="margin-bottom:5px">Was steht heute an?</h2><div class="subtle" id="todayDate">–</div></div>
+    <div style="display:flex;gap:9px;flex-wrap:wrap">
+      <button id="refreshCalendar" class="secondary-btn">Kalender aktualisieren</button>
+      <button id="editToday" class="secondary-btn">Arbeit & Lernen bearbeiten</button>
     </div>
-    <button id="editToday" style="padding:10px 14px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Heute bearbeiten</button>
   </div>
 
   <div class="today-grid" style="margin-top:18px">
-    <article class="today-card">
-      <div class="eyebrow">📅 TERMINE</div>
-      <strong id="todayAppointment">Noch kein Termin hinterlegt</strong>
-      <span id="todayAppointmentNote" class="subtle">Später mit Google Kalender verknüpfbar.</span>
+    <article class="today-card calendar-card">
+      <div class="eyebrow">📅 GOOGLE KALENDER</div>
+      <div id="calendarEvents" class="calendar-events"><span class="subtle">Kalender wird geladen …</span></div>
+      <button id="connectCalendarDashboard" class="calendar-connect secondary-btn" hidden>Kalender verbinden</button>
+      <span id="calendarDashboardMsg" class="subtle"></span>
     </article>
     <article class="today-card">
       <div class="eyebrow">💼 ARBEIT</div>
       <strong id="todayWork">Kein Tagesstatus hinterlegt</strong>
       <span id="todayWorkNote" class="subtle">Arbeitszeit bleibt ein eigenes Modul.</span>
+      <a href="arbeitszeit.html" style="margin-top:8px;display:inline-block">Arbeitszeit öffnen →</a>
     </article>
     <article class="today-card">
       <div class="eyebrow">🎓 MEISTERSCHULE / WISSEN</div>
       <strong id="todayStudy">Kein Lernpunkt hinterlegt</strong>
       <span id="todayStudyNote" class="subtle">Für Meisterschule, Prüfung und Meisterbuch.</span>
+      <a href="projekte-wissen.html" style="margin-top:8px;display:inline-block">Wissen öffnen →</a>
     </article>
     <article class="today-card">
       <div class="eyebrow">💶 FINANZEN</div>
@@ -59,9 +67,8 @@
 
   <div id="todayEditor" class="today-editor" hidden>
     <div class="eyebrow">TAGESÜBERSICHT BEARBEITEN</div>
+    <p class="subtle">Termine kommen jetzt automatisch aus Google Kalender. Hier bleiben nur Arbeit und Lernen.</p>
     <div class="today-form">
-      <label>Termin / Uhrzeit<input id="fAppointment" placeholder="z. B. 14:30 Videokonferenz"></label>
-      <label>Terminhinweis<input id="fAppointmentNote" placeholder="z. B. Teams · Kommissionen prüfen"></label>
       <label>Arbeit<input id="fWork" placeholder="z. B. Rostock · Frühdienst"></label>
       <label>Arbeitshinweis<input id="fWorkNote" placeholder="z. B. Boxenplanung prüfen"></label>
       <label>Meisterschule / Lernen<input id="fStudy" placeholder="z. B. BWH · Deckungsbeitrag"></label>
@@ -75,78 +82,91 @@
   </div>
 </section>
 
-<div class="eyebrow">HAUPTBEREICHE</div><h2>Wo möchtest du hin?</h2></div></div>
+<div class="section-title"><div><div class="eyebrow">HAUPTBEREICHE</div><h2>Wo möchtest du hin?</h2></div></div>
 <section class="grid">
 <a class="card ready" href="translogistik.html"><div class="icon">🚚</div><h2>Translogistik</h2><p>Arbeitszeit, Mitarbeiter, WEBFLEET, Teams, Fahrzeuge, Tourenplanung und weitere Arbeitsmodule.</p><div class="go">Bereich öffnen →</div></a>
 <a class="card stable" href="privat.html"><div class="icon">👤</div><h2>Privat</h2><p>Private Organisation mit dem fertigen FinanzHub als erstem stabilen Kernmodul.</p><div class="go">Privat öffnen →</div></a>
 <a class="card ready" href="projekte-wissen.html"><div class="icon">📚</div><h2>Projekte & Wissen</h2><p>Meisterbuch, Prüfungswissen und weitere langfristige Wissens- und Projektbereiche.</p><div class="go">Wissen öffnen →</div></a>
 <a class="card planned" href="siggi.html"><div class="icon">🤖</div><h2>Siggi KI</h2><p>Zukünftige zentrale KI-Unterstützung für Arbeit, Privat und Wissen.</p><div class="go">Bereich ansehen →</div></a>
-<a class="card planned" href="einstellungen-hub.html"><div class="icon">⚙️</div><h2>Einstellungen</h2><p>Zentrale Verbindungen, Modulstatus und spätere HUB-weite Einstellungen.</p><div class="go">Einstellungen →</div></a>
+<a class="card planned" href="einstellungen-hub.html"><div class="icon">⚙️</div><h2>Einstellungen</h2><p>Google Drive, Google Kalender und HUB-weite Einstellungen.</p><div class="go">Einstellungen →</div></a>
 </section>
 
 <footer>AT HUB · Übersicht schafft Klarheit.</footer>
 </main></div>
 <script src="hub-sync.js"></script>
-
+<script src="calendar-sync.js"></script>
 <script>
 (() => {
   const $=id=>document.getElementById(id);
-  const defaults={
-    appointment:"",appointmentNote:"",
-    work:"",workNote:"",
-    study:"",studyNote:""
-  };
-  function key(){
-    const d=new Date(), y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
-    return `${y}-${m}-${day}`;
-  }
-  function dateLabel(){
-    $("todayDate").textContent=new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(new Date());
-  }
+  const defaults={work:"",workNote:"",study:"",studyNote:""};
+  function key(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+  function dateLabel(){$("todayDate").textContent=new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(new Date())}
   function allDashboard(){return ATHubData.getSection("dashboard")||{}}
   function getToday(){return {...defaults,...(allDashboard().days?.[key()]||{})}}
-  function render(){
-    dateLabel();
-    const d=getToday();
-    $("todayAppointment").textContent=d.appointment||"Noch kein Termin hinterlegt";
-    $("todayAppointmentNote").textContent=d.appointmentNote||"Später mit Google Kalender verknüpfbar.";
+  function renderManual(){
+    dateLabel(); const d=getToday();
     $("todayWork").textContent=d.work||"Kein Tagesstatus hinterlegt";
     $("todayWorkNote").textContent=d.workNote||"Arbeitszeit bleibt ein eigenes Modul.";
     $("todayStudy").textContent=d.study||"Kein Lernpunkt hinterlegt";
     $("todayStudyNote").textContent=d.studyNote||"Für Meisterschule, Prüfung und Meisterbuch.";
   }
-  function openEditor(){
-    const d=getToday();
-    $("fAppointment").value=d.appointment;$("fAppointmentNote").value=d.appointmentNote;
-    $("fWork").value=d.work;$("fWorkNote").value=d.workNote;
-    $("fStudy").value=d.study;$("fStudyNote").value=d.studyNote;
-    $("todayEditor").hidden=false;
+  function timeLabel(ev){
+    if(ev.allDay) return "Ganztägig";
+    const d=new Date(ev.start);
+    return new Intl.DateTimeFormat("de-DE",{hour:"2-digit",minute:"2-digit"}).format(d)+" Uhr";
   }
-  $("editToday").onclick=openEditor;
+  function renderEvents(events){
+    const box=$("calendarEvents"); box.innerHTML="";
+    if(!events?.length){
+      box.innerHTML='<div class="calendar-empty"><strong>Heute keine Termine</strong><span class="subtle">In den ausgewählten Kalendern ist für heute nichts eingetragen.</span></div>';
+      return;
+    }
+    events.forEach(ev=>{
+      const row=document.createElement("div"); row.className="calendar-event";
+      const meta=[timeLabel(ev),ev.calendar].filter(Boolean).join(" · ");
+      row.innerHTML=`<div class="calendar-time">${meta}</div><strong></strong><span class="subtle"></span>`;
+      row.querySelector("strong").textContent=ev.title;
+      row.querySelector("span").textContent=ev.location||"";
+      box.appendChild(row);
+    });
+  }
+  async function loadCalendar(force=false){
+    const btn=$("connectCalendarDashboard"), msg=$("calendarDashboardMsg");
+    try{
+      const cached=ATHubCalendar.loadCachedToday();
+      if(cached.length) renderEvents(cached);
+      if(!ATHubCalendar.status().connected){
+        btn.hidden=false; msg.textContent=cached.length?"Letzter Kalenderstand. Für Aktualisierung verbinden.":"Google Kalender noch nicht verbunden.";
+        if(!cached.length) $("calendarEvents").innerHTML='<span class="subtle">Bitte Google Kalender einmal verbinden.</span>';
+        return;
+      }
+      btn.hidden=true; msg.textContent="Kalender wird aktualisiert …";
+      const ev=await ATHubCalendar.getTodayEvents({force});
+      renderEvents(ev); msg.textContent="Kalender aktuell.";
+    }catch(e){
+      btn.hidden=false; msg.textContent=e.message||String(e);
+    }
+  }
+  $("connectCalendarDashboard").onclick=async()=>{
+    try{await ATHubCalendar.connect(); await loadCalendar(true)}catch(e){$("calendarDashboardMsg").textContent=e.message||String(e)}
+  };
+  $("refreshCalendar").onclick=()=>loadCalendar(true);
+  $("editToday").onclick=()=>{
+    const d=getToday();
+    $("fWork").value=d.work;$("fWorkNote").value=d.workNote;$("fStudy").value=d.study;$("fStudyNote").value=d.studyNote;
+    $("todayEditor").hidden=false;
+  };
   $("cancelToday").onclick=()=>{$("todayEditor").hidden=true};
   $("saveToday").onclick=async()=>{
-    const current=allDashboard(), days={...(current.days||{})};
-    days[key()]={
-      appointment:$("fAppointment").value.trim(),
-      appointmentNote:$("fAppointmentNote").value.trim(),
-      work:$("fWork").value.trim(),
-      workNote:$("fWorkNote").value.trim(),
-      study:$("fStudy").value.trim(),
-      studyNote:$("fStudyNote").value.trim(),
-      updatedAt:new Date().toISOString()
-    };
+    const current=allDashboard(),days={...(current.days||{})};
+    days[key()]={...(days[key()]||{}),work:$("fWork").value.trim(),workNote:$("fWorkNote").value.trim(),study:$("fStudy").value.trim(),studyNote:$("fStudyNote").value.trim(),updatedAt:new Date().toISOString()};
     ATHubData.patchSection("dashboard",{days});
-    $("todayMsg").textContent="Lokal gespeichert. Drive-Synchronisierung läuft …";
-    try{
-      if(ATHubData.status().connected) await ATHubData.sync();
-      $("todayMsg").textContent=ATHubData.status().connected?"Gespeichert und mit Drive synchronisiert.":"Gespeichert. Drive beim nächsten Verbinden synchronisieren.";
-    }catch(e){$("todayMsg").textContent="Gespeichert; Drive-Sync derzeit nicht möglich."}
-    render();
-    setTimeout(()=>{$("todayEditor").hidden=true},700);
+    $("todayMsg").textContent="Gespeichert.";
+    try{if(ATHubData.status().connected) await ATHubData.sync()}catch{}
+    renderManual(); setTimeout(()=>{$("todayEditor").hidden=true},500);
   };
-  window.addEventListener("athub-data-updated",render);
-  render();
+  window.addEventListener("athub-data-updated",renderManual);
+  renderManual(); loadCalendar(false);
 })();
 </script>
-
 <script>document.querySelector('[data-page="dashboard"]')?.classList.add('active');</script></body></html>

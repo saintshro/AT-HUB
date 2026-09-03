@@ -15,7 +15,7 @@
   </nav>
 </aside>
 <main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB · SYSTEM</div><h1>Einstellungen</h1><p class="lead">Zentrale Einstellungen und Modulstatus.</p></div><div class="badge">Grundrahmen v1.0</div></div>
+<div class="topbar"><div><div class="eyebrow">AT HUB · SYSTEM</div><h1>Einstellungen</h1><p class="lead">Zentrale Einstellungen und Modulstatus.</p></div><div class="badge">v1.3</div></div>
 
 <section class="hero"><div class="eyebrow">SYSTEM</div><h2>Zentrale Google-Drive-Synchronisierung</h2>
 <p class="subtle">Neue AT-HUB-Module speichern ihre veränderlichen Daten künftig in einer gemeinsamen Drive-Datei. Arbeit, Privat und Wissen bleiben darin als getrennte Bereiche organisiert. Das bestehende FinanzHub v8.9 bleibt technisch unverändert.</p></section>
@@ -42,6 +42,25 @@
 </div>
 </section>
 
+
+<section class="hero" style="margin-top:18px">
+<div class="eyebrow">GOOGLE KALENDER</div><h2>Kalender mit dem Dashboard verbinden</h2>
+<p class="subtle">Der HUB liest deine Termine nur lesend ein. Es werden keine Termine erstellt, geändert oder gelöscht. Du kannst auswählen, welche deiner Google-Kalender auf dem Dashboard berücksichtigt werden.</p>
+<div class="module-list" style="margin-top:15px">
+  <div class="module"><strong>📅 Kalenderstatus</strong><span data-athub-calendar-status>Kalender nicht verbunden</span></div>
+  <div class="module"><strong>🔐 Berechtigung</strong><span>Nur lesen · calendar.readonly</span></div>
+</div>
+<div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+  <button id="connectHubCalendar" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Google Kalender verbinden</button>
+  <button id="reloadHubCalendars" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Kalenderliste aktualisieren</button>
+</div>
+<div id="calendarList" class="calendar-settings-list" style="margin-top:14px"><span class="subtle">Nach dem Verbinden erscheinen hier deine Kalender.</span></div>
+<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+  <button id="saveCalendarSelection" style="padding:11px 15px;border:0;border-radius:11px;font-weight:750;cursor:pointer">Auswahl speichern</button>
+</div>
+<div id="hubCalendarMsg" class="subtle" style="margin-top:10px"></div>
+</section>
+
 <section class="hero" style="margin-top:18px">
 <div class="eyebrow">DATENPRINZIP</div><h2>Was wird zentral gespeichert?</h2>
 <p class="subtle">Die zentrale Datei ist für veränderliche HUB-Daten vorgesehen: spätere Mitarbeiter-/Teamdaten, Tourenplanungsstatus, Dashboard-Einstellungen, Meisterbuch-Fortschritt und private HUB-Daten. Programmdateien bleiben auf GitHub. Große Dokumente und Originalunterlagen bleiben als normale Dateien in Drive.</p>
@@ -49,6 +68,7 @@
 <footer>AT HUB · Übersicht schafft Klarheit.</footer>
 </main></div>
 <script src="hub-sync.js"></script>
+<script src="calendar-sync.js"></script>
 <script>
 const msg=document.getElementById("hubSyncMsg");
 const inp=document.getElementById("hubClientId");
@@ -67,4 +87,40 @@ document.getElementById("syncHubDrive").onclick=async()=>{
 };
 window.addEventListener("athub-sync-status",e=>{ if(e.detail.clientId && !inp.value) inp.value=e.detail.clientId; });
 </script>
+
+<script>
+(() => {
+ const list=document.getElementById("calendarList"), msg=document.getElementById("hubCalendarMsg");
+ const show=t=>msg.textContent=t;
+ function renderCalendars(cals){
+   const selected=new Set(ATHubCalendar.getSelectedCalendarIds());
+   list.innerHTML="";
+   if(!cals?.length){list.innerHTML='<span class="subtle">Keine Kalender gefunden.</span>';return}
+   cals.forEach(c=>{
+     const label=document.createElement("label"); label.className="calendar-setting";
+     const cb=document.createElement("input"); cb.type="checkbox"; cb.value=c.id;
+     cb.checked=selected.has(c.id) || (selected.has("primary") && c.primary);
+     const span=document.createElement("span"); span.textContent=c.summary+(c.primary?" · Hauptkalender":"");
+     label.append(cb,span); list.appendChild(label);
+   });
+ }
+ async function load(){
+   try{show("Kalenderliste wird geladen …"); const c=await ATHubCalendar.listCalendars(); renderCalendars(c); show("Kalenderliste geladen.");}
+   catch(e){show(e.message||String(e))}
+ }
+ document.getElementById("connectHubCalendar").onclick=async()=>{
+   try{show("Google Kalender wird verbunden …"); await ATHubCalendar.connect(); await load(); show("Kalender verbunden. Jetzt gewünschte Kalender auswählen.");}
+   catch(e){show("Verbindung fehlgeschlagen: "+(e.message||e))}
+ };
+ document.getElementById("reloadHubCalendars").onclick=load;
+ document.getElementById("saveCalendarSelection").onclick=async()=>{
+   const ids=[...list.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value);
+   ATHubCalendar.setSelectedCalendarIds(ids);
+   try{if(ATHubData.status().connected) await ATHubData.sync()}catch{}
+   show("Kalenderauswahl gespeichert. Das Dashboard verwendet diese Kalender.");
+ };
+ if(ATHubCalendar.status().connected) load();
+})();
+</script>
+
 <script>document.querySelector('[data-page="settings"]')?.classList.add('active');</script></body></html>

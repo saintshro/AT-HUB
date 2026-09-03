@@ -52,3 +52,14 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:#
 .today-editor button{padding:10px 14px;border:0;border-radius:11px;font-weight:750;cursor:pointer}
 .secondary-btn{border:1px solid var(--line)!important;background:var(--panel2)!important;color:white!important}
 @media(max-width:720px){.today-grid,.today-form{grid-template-columns:1fr}}
+
+.calendar-card{grid-column:span 1}
+.calendar-events{display:grid;gap:9px}
+.calendar-event{padding:10px 0;border-bottom:1px solid var(--line);display:grid;gap:3px}
+.calendar-event:last-child{border-bottom:0}
+.calendar-time{font-size:.78rem;color:var(--muted)}
+.calendar-empty{display:grid;gap:5px}
+.calendar-connect{margin-top:8px;align-self:flex-start}
+.calendar-settings-list{display:grid;gap:8px;max-width:780px}
+.calendar-setting{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);cursor:pointer}
+.calendar-setting input{width:18px;height:18px}

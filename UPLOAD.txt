@@ -1,40 +1,51 @@
-AT HUB · DASHBOARD HEUTE v1.2
+AT HUB · GOOGLE KALENDER v1.3
 ================================
 
-ERSETZEN IN GITHUB
+IN GITHUB ERSETZEN / NEU HOCHLADEN
 1. index.html
-2. hub.css
-3. sw.js
+2. einstellungen-hub.html
+3. hub.css
+4. sw.js
+5. calendar-sync.js   ← NEU
 
 UNVERÄNDERT LASSEN
 - hub-sync.js
-- einstellungen-hub.html
 - finanzen.html
 - app.js
 - finance-core-v8.8.1.js
 - finance-ui-v8.9.js
 - config.json
 - arbeitszeit.html
-- alle übrigen HUB-Seiten
+- translogistik.html
+- privat.html
+- projekte-wissen.html
+- siggi.html
 
-NEU AUF DEM DASHBOARD
-- Bereich „Was steht heute an?“
-- heutiges Datum automatisch
-- Termine
-- Arbeit
-- Meisterschule / Wissen
-- direkter Zugang Finanzen
-- „Heute bearbeiten“
-- Tagesdaten werden über den bestehenden zentralen Drive-Sync im Bereich dashboard gespeichert
+WAS v1.3 MACHT
+- Google Kalender wird ausschließlich LESEND angebunden.
+- Dieselbe Google OAuth Client-ID wie für Drive wird verwendet.
+- Auf dem Dashboard werden die heutigen Termine automatisch angezeigt.
+- Unter Einstellungen kannst du auswählen, welche Google-Kalender berücksichtigt werden.
+- Die Kalenderauswahl wird zusätzlich über AT_HUB_Daten_v1.json zwischen Geräten synchronisiert.
+- Arbeit und Meisterschule/Lernen bleiben separat manuell bearbeitbar.
+- FinanzHub v8.9 und bestehender Drive-Sync bleiben unverändert.
 
-TEST
-1. Dateien hochladen und GitHub Pages abwarten.
+ERSTER TEST
+1. Dateien in GitHub hochladen und Pages-Deployment abwarten.
 2. Strg+F5.
-3. Dashboard öffnen.
-4. „Heute bearbeiten“ anklicken.
-5. Testeintrag speichern.
-6. Auf zweitem Gerät Drive verbinden/synchronisieren und Dashboard prüfen.
+3. AT HUB → Einstellungen.
+4. „Google Kalender verbinden“ drücken.
+5. Google-Konto auswählen und Nur-Lese-Zugriff bestätigen.
+6. Gewünschte Kalender anhaken und „Auswahl speichern“.
+7. Dashboard öffnen.
+8. Die Termine des heutigen Tages sollten unter „Google Kalender“ erscheinen.
 
-HINWEIS
-Google Kalender ist in v1.2 noch nicht direkt in die öffentliche GitHub-Page eingebunden.
-Der Bereich ist bereits so vorbereitet, dass Kalenderdaten später ergänzt werden können.
+WICHTIG
+Falls Google „Calendar API has not been used / is disabled“ meldet:
+Im selben Google-Cloud-Projekt, zu dem deine bestehende OAuth Client-ID gehört,
+muss einmal die „Google Calendar API“ aktiviert werden.
+An der Client-ID selbst muss nichts geändert werden.
+
+BERECHTIGUNG
+https://www.googleapis.com/auth/calendar.readonly
+Der HUB kann damit keine Termine erstellen, ändern oder löschen.
