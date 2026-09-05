@@ -1,14 +1,12 @@
 {
-  "version": "8.9.0",
+  "version": "8.10.0",
   "module": "Finanzcockpit",
-  "updated": "2026-09-03",
+  "updated": "2026-09-05",
   "notes": [
-    "Der stabile Finanzkern v8.8.1 bleibt unverändert.",
-    "Neues Feld 'Noch verfügbar bis 15.' zeigt den Betrag, der nach offenen Abbuchungen und Reservierungen noch ausgegeben werden kann, ohne den hinterlegten Disporahmen zu überschreiten.",
-    "Die offenen Abbuchungen werden mit Empfänger, erwartetem Datum, Betrag und Status transparent aufgeschlüsselt.",
-    "Die Summe der offenen Positionen entspricht exakt dem Wert 'Noch offen' im Cockpit.",
-    "Bereits erkannte Zahlungen werden separat als gebucht angezeigt und nicht mehr in 'Noch offen' eingerechnet.",
-    "Ein Klick auf die Karte 'Noch offen' springt direkt zur Detailansicht.",
-    "Kontostand-Basisanker, PDF-Import, Dublettenschutz und Google-Drive-Synchronisation aus v8.8.1 bleiben unverändert erhalten."
+    "Die oeffentliche GitHub-Konfiguration enthaelt keine privaten Finanzwerte mehr.",
+    "Private Planwerte, Fixkosten und Kontostandsbasis koennen als AT_HUB_Finanzconfig_v1.json lokal importiert und ueber Google Drive geladen oder gesichert werden.",
+    "Der Zugriff auf Drive laeuft ueber das Google-Konto und dessen 2-Faktor-Schutz.",
+    "Der stabile Finanzkern v8.8.1 und die Finanzoberflaeche v8.9 bleiben erhalten.",
+    "Der Arbeitszeitkalender erhaelt ein Bedien-Overlay v1.0.3 mit Monatsliste, Schnellknöpfen und Regelvorschlaegen fuer Büro, Box, Extern, Urlaub, Frei und Krank."
   ]
 }
