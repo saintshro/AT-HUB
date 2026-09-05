@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "1.0.0";
+  const VERSION = "1.0.1";
   const BASE_YEAR = 2026;
   const MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
   const STATUS_LABEL = {A:"Anwesend",E:"Extern",U:"Urlaub",F:"Frei",FT:"Feiertag",K:"Krank"};
@@ -64,12 +64,36 @@
 
   async function initialize({allowCreate=false}={}){
     let stored = readStored();
-    if(stored){ state=stored; initializedFromDrive=true; renderAll(); return; }
+    if(stored){
+      state=stored;
+      const seed = await loadSeed();
+      state.migrations ||= {};
+      if(!state.migrations.juneJuly2026v1){
+        for(const [k,v] of Object.entries(seed.entries||{})){
+          if(k.startsWith("2026-06-") || k.startsWith("2026-07-")) state.entries[k]=normalizeEntry(v);
+        }
+        state.migrations.juneJuly2026v1 = new Date().toISOString();
+        persist();
+      }
+      initializedFromDrive=true; renderAll(); return;
+    }
 
     try{
       await window.ATHubData?.sync({interactive:false});
       stored = readStored();
-      if(stored){ state=stored; initializedFromDrive=true; renderAll(); return; }
+      if(stored){
+        state=stored;
+        const seed = await loadSeed();
+        state.migrations ||= {};
+        if(!state.migrations.juneJuly2026v1){
+          for(const [k,v] of Object.entries(seed.entries||{})){
+            if(k.startsWith("2026-06-") || k.startsWith("2026-07-")) state.entries[k]=normalizeEntry(v);
+          }
+          state.migrations.juneJuly2026v1 = new Date().toISOString();
+          persist();
+        }
+        initializedFromDrive=true; renderAll(); return;
+      }
       if(allowCreate){
         state = await loadSeed();
         initializedFromDrive=true;

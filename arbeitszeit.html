@@ -1,124 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AT HUB | Arbeitszeit</title>
-<link rel="stylesheet" href="css/style.css">
-<style>
-.work-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
-.month-btn{border:1px solid #3b4b62;background:#1d2735;color:#fff;padding:9px 14px;border-radius:10px;cursor:pointer;font-weight:700}
-.month-btn.active{background:#3274d9;border-color:#3274d9}
-.work-summary{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:10px;margin:0 0 16px}
-.work-kpi{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:12px}
-.work-kpi small{display:block;opacity:.7;margin-bottom:4px} .work-kpi b{font-size:1.35rem}
-.calendar-wrap{overflow-x:auto}
-.work-calendar{min-width:850px;display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-.cal-head{font-weight:700;text-align:center;opacity:.72;padding:8px}
-.cal-day{min-height:142px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);border-radius:12px;padding:9px;position:relative}
-.cal-day.empty{opacity:.2;min-height:70px}
-.cal-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
-.cal-date{font-weight:800;font-size:1.08rem} .cal-kw{font-size:.75rem;opacity:.6}
-.status{font-size:.72rem;font-weight:800;padding:3px 7px;border-radius:999px}
-.status-A{background:#184d34;color:#b7f7d1} .status-E{background:#174b70;color:#b8e4ff}
-.status-U{background:#704e17;color:#ffe0a6} .status-F{background:#3e4652;color:#d9e0e8}
-.status-B{background:#6a3b70;color:#f4c8fa}
-.cal-main{font-weight:700;margin-bottom:4px} .cal-desc{font-size:.82rem;opacity:.84;line-height:1.3}
-.cal-meta{font-size:.76rem;opacity:.68;margin-top:7px;line-height:1.35}
-.school{color:#d3b3ff} .overnight{color:#9fd7ff}
-.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.82rem;opacity:.85;margin:10px 0 0}
-@media(max-width:900px){.work-summary{grid-template-columns:repeat(2,1fr)}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Arbeitszeitkalender</title>
+  <link rel="stylesheet" href="hub.css">
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
-<div class="logo">AT HUB</div>
-<div class="motto">Übersicht schafft Klarheit.</div>
-<div class="nav-title">Navigation</div>
-<a class="nav-link" href="index.html">🏠 Dashboard</a>
-<a class="nav-link" href="projekte.html">📁 Projekte</a>
-<a class="nav-link" href="dokumente.html">📄 Dokumente</a>
-<a class="nav-link" href="kalender.html">📅 Kalender</a>
-<a class="nav-link active" href="arbeitszeit.html">⏱ Arbeitszeit</a>
-<a class="nav-link" href="ki.html">🤖 Siggi</a>
-<a class="nav-link" href="einstellungen.html">⚙ Einstellungen</a>
-</aside>
-<main class="content">
-<section class="topbar"><div><h1>Arbeitszeitkalender</h1><p>Version 3.1 · Monatsdaten direkt im HUB</p></div></section>
-<section class="dashboard">
-<div class="panel" style="grid-column:1/-1">
-<h2>Arbeitszeit 2026</h2>
-<p>Juni und Juli wurden aus den Anwesenheitslisten übernommen. Wähle den Monat für die integrierte Kalenderansicht.</p>
-<div class="work-toolbar">
-<button class="month-btn active" data-month="Juni">Juni 2026</button>
-<button class="month-btn" data-month="Juli">Juli 2026</button>
-<a class="month-btn" style="text-decoration:none" href="https://docs.google.com/spreadsheets/d/180HaNfZ7Gu9j4Df-ltRO4s3aOEUnmHdk/edit" target="_blank">📊 Excel-Datei öffnen</a>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav">
+      <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik" class="active">🚚 <span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
+      <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
+    </nav>
+  </aside>
+
+  <main class="content wt-content">
+    <a class="back" href="translogistik.html">← Zurück zu Translogistik</a>
+    <div class="topbar wt-topbar">
+      <div>
+        <div class="eyebrow">AT HUB · ARBEITSZEIT</div>
+        <h1>Arbeitszeitkalender</h1>
+        <p class="lead">Arbeitszeit, Box, Büro, externe Einsätze, Meisterschule und Übernachtungen – auf Rechner und Telefon pflegbar.</p>
+      </div>
+      <div class="badge">Arbeitszeit v1.0 · HUB v1.5.1</div>
+    </div>
+
+    <section class="wt-syncbar" aria-label="Synchronisierung">
+      <div>
+        <strong>☁️ <span data-athub-sync-status>Drive nicht verbunden</span></strong>
+        <div class="subtle">Letzter Sync: <span data-athub-last-sync>–</span> · Änderungen werden im zentralen AT-HUB-Datenspeicher gesichert.</div>
+      </div>
+      <div class="wt-actions">
+        <button class="secondary-btn" id="wtConnectBtn" type="button">Drive verbinden</button>
+        <button class="secondary-btn" id="wtSyncBtn" type="button">Jetzt synchronisieren</button>
+      </div>
+    </section>
+
+    <section class="wt-toolbar">
+      <div class="wt-month-nav">
+        <button type="button" class="secondary-btn" id="wtPrevMonth" aria-label="Vorheriger Monat">‹</button>
+        <button type="button" class="wt-month-button" id="wtMonthLabel">September 2026</button>
+        <button type="button" class="secondary-btn" id="wtNextMonth" aria-label="Nächster Monat">›</button>
+      </div>
+      <div class="wt-actions">
+        <button type="button" class="secondary-btn" id="wtTodayBtn">Heute</button>
+        <button type="button" class="secondary-btn" id="wtYearBtn">Jahresübersicht</button>
+      </div>
+    </section>
+
+    <section class="wt-kpis" id="wtKpis" aria-label="Monatsauswertung"></section>
+
+    <section class="wt-panel">
+      <div class="wt-weekdays" aria-hidden="true">
+        <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+      </div>
+      <div class="wt-calendar" id="wtCalendar"></div>
+      <p class="subtle wt-note">A = Büro oder Box · E = extern, also weder Büro noch Box. Bei übernommenen Alt-Daten ist kein automatischer Pausenabzug hinterlegt.</p>
+    </section>
+
+    <section class="wt-panel wt-year-panel" id="wtYearPanel" hidden>
+      <div class="section-title"><div><h2>Jahresübersicht <span id="wtYearTitle">2026</span></h2><p>Automatisch aus den Tagesdaten berechnet.</p></div></div>
+      <div class="wt-year-table-wrap"><table class="wt-year-table" id="wtYearTable"></table></div>
+    </section>
+
+    <footer>AT HUB · Arbeitszeit v1.0 · Übersicht schafft Klarheit.</footer>
+  </main>
 </div>
-<div id="workSummary" class="work-summary"></div>
-<div class="calendar-wrap">
-<div id="workCalendar" class="work-calendar"></div>
+
+<div class="calendar-modal" id="wtModal" hidden>
+  <div class="calendar-modal-card wt-modal-card" role="dialog" aria-modal="true" aria-labelledby="wtModalTitle">
+    <div class="wt-modal-head">
+      <div><div class="eyebrow">TAGESEINTRAG</div><h2 id="wtModalTitle">Arbeitszeit bearbeiten</h2><div class="subtle" id="wtDateText"></div></div>
+      <button type="button" class="secondary-btn" id="wtCloseBtn">✕</button>
+    </div>
+
+    <form id="wtForm" class="wt-form">
+      <input type="hidden" id="wtDate">
+      <label>Status
+        <select id="wtStatus">
+          <option value="">– nicht festgelegt –</option>
+          <option value="A">A · Anwesend</option>
+          <option value="E">E · Extern</option>
+          <option value="U">U · Urlaub</option>
+          <option value="F">F · Frei</option>
+          <option value="FT">FT · Feiertag</option>
+          <option value="K">K · Krank</option>
+        </select>
+      </label>
+
+      <label id="wtWorkplaceWrap">Arbeitsort
+        <select id="wtWorkplace">
+          <option value="">– auswählen –</option>
+          <option value="Büro">Büro</option>
+          <option value="Box">Box</option>
+          <option value="Extern">Extern</option>
+        </select>
+      </label>
+
+      <label id="wtBoxWrap">Box
+        <input id="wtBox" inputmode="numeric" placeholder="z. B. 658">
+      </label>
+
+      <label id="wtExternalWrap">Externer Ort / Anlass
+        <input id="wtExternalLocation" placeholder="z. B. Bochum, Betriebsrat, Termin">
+      </label>
+
+      <label>Kommt
+        <input id="wtStart" type="time">
+      </label>
+      <label>Geht
+        <input id="wtEnd" type="time">
+      </label>
+      <label>Pause in Minuten
+        <input id="wtPause" type="number" min="0" max="600" step="5" inputmode="numeric" value="0">
+      </label>
+
+      <label>Aufgabe
+        <input id="wtTask" placeholder="z. B. Büro, MTL Vertretung">
+      </label>
+      <label class="wt-span2">Beschreibung
+        <input id="wtDescription" placeholder="z. B. AzubiTag, Betriebsrat, Freisprechung">
+      </label>
+
+      <div class="wt-span2 wt-subsection">
+        <strong>🎓 Meisterschule / Weiterbildung</strong>
+        <div class="subtle">Kann zusätzlich zu einem normalen Arbeitstag erfasst werden.</div>
+      </div>
+      <label>Beginn Meisterschule
+        <input id="wtSchoolStart" type="time">
+      </label>
+      <label>Ende Meisterschule
+        <input id="wtSchoolEnd" type="time">
+      </label>
+
+      <label class="wt-check wt-span2"><input id="wtOvernight" type="checkbox"> 🛏 Übernachtung</label>
+
+      <div class="wt-span2 wt-subsection">
+        <strong>Steuerdaten – vorbereitet</strong>
+        <div class="subtle">Diese Felder werden später vom Steuermodul automatisch ausgewertet.</div>
+      </div>
+      <label class="wt-check"><input id="wtBusinessTrip" type="checkbox"> Dienstreise / Auswärtstätigkeit</label>
+      <label class="wt-check"><input id="wtTraining" type="checkbox"> Fortbildung / Meisterschule</label>
+      <label>Entfernung Arbeitsstätte (km)
+        <input id="wtDistanceKm" type="number" min="0" step="0.1" inputmode="decimal">
+      </label>
+      <label>Dienstliche Kilometer
+        <input id="wtBusinessKm" type="number" min="0" step="0.1" inputmode="decimal">
+      </label>
+
+      <div class="wt-form-actions wt-span2">
+        <button type="button" class="danger-btn" id="wtClearBtn">Tag leeren</button>
+        <div class="wt-actions">
+          <button type="button" class="secondary-btn" id="wtCancelBtn">Abbrechen</button>
+          <button type="submit" class="wt-primary-btn">Speichern</button>
+        </div>
+      </div>
+      <div class="wt-span2 subtle" id="wtFormMessage" role="status"></div>
+    </form>
+  </div>
 </div>
-<div class="legend">
-<span><b>A</b> Arbeit</span><span><b>E</b> Extern</span><span><b>U</b> Urlaub</span><span><b>F</b> Frei</span><span><b>B</b> Bummeln</span><span><b>MS</b> Meisterschule</span>
-</div>
-</div>
-<div class="panel">
-<h2>Jahresübersicht 2026</h2>
-<ul><li>✅ Arbeitszeiten</li><li>✅ Extern</li><li>✅ Urlaub</li><li>✅ Meisterschule</li><li>✅ Übernachtungen</li><li>✅ Steuerübersicht</li></ul>
-</div>
-<div class="panel">
-<h2>Urlaub</h2>
-<p><b>Sommerurlaub</b><br><br>13.07.2026 bis 31.07.2026</p>
-<p>20.–22.07.2026 als <b>Bummeln</b> geführt.</p>
-</div>
-<div class="panel">
-<h2>Steuer</h2>
-<p>Übernachtungen<br>Frühstück<br>Auswärtstage<br>Jahresübersicht</p>
-</div>
-</section>
-<footer>AT HUB · Arbeitszeit Version 3.1</footer>
-</main>
-</div>
-<script>
-const workData={"Juni":[{"date":"2026-06-01","kw":23,"weekday":"Montag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-02","kw":23,"weekday":"Dienstag","status":"A","task":"BR","box":"","description":"Tourenplanungsworkshop","start":"06:30","end":"15:00","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"","place":"","breakfast":"","tags":"MS","note":""},{"date":"2026-06-03","kw":23,"weekday":"Mittwoch","status":"A","task":"BR","box":"","description":"Tourenplanungsworkshop","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-04","kw":23,"weekday":"Donnerstag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"15:00","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"","place":"","breakfast":"","tags":"MS","note":""},{"date":"2026-06-05","kw":23,"weekday":"Freitag","status":"A","task":"","box":"162","description":"","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-06","kw":23,"weekday":"Samstag","status":"F","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-07","kw":23,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Sonntag automatisch Frei","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-08","kw":24,"weekday":"Montag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-09","kw":24,"weekday":"Dienstag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"15:00","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"","place":"","breakfast":"","tags":"MS","note":""},{"date":"2026-06-10","kw":24,"weekday":"Mittwoch","status":"A","task":"Extern","box":"","description":"Sconto Runde BB","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"SC","note":""},{"date":"2026-06-11","kw":24,"weekday":"Donnerstag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"15:00","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"","place":"","breakfast":"","tags":"MS","note":""},{"date":"2026-06-12","kw":24,"weekday":"Freitag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-13","kw":24,"weekday":"Samstag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-14","kw":24,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Sonntag automatisch Frei","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-15","kw":25,"weekday":"Montag","status":"A","task":"Büro","box":"","description":"MTL Vertretung","start":"06:30","end":"17:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-16","kw":25,"weekday":"Dienstag","status":"A","task":"Büro","box":"","description":"MTL Vertretung","start":"06:30","end":"17:30","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"","place":"","breakfast":"","tags":"MS","note":""},{"date":"2026-06-17","kw":25,"weekday":"Mittwoch","status":"A","task":"Büro","box":"","description":"MTL Vertretung","start":"06:30","end":"17:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-18","kw":25,"weekday":"Donnerstag","status":"A","task":"Büro","box":"","description":"MTL Vertretung","start":"06:30","end":"17:30","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"","place":"","breakfast":"","tags":"MS","note":""},{"date":"2026-06-19","kw":25,"weekday":"Freitag","status":"A","task":"Büro","box":"","description":"MTL Vertretung","start":"06:30","end":"17:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-20","kw":25,"weekday":"Samstag","status":"E","task":"Extern","box":"","description":"Meisterschule","start":"","end":"","break":"","school":"08.00 – 15.00 Uhr","overnight":"","place":"","breakfast":"","tags":"E · MS","note":"MS-Zeitregel: Samstag"},{"date":"2026-06-21","kw":25,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Sonntag automatisch Frei","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-22","kw":26,"weekday":"Montag","status":"A","task":"Büro","box":"","description":"","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-23","kw":26,"weekday":"Dienstag","status":"E","task":"Extern","box":"","description":"Meisterschule Bochum","start":"","end":"","break":"","school":"08.00 – 18.00 Uhr","overnight":"Ja","place":"Bochum","breakfast":"Ja","tags":"E · MS","note":"MS-Zeitregel: Blockunterricht | aus WAK-Termine.ics übernommen | aus WAK-Termine.ics übernommen"},{"date":"2026-06-24","kw":26,"weekday":"Mittwoch","status":"E","task":"Extern","box":"","description":"Meisterschule Bochum","start":"","end":"","break":"","school":"08.00 – 16.00 Uhr","overnight":"Ja","place":"Bochum","breakfast":"Ja","tags":"E · MS","note":"MS-Zeitregel: Blockunterricht"},{"date":"2026-06-25","kw":26,"weekday":"Donnerstag","status":"E","task":"Extern","box":"","description":"Meisterschule Bochum","start":"","end":"","break":"","school":"08.00 – 16.00 Uhr","overnight":"Ja","place":"Bochum","breakfast":"Ja","tags":"E · MS","note":"MS-Zeitregel: Blockunterricht | aus WAK-Termine.ics übernommen | aus WAK-Termine.ics übernommen"},{"date":"2026-06-26","kw":26,"weekday":"Freitag","status":"A","task":"","box":"","description":"AzubiTag","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-27","kw":26,"weekday":"Samstag","status":"F","task":"Frei","box":"","description":"","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-28","kw":26,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Sonntag automatisch Frei","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-06-29","kw":27,"weekday":"Montag","status":"E","task":"Extern","box":"","description":"Freisprechung WDF","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"Ja","place":"Waltersdorf","breakfast":"Ja","tags":"E","note":""},{"date":"2026-06-30","kw":27,"weekday":"Dienstag","status":"E","task":"Extern","box":"","description":"Freisprechung WDF","start":"06:30","end":"16:30","break":"00:45","school":"18.00 – 21.15 Uhr","overnight":"Ja","place":"Waltersdorf","breakfast":"Ja","tags":"E · MS","note":"aus WAK-Termine.ics übernommen | aus WAK-Termine.ics übernommen"}],"Juli":[{"date":"2026-07-01","kw":27,"weekday":"Mittwoch","status":"A","task":"Büro","box":"","description":"AzubiTag","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-02","kw":27,"weekday":"Donnerstag","status":"A","task":"Büro","box":"","description":"AzubiTag","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-03","kw":27,"weekday":"Freitag","status":"A","task":"Büro","box":"","description":"AzubiTag","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-04","kw":27,"weekday":"Samstag","status":"F","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-05","kw":27,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Sonntag automatisch Frei","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-06","kw":28,"weekday":"Montag","status":"A","task":"Box","box":"MTL","description":"Kundenbesuch Reklamation","start":"05:00","end":"16:00","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-07","kw":28,"weekday":"Dienstag","status":"A","task":"Büro","box":"","description":"AzubiTag","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-08","kw":28,"weekday":"Mittwoch","status":"E","task":"Extern","box":"","description":"Betriebsrat WDF","start":"04:00","end":"15:00","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-09","kw":28,"weekday":"Donnerstag","status":"A","task":"Büro","box":"","description":"AzubiTag","start":"06:30","end":"16:30","break":"00:45","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-10","kw":28,"weekday":"Freitag","status":"U","task":"Urlaub","box":"","description":"","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-11","kw":28,"weekday":"Samstag","status":"F","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-12","kw":28,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Sonntag automatisch Frei","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-13","kw":29,"weekday":"Montag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-14","kw":29,"weekday":"Dienstag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-15","kw":29,"weekday":"Mittwoch","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-16","kw":29,"weekday":"Donnerstag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-17","kw":29,"weekday":"Freitag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-18","kw":29,"weekday":"Samstag","status":"F","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-19","kw":29,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Wochenende im Urlaubszeitraum","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-20","kw":30,"weekday":"Montag","status":"B","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-21","kw":30,"weekday":"Dienstag","status":"B","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-22","kw":30,"weekday":"Mittwoch","status":"B","task":"Frei","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-23","kw":30,"weekday":"Donnerstag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-24","kw":30,"weekday":"Freitag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-25","kw":30,"weekday":"Samstag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-26","kw":30,"weekday":"Sonntag","status":"F","task":"Frei","box":"","description":"Wochenende im Urlaubszeitraum","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-27","kw":31,"weekday":"Montag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-28","kw":31,"weekday":"Dienstag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-29","kw":31,"weekday":"Mittwoch","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-30","kw":31,"weekday":"Donnerstag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""},{"date":"2026-07-31","kw":31,"weekday":"Freitag","status":"U","task":"Urlaub","box":"","description":"-","start":"","end":"","break":"","school":"","overnight":"","place":"","breakfast":"","tags":"","note":""}]};
-const monthNumber={Juni:5,Juli:6};
-const dayHeads=["Mo","Di","Mi","Do","Fr","Sa","So"];
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
-function renderWork(month){
-  document.querySelectorAll(".month-btn[data-month]").forEach(b=>b.classList.toggle("active",b.dataset.month===month));
-  const rows=workData[month]||[];
-  const counts={A:0,E:0,U:0,F:0,B:0,MS:0,UN:0};
-  rows.forEach(r=>{if(counts[r.status]!==undefined)counts[r.status]++; if(r.school)counts.MS++; if(r.overnight==="Ja")counts.UN++;});
-  document.getElementById("workSummary").innerHTML=`
-    <div class="work-kpi"><small>Arbeit</small><b>${counts.A}</b></div>
-    <div class="work-kpi"><small>Extern</small><b>${counts.E}</b></div>
-    <div class="work-kpi"><small>Urlaub</small><b>${counts.U}</b></div>
-    <div class="work-kpi"><small>Frei / Bummeln</small><b>${counts.F} / ${counts.B}</b></div>
-    <div class="work-kpi"><small>Meisterschule / ÜN</small><b>${counts.MS} / ${counts.UN}</b></div>`;
-  const cal=document.getElementById("workCalendar");
-  cal.innerHTML=dayHeads.map(d=>`<div class="cal-head">${d}</div>`).join("");
-  if(!rows.length)return;
-  const y=2026,m=monthNumber[month],first=(new Date(y,m,1).getDay()+6)%7;
-  for(let i=0;i<first;i++)cal.insertAdjacentHTML("beforeend",'<div class="cal-day empty"></div>');
-  rows.forEach(r=>{
-    const d=new Date(r.date+"T12:00:00");
-    const main=[r.task,r.box?("Box "+r.box):""].filter(Boolean).join(" · ");
-    const time=r.start&&r.end?`${r.start}–${r.end}${r.break?" · Pause "+r.break:""}`:"";
-    const school=r.school?`<div class="cal-meta school">🎓 ${esc(r.school)}</div>`:"";
-    const overnight=r.overnight==="Ja"?`<div class="cal-meta overnight">🛏 ${esc(r.place||"Übernachtung")}${r.breakfast==="Ja"?" · Frühstück":""}</div>`:"";
-    cal.insertAdjacentHTML("beforeend",`<div class="cal-day">
-      <div class="cal-top"><span class="cal-date">${d.getDate()}.</span><span class="status status-${esc(r.status)}">${esc(r.status)}</span></div>
-      <div class="cal-kw">KW ${esc(r.kw)} · ${esc(r.weekday)}</div>
-      <div class="cal-main">${esc(main||r.description||"–")}</div>
-      ${r.description&&r.description!=="-"?`<div class="cal-desc">${esc(r.description)}</div>`:""}
-      ${time?`<div class="cal-meta">⏱ ${esc(time)}</div>`:""}
-      ${school}${overnight}
-    </div>`);
-  });
-}
-document.querySelectorAll(".month-btn[data-month]").forEach(b=>b.addEventListener("click",()=>renderWork(b.dataset.month)));
-renderWork("Juni");
-</script>
+
+<script src="hub-sync.js"></script>
+<script src="arbeitszeit.js"></script>
 </body>
 </html>
