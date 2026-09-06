@@ -1,119 +1,179 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0b">
-<title>AT HUB · Finanzcockpit v8.8</title>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Dashboard</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="hub.css">
 </head>
 <body>
-<header><h1>AT HUB</h1><p>Übersicht schafft Klarheit.</p></header>
-<main>
-  <div class="hero">
-    <div><div class="eyebrow">PRIVAT · FINANZEN</div><h2 id="period">Finanzcockpit</h2></div>
-    <div class="pill">v8.8</div>
-  </div>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a>
+    <div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html" data-page="dashboard" class="active"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
 
-  <section class="heroCard">
-    <div class="eyebrow">PROGNOSE BIS ZUM 15. DES MONATS</div>
-    <div id="forecast" class="money">–</div>
-    <div id="forecastText" class="muted"></div><div class="muted" style="margin-top:6px">Der Finanzmonat wechselt automatisch am 15. Erwartete Abbuchungen werden anhand ihres Rhythmus dem jeweils aktuellen Zeitraum 15. → 15. zugeordnet.</div>
-  </section>
-
-  <section class="cards">
-    <article><span>Kontostand</span><b id="current">–</b></article>
-    <article><span>Noch offen</span><b id="futureSum">–</b></article>
-    <article><span>Reserviert</span><b id="reserveSum">–</b></article>
-    <article><span>Dispo frei nach Planung</span><b id="dispoLeft">–</b></article>
-    <article><span>Dispoabbau-Ziel</span><b id="saveGoal">–</b></article>
-    <article><span>Urlaubssparen</span><b id="vacationValue">–</b></article>
-  </section>
-
-  <nav class="tabs">
-    <button class="tab active" data-tab="dashboard">Übersicht</button>
-    <button class="tab" data-tab="import">PDF-Import</button>
-    <button class="tab" data-tab="transactions">Buchungen</button>
-    <button class="tab" data-tab="drive">Drive Sync</button>
-  </nav>
-
-  <section id="dashboard" class="pane active">
-    <div class="panel">
-      <h3>Kontostand</h3>
-      <div class="inputrow">
-        <label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label>
-        <button id="saveBal" class="btn">Speichern</button>
+  <main class="content">
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">AT HUB · ZENTRALE</div>
+        <h1 id="greeting">Willkommen, Alex</h1>
+        <p class="lead">Arbeits- und Meisterhub fuer Arbeitszeitkalender, Statustabelle, Datenfreigaben, Finanzmodul und Meisterbuch.</p>
+      </div>
+      <div class="status-stack" aria-label="Status">
+        <span class="badge safe">GitHub-sicher</span>
+        <span class="badge" id="dateText">Datum lädt...</span>
+        <span class="badge" id="timeText">Uhrzeit lädt...</span>
       </div>
     </div>
 
-    <div class="panel">
-      <h3>Planung & Rücklagen</h3>
-      <p class="muted">Nur aktive Beträge werden von der verfügbaren Summe abgezogen.</p>
-      <div id="planRows"></div>
-    </div>
-
-    <div class="panel">
-      <h3>Noch kommende Abbuchungen</h3>
-      <div id="dues"></div>
-    </div>
-  </section>
-
-  <section id="import" class="pane">
-    <div class="panel">
-      <div class="eyebrow">DKB KONTOAUSZUG</div>
-      <h3>PDF-Kontoauszug einlesen</h3>
-      <p class="muted">Der Kontoauszug wird nur lokal im Browser gelesen. Der erkannte Kontostand und ausschließlich neue Buchungen werden nach deiner Bestätigung gespeichert. Bereits vorhandene Buchungen werden automatisch ausgeschlossen.</p>
-      <label class="drop" id="drop">
-        <input id="pdf" type="file" accept="application/pdf,.pdf" hidden>
-        <b>DKB-PDF hier ablegen oder anklicken</b>
-        <span>Auch Jahresauszüge sind erlaubt: historische Buchungen dienen nur zur Mustererkennung; nur passende aktuelle Fälligkeiten ändern die Prognose.</span>
-      </label>
-      <div id="pdfMsg" class="msg"></div>
-      <div id="review"></div>
-    </div>
-  </section>
-
-  <section id="transactions" class="pane">
-    <div class="panel"><h3>Gespeicherte Buchungen</h3><div id="txList"></div></div>
-  </section>
-
-  <section id="drive" class="pane">
-    <div class="panel">
-      <div class="eyebrow">GOOGLE DRIVE · ZENTRALER SPEICHER</div>
-      <h3>Handy und Rechner synchronisieren</h3>
-      <p class="muted">Beide Geräte verwenden dieselbe private JSON-Datei in deinem Google Drive. Lokale Daten bleiben als Offline-Kopie erhalten.</p>
-
-      <div class="cards" style="margin-top:10px">
-        <article><span>Drive-Status</span><b id="driveStatus">nicht verbunden</b></article>
-        <article><span>Letzter Sync</span><b id="lastSync">–</b></article>
-        <article><span>Autosync</span><b id="autoSyncState">aktiv</b></article>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">AT HUB ONLINE v0.5</div>
+        <h2>Arbeits- und Meisterhub.</h2>
+        <p class="subtle">Eine sichere Startseite fuer Arbeitszeitkalender, Statustabelle, Datenfreigaben und Meisterbuch. Sensible Daten bleiben in privaten Drive-Bereichen und werden hier nicht gespeichert.</p>
       </div>
-
-      <label>Google OAuth Client-ID
-        <input id="clientId" type="text" placeholder="…apps.googleusercontent.com">
-      </label>
-
-      <div class="actions">
-        <button id="saveClient" class="btn">Client-ID speichern</button>
-        <button id="connect" class="btn secondary">Mit Drive verbinden</button>
-        <button id="sync" class="btn secondary" disabled>Jetzt synchronisieren</button>
+      <div class="hero-actions">
+        <a class="primary-btn" href="arbeitszeit.html">Arbeitszeit öffnen</a>
+        <a class="secondary-btn" href="finanzen.html">Finanzcockpit öffnen</a>
       </div>
+    </section>
 
-      <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
-        <input id="autoSync" type="checkbox" style="width:auto;margin:0">
-        <span>Automatisch synchronisieren</span>
-      </label>
+    <section class="kpi-grid" aria-label="Hub-Status">
+      <article class="kpi"><span>Sicherheitsstatus</span><strong>privat</strong><small>Keine Rohdaten im Web-App-Code.</small></article>
+      <article class="kpi"><span>Online-Datenstruktur</span><strong>steht</strong><small>Arbeitskopien bleiben privat in Drive.</small></article>
+      <article class="kpi"><span>Arbeitszeit</span><strong>v1.0.3</strong><small>Kalender mit Steuerreiter und Drive-Sync.</small></article>
+      <article class="kpi"><span>Finanzen</span><strong>v8.10 Safe</strong><small>Finales GH-Finanzmodul eingebunden.</small></article>
+    </section>
 
-      <p id="driveMsg" class="msg"></p>
+    <section class="section-title">
+      <div>
+        <h2>Online-Daten</h2>
+        <p>Direkter Zugriff auf die privaten Online-Master. Der Hub speichert hier nur Links und Status.</p>
+      </div>
+    </section>
+
+    <div class="module-grid">
+      <a class="module module-safe" target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/folders/1_gGD9l6rOtXeI-fR3-jDnz3sCQzdpbnr">
+        <strong>Online-Daten oeffnen</strong>
+        <span>Zentraler Drive-Bereich fuer freigegebene Hub-Struktur und Masterdaten.</span>
+        <em>Drive</em>
+      </a>
+      <a class="module module-work" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E/edit">
+        <strong>Arbeitszeitkalender 2026</strong>
+        <span>Google-native Version mit Arbeitszeit, Status, Urlaub und Meisterschule.</span>
+        <em>Google Tabelle</em>
+      </a>
+      <a class="module module-warn" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/13E8rcCOGAX4Zea0BnmY0qfNozJrQttB_/edit">
+        <strong>Statustabelle Monteure</strong>
+        <span>Private Arbeitskopie. Details bleiben nur in Drive sichtbar.</span>
+        <em>geschuetzt</em>
+      </a>
+      <a class="module module-info" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1qKwXimipjuzNYaLTQLPjqeUhBv1ZwWlF7k2uiBNqElY/edit">
+        <strong>Datenfreigabe Register</strong>
+        <span>Steuerzentrale: Was darf in den Hub, was bleibt geschuetzt.</span>
+        <em>Freigabe</em>
+      </a>
+      <a class="module module-ai" target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/folders/1ZZ5Y48B_pFdhEqqWnCIKOZtTjr_324_J">
+        <strong>Meisterbuch Fragebox</strong>
+        <span>111 Quellen, Stand 2026-07-10. Wissen, Suche und Antworten.</span>
+        <em>Fragebox aktiv</em>
+      </a>
+      <a class="module" target="_blank" rel="noopener noreferrer" href="https://calendar.google.com/calendar/u/0/r">
+        <strong>Google Kalender</strong>
+        <span>Termin vorbereiten, Arbeitszeit planen und Fristen eintragen.</span>
+        <em>Kalender</em>
+      </a>
     </div>
 
-    <div class="panel">
-      <h3>Synchronisationsregeln</h3>
-      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der neuere Kontostand und die neueren Schalter gewinnen. Konflikte werden angezeigt, nicht still überschrieben.</p>
+    <section class="section-title">
+      <div>
+        <h2>Alexbereich</h2>
+        <p>Privatcockpit, Tagesfokus und Schnellnotizen bleiben lokal im Browser oder in Drive.</p>
+      </div>
+    </section>
+
+    <div class="module-grid">
+      <a class="module module-work" href="translogistik.html">
+        <strong>Translogistik</strong>
+        <span>Arbeitszeit, WEBFLEET, Touren, Teams, Fahrzeuge und Auswertungen.</span>
+        <em>Arbeit öffnen</em>
+      </a>
+      <a class="module module-safe" href="arbeitszeit.html">
+        <strong>Arbeitszeitkalender</strong>
+        <span>Büro, Box, Extern, Urlaub, Frei, Krank, Meisterschule und Übernachtungen.</span>
+        <em>Modul aktiv</em>
+      </a>
+      <a class="module module-private" href="privat.html">
+        <strong>Privat</strong>
+        <span>Finanzen, Reisen, Kalender und Dokumente als getrennte private Struktur.</span>
+        <em>Privatbereich öffnen</em>
+      </a>
+      <a class="module module-money" href="finanzen.html">
+        <strong>Finanzcockpit</strong>
+        <span>Safe-Version mit privater Konfiguration aus lokalem Speicher oder Google Drive.</span>
+        <em>v8.10 Safe</em>
+      </a>
+      <a class="module module-info" href="projekte-wissen.html">
+        <strong>Projekte & Wissen</strong>
+        <span>Meisterbuch, Lerntrainer, Prozessbibliothek, Dokumentation und Archiv.</span>
+        <em>Wissen öffnen</em>
+      </a>
+      <a class="module module-warn" href="backup-sicherheit.html">
+        <strong>Backup & Sicherheit</strong>
+        <span>30-Tage-Regel, Public-Widerruf, Drive-Schutz und Freigabeprotokolle.</span>
+        <em>Status prüfen</em>
+      </a>
+      <a class="module module-ai" href="siggi.html">
+        <strong>Siggi KI</strong>
+        <span>Kontextfragen, Importvorbereitung, Risikohinweise und spätere Aktionsvorschläge.</span>
+        <em>Konzept öffnen</em>
+      </a>
+      <a class="module" href="einstellungen-hub.html">
+        <strong>Einstellungen</strong>
+        <span>Version, Datenquellen, sichere Grenzen und nächste Integrationsschritte.</span>
+        <em>Verwalten</em>
+      </a>
     </div>
-  </section>
-</main>
-<script src="app.js"></script>
+
+    <section class="split">
+      <article class="panel">
+        <div class="eyebrow">HEUTE IM HUB</div>
+        <h2>Ruhiger Startbereich</h2>
+        <p>Der Dashboard-Blick bleibt bewusst knapp: wichtige Wege, klare Trennung und keine Detailansichten, die in den Modulen besser aufgehoben sind.</p>
+        <div class="check-list">
+          <div><strong>Arbeitsdaten</strong><span>Translogistik bleibt vom Privatbereich getrennt.</span></div>
+          <div><strong>Finanzdaten</strong><span>GitHub enthält nur Grundkonfiguration und Tresor-Logik.</span></div>
+          <div><strong>Wissen</strong><span>Meisterbuch und Lerninhalte bleiben als eigener Projektbereich sichtbar.</span></div>
+        </div>
+      </article>
+      <article class="panel">
+        <div class="eyebrow">PUBLIC-SAFE</div>
+        <h2>Was diese Seite nicht speichert</h2>
+        <p>Keine Telefonnummern, keine Adressen, keine Personalnummern, keine privaten Kontostände und keine vertraulichen Drive-Links im öffentlichen Hub.</p>
+        <div class="actions">
+          <span class="badge safe">öffentliche Hülle</span>
+          <span class="badge lock">private Daten geschützt</span>
+          <span class="badge sync">Drive optional</span>
+        </div>
+      </article>
+    </section>
+
+    <footer>AT HUB · Public Hub v1.6 · Übersicht schafft Klarheit.</footer>
+  </main>
+</div>
+<script src="hub-sync.js"></script>
 </body>
 </html>
