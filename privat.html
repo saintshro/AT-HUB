@@ -1,31 +1,43 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0d10"><title>AT HUB · Privat</title><link rel="stylesheet" href="hub.css"></head>
-<body><div class="shell">
-<aside class="sidebar">
-  <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
-  <div class="nav-label">Navigation</div>
-  <nav class="nav">
-    <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="translogistik.html" data-page="translogistik">🚚 <span>Translogistik</span></a>
-    <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
-    <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
-    <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
-    <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
-  </nav>
-</aside>
-<main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB · PRIVAT</div><h1>Privat</h1><p class="lead">Finanzen und private Organisation an einem klar getrennten Ort.</p></div><div class="badge">Grundrahmen v1.0</div></div>
-
-<section class="hero"><div class="eyebrow">PRIVAT</div><h2>Private Organisation</h2>
-<p class="subtle">Private Daten und Arbeitsdaten bleiben getrennt. Das FinanzHub ist das erste abgeschlossene Kernmodul in diesem Bereich.</p></section>
-<section class="grid">
-<a class="card stable" href="finanzen.html"><div class="icon">💶</div><h2>Finanzen</h2><p>Finanzmonat 15. → 15., Prognose, Buchungen, PDF-Import und Google-Drive-Synchronisierung.</p><div class="go">FinanzHub v8.9 öffnen →</div></a>
-<div class="card planned"><div class="icon">📅</div><h2>Privater Kalender</h2><p>Kann später aus Google Kalender eingebunden werden, ohne Arbeitszeiten zu vermischen.</p><div class="go">später</div></div>
-<div class="card planned"><div class="icon">🏠</div><h2>Familie & Organisation</h2><p>Platz für weitere private Module, wenn wir sie brauchen.</p><div class="go">später</div></div>
-</section>
-
-<footer>AT HUB · Übersicht schafft Klarheit.</footer>
-</main></div>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Privat</title>
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a><div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav">
+      <a href="index.html" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat" class="active"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
+  <main class="content">
+    <div class="topbar"><div><div class="eyebrow">AT HUB · PRIVAT</div><h1>Privater Bereich</h1><p class="lead">Finanzen, Reisen, Kalender und Dokumente bleiben von Translogistik getrennt.</p></div><span class="badge lock">private Daten geschützt</span></div>
+    <section class="hero"><div><div class="eyebrow">PRIVATE STRUKTUR</div><h2>Organisation ohne öffentliche Inhalte.</h2><p class="subtle">Diese GitHub-Pages-Seite zeigt nur die Wege. Echte Inhalte kommen aus lokalem Speicher, Google Drive oder den separaten Moduldateien.</p></div><div class="hero-actions"><a class="primary-btn" href="finanzen.html">Finanzcockpit öffnen</a></div></section>
+    <div class="module-grid">
+      <a class="module module-money" href="finanzen.html"><strong>Finanzen</strong><span>Kontostand, Prognose bis zum 15., PDF-Import und Finanz-Tresor.</span><em>v8.10 Safe</em></a>
+      <a class="module module-private" target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/folders/1_gGD9l6rOtXeI-fR3-jDnz3sCQzdpbnr"><strong>Online-Daten</strong><span>Zentraler Drive-Einstieg fuer private Arbeitskopien und freigegebene Hub-Daten.</span><em>Drive</em></a>
+      <a class="module module-info" target="_blank" rel="noopener noreferrer" href="https://calendar.google.com/calendar/u/0/r"><strong>Google Kalender</strong><span>Private Termine, Familienkalender und spaetere Terminvorlagen.</span><em>externer Dienst</em></a>
+      <div class="module module-warn"><strong>Dokumente</strong><span>Private Dokumente werden nicht in GitHub gespeichert.</span><em>Drive bleibt Quelle</em></div>
+      <div class="module module-private"><strong>Belege</strong><span>Rechnungen, Quittungen und Freigaben sammeln.</span><em>privat</em></div>
+      <div class="module module-info"><strong>Gesundheit</strong><span>Schlaf, Bewegung und Pausen im Blick behalten.</span><em>lokal</em></div>
+      <div class="module module-safe"><strong>Sicherheit</strong><span>Backups, Passwoerter und sensible Ordner pruefen.</span><em>Pruefung</em></div>
+    </div>
+    <section class="panel"><h2>Trennung</h2><p>Privatdaten laufen nicht automatisch in Translogistik, Meisterbuch oder öffentliche GitHub-Dateien. Der Hub zeigt nur sichere Einstiegspunkte.</p></section>
+    <footer>AT HUB · Privat · Public-safe</footer>
+  </main>
+</div>
 <script src="hub-sync.js"></script>
-<script>document.querySelector('[data-page="privat"]')?.classList.add('active');</script></body></html>
+</body>
+</html>

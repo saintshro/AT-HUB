@@ -1,26 +1,40 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0d10"><title>AT HUB · Siggi KI</title><link rel="stylesheet" href="hub.css"></head>
-<body><div class="shell">
-<aside class="sidebar">
-  <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
-  <div class="nav-label">Navigation</div>
-  <nav class="nav">
-    <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="translogistik.html" data-page="translogistik">🚚 <span>Translogistik</span></a>
-    <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
-    <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
-    <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
-    <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
-  </nav>
-</aside>
-<main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB · KI</div><h1>Siggi KI</h1><p class="lead">Der spätere KI-Einstiegspunkt des AT HUB.</p></div><div class="badge">Grundrahmen v1.0</div></div>
-
-<section class="hero"><div class="eyebrow">SIGGI KI</div><h2>KI-Unterstützung im HUB</h2>
-<p class="subtle">Dieser Bereich ist zunächst ein Platzhalter. Später können wir hier kontextbezogene Hilfen für Translogistik, Finanzen und Meisterwissen zusammenführen.</p></section>
-
-<footer>AT HUB · Übersicht schafft Klarheit.</footer>
-</main></div>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Siggi KI</title>
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a><div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav">
+      <a href="index.html" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi" class="active"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
+  <main class="content">
+    <div class="topbar"><div><div class="eyebrow">AT HUB · SIGGI KI</div><h1>Siggi KI</h1><p class="lead">Konzeptfläche für spätere Hub-Fragen, Importprüfung, Risikohinweise und vorbereitete Aktionen.</p></div><span class="badge open">Konzept</span></div>
+    <section class="hero"><div><div class="eyebrow">KONTEXT STATT CHAT-FENSTER</div><h2>Siggi soll später wissen, welcher Hub-Bereich gemeint ist.</h2><p class="subtle">Vor produktiver KI-Anbindung bleiben Datenschutz, Authentifizierung, Quellgrenzen und Kostenmodell als Pflichtpunkte sichtbar.</p></div></section>
+    <div class="module-grid">
+      <div class="module module-ai"><strong>Hub-Fragen</strong><span>Welche Termine, offenen Aufgaben oder Auffälligkeiten brauchen Aufmerksamkeit?</span><em>geplant</em></div>
+      <div class="module module-money"><strong>Importprüfung</strong><span>Rechnungen, PDFs und JSON-Daten zuerst erkennen, dann Änderungsvorschau zeigen.</span><em>Freigabe nötig</em></div>
+      <div class="module module-work"><strong>Translogistik-Kontext</strong><span>Fragen zu Touren, Teams, Übernachtungen und Arbeitszeit nur mit freigegebenen Quellen.</span><em>getrennt</em></div>
+      <div class="module module-warn"><strong>Sicherheitsgrenzen</strong><span>Keine automatische Veröffentlichung, keine stillen Datenänderungen, keine Vermischung privater Bereiche.</span><em>Pflicht</em></div>
+    </div>
+    <section class="panel"><h2>Freigabeprinzip</h2><p>Importe und Änderungen folgen dem Muster: erkannt, angezeigt, bestätigt, gespeichert. Das bleibt die Leitplanke für den späteren Siggi-Kernel.</p></section>
+    <footer>AT HUB · Siggi KI</footer>
+  </main>
+</div>
 <script src="hub-sync.js"></script>
-<script>document.querySelector('[data-page="siggi"]')?.classList.add('active');</script></body></html>
+</body>
+</html>

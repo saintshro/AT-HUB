@@ -1,126 +1,41 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0d10"><title>AT HUB · Einstellungen</title><link rel="stylesheet" href="hub.css"></head>
-<body><div class="shell">
-<aside class="sidebar">
-  <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
-  <div class="nav-label">Navigation</div>
-  <nav class="nav">
-    <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="translogistik.html" data-page="translogistik">🚚 <span>Translogistik</span></a>
-    <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
-    <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
-    <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
-    <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
-  </nav>
-</aside>
-<main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB · SYSTEM</div><h1>Einstellungen</h1><p class="lead">Zentrale Einstellungen und Modulstatus.</p></div><div class="badge">v1.4.2</div></div>
-
-<section class="hero"><div class="eyebrow">SYSTEM</div><h2>Zentrale Google-Drive-Synchronisierung</h2>
-<p class="subtle">Neue AT-HUB-Module speichern ihre veränderlichen Daten künftig in einer gemeinsamen Drive-Datei. Arbeit, Privat und Wissen bleiben darin als getrennte Bereiche organisiert. Das bestehende FinanzHub v8.9 bleibt technisch unverändert.</p></section>
-
-<div class="module-list">
-<div class="module"><strong>☁️ Zentraler Sync</strong><span data-athub-sync-status>Drive nicht verbunden</span></div>
-<div class="module"><strong>🕘 Letzter Sync</strong><span data-athub-last-sync>–</span></div>
-<div class="module"><strong>📄 Drive-Datei</strong><span>AT_HUB_Daten_v1.json</span></div>
-<div class="module"><strong>💶 FinanzHub</strong><span>eigener v8.9-Sync · unverändert</span></div>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Einstellungen</title>
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a><div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav">
+      <a href="index.html" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings" class="active"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
+  <main class="content">
+    <div class="topbar"><div><div class="eyebrow">AT HUB · EINSTELLUNGEN</div><h1>Einstellungen</h1><p class="lead">Versionsstand, Datenquellen und Integrationsgrenzen für das zusammengelegte Hub-Paket.</p></div><span class="badge">HUB v1.6</span></div>
+    <section class="hero"><div><div class="eyebrow">SYSTEMSTAND</div><h2>Main-Umfang, GH-Pages-Stil, Safe-Programm.</h2><p class="subtle">Die öffentliche Seite bündelt die große Hub-Struktur und verweist auf die geschützten Module, statt private Inhalte einzubauen.</p></div></section>
+    <div class="data-list">
+      <div class="data-item"><h3>Version</h3><p>AT HUB Public Hub v1.6, Finanzcockpit v8.10 Safe, Arbeitszeit v1.0.3.</p><span class="badge ok">aktualisiert</span></div>
+      <div class="data-item"><h3>Datenmodell</h3><p>Mitarbeiter, Teams, Boxen, Fahrzeuge, Anhänger und Touren bleiben langfristig über gemeinsame IDs verknüpfbar.</p><span class="badge sync">Leitplanke</span></div>
+      <div class="data-item"><h3>Private Quellen</h3><p>Google Drive und lokaler Browser-Speicher bleiben Quellen für veränderliche private Daten.</p><span class="badge lock">nicht öffentlich</span></div>
+      <div class="data-item"><h3>Öffentliche Grenze</h3><p>GitHub Pages darf Struktur, Module und App-Hülle enthalten, aber keine vertraulichen Werte.</p><span class="badge safe">sicher</span></div>
+      <div class="data-item"><h3>Arbeitszeit-Master</h3><p><a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E/edit">Arbeitszeitkalender 2026 in Google Drive oeffnen</a></p><span class="badge sync">Drive</span></div>
+      <div class="data-item"><h3>Datenfreigabe</h3><p><a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1qKwXimipjuzNYaLTQLPjqeUhBv1ZwWlF7k2uiBNqElY/edit">Register fuer Online-Freigaben oeffnen</a></p><span class="badge safe">Regel</span></div>
+    </div>
+    <footer>AT HUB · Einstellungen</footer>
+  </main>
 </div>
-
-<section class="hero" style="margin-top:18px">
-<div class="eyebrow">VERBINDUNG</div><h2>Google Drive verbinden</h2>
-<p class="subtle">Wenn im FinanzHub bereits dieselbe Google OAuth Client-ID gespeichert wurde, versucht der HUB sie automatisch zu übernehmen. Falls nicht, kannst du sie hier einmal eintragen.</p>
-<div style="margin-top:18px;display:grid;gap:12px;max-width:780px">
-<label style="display:grid;gap:7px"><span class="subtle">Google OAuth Client-ID</span>
-<input id="hubClientId" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0e1116;color:white" placeholder="…apps.googleusercontent.com"></label>
-<div style="display:flex;gap:10px;flex-wrap:wrap">
-<button id="saveHubClient" style="padding:11px 15px;border:0;border-radius:11px;font-weight:750;cursor:pointer">Client-ID speichern</button>
-<button id="connectHubDrive" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Mit Drive verbinden</button>
-<button id="syncHubDrive" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Jetzt synchronisieren</button>
-</div>
-<div id="hubSyncMsg" class="subtle"></div>
-</div>
-</section>
-
-
-<section class="hero" style="margin-top:18px">
-<div class="eyebrow">GOOGLE KALENDER</div><h2>Kalender mit dem Dashboard verbinden</h2>
-<p class="subtle">Der HUB kann deine Google-Kalender jetzt anzeigen und – in Kalendern mit Schreibberechtigung – Termine anlegen, ändern und löschen. Löschen verlangt immer eine zusätzliche Bestätigung. Du kannst weiterhin auswählen, welche Kalender auf dem Dashboard berücksichtigt werden.</p>
-<div class="module-list" style="margin-top:15px">
-  <div class="module"><strong>📅 Kalenderstatus</strong><span data-athub-calendar-status>Kalender nicht verbunden</span></div>
-  <div class="module"><strong>🔐 Berechtigung</strong><span>Lesen & Schreiben · calendar</span></div>
-</div>
-<div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-  <button id="connectHubCalendar" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Google Kalender verbinden</button>
-  <button id="reloadHubCalendars" style="padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:white;font-weight:750;cursor:pointer">Kalenderliste aktualisieren</button>
-</div>
-<div id="calendarList" class="calendar-settings-list" style="margin-top:14px"><span class="subtle">Nach dem Verbinden erscheinen hier deine Kalender.</span></div>
-<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-  <button id="saveCalendarSelection" style="padding:11px 15px;border:0;border-radius:11px;font-weight:750;cursor:pointer">Auswahl speichern</button>
-</div>
-<div id="hubCalendarMsg" class="subtle" style="margin-top:10px"></div>
-</section>
-
-<section class="hero" style="margin-top:18px">
-<div class="eyebrow">DATENPRINZIP</div><h2>Was wird zentral gespeichert?</h2>
-<p class="subtle">Die zentrale Datei ist für veränderliche HUB-Daten vorgesehen: spätere Mitarbeiter-/Teamdaten, Tourenplanungsstatus, Dashboard-Einstellungen, Meisterbuch-Fortschritt und private HUB-Daten. Programmdateien bleiben auf GitHub. Große Dokumente und Originalunterlagen bleiben als normale Dateien in Drive.</p>
-</section>
-<footer>AT HUB · Übersicht schafft Klarheit.</footer>
-</main></div>
 <script src="hub-sync.js"></script>
-<script src="calendar-sync.js"></script>
-<script>
-const msg=document.getElementById("hubSyncMsg");
-const inp=document.getElementById("hubClientId");
-function show(t,good=false){msg.textContent=t;msg.style.color=good?"var(--ok)":"var(--muted)";}
-setTimeout(()=>{inp.value=window.ATHubData?.getClientId?.()||"";},150);
-document.getElementById("saveHubClient").onclick=()=>{
-  ATHubData.setClientId(inp.value); show("Client-ID gespeichert.",true);
-};
-document.getElementById("connectHubDrive").onclick=async()=>{
-  try{show("Google Drive wird verbunden …"); await ATHubData.connect(); show("Drive verbunden und AT_HUB_Daten_v1.json synchronisiert.",true);}
-  catch(e){show("Verbindung fehlgeschlagen: "+(e.message||e));}
-};
-document.getElementById("syncHubDrive").onclick=async()=>{
-  try{show("Synchronisierung läuft …"); await ATHubData.sync({interactive:true}); show("Synchronisierung abgeschlossen.",true);}
-  catch(e){show("Synchronisierung fehlgeschlagen: "+(e.message||e));}
-};
-window.addEventListener("athub-sync-status",e=>{ if(e.detail.clientId && !inp.value) inp.value=e.detail.clientId; });
-</script>
-
-<script>
-(() => {
- const list=document.getElementById("calendarList"), msg=document.getElementById("hubCalendarMsg");
- const show=t=>msg.textContent=t;
- function renderCalendars(cals){
-   const selected=new Set(ATHubCalendar.getSelectedCalendarIds());
-   list.innerHTML="";
-   if(!cals?.length){list.innerHTML='<span class="subtle">Keine Kalender gefunden.</span>';return}
-   cals.forEach(c=>{
-     const label=document.createElement("label"); label.className="calendar-setting";
-     const cb=document.createElement("input"); cb.type="checkbox"; cb.value=c.id;
-     cb.checked=selected.has(c.id) || (selected.has("primary") && c.primary);
-     const span=document.createElement("span"); span.textContent=c.summary+(c.primary?" · Hauptkalender":"");
-     label.append(cb,span); list.appendChild(label);
-   });
- }
- async function load(){
-   try{show("Kalenderliste wird geladen …"); const c=await ATHubCalendar.listCalendars(); renderCalendars(c); show("Kalenderliste geladen.");}
-   catch(e){show(e.message||String(e))}
- }
- document.getElementById("connectHubCalendar").onclick=async()=>{
-   try{show("Google Kalender wird verbunden …"); await ATHubCalendar.connect(); await load(); show("Kalender verbunden. Jetzt gewünschte Kalender auswählen.");}
-   catch(e){show("Verbindung fehlgeschlagen: "+(e.message||e))}
- };
- document.getElementById("reloadHubCalendars").onclick=load;
- document.getElementById("saveCalendarSelection").onclick=async()=>{
-   const ids=[...list.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value);
-   ATHubCalendar.setSelectedCalendarIds(ids);
-   try{if(ATHubData.status().connected) await ATHubData.sync()}catch{}
-   show("Kalenderauswahl gespeichert. Das Dashboard verwendet diese Kalender.");
- };
- if(ATHubCalendar.status().connected) load();
-})();
-</script>
-
-<script>document.querySelector('[data-page="settings"]')?.classList.add('active');</script></body></html>
+</body>
+</html>

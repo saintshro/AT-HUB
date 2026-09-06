@@ -1,12 +1,16 @@
 {
-  "version": "8.10.0",
-  "module": "Finanzcockpit",
-  "updated": "2026-09-05",
+  "version": "1.6.1-public-hub-drive-links",
+  "module": "AT HUB Public",
+  "updated": "2026-09-06",
   "notes": [
+    "Main-Hub-Struktur und GitHub-Pages-Safe-Stand wurden zu einem gemeinsamen oeffentlichen AT-HUB zusammengefuehrt.",
+    "Freigegebene Drive-Einstiege fuer Online-Daten, Arbeitszeitkalender 2026, Statustabelle, Datenfreigabe-Register, Google Kalender und Meisterbuch-Fragebox wurden ergaenzt.",
+    "Neue Startseite, gemeinsames hub.css, hub-sync.js und oeffentliche Unterseiten fuer Privat, Projekte & Wissen, Siggi KI, Backup & Sicherheit und Einstellungen ergaenzt.",
+    "Translogistik wurde im GH-Pages-Stil erweitert und verweist auf Arbeitszeitkalender sowie externe WEBFLEET-Anmeldung.",
     "Die oeffentliche GitHub-Konfiguration enthaelt keine privaten Finanzwerte mehr.",
     "Private Planwerte, Fixkosten und Kontostandsbasis koennen als AT_HUB_Finanzconfig_v1.json lokal importiert und ueber Google Drive geladen oder gesichert werden.",
     "Der Zugriff auf Drive laeuft ueber das Google-Konto und dessen 2-Faktor-Schutz.",
     "Der stabile Finanzkern v8.8.1 und die Finanzoberflaeche v8.9 bleiben erhalten.",
-    "Der Arbeitszeitkalender erhaelt ein Bedien-Overlay v1.0.3 mit Monatsliste, Schnellknöpfen und Regelvorschlaegen fuer Büro, Box, Extern, Urlaub, Frei und Krank."
+    "Der Arbeitszeitkalender erhaelt ein Bedien-Overlay v1.0.3 mit Monatsliste, Schnellknoepfen und Regelvorschlaegen fuer Buero, Box, Extern, Urlaub, Frei und Krank."
   ]
 }

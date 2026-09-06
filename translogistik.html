@@ -1,39 +1,97 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0d10"><title>AT HUB · Translogistik</title><link rel="stylesheet" href="hub.css"></head>
-<body><div class="shell">
-<aside class="sidebar">
-  <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
-  <div class="nav-label">Navigation</div>
-  <nav class="nav">
-    <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="translogistik.html" data-page="translogistik">🚚 <span>Translogistik</span></a>
-    <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
-    <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
-    <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
-    <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
-  </nav>
-</aside>
-<main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB · ARBEIT</div><h1>Translogistik</h1><p class="lead">Dein beruflicher Bereich im AT HUB.</p></div><div class="badge">HUB v1.5.4</div></div>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Translogistik</title>
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a>
+    <div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav">
+      <a href="index.html" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik" class="active"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
 
-<section class="hero"><div class="eyebrow">ARBEIT</div><h2>Translogistik-Zentrale</h2>
-<p class="subtle">Der Arbeitsbereich bleibt vollständig vom Privatbereich getrennt. Bestehende Module werden schrittweise hier eingebunden.</p></section>
-<div class="module-list">
-<a class="module" href="arbeitszeit.html"><strong>⏱ Arbeitszeitkalender</strong><span>v1.0.3 · aktiv →</span></a>
-<div class="module"><strong>👥 Mitarbeiter</strong><span>geplant</span></div>
-<a class="module" href="https://live.webfleet.com/" target="_blank" rel="noopener noreferrer"><strong>🛰 WEBFLEET</strong><span>Anmeldung öffnen →</span></a>
-<div class="module"><strong>🪪 BKF-Manager</strong><span>geplant</span></div>
-<div class="module"><strong>👷 Teams</strong><span>geplant</span></div>
-<div class="module"><strong>🚐 Fahrzeuge</strong><span>geplant</span></div>
-<div class="module"><strong>🚛 Anhänger</strong><span>geplant</span></div>
-<div class="module"><strong>🗺 Tourenplanung</strong><span>geplant</span></div>
-<div class="module"><strong>🛠 Reklamation</strong><span>geplant</span></div>
-<div class="module"><strong>📄 Dokumente</strong><span>geplant</span></div>
-<div class="module"><strong>📊 Auswertungen</strong><span>geplant</span></div>
+  <main class="content">
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">AT HUB · ARBEIT</div>
+        <h1>Translogistik</h1>
+        <p class="lead">Beruflicher Bereich für Arbeitszeit, WEBFLEET, Mitarbeiterstruktur, Fahrzeuge, Touren und Auswertungen.</p>
+      </div>
+      <span class="badge safe">Public-safe</span>
+    </div>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">ARBEITSBEREICH</div>
+        <h2>Alles sichtbar, sensible Daten bleiben geschützt.</h2>
+        <p class="subtle">Die GitHub-Seite zeigt die Modulstruktur. Mitarbeiterakten, Telefonnummern, Führerscheindaten und echte Tourdetails werden nicht öffentlich ausgeliefert.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="primary-btn" href="arbeitszeit.html">Arbeitszeitkalender</a>
+        <a class="secondary-btn" href="https://live.webfleet.com/" target="_blank" rel="noopener noreferrer">WEBFLEET öffnen</a>
+      </div>
+    </section>
+
+    <div class="kpi-grid">
+      <article class="kpi"><span>Arbeitszeit</span><strong>aktiv</strong><small>Monatskalender mit Schnellregeln.</small></article>
+      <article class="kpi"><span>Mitarbeiter</span><strong>geschützt</strong><small>Public-Version ohne Personendaten.</small></article>
+      <article class="kpi"><span>Touren</span><strong>geplant</strong><small>Spätere Datenquelle bleibt getrennt.</small></article>
+      <article class="kpi"><span>Auswertung</span><strong>vorbereitet</strong><small>Basis für Kennzahlen und Hinweise.</small></article>
+    </div>
+
+    <section class="section-title">
+      <div>
+        <h2>Module</h2>
+        <p>Die große Main-Struktur ist hier als saubere Arbeitszentrale abgebildet.</p>
+      </div>
+    </section>
+
+    <div class="module-list">
+      <a class="module module-safe" href="arbeitszeit.html"><strong>Arbeitszeitkalender</strong><span>Arbeitszeit, Box, Büro, Extern, Urlaub, Frei, Krank, Meisterschule, Dienstreise und Übernachtung.</span><em>v1.0.3 aktiv</em></a>
+      <a class="module module-work" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E/edit"><strong>Arbeitszeitkalender 2026 in Drive</strong><span>Google-native Mastertabelle fuer Arbeitszeiten, Status, Urlaub und Steuerreiter.</span><em>Drive-Master</em></a>
+      <a class="module module-info" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1qKwXimipjuzNYaLTQLPjqeUhBv1ZwWlF7k2uiBNqElY/edit"><strong>Datenfreigabe Register</strong><span>Steuerzentrale fuer Online-Freigaben: was in den Hub darf und was privat bleibt.</span><em>Freigabe</em></a>
+      <div class="module module-warn"><strong>Mitarbeiter</strong><span>Personalakten, Kontaktdaten und Dokumente bleiben lokal oder in Drive geschützt.</span><em>gesperrt in Public</em></div>
+      <a class="module module-info" href="https://live.webfleet.com/" target="_blank" rel="noopener noreferrer"><strong>WEBFLEET</strong><span>Fahrzeuge, Karte und Tourdaten im externen Dienst öffnen.</span><em>Anmeldung extern</em></a>
+      <div class="module module-work"><strong>BKF-Manager</strong><span>Fahrerkarte, Führerschein, Code 95, Schulungen und Nachweislogik.</span><em>geplant</em></div>
+      <div class="module module-work"><strong>Teams</strong><span>Langfristige Verbindung von Mitarbeiter-ID, Team, Box, Fahrzeug und Tour.</span><em>Datenmodell</em></div>
+      <div class="module module-info"><strong>Fahrzeuge</strong><span>LKW, Sprinter, Kennzeichen, Status, Wartung und Zuordnung.</span><em>Quelle geschützt</em></div>
+      <div class="module module-info"><strong>Anhänger</strong><span>Bestand, Zuordnung, Prüfung und Einsatzbereitschaft.</span><em>geplant</em></div>
+      <div class="module module-money"><strong>Tourenplanung</strong><span>Planzeiten, Fahrzeiten, Montagezeiten, Auslastung und Auffälligkeiten.</span><em>später</em></div>
+      <div class="module module-warn"><strong>Reklamation</strong><span>Fälle, Status, Ursachen, Maßnahmen und Wiedervorlage.</span><em>geplant</em></div>
+      <div class="module"><strong>Dokumente</strong><span>Freigegebene Arbeitsunterlagen, Formulare und Nachweise.</span><em>Drive bleibt Quelle</em></div>
+      <div class="module module-ai"><strong>Auswertungen</strong><span>Kennzahlen, Auffälligkeiten, Monatsblick und spätere Siggi-Fragen.</span><em>vorbereitet</em></div>
+    </div>
+
+    <section class="split">
+      <article class="panel">
+        <div class="eyebrow">GEMEINSAMES DATENMODELL</div>
+        <h2>IDs statt doppelte Listen</h2>
+        <p>Mitarbeiter, Teams, Boxen, Fahrzeuge, Anhänger und Touren sollen langfristig über gemeinsame IDs verbunden werden.</p>
+      </article>
+      <article class="panel">
+        <div class="eyebrow">PUBLIC-GRENZE</div>
+        <h2>Keine echten Personaldaten</h2>
+        <p>Diese Seite ist für GitHub Pages geeignet. Sie enthält keine Namenlisten, Telefonnummern, Adressen, Personalnummern oder Aktenlinks.</p>
+      </article>
+    </section>
+
+    <footer>AT HUB · Translogistik · Übersicht schafft Klarheit.</footer>
+  </main>
 </div>
-
-<footer>AT HUB · Übersicht schafft Klarheit.</footer>
-</main></div>
 <script src="hub-sync.js"></script>
-<script>document.querySelector('[data-page="translogistik"]')?.classList.add('active');</script></body></html>
+</body>
+</html>

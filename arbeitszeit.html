@@ -13,12 +13,13 @@
     <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
     <div class="nav-label">Navigation</div>
     <nav class="nav">
-      <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-      <a href="translogistik.html" data-page="translogistik" class="active">🚚 <span>Translogistik</span></a>
-      <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
-      <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
-      <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
-      <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
+      <a href="index.html" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik" class="active"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
     </nav>
   </aside>
 
@@ -41,6 +42,7 @@
       <div class="wt-actions">
         <button class="secondary-btn" id="wtConnectBtn" type="button">Drive verbinden</button>
         <button class="secondary-btn" id="wtSyncBtn" type="button">Jetzt synchronisieren</button>
+        <a class="secondary-btn" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E/edit">Mastertabelle</a>
       </div>
     </section>
 
@@ -64,6 +66,20 @@
       </div>
       <div class="wt-calendar" id="wtCalendar"></div>
       <p class="subtle wt-note">A = Büro oder Box · E = extern, also weder Büro noch Box. Bei übernommenen Alt-Daten ist kein automatischer Pausenabzug hinterlegt.</p>
+    </section>
+
+    <section class="wt-panel">
+      <div class="section-title">
+        <div>
+          <h2>Steuerreiter und Drive-Speicher</h2>
+          <p>Die Tagesdaten bleiben als Rohdaten erfassbar; Auswertung, Jahr und Steuerfelder werden daraus automatisch aufgebaut.</p>
+        </div>
+      </div>
+      <div class="check-list">
+        <div><strong>Speicher</strong><span>Google Drive bleibt der Master. Der Hub kann lokal arbeiten und nach Verbindung synchronisieren.</span></div>
+        <div><strong>Steuerreiter</strong><span>Buero/Box, externe Taetigkeit, Entfernung, Dienstreise, Meisterschule und Uebernachtung bleiben getrennte Felder.</span></div>
+        <div><strong>Freigabe</strong><span>Online sichtbar sind nur Eingabemaske, Status und Links; echte Nachweise bleiben in Drive.</span></div>
+      </div>
     </section>
 
     <section class="wt-panel wt-year-panel" id="wtYearPanel" hidden>

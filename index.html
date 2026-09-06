@@ -1,250 +1,179 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0d10"><title>AT HUB · Dashboard</title><link rel="stylesheet" href="hub.css"></head>
-<body><div class="shell">
-<aside class="sidebar">
-  <div class="brand">AT HUB</div><div class="motto">Übersicht schafft Klarheit.</div>
-  <div class="nav-label">Navigation</div>
-  <nav class="nav">
-    <a href="index.html" data-page="dashboard">🏠 <span>Dashboard</span></a>
-    <a href="translogistik.html" data-page="translogistik">🚚 <span>Translogistik</span></a>
-    <a href="privat.html" data-page="privat">👤 <span>Privat</span></a>
-    <a href="projekte-wissen.html" data-page="wissen">📚 <span>Projekte & Wissen</span></a>
-    <a href="siggi.html" data-page="siggi">🤖 <span>Siggi KI</span></a>
-    <a href="einstellungen-hub.html" data-page="settings">⚙️ <span>Einstellungen</span></a>
-  </nav>
-</aside>
-<main class="content">
-<div class="topbar"><div><div class="eyebrow">AT HUB</div><h1>Dashboard</h1><p class="lead">Deine zentrale Startseite für Arbeit, Privat und Wissen.</p></div><div class="badge">v1.4.2</div></div>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Dashboard</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a>
+    <div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html" data-page="dashboard" class="active"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
 
-<section class="hero"><div class="hero-grid">
-<div><div class="eyebrow">DEINE ZENTRALE</div><div class="today">Ein HUB. Klare Bereiche. Keine doppelte Datenpflege.</div>
-<p class="subtle">Google Kalender liefert die Termine. Die anderen Module bleiben technisch eigenständig.</p></div>
-<div class="status-box">
-  <div class="eyebrow">STATUS</div>
-  <div class="status-good">FinanzHub v8.9 stabil</div>
-  <div class="subtle">☁️ <span data-athub-sync-status>Drive nicht verbunden</span> · letzter Sync: <span data-athub-last-sync>–</span></div>
-  <div class="subtle" style="margin-top:7px">📅 <span data-athub-calendar-status>Kalender nicht verbunden</span></div>
+  <main class="content">
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">AT HUB · ZENTRALE</div>
+        <h1 id="greeting">Willkommen, Alex</h1>
+        <p class="lead">Arbeits- und Meisterhub fuer Arbeitszeitkalender, Statustabelle, Datenfreigaben, Finanzmodul und Meisterbuch.</p>
+      </div>
+      <div class="status-stack" aria-label="Status">
+        <span class="badge safe">GitHub-sicher</span>
+        <span class="badge" id="dateText">Datum lädt...</span>
+        <span class="badge" id="timeText">Uhrzeit lädt...</span>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">AT HUB ONLINE v0.5</div>
+        <h2>Arbeits- und Meisterhub.</h2>
+        <p class="subtle">Eine sichere Startseite fuer Arbeitszeitkalender, Statustabelle, Datenfreigaben und Meisterbuch. Sensible Daten bleiben in privaten Drive-Bereichen und werden hier nicht gespeichert.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="primary-btn" href="arbeitszeit.html">Arbeitszeit öffnen</a>
+        <a class="secondary-btn" href="finanzen.html">Finanzcockpit öffnen</a>
+      </div>
+    </section>
+
+    <section class="kpi-grid" aria-label="Hub-Status">
+      <article class="kpi"><span>Sicherheitsstatus</span><strong>privat</strong><small>Keine Rohdaten im Web-App-Code.</small></article>
+      <article class="kpi"><span>Online-Datenstruktur</span><strong>steht</strong><small>Arbeitskopien bleiben privat in Drive.</small></article>
+      <article class="kpi"><span>Arbeitszeit</span><strong>v1.0.3</strong><small>Kalender mit Steuerreiter und Drive-Sync.</small></article>
+      <article class="kpi"><span>Finanzen</span><strong>v8.10 Safe</strong><small>Finales GH-Finanzmodul eingebunden.</small></article>
+    </section>
+
+    <section class="section-title">
+      <div>
+        <h2>Online-Daten</h2>
+        <p>Direkter Zugriff auf die privaten Online-Master. Der Hub speichert hier nur Links und Status.</p>
+      </div>
+    </section>
+
+    <div class="module-grid">
+      <a class="module module-safe" target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/folders/1_gGD9l6rOtXeI-fR3-jDnz3sCQzdpbnr">
+        <strong>Online-Daten oeffnen</strong>
+        <span>Zentraler Drive-Bereich fuer freigegebene Hub-Struktur und Masterdaten.</span>
+        <em>Drive</em>
+      </a>
+      <a class="module module-work" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E/edit">
+        <strong>Arbeitszeitkalender 2026</strong>
+        <span>Google-native Version mit Arbeitszeit, Status, Urlaub und Meisterschule.</span>
+        <em>Google Tabelle</em>
+      </a>
+      <a class="module module-warn" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/13E8rcCOGAX4Zea0BnmY0qfNozJrQttB_/edit">
+        <strong>Statustabelle Monteure</strong>
+        <span>Private Arbeitskopie. Details bleiben nur in Drive sichtbar.</span>
+        <em>geschuetzt</em>
+      </a>
+      <a class="module module-info" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1qKwXimipjuzNYaLTQLPjqeUhBv1ZwWlF7k2uiBNqElY/edit">
+        <strong>Datenfreigabe Register</strong>
+        <span>Steuerzentrale: Was darf in den Hub, was bleibt geschuetzt.</span>
+        <em>Freigabe</em>
+      </a>
+      <a class="module module-ai" target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/folders/1ZZ5Y48B_pFdhEqqWnCIKOZtTjr_324_J">
+        <strong>Meisterbuch Fragebox</strong>
+        <span>111 Quellen, Stand 2026-07-10. Wissen, Suche und Antworten.</span>
+        <em>Fragebox aktiv</em>
+      </a>
+      <a class="module" target="_blank" rel="noopener noreferrer" href="https://calendar.google.com/calendar/u/0/r">
+        <strong>Google Kalender</strong>
+        <span>Termin vorbereiten, Arbeitszeit planen und Fristen eintragen.</span>
+        <em>Kalender</em>
+      </a>
+    </div>
+
+    <section class="section-title">
+      <div>
+        <h2>Alexbereich</h2>
+        <p>Privatcockpit, Tagesfokus und Schnellnotizen bleiben lokal im Browser oder in Drive.</p>
+      </div>
+    </section>
+
+    <div class="module-grid">
+      <a class="module module-work" href="translogistik.html">
+        <strong>Translogistik</strong>
+        <span>Arbeitszeit, WEBFLEET, Touren, Teams, Fahrzeuge und Auswertungen.</span>
+        <em>Arbeit öffnen</em>
+      </a>
+      <a class="module module-safe" href="arbeitszeit.html">
+        <strong>Arbeitszeitkalender</strong>
+        <span>Büro, Box, Extern, Urlaub, Frei, Krank, Meisterschule und Übernachtungen.</span>
+        <em>Modul aktiv</em>
+      </a>
+      <a class="module module-private" href="privat.html">
+        <strong>Privat</strong>
+        <span>Finanzen, Reisen, Kalender und Dokumente als getrennte private Struktur.</span>
+        <em>Privatbereich öffnen</em>
+      </a>
+      <a class="module module-money" href="finanzen.html">
+        <strong>Finanzcockpit</strong>
+        <span>Safe-Version mit privater Konfiguration aus lokalem Speicher oder Google Drive.</span>
+        <em>v8.10 Safe</em>
+      </a>
+      <a class="module module-info" href="projekte-wissen.html">
+        <strong>Projekte & Wissen</strong>
+        <span>Meisterbuch, Lerntrainer, Prozessbibliothek, Dokumentation und Archiv.</span>
+        <em>Wissen öffnen</em>
+      </a>
+      <a class="module module-warn" href="backup-sicherheit.html">
+        <strong>Backup & Sicherheit</strong>
+        <span>30-Tage-Regel, Public-Widerruf, Drive-Schutz und Freigabeprotokolle.</span>
+        <em>Status prüfen</em>
+      </a>
+      <a class="module module-ai" href="siggi.html">
+        <strong>Siggi KI</strong>
+        <span>Kontextfragen, Importvorbereitung, Risikohinweise und spätere Aktionsvorschläge.</span>
+        <em>Konzept öffnen</em>
+      </a>
+      <a class="module" href="einstellungen-hub.html">
+        <strong>Einstellungen</strong>
+        <span>Version, Datenquellen, sichere Grenzen und nächste Integrationsschritte.</span>
+        <em>Verwalten</em>
+      </a>
+    </div>
+
+    <section class="split">
+      <article class="panel">
+        <div class="eyebrow">HEUTE IM HUB</div>
+        <h2>Ruhiger Startbereich</h2>
+        <p>Der Dashboard-Blick bleibt bewusst knapp: wichtige Wege, klare Trennung und keine Detailansichten, die in den Modulen besser aufgehoben sind.</p>
+        <div class="check-list">
+          <div><strong>Arbeitsdaten</strong><span>Translogistik bleibt vom Privatbereich getrennt.</span></div>
+          <div><strong>Finanzdaten</strong><span>GitHub enthält nur Grundkonfiguration und Tresor-Logik.</span></div>
+          <div><strong>Wissen</strong><span>Meisterbuch und Lerninhalte bleiben als eigener Projektbereich sichtbar.</span></div>
+        </div>
+      </article>
+      <article class="panel">
+        <div class="eyebrow">PUBLIC-SAFE</div>
+        <h2>Was diese Seite nicht speichert</h2>
+        <p>Keine Telefonnummern, keine Adressen, keine Personalnummern, keine privaten Kontostände und keine vertraulichen Drive-Links im öffentlichen Hub.</p>
+        <div class="actions">
+          <span class="badge safe">öffentliche Hülle</span>
+          <span class="badge lock">private Daten geschützt</span>
+          <span class="badge sync">Drive optional</span>
+        </div>
+      </article>
+    </section>
+
+    <footer>AT HUB · Public Hub v1.6 · Übersicht schafft Klarheit.</footer>
+  </main>
 </div>
-</div></section>
-
-<section class="hero today-panel" id="todayPanel" style="margin-top:18px">
-  <div class="eyebrow">HEUTE</div>
-  <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap">
-    <div><h2 style="margin-bottom:5px">Was steht heute an?</h2><div class="subtle" id="todayDate">–</div></div>
-    <div style="display:flex;gap:9px;flex-wrap:wrap">
-      <button id="newCalendarEvent" class="secondary-btn">+ Neuer Termin</button>
-      <button id="refreshCalendar" class="secondary-btn">Kalender aktualisieren</button>
-      <button id="editToday" class="secondary-btn">Arbeit & Lernen bearbeiten</button>
-    </div>
-  </div>
-
-  <div class="today-grid" style="margin-top:18px">
-    <article class="today-card calendar-card">
-      <div class="eyebrow">📅 GOOGLE KALENDER</div>
-      <div id="calendarEvents" class="calendar-events"><span class="subtle">Kalender wird geladen …</span></div>
-      <button id="connectCalendarDashboard" class="calendar-connect secondary-btn" hidden>Kalender verbinden</button>
-      <span id="calendarDashboardMsg" class="subtle"></span>
-    </article>
-    <article class="today-card">
-      <div class="eyebrow">💼 ARBEIT</div>
-      <strong id="todayWork">Kein Tagesstatus hinterlegt</strong>
-      <span id="todayWorkNote" class="subtle">Arbeitszeit bleibt ein eigenes Modul.</span>
-      <a href="arbeitszeit.html" style="margin-top:8px;display:inline-block">Arbeitszeit öffnen →</a>
-    </article>
-    <article class="today-card">
-      <div class="eyebrow">🎓 MEISTERSCHULE / WISSEN</div>
-      <strong id="todayStudy">Kein Lernpunkt hinterlegt</strong>
-      <span id="todayStudyNote" class="subtle">Für Meisterschule, Prüfung und Meisterbuch.</span>
-      <a href="projekte-wissen.html" style="margin-top:8px;display:inline-block">Wissen öffnen →</a>
-    </article>
-    <article class="today-card">
-      <div class="eyebrow">💶 FINANZEN</div>
-      <strong>FinanzHub v8.9</strong>
-      <span class="subtle">Aktuelle Finanzprognose im eigenen Modul.</span>
-      <a href="finanzen.html" style="margin-top:8px;display:inline-block">Finanzen öffnen →</a>
-    </article>
-  </div>
-
-  <div id="todayEditor" class="today-editor" hidden>
-    <div class="eyebrow">TAGESÜBERSICHT BEARBEITEN</div>
-    <p class="subtle">Termine kommen jetzt automatisch aus Google Kalender. Hier bleiben nur Arbeit und Lernen.</p>
-    <div class="today-form">
-      <label>Arbeit<input id="fWork" placeholder="z. B. Rostock · Frühdienst"></label>
-      <label>Arbeitshinweis<input id="fWorkNote" placeholder="z. B. Boxenplanung prüfen"></label>
-      <label>Meisterschule / Lernen<input id="fStudy" placeholder="z. B. BWH · Deckungsbeitrag"></label>
-      <label>Lernhinweis<input id="fStudyNote" placeholder="z. B. 30 Minuten Wiederholung"></label>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
-      <button id="saveToday">Speichern & synchronisieren</button>
-      <button id="cancelToday" class="secondary-btn">Abbrechen</button>
-    </div>
-    <div id="todayMsg" class="subtle" style="margin-top:10px"></div>
-  </div>
-</section>
-
-<div class="section-title"><div><div class="eyebrow">HAUPTBEREICHE</div><h2>Wo möchtest du hin?</h2></div></div>
-<section class="grid">
-<a class="card ready" href="translogistik.html"><div class="icon">🚚</div><h2>Translogistik</h2><p>Arbeitszeit, Mitarbeiter, WEBFLEET, Teams, Fahrzeuge, Tourenplanung und weitere Arbeitsmodule.</p><div class="go">Bereich öffnen →</div></a>
-<a class="card stable" href="privat.html"><div class="icon">👤</div><h2>Privat</h2><p>Private Organisation mit dem fertigen FinanzHub als erstem stabilen Kernmodul.</p><div class="go">Privat öffnen →</div></a>
-<a class="card ready" href="projekte-wissen.html"><div class="icon">📚</div><h2>Projekte & Wissen</h2><p>Meisterbuch, Prüfungswissen und weitere langfristige Wissens- und Projektbereiche.</p><div class="go">Wissen öffnen →</div></a>
-<a class="card planned" href="siggi.html"><div class="icon">🤖</div><h2>Siggi KI</h2><p>Zukünftige zentrale KI-Unterstützung für Arbeit, Privat und Wissen.</p><div class="go">Bereich ansehen →</div></a>
-<a class="card planned" href="einstellungen-hub.html"><div class="icon">⚙️</div><h2>Einstellungen</h2><p>Google Drive, Google Kalender und HUB-weite Einstellungen.</p><div class="go">Einstellungen →</div></a>
-</section>
-
-
-<div id="calendarEditorModal" class="calendar-modal" hidden>
- <div class="calendar-modal-card">
-  <div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><div class="eyebrow">GOOGLE KALENDER</div><h2 id="calendarEditorTitle">Neuer Termin</h2></div><button id="closeCalendarEditor" class="secondary-btn">✕</button></div>
-  <div class="today-form" style="margin-top:14px">
-   <label>Kalender<select id="ceCalendar"></select></label>
-   <label>Titel<input id="ceTitle" placeholder="Termin"></label>
-   <label>Datum<input id="ceDate" type="date"></label>
-   <label><span>Ganztägig</span><input id="ceAllDay" type="checkbox" style="width:20px;height:20px"></label>
-   <label class="ce-time">Beginn<input id="ceStart" type="time"></label>
-   <label class="ce-time">Ende<input id="ceEnd" type="time"></label>
-   <label>Ort<input id="ceLocation" placeholder="Ort"></label>
-   <label>Beschreibung<input id="ceDescription" placeholder="Beschreibung"></label>
-  </div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-   <button id="saveCalendarEvent">Termin speichern</button>
-   <button id="deleteCalendarEvent" class="danger-btn" hidden>Termin löschen</button>
-   <button id="cancelCalendarEditor" class="secondary-btn">Abbrechen</button>
-  </div>
-  <div id="calendarEditorMsg" class="subtle" style="margin-top:10px"></div>
- </div>
-</div>
-
-<footer>AT HUB · Übersicht schafft Klarheit.</footer>
-</main></div>
 <script src="hub-sync.js"></script>
-<script src="calendar-sync.js"></script>
-<script>
-(() => {
-  const $=id=>document.getElementById(id);
-  const defaults={work:"",workNote:"",study:"",studyNote:""};
-  function key(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-  function dateLabel(){$("todayDate").textContent=new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(new Date())}
-  function allDashboard(){return ATHubData.getSection("dashboard")||{}}
-  function getToday(){return {...defaults,...(allDashboard().days?.[key()]||{})}}
-  function renderManual(){
-    dateLabel(); const d=getToday();
-    $("todayWork").textContent=d.work||"Kein Tagesstatus hinterlegt";
-    $("todayWorkNote").textContent=d.workNote||"Arbeitszeit bleibt ein eigenes Modul.";
-    $("todayStudy").textContent=d.study||"Kein Lernpunkt hinterlegt";
-    $("todayStudyNote").textContent=d.studyNote||"Für Meisterschule, Prüfung und Meisterbuch.";
-  }
-  function timeLabel(ev){
-    if(ev.allDay) return "Ganztägig";
-    const d=new Date(ev.start);
-    return new Intl.DateTimeFormat("de-DE",{hour:"2-digit",minute:"2-digit"}).format(d)+" Uhr";
-  }
-  function renderEvents(events){
-    const box=$("calendarEvents"); box.innerHTML="";
-    if(!events?.length){
-      box.innerHTML='<div class="calendar-empty"><strong>Heute keine Termine</strong><span class="subtle">In den ausgewählten Kalendern ist für heute nichts eingetragen.</span></div>';
-      return;
-    }
-    events.forEach(ev=>{
-      const row=document.createElement("div"); row.className="calendar-event";
-      const meta=[timeLabel(ev),ev.calendar].filter(Boolean).join(" · ");
-      row.innerHTML=`<div class="calendar-time">${meta}</div><strong></strong><span class="subtle"></span>`;
-      row.querySelector("strong").textContent=ev.title;
-      row.querySelector("span").textContent=ev.location||"";
-      row.dataset.eventId=ev.id;
-      row.title="Termin anklicken zum Bearbeiten";
-      row.style.cursor="pointer";
-      row.onclick=()=>openExistingEvent(ev);
-      box.appendChild(row);
-    });
-  }
-  async function loadCalendar(force=false){
-    const btn=$("connectCalendarDashboard"), msg=$("calendarDashboardMsg");
-    try{
-      const cached=ATHubCalendar.loadCachedToday();
-      if(cached.length) renderEvents(cached);
-      if(!ATHubCalendar.status().connected){
-        btn.hidden=false; msg.textContent=cached.length?"Letzter Kalenderstand. Für Aktualisierung verbinden.":"Google Kalender noch nicht verbunden.";
-        if(!cached.length) $("calendarEvents").innerHTML='<span class="subtle">Bitte Google Kalender einmal verbinden.</span>';
-        return;
-      }
-      btn.hidden=true; msg.textContent="Kalender wird aktualisiert …";
-      const ev=await ATHubCalendar.getTodayEvents({force});
-      renderEvents(ev); msg.textContent="Kalender aktuell.";
-    }catch(e){
-      btn.hidden=false; msg.textContent=e.message||String(e);
-    }
-  }
-
-  let currentCalendarEvent=null;
-  const modal=$("calendarEditorModal");
-  function localDateValue(d){const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`}
-  function localTimeValue(d){const x=new Date(d);return `${String(x.getHours()).padStart(2,"0")}:${String(x.getMinutes()).padStart(2,"0")}`}
-  function populateWritableCalendars(selected){
-    const sel=$("ceCalendar");sel.innerHTML="";
-    const writable=new Set(ATHubCalendar.writableCalendarIds());
-    const cals=ATHubCalendar.status().calendars.filter(c=>writable.has(c.id));
-    cals.forEach(c=>{const o=document.createElement("option");o.value=c.id;o.textContent=c.summary;o.selected=c.id===selected;sel.appendChild(o)});
-  }
-  function toggleTimes(){document.querySelectorAll(".ce-time").forEach(x=>x.style.display=$("ceAllDay").checked?"none":"grid")}
-  function openNewEvent(){
-    currentCalendarEvent=null;$("calendarEditorTitle").textContent="Neuer Termin";$("deleteCalendarEvent").hidden=true;
-    populateWritableCalendars(ATHubCalendar.getSelectedCalendarIds()[0]);
-    const now=new Date(), later=new Date(now.getTime()+60*60*1000);
-    $("ceTitle").value="";$("ceDate").value=localDateValue(now);$("ceAllDay").checked=false;
-    $("ceStart").value=localTimeValue(now);$("ceEnd").value=localTimeValue(later);$("ceLocation").value="";$("ceDescription").value="";
-    toggleTimes();modal.hidden=false;
-  }
-  function openExistingEvent(ev){
-    currentCalendarEvent=ev;$("calendarEditorTitle").textContent="Termin bearbeiten";$("deleteCalendarEvent").hidden=false;
-    populateWritableCalendars(ev.calendarId);$("ceCalendar").value=ev.calendarId;$("ceTitle").value=ev.title||"";
-    $("ceAllDay").checked=!!ev.allDay;$("ceDate").value=ev.allDay?ev.start:new Date(ev.start).toLocaleDateString("sv-SE");
-    if(!ev.allDay){$("ceStart").value=localTimeValue(ev.start);$("ceEnd").value=localTimeValue(ev.end)}
-    $("ceLocation").value=ev.location||"";$("ceDescription").value="";toggleTimes();modal.hidden=false;
-  }
-  function editorData(){
-    const date=$("ceDate").value, allDay=$("ceAllDay").checked;
-    return {title:$("ceTitle").value.trim(),location:$("ceLocation").value.trim(),description:$("ceDescription").value.trim(),allDay,startDate:date,
-      start:allDay?null:`${date}T${$("ceStart").value}:00`,end:allDay?null:`${date}T${$("ceEnd").value}:00`};
-  }
-  $("newCalendarEvent").onclick=openNewEvent;$("closeCalendarEditor").onclick=()=>modal.hidden=true;$("cancelCalendarEditor").onclick=()=>modal.hidden=true;$("ceAllDay").onchange=toggleTimes;
-  $("saveCalendarEvent").onclick=async()=>{
-    try{
-      $("calendarEditorMsg").textContent="Termin wird gespeichert …";const data=editorData();
-      if(!data.title) throw new Error("Bitte einen Titel eingeben.");
-      if(!data.allDay && (!data.start || !data.end || new Date(data.end)<=new Date(data.start))) throw new Error("Bitte gültige Start- und Endzeit eingeben.");
-      if(currentCalendarEvent) await ATHubCalendar.updateEvent(currentCalendarEvent.calendarId,currentCalendarEvent.id.split(":").slice(1).join(":"),data);
-      else await ATHubCalendar.createEvent($("ceCalendar").value,data);
-      $("calendarEditorMsg").textContent="Termin gespeichert.";await loadCalendar(true);setTimeout(()=>modal.hidden=true,500);
-    }catch(e){$("calendarEditorMsg").textContent=e.message||String(e)}
-  };
-  $("deleteCalendarEvent").onclick=async()=>{
-    if(!currentCalendarEvent) return;
-    if(!confirm(`Termin „${currentCalendarEvent.title}“ wirklich löschen?`)) return;
-    try{$("calendarEditorMsg").textContent="Termin wird gelöscht …";await ATHubCalendar.deleteEvent(currentCalendarEvent.calendarId,currentCalendarEvent.id.split(":").slice(1).join(":"));await loadCalendar(true);modal.hidden=true}
-    catch(e){$("calendarEditorMsg").textContent=e.message||String(e)}
-  };
-
-  $("connectCalendarDashboard").onclick=async()=>{
-    try{await ATHubCalendar.connect(); await loadCalendar(true)}catch(e){$("calendarDashboardMsg").textContent=e.message||String(e)}
-  };
-  $("refreshCalendar").onclick=()=>loadCalendar(true);
-  $("editToday").onclick=()=>{
-    const d=getToday();
-    $("fWork").value=d.work;$("fWorkNote").value=d.workNote;$("fStudy").value=d.study;$("fStudyNote").value=d.studyNote;
-    $("todayEditor").hidden=false;
-  };
-  $("cancelToday").onclick=()=>{$("todayEditor").hidden=true};
-  $("saveToday").onclick=async()=>{
-    const current=allDashboard(),days={...(current.days||{})};
-    days[key()]={...(days[key()]||{}),work:$("fWork").value.trim(),workNote:$("fWorkNote").value.trim(),study:$("fStudy").value.trim(),studyNote:$("fStudyNote").value.trim(),updatedAt:new Date().toISOString()};
-    ATHubData.patchSection("dashboard",{days});
-    $("todayMsg").textContent="Gespeichert.";
-    try{if(ATHubData.status().connected) await ATHubData.sync()}catch{}
-    renderManual(); setTimeout(()=>{$("todayEditor").hidden=true},500);
-  };
-  window.addEventListener("athub-data-updated",renderManual);
-  renderManual(); loadCalendar(false);
-})();
-</script>
-<script>document.querySelector('[data-page="dashboard"]')?.classList.add('active');</script></body></html>
+</body>
+</html>
