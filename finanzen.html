@@ -35,7 +35,7 @@
     <button class="tab active" data-tab="dashboard">Übersicht</button>
     <button class="tab" data-tab="import">PDF-Import</button>
     <button class="tab" data-tab="transactions">Buchungen</button>
-    <button class="tab" data-tab="drive">Drive Sync</button>
+    <button class="tab" data-tab="drive">AT HUB Sync</button>
   </nav>
 
   <section id="dashboard" class="pane active">
@@ -82,25 +82,19 @@
 
   <section id="drive" class="pane">
     <div class="panel">
-      <div class="eyebrow">GOOGLE DRIVE · ZENTRALER SPEICHER</div>
+      <div class="eyebrow">AT HUB · ZENTRALE SYNCHRONISIERUNG</div>
       <h3>Handy und Rechner synchronisieren</h3>
-      <p class="muted">Beide Geräte verwenden dieselbe private JSON-Datei in deinem Google Drive. Lokale Daten bleiben als Offline-Kopie erhalten.</p>
+     <p class="muted">Handy und Rechner verwenden denselben zentralen AT HUB Datenstand. Lokale Daten bleiben zusätzlich als Offline-Kopie erhalten.</p>
 
       <div class="cards" style="margin-top:10px">
-        <article><span>Drive-Status</span><b id="driveStatus">nicht verbunden</b></article>
+       <article><span>AT HUB Status</span><b id="driveStatus">verbunden</b></article>
         <article><span>Letzter Sync</span><b id="lastSync">–</b></article>
         <article><span>Autosync</span><b id="autoSyncState">aktiv</b></article>
       </div>
 
-      <label>Google OAuth Client-ID
-        <input id="clientId" type="text" placeholder="…apps.googleusercontent.com">
-      </label>
-
-      <div class="actions">
-        <button id="saveClient" class="btn">Client-ID speichern</button>
-        <button id="connect" class="btn secondary">Mit Drive verbinden</button>
-        <button id="sync" class="btn secondary" >Jetzt synchronisieren</button>
-      </div>
+     <div class="actions">
+  <button id="sync" class="btn secondary">Jetzt synchronisieren</button>
+</div>
 
       <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
         <input id="autoSync" type="checkbox" style="width:auto;margin:0">
@@ -112,7 +106,7 @@
 
     <div class="panel">
       <h3>Synchronisationsregeln</h3>
-      <p class="muted">Buchungen werden zusammengeführt statt überschrieben. Der bestätigte Kontostand-Basiswert und die Buchungen werden gemeinsam synchronisiert; daraus wird der aktuelle Kontostand auf jedem Gerät neu berechnet.</p>
+     <p class="muted">Der zentrale AT HUB Datenstand ist die gemeinsame Grundlage für Handy und Rechner. Beim Synchronisieren werden die zentral gespeicherten Finanzdaten geladen und lokal als Offline-Kopie gespeichert.</p>
     </div>
   </section>
 </main>
