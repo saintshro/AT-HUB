@@ -33,7 +33,7 @@ function migrateState() {
 async function saveState(syncDrive = true) {
   migrateState();
   localStorage.setItem(financeStateKey, JSON.stringify(state));
-  if (syncDrive && state.drive.autoSync && driveToken) {
+ if (syncDrive && state.drive.autoSync) {
     await saveFinanceStateToDrive().catch(() => {});
   }
 }
@@ -158,7 +158,7 @@ function wireFinanceCore() {
     render();
   });
   $("#connect")?.addEventListener("click", connectDrive);
-  $("#sync")?.addEventListener("click", () => saveFinanceStateToDrive().then(() => render()).catch((err) => setDriveMessage(err.message)));
+$("#sync")?.addEventListener("click", () => loadFinanceStateFromDrive().catch((err) => setDriveMessage(err.message)));
   $("#autoSync")?.addEventListener("change", (event) => {
     state.drive.autoSync = event.target.checked;
     saveState(false);
@@ -199,10 +199,84 @@ async function dfetch(url, options = {}) {
 }
 
 async function saveFinanceStateToDrive() {
-  if (!driveToken) throw new Error("Drive ist noch nicht verbunden.");
-  state.lastSyncAt = new Date().toISOString();
+  const sync = JSON.parse(localStorage.getItem("athubWorktimeSync") || "{}");
+
+  if (!sync.url || !sync.token) {
+    throw new Error("AT HUB Verbindung fehlt.");
+  }
+
+  const finance = {
+    state: state,
+    config: config
+  };
+
+  const response = await fetch(sync.url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+      token: sync.token,
+      module: "finance",
+      finance: finance
+    })
+  });
+
+  const result = await response.json();
+
+  if (!result.ok) {
+    throw new Error(result.error || "Finanz-Synchronisierung fehlgeschlagen.");
+  }
+
+  state.lastSyncAt = result.updatedAt || new Date().toISOString();
   await saveState(false);
-  setDriveMessage("Finanzdaten wurden lokal gesichert. Drive-Sync ist vorbereitet.");
+
+  setDriveMessage("Finanzdaten erfolgreich mit AT HUB synchronisiert.");
+}
+
+async function loadFinanceStateFromDrive() {
+  const sync = JSON.parse(localStorage.getItem("athubWorktimeSync") || "{}");
+
+  if (!sync.url || !sync.token) {
+    throw new Error("AT HUB Verbindung fehlt.");
+  }
+
+  const response = await fetch(
+    `${sync.url}?token=${encodeURIComponent(sync.token)}&module=finance`,
+    { cache: "no-store" }
+  );
+
+  const result = await response.json();
+
+  if (!result.ok) {
+    throw new Error(result.error || "Finanzdaten konnten nicht geladen werden.");
+  }
+
+  const finance = result.finance || result.state;
+
+  if (!finance || typeof finance !== "object") {
+    throw new Error("Keine Finanzdaten im AT HUB gefunden.");
+  }
+
+  if (finance.state && typeof finance.state === "object") {
+    state = { ...state, ...finance.state };
+  } else {
+    state = { ...state, ...finance };
+  }
+
+  if (finance.config && typeof finance.config === "object") {
+    config = { ...config, ...finance.config };
+  }
+
+  state.lastSyncAt =
+    result.updatedAt ||
+    state.lastSyncAt ||
+    new Date().toISOString();
+
+  await saveState(false);
+
+  setDriveMessage("Finanzdaten erfolgreich aus AT HUB geladen.");
+  render();
 }
 
 function render() {
