@@ -70,10 +70,10 @@ function fmt(value) {
 }
 
 function getFinanceCycle(now = new Date()) {
-  const anchor = Number(config.financeCycle?.anchorDay || config.financialMonthStartDay || 15);
+  const anchor = 15;
   const start = new Date(now.getFullYear(), now.getMonth(), anchor);
   if (now.getDate() < anchor) start.setMonth(start.getMonth() - 1);
-  const end = new Date(start.getFullYear(), start.getMonth() + 1, anchor);
+  const end = new Date(start.getFullYear(), start.getMonth() + 1, anchor - 1);
   return { start: toIsoDate(start), end: toIsoDate(end) };
 }
 
@@ -94,7 +94,7 @@ function ensureCycleState() {
     date: item.date || item.dueDate || cycle.end,
     amount: Math.abs(Number(item.amount || 0)),
     note: item.note || item.category || ""
-  }));
+  })).filter(item => item.date >= cycle.start && item.date <= cycle.end);
   return { cycle, rows };
 }
 
@@ -112,9 +112,11 @@ function expandRecurrences(cycle) {
 }
 
 function dueDateForCycle(day, cycle) {
-  const start = new Date(cycle.start);
-  const date = new Date(start.getFullYear(), start.getMonth(), Number(day) || 15);
-  if (date < start) date.setMonth(date.getMonth() + 1);
+  const [year, month] = cycle.start.split("-").map(Number);
+  const dueDay = Math.min(31, Math.max(1, Math.trunc(Number(day) || 15)));
+  const targetMonth = month - 1 + (dueDay < 15 ? 1 : 0);
+  const lastDay = new Date(year, targetMonth + 1, 0).getDate();
+  const date = new Date(year, targetMonth, Math.min(dueDay, lastDay));
   return toIsoDate(date);
 }
 
