@@ -175,6 +175,9 @@ function activeReserveSum() {
 }
 
 function finance881RecalculateBalance() {
+  const dateInput=$("#balanceDate");
+  if(dateInput && document.activeElement!==dateInput) dateInput.value=state.balanceCoverageEnd || state.balanceAnchor?.date || "";
+  if($("#balanceBasis")) $("#balanceBasis").textContent=state.balanceAnchor ? `Ausgangspunkt ${euro.format(state.balanceAnchor.amount)} nach allen Buchungen bis ${state.balanceAnchor.date}. Durch Auszüge abgedeckt bis ${state.balanceCoverageEnd || state.balanceAnchor.date}.` : "Für die automatische Fortschreibung bitte einen bestätigten Ausgangsstand und Stichtag speichern.";
   if (state.balance == null && config.currentSnapshot?.balance !== undefined) {
     const value = Number(config.currentSnapshot.balance);
     state.balance = Number.isNaN(value) ? null : value;
@@ -204,9 +207,14 @@ function wireFinanceCore() {
   document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => showTab(button.dataset.tab)));
   $("#saveBal")?.addEventListener("click", () => {
     if (!financeSyncBaseline) return setDriveMessage("Bitte zuerst den zentralen Finanzstand laden.");
-    const value = Number($("#bal")?.value || 0);
-    state.balance = Number.isNaN(value) ? null : finance881Round(value);
-    state.balanceAsOf = toIsoDate(new Date());
+    const raw=$("#bal")?.value.trim() || "";
+    const value = Number(raw),date=$("#balanceDate")?.value || "";
+    if(!raw || !Number.isFinite(value) || !/^\d{4}-\d{2}-\d{2}$/.test(date) || toIsoDate(new Date(date+"T12:00:00"))!==date || date>toIsoDate(new Date())) return setDriveMessage("Bitte Kontostand und gültigen Abschlussstichtag angeben. Der Stand muss alle Buchungen bis einschließlich dieses Tages enthalten.");
+    localStorage.setItem("athubFinanceBeforeBalanceAnchorV1",JSON.stringify({state,config,savedAt:new Date().toISOString()}));
+    state.balance = finance881Round(value);
+    state.balanceAsOf = date;
+    state.balanceAnchor={amount:state.balance,date,kind:"closed-day"};
+    state.balanceCoverageEnd=date;
     saveState();
     render();
   });

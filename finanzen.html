@@ -43,9 +43,11 @@
       <h3>Kontostand</h3>
       <div class="inputrow">
         <label>Aktueller DKB-Kontostand<input id="bal" type="number" step="0.01"></label>
+        <label>Stand nach allen Buchungen bis einschließlich<input id="balanceDate" type="date"></label>
         <button id="saveBal" class="btn">Speichern</button>
       </div>
-      <p class="muted">Ein manuell gespeicherter Kontostand ist der bestätigte Basisstand. Später neu erkannte Buchungen schreiben ihn automatisch fort – auch wenn der nächste Kontoauszug keinen Kontostand enthält.</p>
+      <p class="muted">Der gespeicherte Stand muss alle Buchungen bis einschließlich des Stichtags enthalten. Spätere PDF-Umsätze schreiben ihn nach Importbestätigung fort. Bei fehlenden Zeiträumen stoppt die Automatik.</p>
+      <p id="balanceBasis" class="muted"></p>
     </div>
 
     <div class="panel">
@@ -112,9 +114,9 @@
   </section>
 </main>
 <script src="app.js"></script>
-<script src="finance-core-v8.8.1.js?v=20261006-plan7"></script>
+<script src="finance-core-v8.8.1.js?v=20261006-balance8"></script>
 <script src="finance-ui-v8.9.js?v=20261006-period3"></script>
-<script src="finance-pdf-import.js?v=20261006-pdf5"></script>
+<script src="finance-pdf-import.js?v=20261006-balance8"></script>
 
 </body>
 </html>

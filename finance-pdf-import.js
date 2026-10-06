@@ -86,7 +86,21 @@
       return candidates.length===1 ? {due,transaction:candidates[0]} : null;
     }).filter(Boolean);
   }
-  const api={parsePages,markDuplicates,matchDues,isoDate,amount,key};
+  function balanceProjection(anchor, coverageEnd, statement, existing, selected) {
+    if (!anchor || anchor.kind!=="closed-day" || !Number.isFinite(Number(anchor.amount)) || !/^\d{4}-\d{2}-\d{2}$/.test(anchor.date||"")) return {ok:false,reason:"Bitte zuerst einen Kontostand mit bestätigtem Abschlussdatum speichern."};
+    const covered=coverageEnd || anchor.date;
+    const nextDay=new Date(Date.parse(covered+"T00:00:00Z")+86400000).toISOString().slice(0,10);
+    if (!statement.start || !statement.end || statement.start>nextDay) return {ok:false,reason:`Zeitraum fehlt nach ${covered}. Bitte einen Auszug ab ${nextDay} oder früher verwenden.`};
+    const chosen=new Set(selected);
+    if (statement.rows.some(row=>!row.duplicate && row.iso>anchor.date && !chosen.has(row))) return {ok:false,reason:"Für einen vollständigen Kontostand alle neuen Buchungen nach dem Ausgangsstichtag auswählen."};
+    const end=statement.end>covered ? statement.end : covered;
+    const all=existing.concat(selected).filter(row=>row.status!=="planned" && (row.source==="DKB PDF" || row.pdfImportId) && (row.iso || row.date)>anchor.date && (row.iso || row.date)<=end);
+    // Existing rows are the authoritative deduplicated ledger. Genuine equal
+    // payments remain separate records; preview duplicates are never appended.
+    const value=(cents(anchor.amount)+all.reduce((sum,row)=>sum+cents(row.amount),0))/100;
+    return {ok:true,value,coverageEnd:end,count:all.length};
+  }
+  const api={parsePages,markDuplicates,matchDues,isoDate,amount,key,balanceProjection};
   if (typeof module!=="undefined" && module.exports) module.exports=api;
   root.ATHubPDF=api;
   if (typeof document==="undefined") return;
@@ -125,17 +139,24 @@
   function showPreview() {
     const review=document.querySelector("#review");if(!review || !preview)return;
     const duplicateCount=preview.rows.filter(x=>x.duplicate).length;
-    const balanceDate=state.balanceAsOf || "";
-    const adjustment=balanceDate ? preview.rows.filter(row=>!row.duplicate && row.iso>balanceDate).reduce((sum,row)=>sum+row.amount,0) : 0;
+    const projection=balanceProjection(state.balanceAnchor,state.balanceCoverageEnd,preview,state.transactions||[],preview.rows.filter(row=>!row.duplicate));
+    const balanceDate=state.balanceAnchor?.date || "";
     review.innerHTML=`<h3>Vorschau — noch nicht übernommen</h3><p>${html(preview.start)} bis ${html(preview.end)} · ${preview.rows.length} Buchungen · ${duplicateCount} bereits vorhanden</p>
-      <p class="muted">Der Auszug enthält keinen eindeutig ausgewiesenen Endsaldo. ${balanceDate?`Nur neue Buchungen nach deinem bestätigten Kontostand vom ${html(balanceDate)} schreiben ihn fort.`:"Der aktuelle Kontostand bleibt unverändert, da für ihn noch kein bestätigtes Datum gespeichert ist."}</p>
+      <p class="muted">${balanceDate?`Ausgangspunkt: ${money(state.balanceAnchor.amount)} nach allen Buchungen bis einschließlich ${html(balanceDate)}.`:"Bitte einen bestätigten Ausgangskontostand mit Abschlussdatum speichern."} Ein Endsaldo im PDF ist nicht erforderlich.</p>
       ${preview.warnings.map(text=>`<p class="msg">${html(text)}</p>`).join("")}
       <div style="overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th>Übernehmen</th><th>Datum</th><th>Empfänger</th><th>Betrag</th></tr></thead><tbody>
       ${preview.rows.map((row,index)=>`<tr><td><input type="checkbox" data-pdf-row="${index}" ${row.duplicate?'disabled':'checked'} aria-label="Buchung ${index+1} übernehmen">${row.duplicate?" bereits vorhanden":""}</td><td>${html(row.iso)}</td><td>${html(row.name)}<details><summary>Verwendungszweck</summary><p style="white-space:pre-wrap">${html(row.note)}</p></details></td><td style="white-space:nowrap">${money(row.amount)}</td></tr>`).join("")}</tbody></table></div>
       ${preview.matches.length?`<h4>Passende offene Fälligkeiten</h4><p>Nur diese Vorschläge werden nach deiner Bestätigung als gebucht markiert.</p>${preview.matches.map((match,index)=>`<label style="display:block"><input type="checkbox" data-pdf-due="${index}" checked> ${html(match.due.name)} · ${html(match.due.date)} · ${money(match.due.amount)}</label>`).join("")}`:"<p class=\"muted\">Keine offenen Fälligkeiten eindeutig zugeordnet. Bereits bezahlte Fälligkeiten bitte separat prüfen.</p>"}
-      <p class="muted">Vorschau der Kontostandsänderung bei Übernahme aller neuen Buchungen: ${money(adjustment)}. Abgewählte Buchungen werden nicht berücksichtigt.</p>
+      <label><input type="checkbox" id="pdfUpdateBalance" ${projection.ok?'checked':'disabled'}> Kontostand automatisch fortschreiben</label>
+      <p id="pdfBalancePreview" class="muted"></p>
       <div class="actions"><button id="pdfConfirm" class="btn" ${preview.warnings.length?'disabled':''}>Ausgewählte Buchungen übernehmen</button><button id="pdfCancel" class="btn secondary">Abbrechen</button></div>`;
     document.querySelector("#pdfConfirm")?.addEventListener("click",confirmImport);
+    const updatePreview=()=>{
+      const selected=Array.from(document.querySelectorAll("[data-pdf-row]:checked")).map(input=>preview.rows[Number(input.dataset.pdfRow)]).filter(row=>row&&!row.duplicate);
+      const result=balanceProjection(state.balanceAnchor,state.balanceCoverageEnd,preview,state.transactions||[],selected);
+      document.querySelector("#pdfBalancePreview").textContent=result.ok?`Berechneter Kontostand: ${money(result.value)} · vollständig abgedeckt bis ${result.coverageEnd}. Änderung: ${money(result.value-Number(state.balance))}.`:result.reason+" Der Kontostand bleibt beim reinen Historienimport unverändert.";
+    };
+    document.querySelectorAll("[data-pdf-row]").forEach(input=>input.addEventListener("change",updatePreview));updatePreview();
     document.querySelector("#pdfCancel")?.addEventListener("click",()=>{preview=null;review.innerHTML="";status("Import abgebrochen. Es wurden keine Daten verändert.");});
   }
   async function confirmImport() {
@@ -144,18 +165,21 @@
     if(financeComparable({state,config})!==preview.basis){status("Der Finanzstand hat sich seit der Vorschau geändert. Bitte das PDF erneut prüfen.");return;}
     const selected=Array.from(document.querySelectorAll("[data-pdf-row]:checked")).map(input=>preview.rows[Number(input.dataset.pdfRow)]).filter(row=>row && !row.duplicate);
     const chosenDues=Array.from(document.querySelectorAll("[data-pdf-due]:checked")).map(input=>preview.matches[Number(input.dataset.pdfDue)]).filter(match=>match && (match.transaction.duplicate || selected.includes(match.transaction)));
-    if(!selected.length && !chosenDues.length){status("Keine neuen Buchungen oder Fälligkeitsänderungen ausgewählt. Es wurden keine Daten verändert.");return;}
+    const updateBalance=document.querySelector("#pdfUpdateBalance")?.checked===true;
+    const projection=balanceProjection(state.balanceAnchor,state.balanceCoverageEnd,preview,state.transactions||[],selected);
+    if(updateBalance&&!projection.ok){status(projection.reason);return;}
+    if(!selected.length && !chosenDues.length && !(updateBalance&&(state.balanceCoverageEnd!==projection.coverageEnd||state.balance!==projection.value))){status("Keine neuen Buchungen oder Fälligkeitsänderungen ausgewählt. Es wurden keine Daten verändert.");return;}
     const button=document.querySelector("#pdfConfirm");if(button)button.disabled=true;
     try {
       localStorage.setItem("athubFinanceBeforePdfV1",JSON.stringify({state,config,savedAt:new Date().toISOString()}));
-      const balanceDate=state.balanceAsOf || "";
-      const delta=balanceDate ? selected.filter(row=>row.iso>balanceDate).reduce((sum,row)=>sum+row.amount,0) : 0;
+      const balanceDate=state.balanceAnchor?.date || "";
+      const delta=updateBalance ? Math.round((projection.value-Number(state.balance))*100)/100 : 0;
       const fileName=preview.fileName;
-      state.transactions=(state.transactions || []).concat(selected.map(row=>({...row,id:"pdf_"+crypto.randomUUID(),date:row.iso,importedFrom:fileName,importedAt:new Date().toISOString(),affectsBalance:Boolean(balanceDate && row.iso>balanceDate)})));
-      if(state.balance!=null && balanceDate)state.balance=finance881Round(state.balance+delta);
+      state.transactions=(state.transactions || []).concat(selected.map(row=>({...row,id:"pdf_"+crypto.randomUUID(),date:row.iso,importedFrom:fileName,importedAt:new Date().toISOString(),affectsBalance:Boolean(updateBalance && balanceDate && row.iso>balanceDate)})));
+      if(updateBalance){state.balance=projection.value;state.balanceCoverageEnd=projection.coverageEnd;}
       for(const match of chosenDues)state.dueActive[match.due.id]=false;
       state.financeImportLog=state.financeImportLog || [];
-      state.financeImportLog.push({source:"DKB PDF",fileName,importedAt:new Date().toISOString(),count:selected.length,duplicateCount:preview.rows.filter(x=>x.duplicate).length,balanceDelta:delta});
+      state.financeImportLog.push({source:"DKB PDF",fileName,importedAt:new Date().toISOString(),count:selected.length,duplicateCount:preview.rows.filter(x=>x.duplicate).length,balanceDelta:delta,balanceUpdated:updateBalance,coverageEnd:state.balanceCoverageEnd||null});
       preview=null;document.querySelector("#review").innerHTML="";
       render();await saveState();
       status(`${selected.length} neue Buchungen lokal übernommen; ${chosenDues.length} Fälligkeiten als gebucht markiert. ${financeDirty?"Zentrale Speicherung noch offen — bitte AT HUB Sync prüfen.":"Zentral gespeichert und durch Rücklesen bestätigt."}`);
