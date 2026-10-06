@@ -1,7 +1,7 @@
 /* AT HUB Finanzcockpit v8.9 – Abschluss-UI
    Der stabile v8.8.1-Kern bleibt unverändert.
    Neu:
-   - Feld „Noch verfügbar bis 15.“ statt „Dispo frei nach Planung“.
+   - Feld „Noch verfügbar bis einschließlich 14.“.
    - Transparente Fälligkeitsliste mit offen/gebucht, Datum, Betrag und exakter Summe.
    - Klick auf „Noch offen“ springt direkt zur Fälligkeitsliste. */
 
@@ -39,7 +39,7 @@
     const reserves=activeReserveSum();
     const forecast=state.balance==null?null:finance881Round(state.balance-openSum-reserves);
 
-    // Wirklich noch ausgebbar bis zum nächsten 15., ohne den hinterlegten Dispo zu überschreiten.
+    // Ausgebbar bis einschließlich 14., ohne den hinterlegten Dispo zu überschreiten.
     // Beispiel: Prognose -405,55 € bei 500 € Dispo => 94,45 € noch verfügbar.
     const spendable=forecast==null?null:Math.max(0,finance881Round(forecast+Number(config.overdraftLimit||0)));
 
@@ -71,7 +71,7 @@
              <article><span>Summe noch offen</span><b>${money(openSum)}</b></article>
              <article><span>Bereits gebucht</span><b>${booked.length}</b></article>
            </div>
-           ${open.length?`<h4 style="margin:12px 0 6px">Noch offen</h4>${open.map(dueRowHtml).join("")}`:'<p class="muted">Bis zum 15. sind keine offenen Abbuchungen mehr eingeplant.</p>'}
+           ${open.length?`<h4 style="margin:12px 0 6px">Noch offen</h4>${open.map(dueRowHtml).join("")}`:'<p class="muted">Bis einschließlich 14. sind keine offenen Abbuchungen mehr eingeplant.</p>'}
            ${booked.length?`<details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700">Bereits gebucht (${booked.length})</summary><div style="margin-top:8px">${booked.map(dueRowHtml).join("")}</div></details>`:""}`
         : '<p class="muted">Für diesen Finanzmonat sind keine wiederkehrenden Abbuchungen hinterlegt.</p>';
     }
@@ -103,4 +103,3 @@
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wireV89);
   else wireV89();
 })();
-
