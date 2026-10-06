@@ -123,14 +123,21 @@ function dueDateForCycle(day, cycle) {
 function reserveRows() {
   const plan = config.plan || {};
   return [
-    ["emergencyBuffer", "Rücklage", Number(plan.emergencyBuffer || 0), "Sicherheitspuffer"],
+    ["emergencyBuffer", "Allgemeines Sparen", Number(plan.emergencyBuffer || 0), "monatliche Rücklage"],
     ["vacationSavings", "Urlaubssparen", Number(plan.vacationSavings || 0), "privat geplant"],
-    ["plannedPaydown", "Dispoabbau-Ziel", Number(plan.plannedPaydown || 0), "Konto entlasten"]
+    ["plannedPaydown", "Dispoabbau-Ziel", Number(plan.plannedPaydown || 0), plan.paydownOnlyIfPossible ? "nur bei ausreichendem verfügbarem Budget" : "Konto entlasten"]
   ].filter((row) => row[2] > 0);
 }
 
 function activeReserveSum() {
-  return reserveRows().reduce((sum, row) => state.planActive[row[0]] !== false ? sum + row[2] : sum, 0);
+  const active = reserveRows().filter(row => state.planActive[row[0]] !== false);
+  const regular = active.filter(row => row[0] !== "plannedPaydown").reduce((sum, row) => sum + row[2], 0);
+  const paydown = active.filter(row => row[0] === "plannedPaydown").reduce((sum, row) => sum + row[2], 0);
+  if (!config.plan?.paydownOnlyIfPossible) return regular + paydown;
+  const open = ensureCycleState().rows.filter(row => state.dueActive[row.id] !== false)
+    .reduce((sum, row) => sum + row.amount, 0);
+  const available = state.balance == null ? null : finance881Round(state.balance + Number(config.overdraftLimit || 0) - open - regular);
+  return regular + (available != null && available >= paydown ? paydown : 0);
 }
 
 function finance881RecalculateBalance() {
