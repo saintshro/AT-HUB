@@ -282,8 +282,9 @@ function saveFinanceStateToDrive() {
       throw new Error("Vor dem Speichern zuerst den zentralen Finanzstand laden.");
     }
     const before = await fetchCentralFinance(sync);
-    if (financeComparable(before.finance) !== financeSyncBaseline.content ||
-        before.updatedAt !== financeSyncBaseline.updatedAt) {
+    // Metadata-only writes do not change the financial basis. Use the freshly
+    // read timestamp for the server's atomic check, but conflict on actual data.
+    if (financeComparable(before.finance) !== financeSyncBaseline.content) {
       throw new Error("Zentrale Daten wurden auf einem anderen Gerät geändert. Konflikt vor dem Speichern klären.");
     }
     const finance = JSON.parse(JSON.stringify({ state, config }));
