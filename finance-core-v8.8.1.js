@@ -172,6 +172,7 @@ function wireFinanceCore() {
     if (!financeSyncBaseline) return setDriveMessage("Bitte zuerst den zentralen Finanzstand laden.");
     const value = Number($("#bal")?.value || 0);
     state.balance = Number.isNaN(value) ? null : finance881Round(value);
+    state.balanceAsOf = toIsoDate(new Date());
     saveState();
     render();
   });
@@ -188,7 +189,6 @@ $("#sync")?.addEventListener("click", () => synchronizeFinance().catch(() => {})
     saveState(false);
     render();
   });
-  $("#pdf")?.addEventListener("change", () => setPdfMessage("PDF-Import bleibt lokal vorbereitet. Bitte das finale GH-Modul mit dem bestehenden PDF-Kern nutzen, sobald dieser im Zielstand vorhanden ist."));
 }
 
 function setPdfMessage(text) {
