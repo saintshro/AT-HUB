@@ -184,6 +184,10 @@ function wireFinanceCore() {
   });
   $("#connect")?.addEventListener("click", connectDrive);
 $("#sync")?.addEventListener("click", () => synchronizeFinance().catch(() => {}));
+  $("#loadCentral")?.addEventListener("click", () => {
+    if (financeDirty && !confirm("Den zentralen Stand vom Rechner auf dieses Gerät übernehmen? Offene lokale Änderungen werden vorher auf diesem Gerät gesichert und anschließend durch den zentralen Stand ersetzt.")) return;
+    loadFinanceStateFromDrive(true).catch(() => {});
+  });
   $("#autoSync")?.addEventListener("change", (event) => {
     state.drive.autoSync = event.target.checked;
     saveState(false);
@@ -331,11 +335,14 @@ function saveFinanceStateToDrive() {
   });
 }
 
-function loadFinanceStateFromDrive() {
+function loadFinanceStateFromDrive(replaceLocal = false) {
   return financeSerial(async () => {
-    if (financeDirty) throw new Error("Ungespeicherte lokale Änderungen vorhanden. Laden würde sie überschreiben.");
+    if (financeDirty && !replaceLocal) throw new Error("Ungespeicherte lokale Änderungen vorhanden. Bitte „Zentralen Stand übernehmen“ wählen, um den Rechnerstand mit lokaler Sicherung zu laden.");
+    const localBasis = financeComparable({ state, config });
     const sync = financeConnection();
     const result = await fetchCentralFinance(sync);
+    if (financeComparable({ state, config }) !== localBasis) throw new Error("Während des Ladens wurden lokale Daten geändert. Bitte erneut laden.");
+    if (replaceLocal) localStorage.setItem("athubFinanceBeforeCentralLoadV1", JSON.stringify({ state, config, baseline: financeSyncBaseline, savedAt: new Date().toISOString() }));
     const finance = result.finance;
     const preferences = { ...state.drive };
     if (finance.state && typeof finance.state === "object") state = { ...state, ...finance.state };
@@ -343,6 +350,8 @@ function loadFinanceStateFromDrive() {
     if (finance.config && typeof finance.config === "object") config = { ...config, ...finance.config };
     state.drive = preferences;
     state.lastSyncAt = result.updatedAt || "";
+    financeDirty = false;
+    localStorage.setItem(financeDirtyKey, "false");
     financeSyncBaseline = {
       url: sync.url, content: financeComparable(finance), updatedAt: result.updatedAt
     };

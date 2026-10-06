@@ -94,6 +94,7 @@
 
      <div class="actions">
   <button id="sync" class="btn secondary">Jetzt synchronisieren</button>
+  <button id="loadCentral" class="btn secondary">Zentralen Stand übernehmen</button>
 </div>
 
       <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
@@ -106,12 +107,12 @@
 
     <div class="panel">
       <h3>Synchronisationsregeln</h3>
-     <p class="muted">Der zentrale AT HUB Datenstand ist die gemeinsame Grundlage für Handy und Rechner. Zuerst zentral laden. Änderungen werden bei aktiviertem Autosync gespeichert und durch erneutes Laden geprüft. „Jetzt synchronisieren“ speichert offene lokale Änderungen vor dem Laden. Bei abweichendem zentralem Stand wird das Speichern gestoppt; lokale Änderungen bleiben erhalten.</p>
+     <p class="muted">„Jetzt synchronisieren“ speichert offene lokale Änderungen vor dem Laden. Bei einem Konflikt kannst du mit „Zentralen Stand übernehmen“ den zuletzt zentral gespeicherten Stand vom anderen Gerät laden. Offene lokale Änderungen werden nach deiner Bestätigung vorher auf diesem Gerät gesichert. Der zentrale Stand wird dabei nicht verändert. Autosync speichert eigene Änderungen; Änderungen vom anderen Gerät werden über diese Schaltflächen geladen.</p>
     </div>
   </section>
 </main>
 <script src="app.js"></script>
-<script src="finance-core-v8.8.1.js?v=20261006-pdf5"></script>
+<script src="finance-core-v8.8.1.js?v=20261006-sync6"></script>
 <script src="finance-ui-v8.9.js?v=20261006-period3"></script>
 <script src="finance-pdf-import.js?v=20261006-pdf5"></script>
 
