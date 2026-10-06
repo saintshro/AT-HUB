@@ -77,17 +77,17 @@
     }
 
     $("#txList").innerHTML=state.transactions.length
-      ?state.transactions.slice().sort((a,b)=>b.iso.localeCompare(a.iso)).map(t=>
+      ?state.transactions.slice().sort((a,b)=>String(b.iso || b.date || "").localeCompare(String(a.iso || a.date || ""))).map(t=>
         `<div class="tx"><div><b>${esc(t.name)}</b><small>${t.date} · ${esc(t.category)}</small></div>
          <b class="${t.amount<0?"red":"good"}">${money(t.amount)}</b></div>`).join("")
       :'<p class="muted">Noch keine importierten Buchungen gespeichert.</p>';
 
     $("#bal").value=state.balance??"";
-    $("#clientId").value=state.drive.clientId||"";
+    if($("#clientId")) $("#clientId").value=state.drive.clientId||"";
     if($("#autoSync")) $("#autoSync").checked=state.drive.autoSync!==false;
     if($("#autoSyncState")) $("#autoSyncState").textContent=state.drive.autoSync!==false?"aktiv":"aus";
     if($("#lastSync")) $("#lastSync").textContent=state.lastSyncAt?new Date(state.lastSyncAt).toLocaleString("de-DE"):"–";
-    if($("#driveStatus")) $("#driveStatus").textContent=driveToken?"verbunden":"nicht verbunden";
+    if($("#driveStatus")) $("#driveStatus").textContent=financeSyncBaseline?(financeDirty?"Änderungen offen":"zentral geladen"):"zuerst zentral laden";
   };
 
   function wireV89(){
@@ -103,3 +103,4 @@
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wireV89);
   else wireV89();
 })();
+
