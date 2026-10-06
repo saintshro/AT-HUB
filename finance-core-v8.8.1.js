@@ -35,6 +35,7 @@ function migrateState() {
   state.planActive = { ...financeDefaults.planActive, ...(state.planActive || {}) };
   state.transactions = Array.isArray(state.transactions) ? state.transactions : [];
   state.dueActive = state.dueActive || {};
+  if (!state.recurrenceStatusCycle) state.recurrenceStatusCycle = getFinanceCycle(state.lastSyncAt ? new Date(state.lastSyncAt) : new Date()).start;
 }
 
 async function saveState(syncDrive = true) {
@@ -100,15 +101,48 @@ function ensureCycleState() {
 
 function expandRecurrences(cycle) {
   const items = Array.isArray(config.recurrences) ? config.recurrences : [];
-  return items
-    .filter((item) => item.active !== false)
-    .map((item, index) => ({
-      id: item.id || `rec_${index}`,
-      name: item.name || item.title || "Fixkosten",
-      date: dueDateForCycle(item.day || item.dueDay || 15, cycle),
-      amount: Math.abs(Number(item.amount || 0)),
-      note: item.note || "wiederkehrend"
-    }));
+  return items.filter(item => item.active !== false).flatMap((item, index) => {
+    const baseId = item.id || `rec_${index}`;
+    return financeRecurrenceDates(item, cycle).map(date => {
+      const id = `${baseId}@${date}`;
+      // Legacy booked flags belong only to the cycle in which they were saved.
+      const legacyCycle = state.recurrenceStatusCycle || (state.lastSyncAt ? getFinanceCycle(new Date(state.lastSyncAt)).start : getFinanceCycle().start);
+      if (legacyCycle === cycle.start && state.dueActive[id] === undefined && state.dueActive[baseId] === false) state.dueActive[id] = false;
+      const rhythm = {monthly:"monatlich",quarterly:"quartalsweise",semiannual:"halbjährlich",yearly:"jährlich",fortnightly:"alle 14 Tage"}[item.interval || "monthly"] || "wiederkehrend";
+      return { id, name: item.name || item.title || "Fixkosten", date,
+        amount: Math.abs(Number(item.amount || 0)), note: `${rhythm}${item.estimated ? " · geschätzter Betrag" : ""}${item.note ? " · " + item.note : ""}` };
+    });
+  }).sort((a,b) => a.date.localeCompare(b.date));
+}
+
+function financeRecurrenceDates(item, cycle) {
+  const interval = item.interval || "monthly";
+  const dates = [];
+  const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || "") && toIsoDate(new Date(`${value}T12:00:00`)) === value;
+  if (interval === "fortnightly") {
+    if (!validDate(item.startDate)) return dates;
+    const anchor = Date.parse(item.startDate + "T00:00:00Z");
+    const start = Date.parse(cycle.start + "T00:00:00Z");
+    const end = Date.parse(cycle.end + "T00:00:00Z");
+    const step = 14 * 86400000;
+    for (let value = anchor + Math.max(0, Math.ceil((start-anchor)/step))*step; value <= end; value += step) dates.push(new Date(value).toISOString().slice(0,10));
+  } else {
+    const intervals = {monthly:1,quarterly:3,semiannual:6,yearly:12};
+    const step = intervals[interval];
+    if (!step) return dates;
+    const anchorMonth = Number(item.month || (item.startDate || "").slice(5,7));
+    const explicitMonths = Array.isArray(item.months) ? item.months.map(Number) : null;
+    if (step > 1 && !explicitMonths && !(anchorMonth >= 1 && anchorMonth <= 12)) return dates;
+    const day = Math.min(31, Math.max(1, Math.trunc(Number(item.day || item.dueDay) || 15)));
+    const cursor = new Date(cycle.start + "T12:00:00");cursor.setDate(1);
+    while (toIsoDate(cursor) <= cycle.end) {
+      const month = cursor.getMonth()+1;
+      const allowed = explicitMonths ? explicitMonths.includes(month) : step === 1 || ((month-anchorMonth+12)%step === 0);
+      if (allowed) dates.push(toIsoDate(new Date(cursor.getFullYear(), cursor.getMonth(), Math.min(day,new Date(cursor.getFullYear(),cursor.getMonth()+1,0).getDate()))));
+      cursor.setMonth(cursor.getMonth()+1);
+    }
+  }
+  return [...new Set(dates)].filter(date => date >= cycle.start && date <= cycle.end && (!item.startDate || date >= item.startDate) && (!item.endDate || date <= item.endDate));
 }
 
 function dueDateForCycle(day, cycle) {
