@@ -106,13 +106,14 @@
 
     <div class="panel">
       <h3>Synchronisationsregeln</h3>
-     <p class="muted">Der zentrale AT HUB Datenstand ist die gemeinsame Grundlage für Handy und Rechner. Beim Synchronisieren werden die zentral gespeicherten Finanzdaten geladen und lokal als Offline-Kopie gespeichert.</p>
+     <p class="muted">Der zentrale AT HUB Datenstand ist die gemeinsame Grundlage für Handy und Rechner. Zuerst zentral laden. Änderungen werden bei aktiviertem Autosync gespeichert und durch erneutes Laden geprüft. „Jetzt synchronisieren“ speichert offene lokale Änderungen vor dem Laden. Bei abweichendem zentralem Stand wird das Speichern gestoppt; lokale Änderungen bleiben erhalten.</p>
     </div>
   </section>
 </main>
 <script src="app.js"></script>
-<script src="finance-core-v8.8.1.js"></script>
-<script src="finance-ui-v8.9.js"></script>
+<script src="finance-core-v8.8.1.js?v=20261006-sync1"></script>
+<script src="finance-ui-v8.9.js?v=20261006-sync1"></script>
 
 </body>
 </html>
+
