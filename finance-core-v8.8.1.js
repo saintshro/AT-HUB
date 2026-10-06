@@ -2,6 +2,13 @@ const $ = (selector) => document.querySelector(selector);
 const euro = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
 let config = {};
 let driveToken = null;
+let financeSyncBaseline = null;
+try { financeSyncBaseline = JSON.parse(localStorage.getItem("athubFinanceBaselineV1") || "null"); } catch (_) {}
+let financeSyncQueue = Promise.resolve();
+let financeDirty = false;
+const financeConfigKey = "athubFinanceConfigV1";
+const financeDirtyKey = "athubFinancePendingV1";
+financeDirty = localStorage.getItem(financeDirtyKey) === "true";
 
 const financeStateKey = "athubFinanceSafeStateV881";
 const financeDefaults = {
@@ -33,8 +40,13 @@ function migrateState() {
 async function saveState(syncDrive = true) {
   migrateState();
   localStorage.setItem(financeStateKey, JSON.stringify(state));
+  localStorage.setItem(financeConfigKey, JSON.stringify(config));
+  if (syncDrive) {
+    financeDirty = true;
+    localStorage.setItem(financeDirtyKey, "true");
+  }
  if (syncDrive && state.drive.autoSync) {
-    await saveFinanceStateToDrive().catch(() => {});
+    await saveFinanceStateToDrive().catch(() => { /* Error is shown by the sync queue; local changes remain pending. */ });
   }
 }
 
@@ -127,12 +139,14 @@ function finance881RecalculateBalance() {
 }
 
 function toggleDue(id) {
+  if (!financeSyncBaseline) return setDriveMessage("Bitte zuerst den zentralen Finanzstand laden.");
   state.dueActive[id] = state.dueActive[id] === false;
-  saveState(false);
+  saveState();
   render();
 }
 
 function togglePlan(id) {
+  if (!financeSyncBaseline) return setDriveMessage("Bitte zuerst den zentralen Finanzstand laden.");
   state.planActive[id] = state.planActive[id] === false ? true : false;
   saveState();
   render();
@@ -146,6 +160,7 @@ function showTab(id) {
 function wireFinanceCore() {
   document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => showTab(button.dataset.tab)));
   $("#saveBal")?.addEventListener("click", () => {
+    if (!financeSyncBaseline) return setDriveMessage("Bitte zuerst den zentralen Finanzstand laden.");
     const value = Number($("#bal")?.value || 0);
     state.balance = Number.isNaN(value) ? null : finance881Round(value);
     saveState();
@@ -158,7 +173,7 @@ function wireFinanceCore() {
     render();
   });
   $("#connect")?.addEventListener("click", connectDrive);
-$("#sync")?.addEventListener("click", () => loadFinanceStateFromDrive().catch((err) => setDriveMessage(err.message)));
+$("#sync")?.addEventListener("click", () => synchronizeFinance().catch(() => {}));
   $("#autoSync")?.addEventListener("change", (event) => {
     state.drive.autoSync = event.target.checked;
     saveState(false);
@@ -198,86 +213,139 @@ async function dfetch(url, options = {}) {
   return response.json();
 }
 
-async function saveFinanceStateToDrive() {
-  const sync = JSON.parse(localStorage.getItem("athubWorktimeSync") || "{}");
-
-  if (!sync.url || !sync.token) {
-    throw new Error("AT HUB Verbindung fehlt.");
+function financeConnection() {
+  let sync;
+  try { sync = JSON.parse(localStorage.getItem("athubWorktimeSync") || "{}"); }
+  catch (_) { throw new Error("AT HUB Verbindung ist ungültig."); }
+  if (!sync.url || !sync.token) throw new Error("AT HUB Verbindung fehlt.");
+  const url = new URL(sync.url);
+  if (url.protocol !== "https:" || url.hostname !== "script.google.com" || !url.pathname.endsWith("/exec")) {
+    throw new Error("Bitte die bereitgestellte Apps-Script-Web-App verwenden.");
   }
-
-  const finance = {
-    state: state,
-    config: config
-  };
-
-  const response = await fetch(sync.url, {
-    method: "POST",
-     redirect: "follow",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify({
-      token: sync.token,
-      module: "finance",
-      finance: finance
-    })
-  });
-
-  const result = await response.json();
-
-  if (!result.ok) {
-    throw new Error(result.error || "Finanz-Synchronisierung fehlgeschlagen.");
-  }
-
-  state.lastSyncAt = result.updatedAt || new Date().toISOString();
-  await saveState(false);
-
-  setDriveMessage("Finanzdaten erfolgreich mit AT HUB synchronisiert.");
+  return sync;
 }
 
-async function loadFinanceStateFromDrive() {
-  const sync = JSON.parse(localStorage.getItem("athubWorktimeSync") || "{}");
-
-  if (!sync.url || !sync.token) {
-    throw new Error("AT HUB Verbindung fehlt.");
+function financeComparable(finance) {
+  // Sync time and device-specific preferences are not financial data.
+  const value = JSON.parse(JSON.stringify(finance));
+  delete value.meta;
+  if (value.state) {
+    value.state.transactions = Array.isArray(value.state.transactions) ? value.state.transactions : [];
+    value.state.financeImportLog = Array.isArray(value.state.financeImportLog) ? value.state.financeImportLog : [];
+    value.state.dueActive = value.state.dueActive || {};
+    value.state.planActive = value.state.planActive || {};
   }
+  if (value.config) {
+    value.config.dues = Array.isArray(value.config.dues) ? value.config.dues : [];
+    value.config.recurrences = Array.isArray(value.config.recurrences) ? value.config.recurrences : [];
+  }
+  if (value.state) {
+    delete value.state.lastSyncAt;
+    delete value.state.drive;
+  }
+  const canonical = (item) => Array.isArray(item) ? item.map(canonical)
+    : item && typeof item === "object"
+      ? Object.fromEntries(Object.keys(item).sort().map(key => [key, canonical(item[key])]))
+      : item;
+  return JSON.stringify(canonical(value));
+}
 
-  const response = await fetch(
-    `${sync.url}?token=${encodeURIComponent(sync.token)}&module=finance`,
-    { cache: "no-store" }
-  );
-
+async function fetchCentralFinance(sync) {
+  const url = new URL(sync.url);
+  url.searchParams.set("token", sync.token);
+  url.searchParams.set("module", "finance");
+  const response = await fetch(url.toString(), { cache: "no-store" });
+  if (!response.ok) throw new Error("Zentrale Finanzdaten sind nicht erreichbar.");
   const result = await response.json();
-
-  if (!result.ok) {
-    throw new Error(result.error || "Finanzdaten konnten nicht geladen werden.");
-  }
-
+  if (!result.ok) throw new Error("AT HUB hat die Finanzanfrage abgelehnt.");
   const finance = result.finance || result.state;
-
-  if (!finance || typeof finance !== "object") {
+  if (!finance || typeof finance !== "object" || Array.isArray(finance)) {
     throw new Error("Keine Finanzdaten im AT HUB gefunden.");
   }
+  return { finance, updatedAt: result.updatedAt || "" };
+}
 
-  if (finance.state && typeof finance.state === "object") {
-    state = { ...state, ...finance.state };
-  } else {
-    state = { ...state, ...finance };
-  }
+function financeSerial(operation) {
+  const task = financeSyncQueue.then(operation);
+  financeSyncQueue = task.catch(() => {});
+  return task.catch(error => {
+    setDriveMessage(error.message + " Lokale Änderungen bleiben erhalten.");
+    if ($("#driveStatus")) $("#driveStatus").textContent = "Sync offen";
+    throw error;
+  });
+}
 
-  if (finance.config && typeof finance.config === "object") {
-    config = { ...config, ...finance.config };
-  }
+function saveFinanceStateToDrive() {
+  return financeSerial(async () => {
+    const sync = financeConnection();
+    if (!financeSyncBaseline || financeSyncBaseline.url !== sync.url) {
+      throw new Error("Vor dem Speichern zuerst den zentralen Finanzstand laden.");
+    }
+    const before = await fetchCentralFinance(sync);
+    if (financeComparable(before.finance) !== financeSyncBaseline.content ||
+        before.updatedAt !== financeSyncBaseline.updatedAt) {
+      throw new Error("Zentrale Daten wurden auf einem anderen Gerät geändert. Konflikt vor dem Speichern klären.");
+    }
+    const finance = JSON.parse(JSON.stringify({ state, config }));
+    const sentContent = financeComparable(finance);
+    const requestId = crypto.randomUUID();
+    setDriveMessage("Finanzdaten werden gespeichert und anschließend zentral geprüft …");
+    // Apps Script ContentService redirects. The opaque POST is transport only,
+    // never a success signal. Only authenticated GET readback confirms persistence.
+    await fetch(sync.url, {
+      method: "POST", mode: "no-cors", redirect: "follow",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ token: sync.token, module: "finance", finance, requestId, expectedUpdatedAt: before.updatedAt })
+    });
+    let confirmed;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const readback = await fetchCentralFinance(sync);
+      if (financeComparable(readback.finance) === sentContent &&
+          readback.updatedAt && readback.finance.meta?.syncRequestId === requestId) {
+        confirmed = readback;
+        break;
+      }
+      if (attempt < 4) await new Promise(resolve => setTimeout(resolve, 600 * (attempt + 1)));
+    }
+    if (!confirmed) throw new Error("Speicherung nicht bestätigt: zentraler Zeitstempel oder Daten stimmen nicht überein.");
+    financeSyncBaseline = { url: sync.url, content: sentContent, updatedAt: confirmed.updatedAt };
+    state.lastSyncAt = confirmed.updatedAt;
+    localStorage.setItem("athubFinanceBaselineV1", JSON.stringify(financeSyncBaseline));
+    // An edit made during the request must remain queued/pending.
+    financeDirty = financeComparable({ state, config }) !== sentContent;
+    localStorage.setItem(financeDirtyKey, String(financeDirty));
+    await saveState(false);
+    setDriveMessage(financeDirty ? "Stand gespeichert; weitere lokale Änderungen sind noch offen."
+      : "Finanzdaten zentral gespeichert und durch Rücklesen bestätigt.");
+    render();
+  });
+}
 
-  state.lastSyncAt =
-    result.updatedAt ||
-    state.lastSyncAt ||
-    new Date().toISOString();
+function loadFinanceStateFromDrive() {
+  return financeSerial(async () => {
+    if (financeDirty) throw new Error("Ungespeicherte lokale Änderungen vorhanden. Laden würde sie überschreiben.");
+    const sync = financeConnection();
+    const result = await fetchCentralFinance(sync);
+    const finance = result.finance;
+    const preferences = { ...state.drive };
+    if (finance.state && typeof finance.state === "object") state = { ...state, ...finance.state };
+    else state = { ...state, ...finance };
+    if (finance.config && typeof finance.config === "object") config = { ...config, ...finance.config };
+    state.drive = preferences;
+    state.lastSyncAt = result.updatedAt || "";
+    financeSyncBaseline = {
+      url: sync.url, content: financeComparable(finance), updatedAt: result.updatedAt
+    };
+    await saveState(false);
+    setDriveMessage("Finanzdaten erfolgreich aus AT HUB geladen.");
+    localStorage.setItem("athubFinanceBaselineV1", JSON.stringify(financeSyncBaseline));
+    render();
+  });
+}
 
-  await saveState(false);
-
-  setDriveMessage("Finanzdaten erfolgreich aus AT HUB geladen.");
-  render();
+async function synchronizeFinance() {
+  if (financeDirty) await saveFinanceStateToDrive();
+  await loadFinanceStateFromDrive();
 }
 
 function render() {
@@ -305,7 +373,7 @@ function render() {
   if ($("#autoSync")) $("#autoSync").checked = state.drive.autoSync !== false;
   if ($("#autoSyncState")) $("#autoSyncState").textContent = state.drive.autoSync !== false ? "aktiv" : "aus";
   if ($("#lastSync")) $("#lastSync").textContent = state.lastSyncAt ? new Date(state.lastSyncAt).toLocaleString("de-DE") : "-";
-  if ($("#driveStatus")) $("#driveStatus").textContent = driveToken ? "verbunden" : "nicht verbunden";
+  if ($("#driveStatus")) $("#driveStatus").textContent = financeSyncBaseline ? (financeDirty ? "Änderungen offen" : "zentral geladen") : "zuerst zentral laden";
 }
 
 async function initFinanceCore() {
@@ -313,6 +381,8 @@ async function initFinanceCore() {
   try {
     const response = await fetch("config.json", { cache: "no-store" });
     if (response.ok) config = await response.json();
+    const localConfig = JSON.parse(localStorage.getItem(financeConfigKey) || "null");
+    if (localConfig && typeof localConfig === "object") config = localConfig;
   } catch (_) {}
   wireFinanceCore();
   render();
