@@ -96,6 +96,44 @@
       </div>
     </section>
 
+
+    <section class="hub-calendar-widget" aria-label="Google Kalender">
+      <div class="hub-calendar-head">
+        <div>
+          <div class="eyebrow">KALENDER-WIDGET</div>
+          <h2>Deine Termine</h2>
+          <p>Bildliche Kalenderansicht direkt im HUB. Die private Kalenderadresse bleibt nur in deinem Browser gespeichert.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="secondary-btn" href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener noreferrer">Google Kalender öffnen ↗</a>
+          <button class="secondary-btn" id="calendarWidgetReset" type="button">Widget neu verbinden</button>
+        </div>
+      </div>
+
+      <div id="calendarWidgetSetup" class="calendar-widget-setup" hidden>
+        <strong>Kalender einmalig verbinden</strong>
+        <p>Google Kalender → Einstellungen → gewünschten Kalender → <b>Kalender integrieren</b> → Einbettungscode bzw. die URL aus <code>src="…"</code> hier einfügen.</p>
+        <div class="daily-note-row">
+          <input id="calendarEmbedInput" type="text" autocomplete="off" placeholder="https://calendar.google.com/calendar/embed?...">
+          <button id="calendarEmbedSave" type="button">Verbinden</button>
+        </div>
+        <small>Die Adresse wird ausschließlich lokal im Browser gespeichert und nicht ins öffentliche GitHub-Repository geschrieben.</small>
+      </div>
+
+      <div id="calendarWidgetFrameWrap" class="hub-calendar-frame-wrap" hidden>
+        <iframe
+          id="hubCalendarFrame"
+          class="hub-calendar-frame"
+          title="Google Kalender"
+          loading="lazy"
+          frameborder="0"
+          scrolling="no"
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+      <small id="calendarWidgetState" class="hub-calendar-note"></small>
+    </section>
+
     <section class="hero">
       <div>
         <div class="eyebrow">AT HUB ONLINE v0.5</div>
@@ -234,7 +272,7 @@
       </article>
     </section>
 
-    <footer>AT HUB · Public Hub v1.8.2 · Übersicht schafft Klarheit.</footer>
+    <footer>AT HUB · Public Hub v1.8.3 · Übersicht schafft Klarheit.</footer>
   </main>
 </div>
 <script src="hub-sync.js"></script>
