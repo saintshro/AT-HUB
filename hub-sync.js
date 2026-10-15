@@ -94,4 +94,16 @@
   }
 
   loadHubStatus();
+
+  const calendarStatus = document.getElementById("calendarDailyStatus");
+  const calendarDetail = document.getElementById("calendarDailyDetail");
+  if (calendarStatus && calendarDetail) {
+    const today = new Date();
+    calendarStatus.textContent = "Termine heute";
+    calendarDetail.textContent = today.toLocaleDateString("de-DE", {
+      weekday: "long",
+      day: "2-digit",
+      month: "2-digit"
+    }) + " · Google Kalender öffnen ›";
+  }
 })();
