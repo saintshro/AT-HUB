@@ -1,0 +1,21 @@
+{
+  "updated_at": "2026-10-15T18:34:37+02:00",
+  "bkf": {
+    "active": 68,
+    "red": 11,
+    "orange": 1,
+    "yellow": 3,
+    "review": 3,
+    "missing_license_number": 11,
+    "action_needed": 19
+  },
+  "calendar": {
+    "date": "2026-10-15",
+    "meisterschule_today": false,
+    "label": "Heute kein Meisterschul-Termin im verbundenen Kalender"
+  },
+  "vehicles": {
+    "available": false,
+    "label": "Noch keine verknüpfte Fahrzeug-Datenquelle"
+  }
+}
