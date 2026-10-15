@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>AT HUB · Mitarbeiter</title>
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">AT HUB</a>
+    <div class="motto">Übersicht schafft Klarheit.</div>
+    <div class="nav-label">Navigation</div>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a href="translogistik.html" data-page="translogistik" class="active"><span class="nav-icon">TL</span><span>Translogistik</span></a>
+      <a href="privat.html" data-page="privat"><span class="nav-icon">PR</span><span>Privat</span></a>
+      <a href="projekte-wissen.html" data-page="wissen"><span class="nav-icon">PW</span><span>Projekte & Wissen</span></a>
+      <a href="siggi.html" data-page="siggi"><span class="nav-icon">KI</span><span>Siggi KI</span></a>
+      <a href="backup-sicherheit.html" data-page="backup"><span class="nav-icon">BS</span><span>Backup & Sicherheit</span></a>
+      <a href="einstellungen-hub.html" data-page="settings"><span class="nav-icon">⚙</span><span>Einstellungen</span></a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <a class="back" href="translogistik.html">← Zurück zu Translogistik</a>
+
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">AT HUB · TRANSPORT / MONTAGE</div>
+        <h1>Mitarbeiter</h1>
+        <p class="lead">Zentrale Mitarbeiterstruktur. Der Mitarbeiter_Master ist die führende Datenquelle; die Personalnummer ist der verbindliche Schlüssel für alle weiteren Module.</p>
+      </div>
+      <div class="status-stack">
+        <span class="badge safe">Single Source of Truth</span>
+        <span class="badge lock">Personendaten geschützt</span>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">FÜHRENDE DATENQUELLE</div>
+        <h2>Mitarbeiter_Master</h2>
+        <p class="subtle">Änderungen an Stammdaten werden nur im Mitarbeiter_Master gepflegt. BKF, Statuslisten, Boxen, Teams und spätere Auswertungen greifen über die Personalnummer darauf zu.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="primary-btn" href="https://docs.google.com/spreadsheets/d/1WYgh2XPyrQJ1USoEV56LZhsAKcF9AzQmntwdfik943Y/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Mitarbeiter_Master öffnen</a>
+        <a class="secondary-btn" href="https://docs.google.com/spreadsheets/d/1d15_YpaeWthTHFiGiiyVT_990v9n_JuWL2WTGPTy9Ic/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">BKF-Status öffnen</a>
+      </div>
+    </section>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <span>Primärschlüssel</span>
+        <strong>Personalnummer</strong>
+        <small>8-stellig, eindeutig und systemübergreifend.</small>
+      </article>
+      <article class="kpi">
+        <span>Pflegeprinzip</span>
+        <strong>1× ändern</strong>
+        <small>Keine parallelen Namens- oder Statuslisten.</small>
+      </article>
+      <article class="kpi">
+        <span>BKF</span>
+        <strong>verknüpft</strong>
+        <small>Führerschein, Fahrerkarte, Code 95 und Fristen.</small>
+      </article>
+      <article class="kpi">
+        <span>Schutz</span>
+        <strong>Drive</strong>
+        <small>Keine personenbezogenen Rohdaten auf GitHub Pages.</small>
+      </article>
+    </div>
+
+    <section class="section-title">
+      <div>
+        <h2>Mitarbeiter-System</h2>
+        <p>Die Module greifen auf dieselbe Stammdatenbasis zurück.</p>
+      </div>
+    </section>
+
+    <div class="module-grid">
+      <a class="module module-safe" href="https://docs.google.com/spreadsheets/d/1WYgh2XPyrQJ1USoEV56LZhsAKcF9AzQmntwdfik943Y/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">
+        <strong>Mitarbeiter_Master</strong>
+        <span>Stammdaten, Gruppe, Rolle, Kontaktfelder, Führerschein- und BKF-relevante Angaben.</span>
+        <em>führende Quelle</em>
+      </a>
+
+      <a class="module module-work" href="https://docs.google.com/spreadsheets/d/1d15_YpaeWthTHFiGiiyVT_990v9n_JuWL2WTGPTy9Ic/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">
+        <strong>BKF-Manager</strong>
+        <span>Live-Auswertung für Fahrerkarte, Führerschein, Code 95, Fristen, Konflikte und nächste Maßnahmen.</span>
+        <em>online verknüpft</em>
+      </a>
+
+      <div class="module module-info">
+        <strong>Teams & Boxen</strong>
+        <span>Geplante Verbindung Personalnummer → Team → Box → Fahrzeug → Tour.</span>
+        <em>nächster Ausbau</em>
+      </div>
+
+      <div class="module module-info">
+        <strong>Qualifikationen</strong>
+        <span>Später zentral über die Personalnummer: Schulungen, Berechtigungen, Nachweise und Ablaufdaten.</span>
+        <em>vorbereitet</em>
+      </div>
+
+      <a class="module module-warn" href="https://docs.google.com/spreadsheets/d/1qKwXimipjuzNYaLTQLPjqeUhBv1ZwWlF7k2uiBNqElY/edit" target="_blank" rel="noopener noreferrer">
+        <strong>Datenfreigabe</strong>
+        <span>Legt fest, welche Mitarbeiterinformationen im HUB nur als Status und welche ausschließlich geschützt in Drive sichtbar sind.</span>
+        <em>Freigabe-Regeln</em>
+      </a>
+    </div>
+
+    <section class="split">
+      <article class="panel">
+        <div class="eyebrow">DATENMODELL</div>
+        <h2>Personalnummer statt Name</h2>
+        <p>Namen können sich ändern oder doppelt vorkommen. Verknüpfungen zwischen Mitarbeiter_Master, BKF, Boxen, Teams, Fahrzeugen und späteren Modulen sollen deshalb ausschließlich über die Personalnummer laufen.</p>
+      </article>
+
+      <article class="panel">
+        <div class="eyebrow">PUBLIC-GRENZE</div>
+        <h2>Keine Personaldaten im Repository</h2>
+        <p>Diese GitHub-Seite enthält nur Struktur, Links und Statushinweise. Telefonnummern, Adressen, Führerscheinnummern und weitere personenbezogene Rohdaten bleiben in den geschützten Quellen.</p>
+      </article>
+    </section>
+
+    <footer>AT HUB · Mitarbeiterkern v1.0 · Übersicht schafft Klarheit.</footer>
+  </main>
+</div>
+<script src="hub-sync.js"></script>
+</body>
+</html>
