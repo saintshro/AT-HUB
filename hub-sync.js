@@ -106,4 +106,69 @@
       month: "2-digit"
     }) + " · Google Kalender öffnen ›";
   }
+
+  function normaliseCalendarEmbed(value) {
+    const raw = (value || "").trim();
+    if (!raw) return "";
+    const srcMatch = raw.match(/src=["']([^"']+)["']/i);
+    const candidate = srcMatch ? srcMatch[1] : raw;
+    try {
+      const url = new URL(candidate);
+      if (url.protocol !== "https:" || url.hostname !== "calendar.google.com") return "";
+      if (!url.pathname.includes("/calendar/embed")) return "";
+      return url.toString();
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function initCalendarWidget() {
+    const setup = document.getElementById("calendarWidgetSetup");
+    const wrap = document.getElementById("calendarWidgetFrameWrap");
+    const frame = document.getElementById("hubCalendarFrame");
+    const input = document.getElementById("calendarEmbedInput");
+    const save = document.getElementById("calendarEmbedSave");
+    const reset = document.getElementById("calendarWidgetReset");
+    const state = document.getElementById("calendarWidgetState");
+    if (!setup || !wrap || !frame || !input || !save || !reset) return;
+
+    const key = "athub.googleCalendarEmbedUrl";
+
+    const render = () => {
+      let url = "";
+      try { url = localStorage.getItem(key) || ""; } catch (_) {}
+      url = normaliseCalendarEmbed(url);
+      if (url) {
+        frame.src = url;
+        wrap.hidden = false;
+        setup.hidden = true;
+        if (state) state.textContent = "Kalender-Widget verbunden · private Adresse nur lokal gespeichert.";
+      } else {
+        frame.removeAttribute("src");
+        wrap.hidden = true;
+        setup.hidden = false;
+        if (state) state.textContent = "Kalender noch nicht mit diesem Browser verbunden.";
+      }
+    };
+
+    save.addEventListener("click", () => {
+      const url = normaliseCalendarEmbed(input.value);
+      if (!url) {
+        if (state) state.textContent = "Bitte eine gültige Google-Kalender-Einbettungsadresse einfügen.";
+        return;
+      }
+      try { localStorage.setItem(key, url); } catch (_) {}
+      input.value = "";
+      render();
+    });
+
+    reset.addEventListener("click", () => {
+      try { localStorage.removeItem(key); } catch (_) {}
+      render();
+    });
+
+    render();
+  }
+
+  initCalendarWidget();
 })();
