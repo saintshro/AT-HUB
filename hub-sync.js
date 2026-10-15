@@ -33,4 +33,20 @@
 
   updateClock();
   setInterval(updateClock, 1000);
+
+  const focusInput = document.getElementById("dailyFocus");
+  const focusSave = document.getElementById("saveDailyFocus");
+  const focusState = document.getElementById("dailyFocusState");
+  if (focusInput && focusSave) {
+    const key = "athub.dailyFocus";
+    try { focusInput.value = localStorage.getItem(key) || ""; } catch (_) {}
+    focusSave.addEventListener("click", () => {
+      try {
+        localStorage.setItem(key, focusInput.value.trim());
+        if (focusState) focusState.textContent = "Tagesnotiz lokal gespeichert.";
+      } catch (_) {
+        if (focusState) focusState.textContent = "Lokales Speichern ist in diesem Browser nicht verfügbar.";
+      }
+    });
+  }
 })();
