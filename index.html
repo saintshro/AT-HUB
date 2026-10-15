@@ -39,6 +39,58 @@
       </div>
     </div>
 
+    <section class="daily-cockpit" aria-label="Tagescockpit">
+      <div class="daily-head">
+        <div>
+          <div class="eyebrow">HEUTE IM FOKUS</div>
+          <h2>Dein Tagescockpit</h2>
+          <p>Die wichtigsten Arbeitsbereiche zuerst – auf dem Handy genauso schnell erreichbar wie am Rechner.</p>
+        </div>
+        <span class="badge sync">Schnellzugriff</span>
+      </div>
+
+      <div class="daily-grid">
+        <a class="daily-card daily-work" href="arbeitszeit.html">
+          <span class="daily-icon">AZ</span>
+          <div><small>Arbeitszeit</small><strong>Heute eintragen / prüfen</strong><em>Kalender öffnen ›</em></div>
+        </a>
+
+        <a class="daily-card daily-danger" href="bkf.html">
+          <span class="daily-icon">BKF</span>
+          <div><small>Fahrer & Fristen</small><strong>Handlungsbedarf prüfen</strong><em>BKF-Cockpit öffnen ›</em></div>
+        </a>
+
+        <a class="daily-card daily-info" href="mitarbeiter.html">
+          <span class="daily-icon">MA</span>
+          <div><small>Mitarbeiter</small><strong>Stammdaten & Teams</strong><em>Mitarbeiter öffnen ›</em></div>
+        </a>
+
+        <a class="daily-card daily-amber" href="translogistik.html">
+          <span class="daily-icon">KFZ</span>
+          <div><small>Fahrzeuge</small><strong>TÜV, Wartung & Einsatz</strong><em>Translogistik öffnen ›</em></div>
+        </a>
+
+        <a class="daily-card daily-purple" href="projekte-wissen.html">
+          <span class="daily-icon">IM</span>
+          <div><small>Meisterschule</small><strong>Lernen & Meisterbuch</strong><em>Wissen öffnen ›</em></div>
+        </a>
+
+        <a class="daily-card daily-money" href="finanzen.html">
+          <span class="daily-icon">€</span>
+          <div><small>Privat</small><strong>Finanzcockpit</strong><em>Finanzen öffnen ›</em></div>
+        </a>
+      </div>
+
+      <div class="daily-note">
+        <label for="dailyFocus">Tagesnotiz</label>
+        <div class="daily-note-row">
+          <input id="dailyFocus" type="text" maxlength="180" placeholder="Was darf heute nicht liegen bleiben?">
+          <button id="saveDailyFocus" type="button">Speichern</button>
+        </div>
+        <small id="dailyFocusState">Wird nur lokal in diesem Browser gespeichert.</small>
+      </div>
+    </section>
+
     <section class="hero">
       <div>
         <div class="eyebrow">AT HUB ONLINE v0.5</div>
@@ -177,7 +229,7 @@
       </article>
     </section>
 
-    <footer>AT HUB · Public Hub v1.7 · Übersicht schafft Klarheit.</footer>
+    <footer>AT HUB · Public Hub v1.8 · Übersicht schafft Klarheit.</footer>
   </main>
 </div>
 <script src="hub-sync.js"></script>
