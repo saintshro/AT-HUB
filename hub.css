@@ -671,3 +671,82 @@ textarea{
   .bkf-content .hero-actions{display:grid;grid-template-columns:1fr}
   .bkf-content .primary-btn,.bkf-content .secondary-btn{width:100%}
 }
+
+
+/* Dashboard Tagescockpit */
+.daily-cockpit{
+  margin-bottom:20px;
+  padding:20px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(94,234,212,.08),rgba(255,255,255,.035));
+  box-shadow:var(--shadow);
+}
+.daily-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:14px;
+}
+.daily-head h2{margin:3px 0 6px}
+.daily-head p{margin:0;color:var(--muted);line-height:1.45}
+.daily-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.daily-card{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  min-height:104px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-left:5px solid var(--brand-2);
+  border-radius:11px;
+  background:rgba(255,255,255,.045);
+  color:inherit;
+  text-decoration:none;
+  transition:.18s ease;
+}
+.daily-card:hover{transform:translateY(-2px);background:rgba(255,255,255,.075)}
+.daily-card small{display:block;color:var(--muted);font-weight:800}
+.daily-card strong{display:block;margin-top:3px;font-size:18px}
+.daily-card em{display:block;margin-top:6px;color:var(--brand-2);font-style:normal;font-size:13px;font-weight:900}
+.daily-icon{
+  display:grid;
+  place-items:center;
+  width:46px;
+  min-width:46px;
+  height:46px;
+  border-radius:12px;
+  background:rgba(255,255,255,.07);
+  font-size:13px;
+  font-weight:900;
+}
+.daily-danger{border-left-color:#ff4d67}
+.daily-info{border-left-color:var(--blue)}
+.daily-amber{border-left-color:var(--amber)}
+.daily-purple{border-left-color:var(--purple)}
+.daily-money{border-left-color:#7ee787}
+.daily-note{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+}
+.daily-note label{margin-bottom:7px}
+.daily-note-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.daily-note small{display:block;margin-top:7px;color:var(--muted)}
+@media(max-width:1050px){
+  .daily-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:720px){
+  .daily-cockpit{padding:14px}
+  .daily-head{display:block}
+  .daily-head .badge{margin-top:10px}
+  .daily-grid{grid-template-columns:1fr}
+  .daily-card{min-height:88px}
+  .daily-note-row{grid-template-columns:1fr}
+  .daily-note-row button{width:100%}
+}
