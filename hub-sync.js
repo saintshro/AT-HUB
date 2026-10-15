@@ -132,17 +132,18 @@
     const state = document.getElementById("calendarWidgetState");
     if (!setup || !wrap || !frame || !input || !save || !reset) return;
 
-    const key = "athub.googleCalendarEmbedUrl";
+    const key = "athub.googleCalendarEmbedUrl.v2";
+    const defaultUrl = "https://calendar.google.com/calendar/embed?ctz=Europe%2FBerlin&src=herrthiel.hro%40gmail.com&src=cdb8c99375b360422bc8a344f9bdb71446cf6476c334ffee094ffdbfc3828a7a%40group.calendar.google.com&src=de.german%23holiday%40group.v.calendar.google.com";
 
     const render = () => {
       let url = "";
-      try { url = localStorage.getItem(key) || ""; } catch (_) {}
+      try { url = localStorage.getItem(key) || defaultUrl; } catch (_) { url = defaultUrl; }
       url = normaliseCalendarEmbed(url);
       if (url) {
         frame.src = url;
         wrap.hidden = false;
         setup.hidden = true;
-        if (state) state.textContent = "Kalender-Widget verbunden · private Adresse nur lokal gespeichert.";
+        if (state) state.textContent = "Kalender-Widget verbunden · Hauptkalender + Familie + Feiertage.";
       } else {
         frame.removeAttribute("src");
         wrap.hidden = true;
