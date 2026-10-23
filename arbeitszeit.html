@@ -31,18 +31,20 @@
         <h1>Arbeitszeitkalender</h1>
         <p class="lead">Arbeitszeit, Box, Büro, externe Einsätze, Meisterschule und Übernachtungen – mit Monatsliste und Schnellregeln für wiederkehrende Tage.</p>
       </div>
-      <div class="badge">Arbeitszeit v1.0.3 · HUB v1.5.4</div>
+      <div class="badge">Arbeitszeit v1.0.8 · Drive-Kalender 2026</div>
     </div>
 
     <section class="wt-syncbar" aria-label="Synchronisierung">
       <div>
         <strong>☁️ <span data-athub-sync-status>Drive nicht verbunden</span></strong>
-        <div class="subtle">Letzter Sync: <span data-athub-last-sync>–</span> · Änderungen werden im zentralen AT-HUB-Datenspeicher gesichert.</div>
+        <div class="subtle">Letzter Sync: <span data-athub-last-sync>–</span> · Änderungen werden direkt im Reiter Kalender 2026 gesichert.</div>
       </div>
       <div class="wt-actions">
-        <button class="secondary-btn" id="wtConnectBtn" type="button">Drive verbinden</button>
+        <button class="secondary-btn" id="wtConnectBtn" type="button">Mit Google Drive verbinden</button>
         <button class="secondary-btn" id="wtSyncBtn" type="button">Jetzt synchronisieren</button>
-        <a class="secondary-btn" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E/edit">Mastertabelle</a>
+        <button class="secondary-btn" id="wtPushAllBtn" type="button">Lokale Daten hochladen</button>
+        <button class="secondary-btn" id="wtImportMasterBtn" type="button">Kalender-Master wiederherstellen</button>
+        <button class="secondary-btn" id="wtRecoveryBtn" type="button">Drive-Versionen prüfen</button>
       </div>
     </section>
 
@@ -65,21 +67,7 @@
         <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
       </div>
       <div class="wt-calendar" id="wtCalendar"></div>
-      <p class="subtle wt-note">A = Büro oder Box · E = extern, also weder Büro noch Box. Bei übernommenen Alt-Daten ist kein automatischer Pausenabzug hinterlegt.</p>
-    </section>
-
-    <section class="wt-panel">
-      <div class="section-title">
-        <div>
-          <h2>Steuerreiter und Drive-Speicher</h2>
-          <p>Die Tagesdaten bleiben als Rohdaten erfassbar; Auswertung, Jahr und Steuerfelder werden daraus automatisch aufgebaut.</p>
-        </div>
-      </div>
-      <div class="check-list">
-        <div><strong>Speicher</strong><span>Google Drive bleibt der Master. Der Hub kann lokal arbeiten und nach Verbindung synchronisieren.</span></div>
-        <div><strong>Steuerreiter</strong><span>Buero/Box, externe Taetigkeit, Entfernung, Dienstreise, Meisterschule und Uebernachtung bleiben getrennte Felder.</span></div>
-        <div><strong>Freigabe</strong><span>Online sichtbar sind nur Eingabemaske, Status und Links; echte Nachweise bleiben in Drive.</span></div>
-      </div>
+      <p class="subtle wt-note">A = Arbeitstag · E = extern oder Meisterschule. Drive berechnet Pause, Arbeitszeit und Steuerreiter aus dem Kalender 2026.</p>
     </section>
 
     <section class="wt-panel wt-year-panel" id="wtYearPanel" hidden>
@@ -87,7 +75,7 @@
       <div class="wt-year-table-wrap"><table class="wt-year-table" id="wtYearTable"></table></div>
     </section>
 
-    <footer>AT HUB · Arbeitszeit v1.0.3 · Übersicht schafft Klarheit.</footer>
+    <footer>AT HUB · Arbeitszeit v1.0.8 · Übersicht schafft Klarheit.</footer>
   </main>
 </div>
 
@@ -165,11 +153,23 @@
       </div>
       <label class="wt-check"><input id="wtBusinessTrip" type="checkbox"> Dienstreise / Auswärtstätigkeit</label>
       <label class="wt-check"><input id="wtTraining" type="checkbox"> Fortbildung / Meisterschule</label>
+      <label class="wt-check"><input id="wtCompanyVehicle" type="checkbox"> Dienstfahrzeug</label>
+      <label class="wt-check"><input id="wtBreakfastIncluded" type="checkbox"> Frühstück enthalten</label>
+      <label class="wt-check"><input id="wtEmployerAllowance" type="checkbox"> Arbeitgeber-Auslöse / Jahresmeldung</label>
       <label>Entfernung Arbeitsstätte (km)
         <input id="wtDistanceKm" type="number" min="0" step="0.1" inputmode="decimal">
       </label>
+      <label>Einfache Fahrt Arbeitsstätte (km)
+        <input id="wtCommuteOneWayKm" type="number" min="0" step="0.1" inputmode="decimal">
+      </label>
       <label>Dienstliche Kilometer
         <input id="wtBusinessKm" type="number" min="0" step="0.1" inputmode="decimal">
+      </label>
+      <label>Übernachtungsort
+        <input id="wtOvernightPlace" placeholder="z. B. Berlin, Gargnano">
+      </label>
+      <label class="wt-span2">Route
+        <input id="wtTravelRoute" placeholder="z. B. Wohnort-Schönefeld-Wohnort">
       </label>
 
       <div class="wt-form-actions wt-span2">
@@ -185,7 +185,9 @@
 </div>
 
 <script src="hub-sync.js"></script>
-<script src="arbeitszeit.js"></script>
-<script src="arbeitszeit-ui-v1.0.3.js"></script>
+<script src="drive-config.js"></script>
+<script src="drive-auth.js"></script>
+<script src="arbeitszeit.js?v=1.0.11"></script>
+<script src="arbeitszeit-ui-v1.0.3.js?v=1.0.8"></script>
 </body>
 </html>
