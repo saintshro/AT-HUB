@@ -174,6 +174,22 @@
     await writeData(data);
   }
 
+
+  // Der Arbeitszeit-Master wird nur mit dem Google-Token des angemeldeten Nutzers gelesen.
+  // Keine privaten Tabellenwerte werden im öffentlichen GitHub-Repository gespeichert.
+  async function readWorktimeMaster() {
+    if (!accessToken) throw new Error("Bitte zuerst Google Drive verbinden");
+    const spreadsheetId = "16vAyVqq609U_ZDETvcE8yJM5kMEWAHtp7iB2ndohd1E";
+    const range = encodeURIComponent("'Kalender 2026'!A2:R367");
+    const response = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueRenderOption=FORMATTED_VALUE`,
+      { headers: { Authorization: `Bearer ${accessToken}` }, cache: "no-store" }
+    );
+    if (!response.ok) throw new Error(`Arbeitszeit-Master: Google meldet HTTP ${response.status}`);
+    const payload = await response.json();
+    return Array.isArray(payload.values) ? payload.values : [];
+  }
+
   window.ATHubDrive = {
     async connect() {
       await requestToken();
@@ -183,6 +199,7 @@
     },
     isConnected: () => Boolean(accessToken),
     readData,
+    readWorktimeMaster,
     writeData,
     createDailyBackup,
     listRevisions,
