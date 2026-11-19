@@ -379,7 +379,7 @@
         const overnight = isTrue(r[15]);
         const school = isTrue(r[10]);
         const statusText = String(r[5] || r[4] || "").trim();
-        const isExternal = overnight || /extern|berlin|betriebsrat|waltersdorf|\\bWDF\\b|auswärt/i.test(note);
+        const isExternal = overnight || /extern|berlin|betriebsrat|waltersdorf|\bWDF\b|auswärt/i.test(note);
         const workplace = isExternal ? "Extern" : /\bbox\b/i.test(note) ? "Box" : /büro|buero/i.test(note) ? "Büro" : "";
         const status = overnight || (isExternal && statusText === "Anwesend") ? "E" : normalizeStatus(statusText);
         const time = (v) => /^\d{1,2}:\d{2}$/.test(String(v || "")) ? String(v).padStart(5, "0") : "";
