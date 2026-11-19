@@ -328,7 +328,8 @@
 
   async function syncEntry(entry) {
     if (window.ATHubDrive?.isConnected()) {
-      return saveWorktimeToPrivateDrive();
+      setSyncStatus("Änderung lokal gespeichert. Die Google-Mastertabelle ist derzeit nur lesbar.", "open");
+      return;
     }
     if (!sync.url) {
       setSyncStatus("Google Drive verbinden, um sicher zu speichern", "open");
@@ -371,7 +372,7 @@
       let imported = 0;
       rows.forEach((r) => {
         const date = String(r[0] || "").trim();
-        if (!/^2026-\\d{2}-\\d{2}$/.test(date)) return;
+        if (!/^2026-\d{2}-\d{2}$/.test(date)) return;
         const note = String(r[14] || "");
         const overnightNote = String(r[17] || "");
         const isTrue = (v) => /^(true|wahr|ja|1)$/i.test(String(v || ""));
@@ -379,9 +380,9 @@
         const school = isTrue(r[10]);
         const statusText = String(r[5] || r[4] || "").trim();
         const isExternal = overnight || /extern|berlin|betriebsrat|waltersdorf|\\bWDF\\b|auswärt/i.test(note);
-        const workplace = isExternal ? "Extern" : /\\bbox\\b/i.test(note) ? "Box" : /büro|buero/i.test(note) ? "Büro" : "";
+        const workplace = isExternal ? "Extern" : /\bbox\b/i.test(note) ? "Box" : /büro|buero/i.test(note) ? "Büro" : "";
         const status = overnight || (isExternal && statusText === "Anwesend") ? "E" : normalizeStatus(statusText);
-        const time = (v) => /^\\d{1,2}:\\d{2}$/.test(String(v || "")) ? String(v).padStart(5, "0") : "";
+        const time = (v) => /^\d{1,2}:\d{2}$/.test(String(v || "")) ? String(v).padStart(5, "0") : "";
         const masterEntry = {
           id: date, date, datum: date, status, workplace,
           box: extractBoxFromText(note),
@@ -889,7 +890,8 @@
 
   async function pushAllLocalToDrive() {
     if (window.ATHubDrive?.isConnected()) {
-      return saveWorktimeToPrivateDrive(true);
+      setSyncStatus("Sicherheitsstopp: Lokale Daten nicht über die Mastertabelle schreiben.", "open");
+      return;
     }
     if (!sync.url) {
       configureSync();
