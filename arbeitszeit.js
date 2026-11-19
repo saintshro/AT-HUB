@@ -357,9 +357,66 @@
     }
   }
 
+
+  // Führende Quelle: privater Google-Arbeitszeitkalender, nicht lokale Browser-Daten.
+  async function loadMasterSheet() {
+    if (!window.ATHubDrive?.isConnected()) {
+      setSyncStatus("Bitte Google Drive verbinden, um die Mastertabelle zu laden", "open");
+      return;
+    }
+    setSyncStatus("Lade Arbeitszeiten aus der Mastertabelle ...", "sync");
+    try {
+      const rows = await window.ATHubDrive.readWorktimeMaster();
+      if (rows.length < 300) throw new Error("Mastertabelle ist nicht vollständig");
+      let imported = 0;
+      rows.forEach((r) => {
+        const date = String(r[0] || "").trim();
+        if (!/^2026-\\d{2}-\\d{2}$/.test(date)) return;
+        const note = String(r[14] || "");
+        const overnightNote = String(r[17] || "");
+        const isTrue = (v) => /^(true|wahr|ja|1)$/i.test(String(v || ""));
+        const overnight = isTrue(r[15]);
+        const school = isTrue(r[10]);
+        const statusText = String(r[5] || r[4] || "").trim();
+        const isExternal = overnight || /extern|berlin|betriebsrat|waltersdorf|\\bWDF\\b|auswärt/i.test(note);
+        const workplace = isExternal ? "Extern" : /\\bbox\\b/i.test(note) ? "Box" : /büro|buero/i.test(note) ? "Büro" : "";
+        const status = overnight || (isExternal && statusText === "Anwesend") ? "E" : normalizeStatus(statusText);
+        const time = (v) => /^\\d{1,2}:\\d{2}$/.test(String(v || "")) ? String(v).padStart(5, "0") : "";
+        const masterEntry = {
+          id: date, date, datum: date, status, workplace,
+          box: extractBoxFromText(note),
+          externalLocation: isExternal ? (note.match(/Berlin/i) ? "Berlin" : note.match(/WDF|Betriebsrat|Waltersdorf/i) ? "Waltersdorf" : "Extern") : "",
+          start: time(r[6]), end: time(r[7]),
+          pause: String(r[8] || "0").replace(",", "."),
+          task: note.split("|")[0].trim(),
+          description: note,
+          schoolStart: school ? time(r[11]) : "",
+          schoolEnd: school ? time(r[12]) : "",
+          training: school,
+          overnight,
+          overnightPlace: overnight ? (overnightNote.match(/Berlin/i) ? "Berlin" : "") : "",
+          breakfastIncluded: isTrue(r[16]),
+          businessTrip: isExternal,
+          endNextDay: time(r[7]) && time(r[6]) && time(r[7]) < time(r[6]),
+          source: "drive-calendar-2026"
+        };
+        // In der Mastertabelle gespeicherte Werte haben Vorrang vor alten lokalen Ständen.
+        entries[date] = normalizeDriveEntry(masterEntry, date);
+        entries[date].endNextDay = masterEntry.endNextDay;
+        imported += 1;
+      });
+      saveLocal();
+      renderCalendar();
+      localStorage.setItem("athubWorktimeLastSync", new Date().toISOString());
+      setSyncStatus(`Mastertabelle geladen (${imported} Kalendertage)`, "ok");
+    } catch (error) {
+      setSyncStatus(`Mastertabelle konnte nicht geladen werden: ${String(error?.message || "unbekannter Fehler")}`, "open");
+    }
+  }
+
   async function loadFromDrive() {
     if (window.ATHubDrive?.isConnected()) {
-      return loadFromPrivateDrive();
+      return loadMasterSheet();
     }
     if (!sync.url) return;
     setSyncStatus("Lade aus Drive ...", "sync");
@@ -911,7 +968,7 @@
     try {
       await window.ATHubDrive.connect();
       setSyncStatus("Google Drive verbunden", "ok");
-      await loadFromPrivateDrive();
+      await loadMasterSheet();
     } catch (_) {
       setSyncStatus("Google Drive wurde nicht verbunden", "open");
     }
@@ -1096,7 +1153,7 @@
     $("wtNextMonth")?.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
     $("wtTodayBtn")?.addEventListener("click", () => { viewDate = new Date(); renderCalendar(); });
     $("wtYearBtn")?.addEventListener("click", () => document.querySelector('[data-wt-panel="year"]')?.click());
-    $("wtConnectBtn")?.addEventListener("click", configureSync);
+    $("wtConnectBtn")?.addEventListener("click", connectPrivateDrive);
     $("wtSyncBtn")?.addEventListener("click", loadFromDrive);
     $("wtPushAllBtn")?.addEventListener("click", pushAllLocalToDrive);
     masterRestoreButton?.addEventListener("click", restoreCalendarMaster);
@@ -1108,7 +1165,7 @@
     setSyncStatus("Google Drive kann bei Bedarf verbunden werden", "open");
     loadCentralSyncConfig()
       .then(loadSeedData)
-      .then(() => sync.url ? loadFromDrive() : null)
+      .then(() => window.ATHubDrive?.isConnected() ? loadMasterSheet() : (sync.url ? loadFromDrive() : null))
       .finally(renderCalendar);
   }
 
